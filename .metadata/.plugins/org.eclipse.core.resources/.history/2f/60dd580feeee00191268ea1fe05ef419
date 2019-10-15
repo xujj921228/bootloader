@@ -1,0 +1,38 @@
+-mcpu=cortex-m0
+-mthumb
+-mfloat-abi=soft
+-g3
+-gdwarf-2
+-gstrict-dwarf
+-I"D:/RLS---workspace/RLS（降本）奇瑞汽车/M1AFL2_Project_RLS V1.3.9---50ms采样，增加时间窗口/RLS/Sources/RLS_app"
+-I"D:/RLS---workspace/RLS（降本）奇瑞汽车/M1AFL2_Project_RLS V1.3.9---50ms采样，增加时间窗口/RLS/Sources/driver/IIC"
+-I"D:/RLS---workspace/RLS（降本）奇瑞汽车/M1AFL2_Project_RLS V1.3.9---50ms采样，增加时间窗口/RLS/Sources/humid_app"
+-I"D:/RLS---workspace/RLS（降本）奇瑞汽车/M1AFL2_Project_RLS V1.3.9---50ms采样，增加时间窗口/RLS/Sources/driver/watchdog"
+-I"D:/RLS---workspace/RLS（降本）奇瑞汽车/M1AFL2_Project_RLS V1.3.9---50ms采样，增加时间窗口/RLS/Sources/driver/rtc"
+-I"D:/RLS---workspace/RLS（降本）奇瑞汽车/M1AFL2_Project_RLS V1.3.9---50ms采样，增加时间窗口/RLS/Sources/driver/pmc"
+-I"D:/RLS---workspace/RLS（降本）奇瑞汽车/M1AFL2_Project_RLS V1.3.9---50ms采样，增加时间窗口/RLS/Sources/LIN_app"
+-I"D:/RLS---workspace/RLS（降本）奇瑞汽车/M1AFL2_Project_RLS V1.3.9---50ms采样，增加时间窗口/RLS/Project_Headers"
+-I"D:/RLS---workspace/RLS（降本）奇瑞汽车/M1AFL2_Project_RLS V1.3.9---50ms采样，增加时间窗口/RLS/Sources/driver/clock"
+-I"D:/RLS---workspace/RLS（降本）奇瑞汽车/M1AFL2_Project_RLS V1.3.9---50ms采样，增加时间窗口/RLS/Sources/driver/eeprom"
+-I"D:/RLS---workspace/RLS（降本）奇瑞汽车/M1AFL2_Project_RLS V1.3.9---50ms采样，增加时间窗口/RLS/Sources/driver/ftm"
+-I"D:/RLS---workspace/RLS（降本）奇瑞汽车/M1AFL2_Project_RLS V1.3.9---50ms采样，增加时间窗口/RLS/Sources/driver/gpio"
+-I"D:/RLS---workspace/RLS（降本）奇瑞汽车/M1AFL2_Project_RLS V1.3.9---50ms采样，增加时间窗口/RLS/Sources/config_parameter"
+-I"D:/RLS---workspace/RLS（降本）奇瑞汽车/M1AFL2_Project_RLS V1.3.9---50ms采样，增加时间窗口/RLS/Sources/driver/adc"
+-I"D:/RLS---workspace/RLS（降本）奇瑞汽车/M1AFL2_Project_RLS V1.3.9---50ms采样，增加时间窗口/RLS/Project_Settings/Startup_Code"
+-I"D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/EWL_C/include"
+-I"D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/EWL_Runtime/include"
+-I"D:/RLS---workspace/RLS（降本）奇瑞汽车/M1AFL2_Project_RLS V1.3.9---50ms采样，增加时间窗口/RLS/Sources/LIN_Stack/bsp/UART"
+-I"D:/RLS---workspace/RLS（降本）奇瑞汽车/M1AFL2_Project_RLS V1.3.9---50ms采样，增加时间窗口/RLS/Sources/LIN_Stack/coreapi"
+-I"D:/RLS---workspace/RLS（降本）奇瑞汽车/M1AFL2_Project_RLS V1.3.9---50ms采样，增加时间窗口/RLS/Sources/LIN_Stack/diagnostic"
+-I"D:/RLS---workspace/RLS（降本）奇瑞汽车/M1AFL2_Project_RLS V1.3.9---50ms采样，增加时间窗口/RLS/Sources/LIN_Stack/include"
+-I"D:/RLS---workspace/RLS（降本）奇瑞汽车/M1AFL2_Project_RLS V1.3.9---50ms采样，增加时间窗口/RLS/Sources/LIN_Stack/lowlevel"
+-I"D:/RLS---workspace/RLS（降本）奇瑞汽车/M1AFL2_Project_RLS V1.3.9---50ms采样，增加时间窗口/RLS/Sources/LIN_Stack/transport"
+-I"D:/RLS---workspace/RLS（降本）奇瑞汽车/M1AFL2_Project_RLS V1.3.9---50ms采样，增加时间窗口/RLS/Sources/lin_cfg"
+-I"D:/RLS---workspace/RLS（降本）奇瑞汽车/M1AFL2_Project_RLS V1.3.9---50ms采样，增加时间窗口/RLS/Sources/driver/SPI"
+-O0
+-ffunction-sections
+-fdata-sections
+-Wall
+-c
+-fmessage-length=0
+-specs=ewl_c_noio.specs

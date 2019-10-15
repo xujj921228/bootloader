@@ -1,0 +1,182 @@
+/*---------GLOBAL DEFINITIONS-----------*/
+LIN_description_file;
+LIN_protocol_version             = "2.1";
+LIN_language_version             = "2.1";
+LIN_speed                        = 19.2 kbps;
+/* ----------NODE DEFINITIONS---------- */
+Nodes {
+   Master:
+      BCM,                                                   /* Master node name */
+      5.0 ms,                                                /* Time base */
+      0.1 ms;                                                /* Jitter */
+   Slaves:
+      RLS;
+}
+/* ----------SIGNAL DEFINITIONS---------- */
+Signals {
+   /* Signal_name                : Size,       Init,            Publisher, Subscriber(s) */
+   Ignition                      :  2,        0x0,                  BCM, RLS;
+   SCS_Automatic                 :  1,        0x1,                  BCM, RLS;
+   VehicleSpeed                  : 13,        0x0,                  BCM, RLS;
+   Status_SMA                    :  2,        0x0,                  BCM, RLS;
+   ParkPosition                  :  1,        0x0,                  BCM, RLS;
+   RLS_HumidSensorValue          :  8,        0x0,                  RLS, BCM;
+   RLS_TempSensorValue           :  8,        0x0,                  RLS, BCM;
+   RLS_TempDewPoint              : 11,        0x0,                  RLS, BCM;
+   RLS_Humid_Temp_Error          :  1,        0x0,                  RLS, BCM;
+   RLS_LIN_Error                 :  1,        0x0,                  RLS, BCM;
+   RLS_VotalgeError              :  2,        0x0,                  RLS, BCM;
+   S_COMMFAULT                   :  1,        0x0,                  RLS, BCM;
+   S_Window_CMD                  :  1,        0x0,                  RLS, BCM;
+   S_AUTO_Panel                  :  1,        0x0,                  RLS, BCM;
+   S_Auto_Lamp                   :  1,        0x0,                  RLS, BCM;
+   S_RS_FAULT                    :  1,        0x0,                  RLS, BCM;
+   S_RAIN                        :  1,        0x0,                  RLS, BCM;
+   S_AUTO_H                      :  1,        0x0,                  RLS, BCM;
+   S_AUTO_L                      :  1,        0x0,                  RLS, BCM;
+   RSP_Err                       :  1,        0x0,                  RLS, BCM;
+   S_TRANS_550nm_RSP             :  8,        0x0,                  RLS, BCM;
+   S_TRANS_880nm_RSP             :  8,        0x0,                  RLS, BCM;
+   S_WASH                        :  1,        0x0,                  BCM, RLS;
+   S_HIGH                        :  1,        0x0,                  BCM, RLS;
+   S_LOW                         :  1,        0x0,                  BCM, RLS;
+   S_SENS                        :  3,        0x0,                  BCM, RLS;
+   S_Trans_550nm                 :  8,        0x0,                  BCM, RLS;
+   S_Trans_880nm                 :  8,        0x0,                  BCM, RLS;
+   S_WASH_MODE                   :  1,        0x0,                  BCM, RLS;
+}
+/* ----------DIAGNOSTIC SIGNAL DEFINITIONS---------- */
+Diagnostic_signals {
+   /* MasterReq Reserved Signals */
+   MasterReqB0         :    8,   0;
+   MasterReqB1         :    8,   0;
+   MasterReqB2         :    8,   0;
+   MasterReqB3         :    8,   0;
+   MasterReqB4         :    8,   0;
+   MasterReqB5         :    8,   0;
+   MasterReqB6         :    8,   0;
+   MasterReqB7         :    8,   0;
+   /* SlaveResp Reserved Signals */
+   SlaveRespB0         :    8,   0;
+   SlaveRespB1         :    8,   0;
+   SlaveRespB2         :    8,   0;
+   SlaveRespB3         :    8,   0;
+   SlaveRespB4         :    8,   0;
+   SlaveRespB5         :    8,   0;
+   SlaveRespB6         :    8,   0;
+   SlaveRespB7         :    8,   0;
+}
+/* ----------UNCONDITIONAL FRAME DEFINITIONS---------- */
+Frames {
+   BCM_01              : 0x11, BCM                 ,    4 {
+      Ignition            , 0;
+      Status_SMA          , 2;
+      S_WASH              , 4;
+      SCS_Automatic       , 5;
+      S_HIGH              , 6;
+      S_LOW               , 7;
+      S_SENS              , 13;
+      S_Trans_550nm       , 16;
+      S_Trans_880nm       , 24;
+   }
+   BCM_02              : 0x12, BCM                 ,    2 {
+      ParkPosition        , 0;
+      S_WASH_MODE         , 1;
+      VehicleSpeed        , 3;
+   }
+   RLS_01              :  0x3, RLS                 ,    8 {
+      RLS_HumidSensorValue, 32;
+      RLS_TempSensorValue , 40;
+      RLS_TempDewPoint    , 48;
+      RLS_Humid_Temp_Error, 61;
+      RLS_LIN_Error       , 60;
+      RLS_VotalgeError    , 62;
+   }
+   RLS_02              : 0x10, RLS                 ,    4 {
+      S_COMMFAULT         , 0;
+      S_Window_CMD        , 1;
+      S_AUTO_Panel        , 2;
+      S_Auto_Lamp         , 3;
+      S_RS_FAULT          , 4;
+      S_RAIN              , 5;
+      S_AUTO_H            , 6;
+      S_AUTO_L            , 7;
+      RSP_Err             , 15;
+      S_TRANS_550nm_RSP   , 16;
+      S_TRANS_880nm_RSP   , 24;
+   }
+}
+/* ----------DIAGNOSTIC FRAME DEFINITIONS---------- */
+Diagnostic_frames {
+   MasterReq           : 0x3c {
+      MasterReqB0         , 0;
+      MasterReqB1         , 8;
+      MasterReqB2         , 16;
+      MasterReqB3         , 24;
+      MasterReqB4         , 32;
+      MasterReqB5         , 40;
+      MasterReqB6         , 48;
+      MasterReqB7         , 56;
+   }
+   SlaveResp           : 0x3d {
+      SlaveRespB0         , 0;
+      SlaveRespB1         , 8;
+      SlaveRespB2         , 16;
+      SlaveRespB3         , 24;
+      SlaveRespB4         , 32;
+      SlaveRespB5         , 40;
+      SlaveRespB6         , 48;
+      SlaveRespB7         , 56;
+   }
+}
+/* ----------NODE ATTRIBUTE DEFINITIONS---------- */
+Node_attributes {
+   RLS {
+      LIN_protocol               = "2.1";                    /* Node protocol version */
+      configured_NAD             = 0x16;                     /* configured NAD of node (1-125) */
+      initial_NAD                = 0x3;                      /* initial NAD of node (1-125) */
+      product_id                 =    0x3,    0x3,   0xff;   /* Product id */
+      response_error             = RLS_LIN_Error;            /* Response error signal */
+      P2_min                     = 50 ms;                    /* P2_min */
+      ST_min                     = 20 ms;                    /* ST_min */
+      N_As_timeout               = 1000 ms;                  /* N_As timeout value */
+      N_Cr_timeout               = 1000 ms;                  /* N_Cr timeout value */
+      configurable_frames {
+         BCM_01;
+         BCM_02;
+         RLS_01;
+         RLS_02;
+      }
+   }
+}
+/* ----------SCHEDULE TABLE DEFINITIONS---------- */
+Schedule_tables {
+   NormalTable {
+      RLS_01                              delay 10.0 ms;
+      BCM_01                              delay 10.0 ms;
+      BCM_02                              delay 10.0 ms;
+      RLS_02                              delay 10.0 ms;
+   }
+   Diagnose {
+      MasterReq                           delay 10.0 ms;
+   }
+}
+/* ----------SIGNAL ENCODDING DEFINITIONS---------- */
+Signal_encoding_types {
+   RLS_HumidSensorValue_Encoding {
+      physical_value,0,201,0.5,-0.5,"%";
+   }
+   RLS_TempSensorValue_Encoding {
+      physical_value,0,254,0.5,-40.0,"deg";
+   }
+   RLS_TempDewPoint_Encoding {
+      physical_value,0,1000,0.1,-39.6,"deg";
+   }
+}
+/* ----------SIGNAL REPRESENTATION DEFINITIONS---------- */
+Signal_representation {
+   RLS_HumidSensorValue_Encoding:RLS_HumidSensorValue;
+   RLS_TempDewPoint_Encoding:RLS_TempDewPoint;
+   RLS_TempSensorValue_Encoding:RLS_TempSensorValue;
+}
+
