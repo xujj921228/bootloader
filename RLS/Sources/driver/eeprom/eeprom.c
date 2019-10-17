@@ -319,6 +319,85 @@ EndP:
 
 /*****************************************************************************//*!
   *
+  * @brief program flash routine, program 1 long word to flash.
+  *        
+  * @param[in]   u32NVMTargetAddress programed flash address.
+  * @param[in]   u32DwData programming data.
+  *
+  * @return flash error status.
+  *
+  * @ Pass/ Fail criteria: none.
+*****************************************************************************/
+
+uint16_t FLASH_Program1LongWord(uint32_t u32NVMTargetAddress, uint32_t u32DwData)
+{
+	uint16_t u16Err = FLASH_ERR_SUCCESS;
+	
+	// Check address to see if it is aligned to 4 bytes
+	// Global address [1:0] must be 00.
+	if(u32NVMTargetAddress & 0x03)
+	{
+		u16Err = FLASH_ERR_INVALID_PARAM;
+		return (u16Err);
+	}
+	// Clear error flags
+	FTMRH_FSTAT = 0x30;
+	
+	// Write index to specify the command code to be loaded
+	FTMRH_FCCOBIX = 0x0;
+	// Write command code and memory address bits[23:16]	
+	FTMRH_FCCOBHI = FLASH_CMD_PROGRAM;// program FLASH command
+	FTMRH_FCCOBLO = u32NVMTargetAddress>>16;// memory address bits[23:16]
+	// Write index to specify the lower byte memory address bits[15:0] to be loaded
+	FTMRH_FCCOBIX = 0x1;
+	// Write the lower byte memory address bits[15:0]
+	FTMRH_FCCOBLO = u32NVMTargetAddress;
+	FTMRH_FCCOBHI = u32NVMTargetAddress>>8;
+	// Write index to specify the word0 (MSB word) to be programmed
+	FTMRH_FCCOBIX = 0x2;
+#if     defined(BIG_ENDIAN)        
+	// Write the word  0
+	FTMRH_FCCOBHI = (u32DwData>>16)>>8;
+	FTMRH_FCCOBLO = (u32DwData>>16);
+#else        
+	FTMRH_FCCOBHI = (u32DwData) >>8;
+	FTMRH_FCCOBLO = (u32DwData);
+#endif        
+	// Write index to specify the word1 (LSB word) to be programmed
+	FTMRH_FCCOBIX = 0x3;
+	// Write the word1 
+#if     defined(BIG_ENDIAN)        
+	FTMRH_FCCOBHI = (u32DwData) >>8;
+	FTMRH_FCCOBLO = (u32DwData);
+#else
+	FTMRH_FCCOBHI = (u32DwData>>16)>>8;
+	FTMRH_FCCOBLO = (u32DwData>>16);
+#endif        
+	// Launch the command
+	FLASH_LaunchCMD(TRUE);
+	
+	// Check error status
+	if(FTMRH_FSTAT & FTMRH_FSTAT_ACCERR_MASK)
+	{
+		u16Err |= FLASH_ERR_ACCESS;
+	}
+	if(FTMRH_FSTAT & FTMRH_FSTAT_FPVIOL_MASK)
+	{
+		u16Err |= FLASH_ERR_PROTECTION;		
+	}
+	if(FTMRH_FSTAT & FTMRH_FSTAT_MGSTAT_MASK)
+	{
+		u16Err |= FLASH_ERR_MGSTAT0;		
+	}
+	if(FTMRH_FSTAT & FTMRH_FSTAT_MGSTAT_MASK)
+	{
+		u16Err |= FLASH_ERR_MGSTAT1;		
+	}	
+	
+	return (u16Err);
+}
+/*****************************************************************************//*!
+  *
   * @brief erase flash sector, each flash sector is of 512 bytes long.
   *      
   *        
