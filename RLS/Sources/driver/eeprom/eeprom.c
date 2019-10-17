@@ -64,6 +64,65 @@ uint16 FLASH_Init(uint32 u32BusClock)
 	return (u16Err);	
 }
 
+/*****************************************************************************//*!
+  *
+  * @brief erase flash sector, each flash sector is of 512 bytes long.
+  *      
+  *        
+  * @param[in]   u32NVMTargetAddress erase sector address.
+  *
+  * @return error status.
+  *
+  * @ Pass/ Fail criteria: none.
+*****************************************************************************/
+uint16_t FLASH_EraseSector(uint32_t u32NVMTargetAddress)
+{
+	uint16_t u16Err = FLASH_ERR_SUCCESS;
+	
+	// Check address to see if it is aligned to 4 bytes
+	// Global address [1:0] must be 00.
+	if(u32NVMTargetAddress & 0x03)
+	{
+		u16Err = FLASH_ERR_INVALID_PARAM;
+		return (u16Err);
+	}
+	// Clear error flags
+	FTMRH_FSTAT = 0x30;
+	
+	// Write index to specify the command code to be loaded
+	FTMRH_FCCOBIX = 0x0;
+	// Write command code and memory address bits[23:16]	
+	FTMRH_FCCOBHI = FLASH_CMD_ERASE_SECTOR;// EEPROM FLASH command
+	FTMRH_FCCOBLO = u32NVMTargetAddress>>16;// memory address bits[23:16]
+	// Write index to specify the lower byte memory address bits[15:0] to be loaded
+	FTMRH_FCCOBIX = 0x1;
+	// Write the lower byte memory address bits[15:0]
+	FTMRH_FCCOBLO = u32NVMTargetAddress;
+	FTMRH_FCCOBHI = u32NVMTargetAddress>>8;
+	
+	// Launch the command
+	FLASH_LaunchCMD(TRUE);
+	
+	// Check error status
+	if(FTMRH_FSTAT & FTMRH_FSTAT_ACCERR_MASK)
+	{
+		u16Err |= FLASH_ERR_ACCESS;
+	}
+	if(FTMRH_FSTAT & FTMRH_FSTAT_FPVIOL_MASK)
+	{
+		u16Err |= FLASH_ERR_PROTECTION;		
+	}
+	if(FTMRH_FSTAT & FTMRH_FSTAT_MGSTAT_MASK)
+	{
+		u16Err |= FLASH_ERR_MGSTAT0;		
+	}
+	if(FTMRH_FSTAT & FTMRH_FSTAT_MGSTAT_MASK)
+	{
+		u16Err |= FLASH_ERR_MGSTAT1;		
+	}	
+
+	return (u16Err);
+}
 
 void FLASH_LaunchCMD(uint8 bWaitComplete)
 
@@ -76,6 +135,187 @@ void FLASH_LaunchCMD(uint8 bWaitComplete)
       while (!(FTMRH_FSTAT & FTMRH_FSTAT_CCIF_MASK));
     }
 }
+
+
+/*****************************************************************************//*!
+  *
+  * @brief program flash routine, program 2long word to flash.
+  *        
+  * @param[in]   u32NVMTargetAddress programed flash address.
+  * @param[in]   u32DwData0 programming data0.
+  * @param[in]   u32DwData1 programming data1.
+  *
+  * @return flash error status.
+  *
+  * @ Pass/ Fail criteria: none
+*****************************************************************************/
+
+uint16 FLASH_Program2LongWords(uint32 u32NVMTargetAddress, uint32 u32DwData0, uint32 u32DwData1)
+{
+	uint16 u16Err = FLASH_ERR_SUCCESS;
+	
+	// Check address to see if it is aligned to 4 bytes
+	// Global address [1:0] must be 00.
+	if(u32NVMTargetAddress & 0x03)
+	{
+		u16Err = FLASH_ERR_INVALID_PARAM;
+		return (u16Err);
+	}
+	// Clear error flags
+	FTMRH_FSTAT = 0x30;
+	
+	// Write index to specify the command code to be loaded
+	FTMRH_FCCOBIX = 0x0;
+	// Write command code and memory address bits[23:16]	
+	FTMRH_FCCOBHI = FLASH_CMD_PROGRAM;// program FLASH command
+	FTMRH_FCCOBLO = u32NVMTargetAddress>>16;// memory address bits[23:16]
+	// Write index to specify the lower byte memory address bits[15:0] to be loaded
+	FTMRH_FCCOBIX = 0x1;
+	// Write the lower byte memory address bits[15:0]
+	FTMRH_FCCOBLO = u32NVMTargetAddress;
+	FTMRH_FCCOBHI = u32NVMTargetAddress>>8;
+        
+	// Write index to specify the word0 (MSB word) to be programmed
+	FTMRH_FCCOBIX = 0x2;
+	// Write the word 0
+
+	//FTMRH_FCCOB = (u32DwData0) & 0xFFFF;
+	FTMRH_FCCOBHI = (u32DwData0) >>8;
+	FTMRH_FCCOBLO = (u32DwData0);
+        
+	// Write index to specify the word1 (LSB word) to be programmed
+	FTMRH_FCCOBIX = 0x3;
+	// Write word 1
+	FTMRH_FCCOBHI = (u32DwData0>>16)>>8;
+	FTMRH_FCCOBLO = (u32DwData0>>16);
+	
+	// Write index to specify the word0 (MSB word) to be programmed
+	FTMRH_FCCOBIX = 0x4;
+	// Write the word2
+	//FTMRE_FCCOB = (u32DwData1) & 0xFFFF;
+	FTMRH_FCCOBHI = (u32DwData1) >>8;
+	FTMRH_FCCOBLO = (u32DwData1);
+        
+	// Write index to specify the word1 (LSB word) to be programmed
+	FTMRH_FCCOBIX = 0x5;
+	// Write word 3
+	//FTMRH_FCCOB = (u32DwData1>>16) & 0xFFFF;
+	FTMRH_FCCOBHI = (u32DwData1>>16)>>8;
+	FTMRH_FCCOBLO = (u32DwData1>>16);
+ 
+	// Launch the command
+	FLASH_LaunchCMD(TRUE);
+	
+	// Check error status
+	if(FTMRH_FSTAT & FTMRH_FSTAT_ACCERR_MASK)
+	{
+		u16Err |= FLASH_ERR_ACCESS;
+	}
+	if(FTMRH_FSTAT & FTMRH_FSTAT_FPVIOL_MASK)
+	{
+		u16Err |= FLASH_ERR_PROTECTION;		
+	}
+	if(FTMRH_FSTAT & FTMRH_FSTAT_MGSTAT_MASK)
+	{
+		u16Err |= FLASH_ERR_MGSTAT0;		
+	}
+	if(FTMRH_FSTAT & FTMRH_FSTAT_MGSTAT_MASK)
+	{
+		u16Err |= FLASH_ERR_MGSTAT1;		
+	}	
+	
+	return (u16Err);
+}
+ /*        
+  * @param[in]   u32NVMTargetAddress programed flash address.
+  * @param[in]   pData programming data pointer.
+  * @param[in]   u16SizeBytes programming data length.
+  *
+  * @return flash error status.
+  *
+  * @ Pass/ Fail criteria: none.
+*****************************************************************************/
+
+uint16 FLASH_Program(uint32 u32NVMTargetAddress, uint8 *pData, uint16 u16SizeBytes)
+{
+	uint16 u16Err = FLASH_ERR_SUCCESS;
+	uint16 u16w2LongWordCount = u16SizeBytes>>3;
+	uint8  u8WrLeftBytes = (u16SizeBytes & 0x07);
+	uint16 u16WrLeftLongWords = u8WrLeftBytes>>2;
+	uint32 u32WrTargetAddress = u32NVMTargetAddress;
+	uint32 u32DwData0,u32DwData1;
+	uint32 *pDwData = (uint32_t*)pData;
+	int  i;
+	
+	// Check address to see if it is aligned to 4 bytes
+	// Global address [1:0] must be 00.
+	if(u32NVMTargetAddress & 0x03)
+	{
+		u16Err = FLASH_ERR_INVALID_PARAM;
+		return (u16Err);
+	}
+	// Loop for the two longwords (8 bytes) programming
+	for(i = 0; i < u16w2LongWordCount; i++)
+	{
+		u32DwData0 = *pDwData++;
+		u32DwData1 = *pDwData++;
+		u16Err = FLASH_Program2LongWords(u32WrTargetAddress, u32DwData0, u32DwData1);
+		if(u16Err)
+		{
+			goto EndP;
+			//break;
+		}
+		u32WrTargetAddress += 8;
+	}
+	// Loop for the single longword (4 bytes) programming
+	for(i = 0; i < u16WrLeftLongWords; i++)
+	{
+		u32DwData0 = *pDwData++;
+		u16Err = FLASH_Program1LongWord(u32WrTargetAddress, u32DwData0);
+		if(u16Err)
+		{			
+			goto EndP;
+			//break;
+		}
+		u32WrTargetAddress += 4;
+	}
+	u8WrLeftBytes = (u8WrLeftBytes-(u16WrLeftLongWords<<2));	// calculate the # of bytes that are not programmed
+	if(!u8WrLeftBytes){
+		return (u16Err);
+	}
+        
+#if     defined(BIG_ENDIAN)                
+	u32DwData0 = 0;
+	pData = (uint8_t*)pDwData;	// pointer to the left bytes
+	for(i = u8WrLeftBytes; i >0; i--)
+	{
+		u32DwData0 <<= 8;
+		u32DwData0 |= *pData++;	// MSB byte first
+	}
+	// Calculate how many bytes need to be filled with 0xFFs
+	// in order to form a single longword for the left bytes of data
+	u8WrLeftBytes = 4 - u8WrLeftBytes;	
+	//  
+	for(i = u8WrLeftBytes; i >0; i--)
+	{
+		u32DwData0 <<= 8;
+		u32DwData0 |= 0xFF;	// MSB byte first
+	}
+#else
+	u32DwData0 = 0xFFFFFFFFL;        
+	pData = (uint8_t*)pDwData+u8WrLeftBytes-1;	// pointer to the left bytes
+	for(i = u8WrLeftBytes; i >0; i--)
+	{
+		u32DwData0 <<= 8;
+		u32DwData0 |= *pData--;	// MSB byte first
+	}
+#endif	
+	// Now program the last longword
+	u16Err = FLASH_Program1LongWord(u32WrTargetAddress, u32DwData0);	
+EndP:	
+	return (u16Err);
+}
+
 
 /*****************************************************************************//*!
   *

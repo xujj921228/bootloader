@@ -28,12 +28,23 @@
 * @return   none
 *
 ************************************************************************************************/  
+//#define VERIFIED_SECTOR				32
+//#define BUS_CLK_HZ					24000000
+
+//uint8  u8DataBuff[256];
+
 void main(void)
 {	
+//	char ch;
+//	uint32 i;
 	Clk_Init();	
 	FTM0_Init();
 	ADC_Init();
 	GPIO_Init();
+	
+	
+	
+	
 	FLASH_Init(BUS_CLCOK);	
 	PMC_Init();	
 	SPI_Init();	
@@ -43,8 +54,49 @@ void main(void)
 	Globle_parameter_Init();	
 	Lin_Sys_Init();
 	MLX75308_Init();
+	
+	
 	RTC_Init();
+	
+	
+	
+	
 	Lin_Sys_Init();
+	
+	
+	/*
+	 Initialize the Flash Memory module 
+	    FLASH_Init(BUS_CLK_HZ);
+	  
+	    //FLASH_Init(BUS_CLCOK);
+	    
+	     Erase 99th sector 
+	    FLASH_EraseSector(VERIFIED_SECTOR*FLASH_SECTOR_SIZE);
+
+	     Initialize the variable 
+	    for(i=0;i<256;i++)
+	    {
+	        u8DataBuff[i] = (uint8)i;
+	    }
+
+	     Write data to erased sector 
+	    FLASH_Program( VERIFIED_SECTOR*FLASH_SECTOR_SIZE,&u8DataBuff[0],256 );
+	    FLASH_Program( VERIFIED_SECTOR*FLASH_SECTOR_SIZE+256,&u8DataBuff[0],256 );
+
+	    printf("\nReading the newly written sector\n\r");
+
+	     Read data from the newly written sector 
+	    for( i=0;i<512/16;i++ )
+	    {
+	        for(ch =0;ch<16;ch++)
+	        {
+	            printf("0x%x,",*((uint8_t *)(i*16+ch+VERIFIED_SECTOR*FLASH_SECTOR_SIZE)));
+	        }
+	        printf("\n\r");
+	    }
+
+	    printf("All data has been read.\n\r");*/
+	
 	
 	for(;;) 
 	{	
