@@ -23,7 +23,7 @@ MEMORY
 {
   m_interrupts	(rx) : ORIGIN = 0x00000000, LENGTH = 0xC0
   m_cfmprotrom 	(rx) : ORIGIN = 0x00000400, LENGTH = 0x10
-  m_text 		(rx) : ORIGIN = 0x00000800, LENGTH = 64K - 0x800
+  m_text 		(rx) : ORIGIN = 0x00000800, LENGTH = 0x3000 - 0x800
   m_data 	   (rwx) : ORIGIN = 0x1FFFFC00, LENGTH = 4K			/* SRAM */
 }
 

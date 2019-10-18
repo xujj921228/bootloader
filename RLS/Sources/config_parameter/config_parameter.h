@@ -50,6 +50,9 @@ typedef  unsigned long   uint32;     //unsigned 32 bit definition
 #define EEPROM_A_RAIN_ADC_ADDR          0x10000018
 #define EEPROM_B_RAIN_ADC_ADDR          0x1000001C
 
+#define EEPROM_BOOT_REFRESH             0x10000020
+
+#define EEPROM_BOOT_REFRESH_LENTH        1
 
 #define EEPROM_SERIAL_NUMBER_LENTH     3
 #define EEPROM_BR_LIG_PER_LENTH        1
