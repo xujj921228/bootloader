@@ -12,7 +12,7 @@
 
 
 
-#define VERIFIED_SECTOR				32
+#define VERIFIED_SECTOR				12
 /***********************************************************************************************
 * name :  main
 * input:  none

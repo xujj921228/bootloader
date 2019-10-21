@@ -22,4 +22,31 @@
 		<nature>org.eclipse.cdt.managedbuilder.core.managedBuildNature</nature>
 		<nature>org.eclipse.cdt.managedbuilder.core.ScannerConfigNature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>.external_binary</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>.external_binary/Users</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>.external_binary/Users/xujj</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>.external_binary/Users/xujj/Desktop</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>.external_binary/Users/xujj/Desktop/RLS.hex</name>
+			<type>1</type>
+			<location>C:/Users/xujj/Desktop/RLS.hex</location>
+		</link>
+	</linkedResources>
 </projectDescription>

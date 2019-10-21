@@ -14,17 +14,17 @@ C_SRCS += \
 OBJS += \
 ./Sources/driver/gpio/gpio.o \
 
-C_DEPS += \
-./Sources/driver/gpio/gpio.d \
-
 OBJS_QUOTED += \
 "./Sources/driver/gpio/gpio.o" \
 
-C_DEPS_QUOTED += \
-"./Sources/driver/gpio/gpio.d" \
+C_DEPS += \
+./Sources/driver/gpio/gpio.d \
 
 OBJS_OS_FORMAT += \
 ./Sources/driver/gpio/gpio.o \
+
+C_DEPS_QUOTED += \
+"./Sources/driver/gpio/gpio.d" \
 
 
 # Each subdirectory must supply rules for building sources it contributes

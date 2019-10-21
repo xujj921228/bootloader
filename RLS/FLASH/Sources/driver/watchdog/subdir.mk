@@ -14,17 +14,17 @@ C_SRCS += \
 OBJS += \
 ./Sources/driver/watchdog/watchdog.o \
 
-C_DEPS += \
-./Sources/driver/watchdog/watchdog.d \
-
 OBJS_QUOTED += \
 "./Sources/driver/watchdog/watchdog.o" \
 
-C_DEPS_QUOTED += \
-"./Sources/driver/watchdog/watchdog.d" \
+C_DEPS += \
+./Sources/driver/watchdog/watchdog.d \
 
 OBJS_OS_FORMAT += \
 ./Sources/driver/watchdog/watchdog.o \
+
+C_DEPS_QUOTED += \
+"./Sources/driver/watchdog/watchdog.d" \
 
 
 # Each subdirectory must supply rules for building sources it contributes

@@ -55,6 +55,15 @@ EXECUTABLES_QUOTED += \
 EXECUTABLES_OS_FORMAT += \
 RLS.elf \
 
+SECONDARY_FLASH += \
+RLS.hex \
+
+SECONDARY_FLASH_QUOTED += \
+"RLS.hex" \
+
+SECONDARY_FLASH_OS_FORMAT += \
+RLS.hex \
+
 
 # All Target
 all: warning-messages explicit-dependencies RLS.elf secondary-outputs
@@ -68,19 +77,26 @@ RLS.elf: $(OBJS) $(USER_OBJS) ../Project_Settings/Linker_Files/SKEAZN64_flash.ld
 	@echo 'Finished building target: $@'
 	@echo ' '
 
+RLS.hex: RLS.elf
+	@echo 'Executing target #10 $@'
+	@echo 'Invoking: ARM Ltd Windows GNU Create Flash Image'
+	"$(ARMSourceryDirEnv)/arm-none-eabi-objcopy"  -O srec RLS.elf "RLS.hex"
+	@echo 'Finished building: $@'
+	@echo ' '
+
 # Other Targets
 clean:
-	-$(RM) $(S_DEPS_QUOTED) "./*/*/*.o" "./*/*/*/*.o" "./*/*.o"  $(S_UPPER_DEPS_QUOTED) $(ASM_DEPS_QUOTED) $(ASM_UPPER_DEPS_QUOTED) $(SX_DEPS_QUOTED) $(EXECUTABLES_QUOTED) "./*/*/*.d" "./*/*/*/*.d" "./*/*.d"  $(ProjDirPath)/FLASH/RLS.elf
+	-$(RM) $(S_DEPS_QUOTED) $(SECONDARY_FLASH_QUOTED) "./*/*/*.o" "./*/*/*/*.o" "./*/*.o"  $(S_UPPER_DEPS_QUOTED) $(ASM_DEPS_QUOTED) $(ASM_UPPER_DEPS_QUOTED) $(SX_DEPS_QUOTED) $(EXECUTABLES_QUOTED) "./*/*/*.d" "./*/*/*/*.d" "./*/*.d"  $(ProjDirPath)/FLASH/RLS.elf
 	-@echo ' '
 
-secondary-outputs:
+secondary-outputs: $(SECONDARY_FLASH)
 
 .PHONY: all clean dependents explicit-dependencies warning-messages
 .SECONDARY:
 
 -include ../makefile.targets
 
-explicit-dependencies: ../Project_Settings/Linker_Files/SKEAZN64_flash.ld 
+explicit-dependencies: ../Project_Settings/Linker_Files/SKEAZN64_flash.ld RLS.elf 
 
 warning-messages: 
 

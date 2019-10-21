@@ -14,17 +14,17 @@ C_SRCS += \
 OBJS += \
 ./Sources/driver/eeprom/eeprom.o \
 
-C_DEPS += \
-./Sources/driver/eeprom/eeprom.d \
-
 OBJS_QUOTED += \
 "./Sources/driver/eeprom/eeprom.o" \
 
-C_DEPS_QUOTED += \
-"./Sources/driver/eeprom/eeprom.d" \
+C_DEPS += \
+./Sources/driver/eeprom/eeprom.d \
 
 OBJS_OS_FORMAT += \
 ./Sources/driver/eeprom/eeprom.o \
+
+C_DEPS_QUOTED += \
+"./Sources/driver/eeprom/eeprom.d" \
 
 
 # Each subdirectory must supply rules for building sources it contributes

@@ -14,17 +14,17 @@ C_SRCS += \
 OBJS += \
 ./Sources/main.o \
 
-C_DEPS += \
-./Sources/main.d \
-
 OBJS_QUOTED += \
 "./Sources/main.o" \
 
-C_DEPS_QUOTED += \
-"./Sources/main.d" \
+C_DEPS += \
+./Sources/main.d \
 
 OBJS_OS_FORMAT += \
 ./Sources/main.o \
+
+C_DEPS_QUOTED += \
+"./Sources/main.d" \
 
 
 # Each subdirectory must supply rules for building sources it contributes
