@@ -30,7 +30,7 @@ OBJS_OS_FORMAT += \
 # Each subdirectory must supply rules for building sources it contributes
 Sources/driver/eeprom/eeprom.o: ../Sources/driver/eeprom/eeprom.c
 	@echo 'Building file: $<'
-	@echo 'Executing target #9 $<'
+	@echo 'Executing target #4 $<'
 	@echo 'Invoking: ARM Ltd Windows GCC C Compiler'
 	"$(ARMSourceryDirEnv)/arm-none-eabi-gcc" "$<" @"Sources/driver/eeprom/eeprom.args" -MMD -MP -MF"$(@:%.o=%.d)" -o"Sources/driver/eeprom/eeprom.o"
 	@echo 'Finished building: $<'

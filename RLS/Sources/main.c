@@ -4,17 +4,13 @@
  */
 #include "derivative.h" /* include peripheral declarations */
 #include <math.h> 
-#include "config_parameter.h"
-#include "lin_diagnostic_service.h"
+
 #include "clock.h"
-#include "lin.h"
 #include "gpio.h"
 #include "eeprom.h"
-#include "ftm.h"
-#include "rtc.h"
-#include "watchdog.h"
-#include "lin_app.h"
-#include "humid.h"
+
+
+
 
 #define VERIFIED_SECTOR				32
 /***********************************************************************************************
@@ -28,9 +24,10 @@
 uint8  u8DataBuff[256];
 uint8  u8DataBuff_read[512];
 uint8  u8refresh_flag;// 1:normal app else:updata
-typedef void (*APPFn)(void);
-#define App_Start_Adress 0x3000
-APPFn MainApplication;
+
+typedef void(*JumpToPtr)(void);
+uint32_t *pNewAppEntry = 0x3004;
+JumpToPtr	pJumpTo;
 void main(void)
 {	
 	char ch;
@@ -40,18 +37,19 @@ void main(void)
 	/*Initialize the Flash Memory module */
     FLASH_Init(BUS_CLCOK);
     read_data_from_EEPROM(EEPROM_BOOT_REFRESH,&u8refresh_flag,EEPROM_BOOT_REFRESH_LENTH,ENABLE);
-    if(u8refresh_flag == 1)//if flag is equal to 1,jump to app.else doing updata
+    if(u8refresh_flag != 1)//if flag is equal to 1,jump to app.else doing updata
     {
     	//jump to app
-    	if((*(unsigned int *)(App_Start_Adress))!=0xffff){
-       			
-    			MainApplication = (void*)(*(unsigned int *)App_Start_Adress);
-    			(*(APPFn)MainApplication)(); // jump to app and should not back
+		  //Jump to app
+		   pJumpTo = *pNewAppEntry;
+		   pJumpTo();
+		   while(1)
+		   {
+		    	  i++;
+		   }
     	        for(;;) { ; }
-    	}
     }
-    Lin_Sys_Init();  //lin init
-    FTM0_Init();  //TIM
+ 
 	/* Erase 32th sector */
 	FLASH_EraseSector(VERIFIED_SECTOR*FLASH_SECTOR_SIZE);
 
@@ -79,8 +77,7 @@ void main(void)
 	 }
 	
     for(;;) 
-	{	
-		 WDOG_Feed();	
-		
+	{		
+
 	}	
 }

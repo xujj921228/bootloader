@@ -2,9 +2,9 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
 		<item value="273" key="DIALOG_WIDTH"/>
-		<item value="106" key="DIALOG_Y_ORIGIN"/>
+		<item value="141" key="DIALOG_Y_ORIGIN"/>
 		<item value="400" key="DIALOG_HEIGHT"/>
-		<item value="555" key="DIALOG_X_ORIGIN"/>
+		<item value="923" key="DIALOG_X_ORIGIN"/>
 		<item value="1|Microsoft YaHei UI|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|Microsoft YaHei UI" key="DIALOG_FONT_NAME"/>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
@@ -16,6 +16,11 @@
 		<item value="" key="selection"/>
 		<list key="findhistory">
 			<item value="err"/>
+			<item value="SCB"/>
+			<item value="base"/>
+			<item value="#include"/>
+			<item value="__vector_table"/>
+			<item value="WDOG_EnableUpdate"/>
 		</list>
 		<list key="replacehistory">
 		</list>

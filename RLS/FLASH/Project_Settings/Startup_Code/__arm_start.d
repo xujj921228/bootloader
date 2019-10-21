@@ -20,7 +20,7 @@ Project_Settings/Startup_Code/__arm_start.o: \
  D:/CW11.0/CW\ MCU\ v11.0/MCU/ARM_GCC_Support/ewl/EWL_C/include/stdint.h \
  D:/CW11.0/CW\ MCU\ v11.0/MCU/ARM_GCC_Support/ewl/EWL_C/include/cstdint \
  D:/CW11.0/CW\ MCU\ v11.0/MCU/ARM_GCC_Support/ewl/EWL_C/include/limits_api.h \
- E:/boot/bootloader/RLS/Project_Settings/Startup_Code/runtime_configuration.h
+ C:/Users/xujj/Desktop/new_boot/bootloader/RLS/Project_Settings/Startup_Code/runtime_configuration.h
 
 D:/CW11.0/CW\ MCU\ v11.0/MCU/ARM_GCC_Support/ewl/EWL_C/include/lib_ewl.prefix:
 
@@ -62,4 +62,4 @@ D:/CW11.0/CW\ MCU\ v11.0/MCU/ARM_GCC_Support/ewl/EWL_C/include/cstdint:
 
 D:/CW11.0/CW\ MCU\ v11.0/MCU/ARM_GCC_Support/ewl/EWL_C/include/limits_api.h:
 
-E:/boot/bootloader/RLS/Project_Settings/Startup_Code/runtime_configuration.h:
+C:/Users/xujj/Desktop/new_boot/bootloader/RLS/Project_Settings/Startup_Code/runtime_configuration.h:

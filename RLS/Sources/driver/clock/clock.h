@@ -20,11 +20,13 @@
 #ifndef    _CLOCK_H_  
 #define    _CLOCK_H_  
 
-#include "config_parameter.h"
 
 
 #define   BUS_CLCOK 20000000
 
+typedef  unsigned char   uint8;      //unsigned 8 bit definition
+typedef  unsigned int    uint16;     //unsigned 16 bit definition
+typedef  unsigned long   uint32;     //unsigned 32 bit definition
 
 extern void Clk_Init(void);
 extern void Delay_Nus(uint8 n);
