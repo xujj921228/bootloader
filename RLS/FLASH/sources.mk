@@ -70,5 +70,10 @@ Sources/driver/watchdog \
 Sources/driver/gpio \
 Sources/driver/eeprom \
 Sources/driver/clock \
+Sources/LIN_Stack/transport \
+Sources/LIN_Stack/lowlevel \
+Sources/LIN_Stack/diagnostic \
+Sources/LIN_Stack/coreapi \
+Sources/LIN_Stack/bsp/UART \
 Project_Settings/Startup_Code \
 

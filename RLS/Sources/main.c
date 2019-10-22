@@ -10,7 +10,27 @@
 #include "eeprom.h"
 
 
-
+/*******************************************************
+ * FUNCTION NAME : Lin_Busy_Process()
+ *   DESCRIPTION : Lin_Busy_Process  
+ *         INPUT : NONE
+ *        OUTPUT : void  
+ *        RETURN : NONE              
+ *        OTHERS : NONE
+ *******************************************************/ 
+void Lin_Sys_Init(void)
+{
+	uint8 ret = 0 ;
+	uint8 vector_number = 0;
+	
+    ret = l_sys_init();
+	ret = l_ifc_init(LI0);
+	
+	vector_number = INT_UART0 -16;
+	
+	NVIC_ICPR |= 1 << (vector_number%32);
+	NVIC_ISER |= 1 << (vector_number%32);
+}
 
 #define VERIFIED_SECTOR				12
 /***********************************************************************************************
@@ -45,7 +65,7 @@ void main(void)
        for(;;) { ; }
     }
     
-    
+    Lin_Sys_Init();
     
     
     
