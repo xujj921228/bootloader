@@ -1,3 +1,3 @@
 eclipse.preferences.version=1
-org.eclipse.rse.systemtype.local.systemType.defaultUserId=Administrator
-useridperkey=wh-xujunjie.RLS_FLASH_OSJTAG\=xj;wh-xujunjie.RLS_FLASH_PnE Cyclone MAX Target\=xj;wh-xujunjie.RLS_FLASH_PnE Cyclone MAX\=xj;wh-xujunjie.RLS_FLASH_PnE U-MultiLink Target\=xj;wh-xujunjie.Local\=Administrator;wh-xujunjie.RLS_FLASH_PnE U-MultiLink\=xj;wh-xujunjie.RLS_FLASH_Segger J-Link_Trace\=xj;wh-xujunjie.RLS_FLASH_OSJTAG Target\=xj;wh-xujunjie.RLS_FLASH_Segger J-Link_Trace Target\=xj;
+org.eclipse.rse.systemtype.local.systemType.defaultUserId=xujj
+useridperkey=wh-xujunjie.RLS_FLASH_OSJTAG\=xj;wh-xujunjie.RLS_FLASH_PnE Cyclone MAX Target\=xj;wh-xujunjie.RLS_FLASH_PnE Cyclone MAX\=xj;wh-xujunjie.RLS_FLASH_PnE U-MultiLink Target\=xj;wh-xujunjie.RLS_FLASH_PnE U-MultiLink\=xj;wh-xujunjie.RLS_FLASH_Segger J-Link_Trace\=xj;wh-xujunjie.RLS_FLASH_OSJTAG Target\=xj;wh-xujunjie.RLS_FLASH_Segger J-Link_Trace Target\=xj;

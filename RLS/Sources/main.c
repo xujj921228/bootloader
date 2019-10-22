@@ -37,18 +37,27 @@ void main(void)
 	/*Initialize the Flash Memory module */
     FLASH_Init(BUS_CLCOK);
     read_data_from_EEPROM(EEPROM_BOOT_REFRESH,&u8refresh_flag,EEPROM_BOOT_REFRESH_LENTH,ENABLE);
-    if(u8refresh_flag != 1)//if flag is equal to 1,jump to app.else doing updata
+    if(u8refresh_flag != 0x5a)//if flag is equal to 1,jump to app.else doing updata
     {
-    	//jump to app
-		  //Jump to app
-		   pJumpTo = *pNewAppEntry;
-		   pJumpTo();
-		   while(1)
-		   {
-		    	  i++;
-		   }
-    	        for(;;) { ; }
+	   //Jump to app
+	   pJumpTo = *pNewAppEntry;
+	   pJumpTo();
+       for(;;) { ; }
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
  
 	/* Erase 32th sector */
 	FLASH_EraseSector(VERIFIED_SECTOR*FLASH_SECTOR_SIZE);
