@@ -30,7 +30,7 @@ C_DEPS_QUOTED += \
 # Each subdirectory must supply rules for building sources it contributes
 Sources/driver/clock/clock.o: ../Sources/driver/clock/clock.c
 	@echo 'Building file: $<'
-	@echo 'Executing target #5 $<'
+	@echo 'Executing target #6 $<'
 	@echo 'Invoking: ARM Ltd Windows GCC C Compiler'
 	"$(ARMSourceryDirEnv)/arm-none-eabi-gcc" "$<" @"Sources/driver/clock/clock.args" -MMD -MP -MF"$(@:%.o=%.d)" -o"Sources/driver/clock/clock.o"
 	@echo 'Finished building: $<'

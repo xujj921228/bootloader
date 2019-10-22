@@ -20,6 +20,7 @@
 "./Sources/driver/eeprom/eeprom.o"
 "./Sources/driver/gpio/gpio.o"
 "./Sources/driver/watchdog/watchdog.o"
+"./Sources/lin_cfg/lin_cfg.o"
 "./Sources/main.o"
 -mcpu=cortex-m0
 -mthumb
