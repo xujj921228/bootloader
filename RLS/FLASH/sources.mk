@@ -69,6 +69,7 @@ Sources \
 Sources/lin_cfg \
 Sources/driver/watchdog \
 Sources/driver/gpio \
+Sources/driver/ftm \
 Sources/driver/eeprom \
 Sources/driver/clock \
 Sources/LIN_Stack/transport \

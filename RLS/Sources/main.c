@@ -3,12 +3,12 @@
  *
  */
 #include "derivative.h" /* include peripheral declarations */
-#include <math.h> 
+//#include <math.h> 
 
 #include "clock.h"
 #include "gpio.h"
 #include "eeprom.h"
-
+#include "lin_common_api.h"
 
 /*******************************************************
  * FUNCTION NAME : Lin_Busy_Process()
@@ -43,7 +43,7 @@ void Lin_Sys_Init(void)
 ************************************************************************************************/  
 uint8  u8DataBuff[256];
 uint8  u8DataBuff_read[512];
-uint8  u8refresh_flag;// 1:normal app else:updata
+uint8  u8refresh_flag;// 0x5a:updata app else:normal
 
 typedef void(*JumpToPtr)(void);
 uint32_t *pNewAppEntry = 0x3004;
@@ -66,6 +66,7 @@ void main(void)
     }
     
     Lin_Sys_Init();
+    
     
     
     

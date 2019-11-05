@@ -3,7 +3,6 @@ Sources/driver/watchdog/watchdog.o: ../Sources/driver/watchdog/watchdog.c \
  D:/CW11.0/CW\ MCU\ v11.0/MCU/ARM_GCC_Support/ewl/EWL_C/include/common.prefix \
  D:/CW11.0/CW\ MCU\ v11.0/MCU/ARM_GCC_Support/ewl/EWL_C/include/ewl_c_version.h \
  ../Sources/driver/watchdog/watchdog.h \
- C:/Users/xujj/Desktop/bootloader/RLS/Project_Headers/derivative.h \
  C:/Users/xujj/Desktop/bootloader/RLS/Project_Headers/SKEAZN642.h \
  D:/CW11.0/CW\ MCU\ v11.0/MCU/ARM_GCC_Support/ewl/EWL_C/include/stdint.h \
  D:/CW11.0/CW\ MCU\ v11.0/MCU/ARM_GCC_Support/ewl/EWL_C/include/ansi_parms.h \
@@ -22,8 +21,6 @@ D:/CW11.0/CW\ MCU\ v11.0/MCU/ARM_GCC_Support/ewl/EWL_C/include/common.prefix:
 D:/CW11.0/CW\ MCU\ v11.0/MCU/ARM_GCC_Support/ewl/EWL_C/include/ewl_c_version.h:
 
 ../Sources/driver/watchdog/watchdog.h:
-
-C:/Users/xujj/Desktop/bootloader/RLS/Project_Headers/derivative.h:
 
 C:/Users/xujj/Desktop/bootloader/RLS/Project_Headers/SKEAZN642.h:
 
