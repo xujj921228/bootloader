@@ -5,7 +5,7 @@
  */
  
 #include "kinetis_sysinit.h"
-#include "derivative.h"
+#include <SKEAZN642.h>
 
 /**
  **===========================================================================
@@ -41,24 +41,13 @@ void __init_hardware()
 {
 	SCB_VTOR = (uint32_t)__vector_table; /* Set the interrupt vector table position */
 	
-	WDOG_CS1 = 0xA4;//WDOG_CS1_EN_MASK |WDOG_CS1_INT_MASK|WDOG_CS1_UPDATE_MASK| WDOG_CS1_STOP_MASK | WDOG_CS1_WAIT_MASK | WDOG_CS1_DBG_MASK; // enable counter running
+	//WDOG_CS1 = 0xA4;//WDOG_CS1_EN_MASK |WDOG_CS1_INT_MASK|WDOG_CS1_UPDATE_MASK| WDOG_CS1_STOP_MASK | WDOG_CS1_WAIT_MASK | WDOG_CS1_DBG_MASK; // enable counter running
 			
-	WDOG_CS2 = 0x01; // setting 1-kHz clock source
-	WDOG_TOVALH = 0x0F;
-    WDOG_TOVALL = 0xA0;
+//	WDOG_CS2 = 0x01; // setting 1-kHz clock source
+//	WDOG_TOVALH = 0x0F;
+  //  WDOG_TOVALL = 0xA0;
 	//WDOG_TOVAL = 4000; // setting timeout value	
 	/* Disable the Watchdog because it may reset the core before entering main(). */
-#if 0
-	WDOG_TOVAL = 0xE803; // setting timeout value
-	WDOG_CS2 = WDOG_CS2_CLK_MASK; // setting 1-kHz clock source
-	WDOG_CS1 = 0x23; // Watchdog disabled, 
-					 // Watchdog interrupts are disabled. Watchdog resets are not delayed, 
-					 // Updates allowed. Software can modify the watchdog configuration registers within 128 bus clocks after performing the unlock write sequence,
-					 // Watchdog test mode disabled,
-					 // Watchdog disabled in chip debug mode,
-					 // Watchdog enabled in chip wait mode,
-					 // Watchdog enabled in chip stop mode.
-#endif
 }
 
 /* Weak definitions of handlers point to Default_Handler if not implemented */

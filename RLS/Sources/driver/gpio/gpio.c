@@ -17,8 +17,8 @@
 * @brief     Common LIN configuration, data structure
 *
 ******************************************************************************/
-#include "derivative.h" /* include peripheral declarations */
-#include "config_parameter.h"
+#include <SKEAZN642.h>
+//#include "config_parameter.h"
 #include "gpio.h"
 
 
@@ -32,7 +32,6 @@
 void GPIO_Init(void)
 {
 	GPIOA_PDDR |= 0x00008000 ; //PTB7-output  LIN_EN
-	//GPIOA_PSOR |= 0x00008000 ; //PTB7
 	LIN_ENABLE;
 		
 	CONFIG_PIN_AS_GPIO(PTB,PTB6,INPUT);  //DR
@@ -62,11 +61,6 @@ void GPIO_Init(void)
 	CONFIG_PIN_AS_GPIO(PTA,PTA1,INPUT);	
 	ENABLE_INPUT(PTA,PTA1);
 	
-	/*CONFIG_PIN_AS_GPIO(PTA,PTA2,INPUT);	
-	ENABLE_INPUT(PTA,PTA2);
-	
-	CONFIG_PIN_AS_GPIO(PTA,PTA3,INPUT);	
-	ENABLE_INPUT(PTA,PTA3);*/  //IIC USED
     	
 	CONFIG_PIN_AS_GPIO(PTC,PTC0,INPUT);	
 	ENABLE_INPUT(PTC,PTC0);

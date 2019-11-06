@@ -17,10 +17,7 @@
 * @brief     Hardware configuration file
 * 
 ******************************************************************************/
-#ifndef    _GPIO_H_  
-#define    _GPIO_H_  
-
-#include "derivative.h" /* include peripheral declarations */
+#include <SKEAZN642.h>
 
 
 /***********************************************************
@@ -169,4 +166,3 @@ PTH7,
 
 extern void GPIO_Init(void);
 
-#endif    /* _ADC_H_ */

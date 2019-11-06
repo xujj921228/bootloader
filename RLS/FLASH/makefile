@@ -2,7 +2,7 @@
 # Automatically-generated file. Do not edit!
 ################################################################################
 
-#Progress monitor hint: 34
+#Progress monitor hint: 22
 first : all
 -include ../makefile.init
 
@@ -16,20 +16,11 @@ RM := "$(GNU_Make_Install_DirEnv)/rm" -rf
 -include subdir.mk
 -include Sources/subdir.mk
 -include Sources/lin_cfg/subdir.mk
--include Sources/humid_app/subdir.mk
 -include Sources/driver/watchdog/subdir.mk
--include Sources/driver/rtc/subdir.mk
--include Sources/driver/pmc/subdir.mk
 -include Sources/driver/gpio/subdir.mk
 -include Sources/driver/ftm/subdir.mk
 -include Sources/driver/eeprom/subdir.mk
 -include Sources/driver/clock/subdir.mk
--include Sources/driver/adc/subdir.mk
--include Sources/driver/SPI/subdir.mk
--include Sources/driver/IIC/subdir.mk
--include Sources/config_parameter/subdir.mk
--include Sources/RLS_app/subdir.mk
--include Sources/LIN_app/subdir.mk
 -include Sources/LIN_Stack/transport/subdir.mk
 -include Sources/LIN_Stack/lowlevel/subdir.mk
 -include Sources/LIN_Stack/diagnostic/subdir.mk
@@ -78,7 +69,7 @@ all: warning-messages explicit-dependencies RLS.elf secondary-outputs
 # Tool invocations
 RLS.elf: $(OBJS) $(USER_OBJS) ../Project_Settings/Linker_Files/SKEAZN64_flash.ld
 	@echo 'Building target: $@'
-	@echo 'Executing target #35 $@'
+	@echo 'Executing target #23 $@'
 	@echo 'Invoking: ARM Ltd Windows GCC C Linker'
 	"$(ARMSourceryDirEnv)/arm-none-eabi-gcc"  $(USER_OBJS_QUOTED) $(LIBS_QUOTED) @"RLS.args" -o"RLS.elf"
 	@echo 'Finished building target: $@'

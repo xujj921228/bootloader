@@ -20,7 +20,7 @@
 #ifndef    _EEPROM_H_  
 #define    _EEPROM_H_  
 
-#include "derivative.h" /* include peripheral declarations */
+#include <SKEAZN642.h>
 #include "config_parameter.h"
 
 

@@ -17,7 +17,7 @@
 * @brief     Common LIN configuration, data structure
 *
 ******************************************************************************/
-#include "derivative.h" /* include peripheral declarations */
+#include <SKEAZN642.h>
 #include "config_parameter.h"
 #include "eeprom.h"
 #include "clock.h"
@@ -236,6 +236,7 @@ uint16 FLASH_Program2LongWords(uint32 u32NVMTargetAddress, uint32 u32DwData0, ui
   * @ Pass/ Fail criteria: none.
 *****************************************************************************/
 
+
 uint16 FLASH_Program(uint32 u32NVMTargetAddress, uint8 *pData, uint16 u16SizeBytes)
 {
 	uint16 u16Err = FLASH_ERR_SUCCESS;
@@ -284,24 +285,6 @@ uint16 FLASH_Program(uint32 u32NVMTargetAddress, uint8 *pData, uint16 u16SizeByt
 		return (u16Err);
 	}
         
-#if     defined(BIG_ENDIAN)                
-	u32DwData0 = 0;
-	pData = (uint8_t*)pDwData;	// pointer to the left bytes
-	for(i = u8WrLeftBytes; i >0; i--)
-	{
-		u32DwData0 <<= 8;
-		u32DwData0 |= *pData++;	// MSB byte first
-	}
-	// Calculate how many bytes need to be filled with 0xFFs
-	// in order to form a single longword for the left bytes of data
-	u8WrLeftBytes = 4 - u8WrLeftBytes;	
-	//  
-	for(i = u8WrLeftBytes; i >0; i--)
-	{
-		u32DwData0 <<= 8;
-		u32DwData0 |= 0xFF;	// MSB byte first
-	}
-#else
 	u32DwData0 = 0xFFFFFFFFL;        
 	pData = (uint8_t*)pDwData+u8WrLeftBytes-1;	// pointer to the left bytes
 	for(i = u8WrLeftBytes; i >0; i--)
@@ -309,12 +292,12 @@ uint16 FLASH_Program(uint32 u32NVMTargetAddress, uint8 *pData, uint16 u16SizeByt
 		u32DwData0 <<= 8;
 		u32DwData0 |= *pData--;	// MSB byte first
 	}
-#endif	
 	// Now program the last longword
 	u16Err = FLASH_Program1LongWord(u32WrTargetAddress, u32DwData0);	
 EndP:	
 	return (u16Err);
 }
+
 
 
 /*****************************************************************************//*!

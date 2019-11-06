@@ -30,7 +30,7 @@ OBJS_OS_FORMAT += \
 # Each subdirectory must supply rules for building sources it contributes
 Sources/driver/ftm/ftm.o: ../Sources/driver/ftm/ftm.c
 	@echo 'Building file: $<'
-	@echo 'Executing target #8 $<'
+	@echo 'Executing target #5 $<'
 	@echo 'Invoking: ARM Ltd Windows GCC C Compiler'
 	"$(ARMSourceryDirEnv)/arm-none-eabi-gcc" "$<" @"Sources/driver/ftm/ftm.args" -MMD -MP -MF"$(@:%.o=%.d)" -o"Sources/driver/ftm/ftm.o"
 	@echo 'Finished building: $<'
