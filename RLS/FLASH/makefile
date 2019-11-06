@@ -87,7 +87,7 @@ RLS.elf: $(OBJS) $(USER_OBJS) ../Project_Settings/Linker_Files/SKEAZN64_flash.ld
 RLS.hex: RLS.elf
 	@echo 'Executing target #24 $@'
 	@echo 'Invoking: ARM Ltd Windows GNU Create Flash Image'
-	"$(ARMSourceryDirEnv)/arm-none-eabi-objcopy"  -O binary RLS.elf "RLS.hex"
+	"$(ARMSourceryDirEnv)/arm-none-eabi-objcopy"  -O srec RLS.elf "RLS.hex"
 	@echo 'Finished building: $@'
 	@echo ' '
 

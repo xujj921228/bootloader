@@ -223,74 +223,6 @@ void lin_tl_make_slaveres_pdu
 				}
 			}
         	break;
-        case SERVICE_READ_BY_IDENTIFY:
-            if (POSITIVE == res_type)
-            {
-                /* PCI type */
-                lin_tl_pdu[1] = PCI_RES_READ_BY_IDENTIFY;
-                /* SID */
-                lin_tl_pdu[2] = RES_POSITIVE + sid;
-
-                if (error_code == LIN_PRODUCT_IDENT)
-                {
-                    /* Get Identifier infor */
-                    lin_tl_pdu[3] = (l_u8)(product_id.supplier_id & 0xFF);
-                    lin_tl_pdu[4] = (l_u8)(product_id.supplier_id >> 8);
-                    lin_tl_pdu[5] = (l_u8)(product_id.function_id & 0xFF);
-                    lin_tl_pdu[6] = (l_u8)(product_id.function_id >> 8);
-                    lin_tl_pdu[7] = product_id.variant;
-                }
-                else if (error_code >= LIN_READ_USR_DEF_MIN && error_code <= LIN_READ_USR_DEF_MAX)
-                {
-                    l_u8 data_callout[5];
-                    l_u8 retval = ld_read_by_id_callout(error_code, data_callout);
-
-                    if (retval == LD_POSITIVE_RESPONSE)
-                    {
-                        /* packing user defined pdu */
-                        lin_tl_pdu[3] = data_callout[0];
-                        lin_tl_pdu[4] = data_callout[1];
-                        lin_tl_pdu[5] = data_callout[2];
-                        lin_tl_pdu[6] = data_callout[3];
-                        lin_tl_pdu[7] = data_callout[4];
-                    }
-                }
-            }
-            break;
-        case SERVICE_ASSIGN_FRAME_ID_RANGE:  /* Mandatory for TL LIN 2.1 */
-            if (POSITIVE == res_type)
-            {
-                lin_tl_pdu[1] = PCI_RES_ASSIGN_FRAME_ID_RANGE;
-                lin_tl_pdu[2] = RES_POSITIVE + sid;
-                lin_tl_pdu[3] = 0xFF;
-                lin_tl_pdu[4] = 0xFF;
-            }
-            break;
-        case SERVICE_SAVE_CONFIGURATION:
-            if (POSITIVE == res_type)
-            {
-                /* PCI type */
-                lin_tl_pdu[1] = PCI_RES_SAVE_CONFIGURATION;
-                /* SID */
-                lin_tl_pdu[2] = RES_POSITIVE + sid;
-                /* Data unused */
-                lin_tl_pdu[3] = 0xFF;
-                lin_tl_pdu[4] = 0xFF;
-            }
-            break;
-        case SERVICE_ASSIGN_NAD:
-            lin_configured_NAD = lin_tl_rx_queue.tl_pdu[lin_tl_rx_queue.queue_header][7];
-            lin_tl_pdu[1] = 0x01;                              /* PCI */
-            lin_tl_pdu[2] = 0xF0;                              /* RSID */
-            lin_tl_pdu[3] = 0xFF;
-            lin_tl_pdu[4] = 0xFF;
-            break;
-        case SERVICE_CONDITIONAL_CHANGE_NAD:
-            lin_tl_pdu[1] = 0x01;                              /* PCI */
-            lin_tl_pdu[2] = 0xF3;                              /* RSID */
-            lin_tl_pdu[3] = 0xFF;
-            lin_tl_pdu[4] = 0xFF;
-            break;
         default:
             break;
     }/* end of switch statement */
@@ -587,13 +519,6 @@ void lin_tl_attach_service()
                     	
                 lin_diagservice_session_control();
 			    break;
-            case SERVICE_READ_BY_IDENTIFY:    /* Mandatory for TL LIN 2.1 & 2.0 */
-                lin_diagservice_read_by_identifier();
-                break;
-
-            case SERVICE_ASSIGN_FRAME_ID_RANGE:    /* Mandatory for TL LIN 2.1 */
-                lin_diagservice_assign_frame_id_range();
-                break;
 
             case SERVICE_SAVE_CONFIGURATION:
                 /* Set save configuration flag */
@@ -604,12 +529,7 @@ void lin_tl_attach_service()
 
             case SERVICE_ASSIGN_NAD:
                 lin_tl_make_slaveres_pdu(SERVICE_ASSIGN_NAD, POSITIVE, 0);
-                break;
-
-            case SERVICE_CONDITIONAL_CHANGE_NAD:
-                lin_condittional_change_nad();
-                break;  
-                
+                break;           
             case SERVICE_READ_DATA_BY_IDENTIFY:   
             	
             	lin_diagservice_read_data_by_identifier();

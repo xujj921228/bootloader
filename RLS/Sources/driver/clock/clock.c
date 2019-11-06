@@ -44,7 +44,7 @@ void Clk_Init(void)
  *        RETURN : void              
  *        OTHERS : 
  *******************************************************/
-void Delay_Ms(uint16 Ms)
+/*void Delay_Ms(uint16 Ms)
 {
 	 uint16 i;
 	 uint16 j;
@@ -56,7 +56,7 @@ void Delay_Ms(uint16 Ms)
 	 		  asm ("nop") ;
 	 	  }
 	 }
-}
+}*/
 
 
 /*******************************************************
@@ -67,11 +67,11 @@ void Delay_Ms(uint16 Ms)
  *        RETURN : void              
  *        OTHERS : 
  *******************************************************/
-void Delay_Nus(uint8 n) //1us
+/*void Delay_Nus(uint8 n) //1us
 {
    uint8 i;
    for(i=0; i<(n); i++)
    {
 	   asm ("nop") ;
    }
-}
+}*/

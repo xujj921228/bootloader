@@ -17,7 +17,7 @@
 * @brief     Common LIN configuration, data structure
 *
 ******************************************************************************/
-#include "derivative.h" /* include peripheral declarations */
+#include <SKEAZN642.h>
 #include "ftm.h"
 #include "lin_hw_cfg.h"
 #include "config_parameter.h"
