@@ -17,7 +17,7 @@
 * @brief     Hardware configuration file
 * 
 ******************************************************************************/
-#define   BUS_CLCOK 24000000
+#define   BUS_CLCOK 20000000
 
 typedef  unsigned char   uint8;      //unsigned 8 bit definition
 typedef  unsigned int    uint16;     //unsigned 16 bit definition

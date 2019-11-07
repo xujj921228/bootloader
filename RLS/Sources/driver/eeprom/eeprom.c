@@ -226,16 +226,12 @@ uint16 FLASH_Program2LongWords(uint32 u32NVMTargetAddress, uint32 u32DwData0, ui
 	
 	return (u16Err);
 }
- /*        
-  * @param[in]   u32NVMTargetAddress programed flash address.
-  * @param[in]   pData programming data pointer.
-  * @param[in]   u16SizeBytes programming data length.
-  *
-  * @return flash error status.
-  *
-  * @ Pass/ Fail criteria: none.
-*****************************************************************************/
-
+/************************
+ * write by xujunjie
+ * 2019/11/6
+ * the address must be 4n
+ * 
+ * *********************************/
 
 uint16 FLASH_Program(uint32 u32NVMTargetAddress, uint8 *pData, uint16 u16SizeBytes)
 {
