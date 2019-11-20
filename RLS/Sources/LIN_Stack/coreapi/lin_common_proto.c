@@ -59,7 +59,7 @@ void lin_pid_response_callback_handler
     {
         lin_handle_error(event_id, pid);
     }
-} /* end of lin_pid_response_callback_handler() */
+}
 
 
 void lin_process_pid
@@ -85,7 +85,6 @@ void lin_process_pid
         action = 1;
         lin_frame_ptr = &(lin_frame_tbl[frame_index]);
         /* PID belongs to this node, then check type of frame */
-    #if (LIN_PROTOCOL == PROTOCOL_21) && !defined(MCU_SKEAZN84)
         if (LIN_FRM_EVNT == lin_frame_ptr->frm_type)
         {
             if (0 != lin_frame_flag_tbl[*(lin_frame_ptr->frame_data)])
@@ -107,7 +106,6 @@ void lin_process_pid
         }
         else
         {
-    #endif /* End (LIN_PROTOCOL == PROTOCOL_21) */
             if (LIN_RES_PUB == lin_frame_ptr->frm_response)
             {
                 if (LIN_FRM_UNCD == lin_frame_ptr->frm_type)
@@ -115,8 +113,6 @@ void lin_process_pid
                     lin_process_uncd_frame(pid, MAKE_UNCONDITIONAL_FRAME);
                     action = 2;
                 }
-                /* Unuse for GPIO */
-            #if (_LIN_GPIO_ == 0) && !defined(_MC9S08SC4_H) && !defined(MCU_SKEAZN84)
                 else
                 {
                     if (0 == tl_slaveresp_cnt)
@@ -125,15 +121,12 @@ void lin_process_pid
                     }
                     else
                     {
-                    #if _TL_FRAME_SUPPORT_  == _TL_MULTI_FRAME_
                         /* Check error in multi frames */
                         if (tl_service_status != LD_SERVICE_ERROR)
                         {
-                    #endif
                             lin_make_res_diag_frame();
                             tl_slaveresp_cnt--;
                             action = 2;
-                    #if _TL_FRAME_SUPPORT_  == _TL_MULTI_FRAME_
                         }
                         else
                         {
@@ -141,14 +134,10 @@ void lin_process_pid
                             /* ignore response when error */
                             action = 0;
                         }
-                    #endif
                     }
                 }
-            #endif /* End (_LIN_GPIO_ == 0) && !defined(_MC9S08SC4_H) */
             }
-        #if (LIN_PROTOCOL == PROTOCOL_21) && !defined(MCU_SKEAZN84)
         }
-        #endif /* End (LIN_PROTOCOL == PROTOCOL_21) */
     }
     /* Ignore diagnostic frame when interface is GPIO */
     switch (action)
@@ -186,12 +175,10 @@ void lin_update_rx
         lin_process_uncd_frame(pid, UPDATE_UNCONDITIONAL_FRAME);
     }
     /* Unuse for GPIO */
-#if (_LIN_GPIO_ == 0) && !defined(_MC9S08SC4_H) && !defined(MCU_SKEAZN84)
     else if (LIN_FRM_DIAG == lin_frame_tbl[frame_index].frm_type)
     {
         lin_update_rx_diag_frame();
     }
-#endif /* End (_LIN_GPIO_ == 0) && !defined(_MC9S08SC4_H) */
     /* Update rx frame flags */
     for (i = 0; i < flag_size; i++)
     {

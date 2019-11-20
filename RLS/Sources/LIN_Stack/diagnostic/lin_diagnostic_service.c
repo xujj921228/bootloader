@@ -12,10 +12,7 @@
 #include "lin_diagnostic_service.h"
 #include "eeprom.h"
 
-/* Define functionality */
-#ifndef MULTI_PDU_SUPPORT
-#define MULTI_PDU_SUPPORT 0                        /**< multi PDU support */
-#endif /* End MULTI_PDU_SUPPORT */
+
 
 /********------------- Code supports SINGLE interface ----------------**********/
 /*************************** FUNCTIONS *******************/
@@ -117,6 +114,9 @@ void lin_diagservice_read_data_by_identifier(void)
     {
 		switch (id)
 		{
+		  case 1:
+			  lin_tl_make_slaveres_pdu(SERVICE_READ_DATA_BY_IDENTIFY, POSITIVE, RES_POSITIVE);
+			  break;
 			default:
 					/* Make a negative slave response PDU */
 					lin_tl_make_slaveres_pdu(SERVICE_READ_DATA_BY_IDENTIFY, NEGATIVE, REQ_OUT_RANGE);

@@ -185,12 +185,12 @@ void main(void)
 
 	
 	//case 0: normal start jump to app
-    if((boot_up_check() != 0x5a)
+    /*if((boot_up_check() != 0x5a)
        &&(boot_APP_check() == APP_VALUE))//if flag is equal to 1,jump to app.else doing updata
     {
 	   //Jump to app
        boot_jump_to_APP();
-    }   
+    }  */ 
     
     
     

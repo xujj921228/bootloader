@@ -1,14 +1,3 @@
-/******************************************************************************
-* Freescale Semiconductor Inc.
-* (c) Copyright 2008-2015 Freescale Semiconductor, Inc.
-* ALL RIGHTS RESERVED.
-*****************************************************************************/
-
-/**************************************************************************//**
-* @addtogroup lowlevel_group
-* @{
-******************************************************************************/
-
 /**************************************************************************//**
 *
 * @file      lin.h
@@ -19,43 +8,21 @@
 *
 *
 ******************************************************************************/
-/******************************************************************************
- *
- * History:
- *
- * 20090408     v1.0    First version
- * 20111005     v1.1    Added some defines and extern functions
- * 20140611     v1.2    Added UART support
- *
- *****************************************************************************/
+
 
 #ifndef _LIN_H
 #define _LIN_H
 
 #include "lin_cfg.h"
 #include "lin_hw_cfg.h"
-
-#if (_LIN_SCI_ == 1)|(_LIN_UART_ == 1)
-    #include "lin_reg.h"
-    /* Disable warning: SP debug info */
-    #if (_MCU_ == _S12X_)
-        #pragma MESSAGE DISABLE C12056 /* Disable warning message with ID C12056 */
-    #endif /* End (_MCU_ == _S12X_) */
-#endif /* End (_LIN_SCI_ == 1)|(_LIN_UART_ == 1) */
+#include "lin_reg.h"
 
 #pragma MESSAGE DISABLE C5703 /* Disable warning message with ID C5703 */
 
-#ifndef _DIAG_CLASS_SUPPORT_
-    #error "_DIAG_CLASS_SUPPORT_ is not defined in lin_cfg.h"
-#endif
-#ifndef _TL_FRAME_SUPPORT_
-    #error "_TL_FRAME_SUPPORT_ is not defined in lin_cfg.h"
-#endif
 
-#if (_LIN_GPIO_ == 0) && !defined(_MC9S08SC4_H)
     /* Calculate N_As & N_Cr max timeout */
-    #define N_MAX_TIMEOUT_CNT ((l_u16)(1000*(1000/TIME_BASE_PERIOD)))
-#endif /* End (_LIN_GPIO_ == 0) && !defined(_MC9S08SC4_H) */
+#define N_MAX_TIMEOUT_CNT ((l_u16)(1000*(1000/TIME_BASE_PERIOD)))
+
 
 /* Define data structure used for LIN Stack */
 
@@ -130,6 +97,12 @@ typedef unsigned char l_bool;
 #define SERVICE_IO_CONTROL_BY_IDENTIFY    0x2F      /**< service I/O control */
 #define SERVICE_FAULT_MEMORY_READ         0x19      /**< service fault memory read */
 #define SERIVCE_FAULT_MEMORY_CLEAR        0x14      /**< service fault memory clear */
+
+#define SERVICE_EXCHANGE_SEEDKEY          0x27      /**< service exchange seed and key */
+#define SERVICE_TRIGGER_CHECK             0x31      /**< service trigger and check */
+#define SERVICE_REQUEST_DOWNLOAD          0x34      /**< service request download */
+#define SERVICE_TRANSFER_DATA             0x36      /**< service transfer data */
+#define SERVICE_EXIT_TRANSFER_DATA        0x37      /**< service exit transfer data */
 
 /* Define PCI's services */
 #define PCI_ASSIGN_NAD                    0x06      /**< PCI value assign NAD */
@@ -255,7 +228,7 @@ typedef union {
         /* LIN 2.1 */
         l_u8 successful_transfer:1;     /**< Transfer flag LIN 2.1*/
         l_u8 error_in_response:1;       /**< Error response LIN 2.1*/
-        l_u8 bus_activity;              /**< Bus activity timeout LIN 2.1*/
+        l_u8 bus_activity:1;              /**< Bus activity timeout LIN 2.1*/
         /* J2602 */
         l_u8 framing_error:1;           /**< frame error flag J2602*/
         l_u8 checksum_error:1;          /**< checksum error flag */

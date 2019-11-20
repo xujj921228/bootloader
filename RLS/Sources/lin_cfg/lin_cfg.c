@@ -66,12 +66,12 @@ l_u8    lin_pFrameBuf[LIN_FRAME_BUF_SIZE] =
   
   ,0x00 /* 12 : 00000000 */
   
-  ,0x00 /* 13 : 00000000 */
+  ,0x08 /* 13 : 00001000 */
   
 
   ,0x00 /* 14 : 00000000 */ /* start of frame LI0_RLS_02 */
 
-  ,0x00 /* 15 : 00000000 */
+  ,0x7F /* 15 : 00000000 */
   
   ,0x00 /* 16 : 00000000 */
   
@@ -141,7 +141,7 @@ const l_u16  lin_configuration_ROM[LIN_SIZE_OF_CFG]= {0x00, 0x11, 0x12, 0x03, 0x
 
 /***************************************** Node Attribute*****************************************/
 
-l_u8 lin_configured_NAD = 0x22;    /*<configured_NAD>*/
+l_u8 lin_configured_NAD = 0x16;    /*<configured_NAD>*/
 const l_u8 lin_initial_NAD    =0x03;    /*<initial_NAD>*/
 const lin_product_id product_id = {0x0003, 0x0003, 0x00FF };  /* {<supplier_id>,<function_id>,<variant>} */
 
@@ -197,7 +197,8 @@ lin_message_status tl_tx_msg_status;                  /* cooked tx status */
 
 /****************************Support SID Initialization ***********************/
 
-const l_u8 lin_diag_services_supported[_DIAG_NUMBER_OF_SERVICES_] = {0xB2,0xB7,0x22,0xB6,0xB3,0xB0,0x2E};
+const l_u8 lin_diag_services_supported[_DIAG_NUMBER_OF_SERVICES_] = {0x10,0x22,0x27,0x31,0x34,0x36,0x37};
+
 l_u8 lin_diag_services_flag[_DIAG_NUMBER_OF_SERVICES_] = {0,0,0,0,0,0,0};
 l_u8 tl_slaveresp_cnt = 0;
 /* This function is an example of response; real implementation is application-dependent */

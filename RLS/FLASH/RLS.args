@@ -17,7 +17,6 @@
 "./Sources/driver/eeprom/eeprom.o"
 "./Sources/driver/ftm/ftm.o"
 "./Sources/driver/gpio/gpio.o"
-"./Sources/driver/watchdog/watchdog.o"
 "./Sources/lin_cfg/lin_cfg.o"
 "./Sources/main.o"
 -mcpu=cortex-m0
@@ -26,7 +25,7 @@
 -g3
 -gdwarf-2
 -gstrict-dwarf
--T"C:/Users/xujj/Desktop/bootloader1/RLS/Project_Settings/Linker_Files/SKEAZN64_flash.ld"
+-T"C:/Users/xujj/Desktop/bootloader/RLS/Project_Settings/Linker_Files/SKEAZN64_flash.ld"
 -Xlinker
 --gc-sections
 -L"D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m"

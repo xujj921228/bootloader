@@ -14,23 +14,23 @@ C_SRCS += \
 OBJS += \
 ./Sources/LIN_Stack/diagnostic/lin_diagnostic_service.o \
 
-C_DEPS += \
-./Sources/LIN_Stack/diagnostic/lin_diagnostic_service.d \
-
 OBJS_QUOTED += \
 "./Sources/LIN_Stack/diagnostic/lin_diagnostic_service.o" \
 
-C_DEPS_QUOTED += \
-"./Sources/LIN_Stack/diagnostic/lin_diagnostic_service.d" \
+C_DEPS += \
+./Sources/LIN_Stack/diagnostic/lin_diagnostic_service.d \
 
 OBJS_OS_FORMAT += \
 ./Sources/LIN_Stack/diagnostic/lin_diagnostic_service.o \
+
+C_DEPS_QUOTED += \
+"./Sources/LIN_Stack/diagnostic/lin_diagnostic_service.d" \
 
 
 # Each subdirectory must supply rules for building sources it contributes
 Sources/LIN_Stack/diagnostic/lin_diagnostic_service.o: ../Sources/LIN_Stack/diagnostic/lin_diagnostic_service.c
 	@echo 'Building file: $<'
-	@echo 'Executing target #12 $<'
+	@echo 'Executing target #11 $<'
 	@echo 'Invoking: ARM Ltd Windows GCC C Compiler'
 	"$(ARMSourceryDirEnv)/arm-none-eabi-gcc" "$<" @"Sources/LIN_Stack/diagnostic/lin_diagnostic_service.args" -MMD -MP -MF"$(@:%.o=%.d)" -o"Sources/LIN_Stack/diagnostic/lin_diagnostic_service.o"
 	@echo 'Finished building: $<'

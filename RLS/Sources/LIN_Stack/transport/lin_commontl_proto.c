@@ -67,7 +67,7 @@ void lin_tl_make_slaveres_pdu
 				/* SID */
 				lin_tl_pdu[2] = RES_POSITIVE + sid;
 
-				if (error_code == (LIN_PRODUCT_SERIAL_NUMBER0&0xFF))
+				//if (error_code == (LIN_PRODUCT_SERIAL_NUMBER0&0xFF))
 				{
 					/* PCI type */
 				    lin_tl_pdu[1] = PCI_READ_SERIAL_BY_IDENTIFY;
@@ -78,148 +78,6 @@ void lin_tl_make_slaveres_pdu
 					lin_tl_pdu[6] = (l_u8)(temp_data[1]);
 					lin_tl_pdu[7] = (l_u8)(temp_data[2]);					
 	
-				}
-				else if (error_code == (LIN_PRODUCT_SERIAL_NUMBER1&0xFF))
-				{
-					/* PCI type */
-					lin_tl_pdu[1] = PCI_READ_SERIAL_BY_IDENTIFY;
-					/* Get Identifier infor */
-					lin_tl_pdu[3] = (LIN_PRODUCT_SERIAL_NUMBER1>>8) ;
-					lin_tl_pdu[4] = (l_u8)(LIN_PRODUCT_SERIAL_NUMBER1&0xFF);
-					lin_tl_pdu[5] = (l_u8)(temp_data[0]);
-					lin_tl_pdu[6] = (l_u8)(temp_data[1]);
-					lin_tl_pdu[7] = (l_u8)(temp_data[2]);					
-	
-				}
-				else if (error_code == (LIN_PRODUCT_SERIAL_NUMBER2&0xFF))
-				{
-					/* PCI type */
-					lin_tl_pdu[1] = PCI_READ_SERIAL_BY_IDENTIFY;
-					/* Get Identifier infor */
-					lin_tl_pdu[3] = (LIN_PRODUCT_SERIAL_NUMBER2>>8) ;
-					lin_tl_pdu[4] = (l_u8)(LIN_PRODUCT_SERIAL_NUMBER2&0xFF);
-					lin_tl_pdu[5] = (l_u8)(temp_data[0]);
-					lin_tl_pdu[6] = (l_u8)(temp_data[1]);
-					lin_tl_pdu[7] = (l_u8)(temp_data[2]);					
-	
-				}
-				else if (error_code == (LIN_PRODUCT_SERIAL_NUMBER3&0xFF))
-				{
-					/* PCI type */
-					lin_tl_pdu[1] = PCI_READ_SERIAL_BY_IDENTIFY;
-					/* Get Identifier infor */
-					lin_tl_pdu[3] = (LIN_PRODUCT_SERIAL_NUMBER3>>8) ;
-					lin_tl_pdu[4] = (l_u8)(LIN_PRODUCT_SERIAL_NUMBER3&0xFF);
-					lin_tl_pdu[5] = (l_u8)(temp_data[0]);
-					lin_tl_pdu[6] = (l_u8)(temp_data[1]);
-					lin_tl_pdu[7] = (l_u8)(temp_data[2]);					
-	
-				}
-				else if (error_code == (LIN_LS_FW_PARAM&0xFF))
-				{
-					
-
-				}
-				else if (error_code == (LIN_LS_IR_PARAM&0xFF))
-				{
-					
-
-				}
-				else if (error_code == (LIN_RAIN_ADC_A_PARAM&0xFF))
-				{
-					/* PCI type */
-					lin_tl_pdu[1] = PCI_READ_RS_ADC_BY_IDENTIFY;
-				}
-				else if (error_code == (LIN_RAIN_ADC_B_PARAM&0xFF))
-				{
-					
-				}
-				else if (error_code >= LIN_READ_USR_DEF_MIN && error_code <= LIN_READ_USR_DEF_MAX)
-				{
-					l_u8 data_callout[5];
-					l_u8 retval = ld_read_by_id_callout(error_code, data_callout);
-
-					if (retval == LD_POSITIVE_RESPONSE)
-					{
-					
-					}
-				}				
-			}
-        	break;
-        case SERVICE_WRITE_DATA_BY_IDENTIFY:
-        	if (POSITIVE == res_type)
-			{				
-				/* SID */
-				lin_tl_pdu[2] = RES_POSITIVE + sid;
-				lin_tl_pdu[5] = 0xFF;
-
-				if (error_code == (LIN_PRODUCT_SERIAL_NUMBER0&0xFF))
-				{
-					/* PCI type */
-					lin_tl_pdu[1] = PCI_WRITE_BY_IDENTIFY;
-					/* Get Identifier infor */
-					lin_tl_pdu[3] = LIN_PRODUCT_SERIAL_NUMBER0>>8 ;	
-					lin_tl_pdu[4] = LIN_PRODUCT_SERIAL_NUMBER0&0xff ;
-				}
-				else if (error_code == (LIN_PRODUCT_SERIAL_NUMBER1&0xFF))
-				{
-					/* PCI type */
-					lin_tl_pdu[1] = PCI_WRITE_BY_IDENTIFY;
-					/* Get Identifier infor */
-					lin_tl_pdu[3] = LIN_PRODUCT_SERIAL_NUMBER1>>8 ;	
-					lin_tl_pdu[4] = LIN_PRODUCT_SERIAL_NUMBER1&0xff ;
-				}
-				else if (error_code == (LIN_PRODUCT_SERIAL_NUMBER2&0xFF))
-				{
-					/* PCI type */
-					lin_tl_pdu[1] = PCI_WRITE_BY_IDENTIFY;
-					/* Get Identifier infor */
-					lin_tl_pdu[3] = LIN_PRODUCT_SERIAL_NUMBER2>>8 ;	
-					lin_tl_pdu[4] = LIN_PRODUCT_SERIAL_NUMBER2&0xff ;
-				}
-				else if (error_code == (LIN_PRODUCT_SERIAL_NUMBER3&0xFF))
-				{
-					/* PCI type */
-					lin_tl_pdu[1] = PCI_WRITE_BY_IDENTIFY;
-					/* Get Identifier infor */
-					lin_tl_pdu[3] = LIN_PRODUCT_SERIAL_NUMBER3>>8 ;	
-					lin_tl_pdu[4] = LIN_PRODUCT_SERIAL_NUMBER3&0xff ;
-				}
-				else if (error_code == (LIN_LS_FW_PARAM&0xff))
-				{
-					/* PCI type */
-					lin_tl_pdu[1] = PCI_WRITE_BY_IDENTIFY;
-					/* Get Identifier infor */
-					lin_tl_pdu[3] = LIN_LS_FW_PARAM>>8 ;	
-					lin_tl_pdu[4] = LIN_LS_FW_PARAM&0xff ;
-				}
-				else if (error_code == (LIN_LS_IR_PARAM&0xff))
-				{
-					/* PCI type */
-					lin_tl_pdu[1] = PCI_WRITE_BY_IDENTIFY;
-					/* Get Identifier infor */
-					lin_tl_pdu[3] = LIN_LS_IR_PARAM>>8 ;	
-				    lin_tl_pdu[4] = LIN_LS_IR_PARAM&0xff ;
-				}
-				else if (error_code == (LIN_RAIN_ADC_A_PARAM&0xff))
-				{
-					/* PCI type */
-					lin_tl_pdu[1] = PCI_WRITE_BY_IDENTIFY;
-					/* Get Identifier infor */
-					lin_tl_pdu[3] = LIN_RAIN_ADC_A_PARAM>>8 ;	
-					lin_tl_pdu[4] = LIN_RAIN_ADC_A_PARAM&0xff ;
-				}
-				else if (error_code == (LIN_RAIN_ADC_B_PARAM&0xff))
-				{
-					/* PCI type */
-					lin_tl_pdu[1] = PCI_WRITE_BY_IDENTIFY;
-					/* Get Identifier infor */
-					lin_tl_pdu[3] = LIN_RAIN_ADC_B_PARAM>>8 ;	
-					lin_tl_pdu[4] = LIN_RAIN_ADC_B_PARAM&0xff ;
-				}
-				else
-				{
-					
 				}
 			}
         	break;
@@ -515,26 +373,20 @@ void lin_tl_attach_service()
         sid_supported_flag = 0;
         switch (sid)
         {
+            case SERVICE_EXCHANGE_SEEDKEY:
+            case SERVICE_TRIGGER_CHECK:
+            case SERVICE_REQUEST_DOWNLOAD:
+            case SERVICE_TRANSFER_DATA:
+            case SERVICE_EXIT_TRANSFER_DATA:
             case SERVICE_SESSION_CONTROL:
                     	
                 lin_diagservice_session_control();
-			    break;
-
-            case SERVICE_SAVE_CONFIGURATION:
-                /* Set save configuration flag */
-                lin_save_configuration_flg = 1;
-                /* Response to master - RSID */
-                lin_tl_make_slaveres_pdu(SERVICE_SAVE_CONFIGURATION, POSITIVE, 0);
-                break;
-
-            case SERVICE_ASSIGN_NAD:
-                lin_tl_make_slaveres_pdu(SERVICE_ASSIGN_NAD, POSITIVE, 0);
-                break;           
+			    break;        
             case SERVICE_READ_DATA_BY_IDENTIFY:   
             	
             	lin_diagservice_read_data_by_identifier();
             	break;
-            case SERVICE_WRITE_DATA_BY_IDENTIFY:
+           /* case SERVICE_WRITE_DATA_BY_IDENTIFY:
             	if(diagnostic_Session == DIAGSRV_SESSION_DEFAULT)
                 {
             		 lin_tl_make_slaveres_pdu(sid, NEGATIVE, SERVICE_NOT_SUPPORTED_ACTIVE_SESSION);
@@ -543,7 +395,7 @@ void lin_tl_attach_service()
                 {
             		lin_diagservice_write_data_by_identifier();
                 }
-				break;  
+				break;  */
             default:
                 break;
         }/* end of switch */

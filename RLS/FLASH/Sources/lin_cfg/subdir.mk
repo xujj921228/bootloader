@@ -14,17 +14,17 @@ C_SRCS += \
 OBJS += \
 ./Sources/lin_cfg/lin_cfg.o \
 
-C_DEPS += \
-./Sources/lin_cfg/lin_cfg.d \
-
 OBJS_QUOTED += \
 "./Sources/lin_cfg/lin_cfg.o" \
 
-C_DEPS_QUOTED += \
-"./Sources/lin_cfg/lin_cfg.d" \
+C_DEPS += \
+./Sources/lin_cfg/lin_cfg.d \
 
 OBJS_OS_FORMAT += \
 ./Sources/lin_cfg/lin_cfg.o \
+
+C_DEPS_QUOTED += \
+"./Sources/lin_cfg/lin_cfg.d" \
 
 
 # Each subdirectory must supply rules for building sources it contributes

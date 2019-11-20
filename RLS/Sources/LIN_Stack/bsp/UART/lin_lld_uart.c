@@ -115,7 +115,7 @@ void lin_lld_uart_init
     tmp = MCU_BUS_FREQ/LIN_BAUD_RATE/16;
     //tmp = (MCU_BUS_FREQ/LIN_BAUD_RATE) >> 4;
     /* Select clock source for UART */
-    SIM_SCGC |= SIM_SCGC_UART0_MASK;
+    SIM_SCGC |= SIM_SCGC_UART0_MASK;  //uart0 timer enable
 
 
     pUART->uartbdh.byte = (tmp >> 8)&0x1F;
@@ -469,9 +469,7 @@ void lin_lld_uart_rx_isr
                     }
                     else
                     {
-                    #if (LIN_PROTOCOL == PROTOCOL_21)
                         CALLBACK_HANDLER((l_ifc_handle)ifc, LIN_LLD_READBACK_ERR, current_id);
-                    #endif /* End of (LIN_PROTOCOL == PROTOCOL_21) */ //xujun 20180826
                         lin_goto_idle_state();
                     }
                     break;
