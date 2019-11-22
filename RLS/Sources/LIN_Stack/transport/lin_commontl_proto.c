@@ -81,6 +81,23 @@ void lin_tl_make_slaveres_pdu
 				}
 			}
         	break;
+        case  SERVICE_REQUEST_DOWNLOAD:
+        	if (POSITIVE == res_type)
+        	{				
+      		 /* SID */
+        	 lin_tl_pdu[2] = RES_POSITIVE + sid;
+			 /* PCI type */
+			 lin_tl_pdu[1] = 0x06;
+			 /* Get Identifier infor */
+			 lin_tl_pdu[3] = 0x10;
+			 lin_tl_pdu[4] = 0x23;				
+			}
+        case SERVICE_TRANSFER_DATA:
+        	if (POSITIVE == res_type)
+        	 {			
+        		
+             }
+        	break;
         default:
             break;
     }/* end of switch statement */
@@ -373,10 +390,13 @@ void lin_tl_attach_service()
         sid_supported_flag = 0;
         switch (sid)
         {
-            case SERVICE_EXCHANGE_SEEDKEY:
             case SERVICE_TRIGGER_CHECK:
             case SERVICE_REQUEST_DOWNLOAD:
+            	 lin_diagservice_request_download();
+            	 break;
             case SERVICE_TRANSFER_DATA:
+            	lin_diagservice_transfer_data();
+            	break;
             case SERVICE_EXIT_TRANSFER_DATA:
             case SERVICE_SESSION_CONTROL:
                     	

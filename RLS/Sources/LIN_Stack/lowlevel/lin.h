@@ -98,7 +98,7 @@ typedef unsigned char l_bool;
 #define SERVICE_FAULT_MEMORY_READ         0x19      /**< service fault memory read */
 #define SERIVCE_FAULT_MEMORY_CLEAR        0x14      /**< service fault memory clear */
 
-#define SERVICE_EXCHANGE_SEEDKEY          0x27      /**< service exchange seed and key */
+
 #define SERVICE_TRIGGER_CHECK             0x31      /**< service trigger and check */
 #define SERVICE_REQUEST_DOWNLOAD          0x34      /**< service request download */
 #define SERVICE_TRANSFER_DATA             0x36      /**< service transfer data */

@@ -14,6 +14,9 @@ void lin_diagsrv_functional_service(void);
 extern void lin_diagservice_read_data_by_identifier(void);
 extern void lin_diagservice_write_data_by_identifier(void);
 
+extern void lin_diagservice_request_download(void);
+extern void lin_diagservice_transfer_data(void);
+
 
 extern l_u8 diagnostic_Session,diagnostic_Session_flg;
 extern l_u16 diagnostic_Session_timer;

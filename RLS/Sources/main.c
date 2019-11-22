@@ -19,20 +19,22 @@
 * author:xujunjie@bb.com
 *2019/10/17
 ************************************************************************************************/  
-
+#define  VERIFIED_SECTOR 36
 typedef void(*JumpToPtr)(void);
-uint16_t *pNewAppEntry = 0x3004;
+uint16_t *pNewAppEntry = 0x4804;
 JumpToPtr	pJumpTo;
 
-/*
-void FLASH_Erase_APPSector(void)
+
+uint16_t FLASH_Erase_APPSector(void)
 {
    uint16_t u16Err = 0;
    uint8 i;
-   u16Err += FLASH_EraseSector(VERIFIED_SECTOR*FLASH_SECTOR_SIZE);
- 
+   for(i = 0; i < 88 ; i++ )
+   {
+	   u16Err += FLASH_EraseSector((VERIFIED_SECTOR+i)*FLASH_SECTOR_SIZE);
+   }
+ return u16Err;
 }
-*/
 
 
 /**********************
