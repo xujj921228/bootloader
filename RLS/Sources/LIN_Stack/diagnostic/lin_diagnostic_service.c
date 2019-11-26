@@ -185,9 +185,7 @@ l_u16 updata_length;
 uint8 DRIVE_flag = 0;
 void lin_diagservice_request_download(void)
 {
-    lin_tl_pdu_data *lin_tl_pdu;
 
-    /* Multi frame support */
     l_u16 length;
     l_u8 data[20];
     /* get pdu from rx queue */
@@ -212,17 +210,16 @@ void lin_diagservice_request_download(void)
 
 void lin_diagservice_transfer_data(void)
 {
-	l_u8 i;
-    lin_tl_pdu_data *lin_tl_pdu;
+	uint32 i;
     l_u16 length;
     l_u8 data[128];
-    l_u8 data_read[128]={0};
+    l_u8 service_flash_read[20]={0};
     l_u8 check_add = 0;
+    
     
     
     /* get pdu from rx queue */
     ld_receive_message(&length, data+2);
-    lin_tl_pdu = (lin_tl_pdu_data *)data+2;
     
     
     if(DRIVE_flag != 0)
@@ -231,22 +228,22 @@ void lin_diagservice_transfer_data(void)
     }
     else
     {
-    	if((updata_length == (length + 1))|| updata_flash_ID == 0)
+    	if((updata_length == (length + 1))&&( updata_flash_ID != 0))
     	{
     		check_add = check_add + (l_u8)(updata_length>>8) + (l_u8)updata_length;
     		check_add = check_add + (l_u8)(updata_flash_ID>>8) + (l_u8)updata_flash_ID;
-        	for(i = 0;i < (updata_length - 3);i++)
+        	for(i = 0;i < (uint32)(updata_length - 3);i++)
         	{
         	   check_add = check_add+data[3+i];		
         	}
         	check_add = 0xFF - check_add;
         	if(check_add == data[updata_length])
         	{
-        		FLASH_Program( (uint32)updata_flash_ID,data[3],updata_length-3);
+        		FLASH_Program( (uint32)updata_flash_ID,data[3],(uint16)(updata_length-3));
         		
-        		for(i = 0;i < (updata_length-3);i++)
+        		for(i = 0;i < ((uint32)updata_length-3);i++)
         		{
-        			data_read[i] = *((uint8_t *)(updata_flash_ID+i));
+        			service_flash_read[i] = *(uint8_t *)(updata_flash_ID + i);;
         			/*if(data_read[i] != data[3+i])
         			{
         				lin_tl_make_slaveres_pdu(SERVICE_TRANSFER_DATA, NEGATIVE, INVALID_FORMAT);

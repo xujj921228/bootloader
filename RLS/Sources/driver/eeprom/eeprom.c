@@ -48,9 +48,6 @@ uint16 FLASH_Init(uint32 u32BusClock)
 		}
 		FTMRH_FCLKDIV = (FTMRH_FCLKDIV & ~(FTMRH_FCLKDIV_FDIV_MASK)) | FTMRH_FCLKDIV_FDIV(clkDIV);
                 
-#if 0
-		FTMRE_FCLKDIV  |= FTMRE_FCLKDIV_FDIVLCK_MASK; /* lock the prescaler */
-#endif
 	}
 	else
 	{
