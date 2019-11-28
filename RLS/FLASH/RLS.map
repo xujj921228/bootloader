@@ -137,7 +137,7 @@ Discarded input sections
  .debug_aranges
                 0x00000000       0x18 ./Sources/LIN_Stack/coreapi/lin_lin21_api.o
  .debug_macinfo
-                0x00000000    0x2342a ./Sources/LIN_Stack/coreapi/lin_lin21_api.o
+                0x00000000    0x2342b ./Sources/LIN_Stack/coreapi/lin_lin21_api.o
  .debug_line    0x00000000      0x2fa ./Sources/LIN_Stack/coreapi/lin_lin21_api.o
  .debug_str     0x00000000      0x12a ./Sources/LIN_Stack/coreapi/lin_lin21_api.o
  .comment       0x00000000       0x7a ./Sources/LIN_Stack/coreapi/lin_lin21_api.o
@@ -210,7 +210,7 @@ Discarded input sections
  .debug_aranges
                 0x00000000       0x28 ./Sources/LIN_Stack/transport/lin_lin21tl_api.o
  .debug_macinfo
-                0x00000000    0x2342c ./Sources/LIN_Stack/transport/lin_lin21tl_api.o
+                0x00000000    0x2342d ./Sources/LIN_Stack/transport/lin_lin21tl_api.o
  .debug_line    0x00000000      0x325 ./Sources/LIN_Stack/transport/lin_lin21tl_api.o
  .debug_str     0x00000000      0x173 ./Sources/LIN_Stack/transport/lin_lin21tl_api.o
  .comment       0x00000000       0x7a ./Sources/LIN_Stack/transport/lin_lin21tl_api.o
@@ -1188,7 +1188,7 @@ OUTPUT(RLS.elf elf32-littlearm)
  .debug_aranges
                 0x00000620       0x30 D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\librt.a(ROMCopy.o)
 
-.debug_macinfo  0x00000000   0x21aedb
+.debug_macinfo  0x00000000   0x21aee7
  .debug_macinfo
                 0x00000000    0x1a1a7 ./Project_Settings/Startup_Code/kinetis_sysinit.o
  .debug_macinfo
@@ -1196,35 +1196,35 @@ OUTPUT(RLS.elf elf32-littlearm)
  .debug_macinfo
                 0x0001e014     0x3456 ./Project_Settings/Startup_Code/__arm_end.o
  .debug_macinfo
-                0x0002146a    0x23549 ./Sources/LIN_Stack/bsp/UART/lin_lld_uart.o
+                0x0002146a    0x2354a ./Sources/LIN_Stack/bsp/UART/lin_lld_uart.o
  .debug_macinfo
-                0x000449b3    0x23545 ./Sources/LIN_Stack/bsp/UART/lin_lld_timesrv.o
+                0x000449b4    0x23546 ./Sources/LIN_Stack/bsp/UART/lin_lld_timesrv.o
  .debug_macinfo
-                0x00067ef8    0x23505 ./Sources/LIN_Stack/bsp/UART/lin_isr.o
+                0x00067efa    0x23506 ./Sources/LIN_Stack/bsp/UART/lin_isr.o
  .debug_macinfo
-                0x0008b3fd    0x2346c ./Sources/LIN_Stack/coreapi/lin_lin21_proto.o
+                0x0008b400    0x2346d ./Sources/LIN_Stack/coreapi/lin_lin21_proto.o
  .debug_macinfo
-                0x000ae869    0x23783 ./Sources/LIN_Stack/coreapi/lin_common_proto.o
+                0x000ae86d    0x23784 ./Sources/LIN_Stack/coreapi/lin_common_proto.o
  .debug_macinfo
-                0x000d1fec    0x23456 ./Sources/LIN_Stack/coreapi/lin_common_api.o
+                0x000d1ff1    0x23457 ./Sources/LIN_Stack/coreapi/lin_common_api.o
  .debug_macinfo
-                0x000f5442    0x23c3d ./Sources/LIN_Stack/diagnostic/lin_diagnostic_service.o
+                0x000f5448    0x23c3e ./Sources/LIN_Stack/diagnostic/lin_diagnostic_service.o
  .debug_macinfo
-                0x0011907f    0x23509 ./Sources/LIN_Stack/lowlevel/lin.o
+                0x00119086    0x2350a ./Sources/LIN_Stack/lowlevel/lin.o
  .debug_macinfo
-                0x0013c588    0x23cc7 ./Sources/LIN_Stack/transport/lin_commontl_proto.o
+                0x0013c590    0x23cc8 ./Sources/LIN_Stack/transport/lin_commontl_proto.o
  .debug_macinfo
-                0x0016024f    0x2377f ./Sources/LIN_Stack/transport/lin_commontl_api.o
+                0x00160258    0x23780 ./Sources/LIN_Stack/transport/lin_commontl_api.o
  .debug_macinfo
-                0x001839ce    0x1a1a7 ./Sources/driver/clock/clock.o
+                0x001839d8    0x1a1a7 ./Sources/driver/clock/clock.o
  .debug_macinfo
-                0x0019db75    0x1a6d5 ./Sources/driver/eeprom/eeprom.o
+                0x0019db7f    0x1a6d5 ./Sources/driver/eeprom/eeprom.o
  .debug_macinfo
-                0x001b824a    0x1a1e3 ./Sources/driver/gpio/gpio.o
+                0x001b8254    0x1a1e3 ./Sources/driver/gpio/gpio.o
  .debug_macinfo
-                0x001d242d    0x23416 ./Sources/lin_cfg/lin_cfg.o
+                0x001d2437    0x23417 ./Sources/lin_cfg/lin_cfg.o
  .debug_macinfo
-                0x001f5843    0x25698 ./Sources/main.o
+                0x001f584e    0x25699 ./Sources/main.o
 
 .debug_line     0x00000000     0x45af
  .debug_line    0x00000000      0x1ff ./Project_Settings/Startup_Code/kinetis_sysinit.o
