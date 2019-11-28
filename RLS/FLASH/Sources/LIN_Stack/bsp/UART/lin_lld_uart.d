@@ -21,9 +21,7 @@ Sources/LIN_Stack/bsp/UART/lin_lld_uart.o: \
  C:/Users/xujj/Desktop/bootloader/RLS/Sources/LIN_Stack/bsp/UART/lin_reg.h \
  C:/Users/xujj/Desktop/bootloader/RLS/Sources/LIN_Stack/include/lin_common_proto.h \
  ../Sources/LIN_Stack/bsp/UART/lin_lld_timesrv.h \
- C:/Users/xujj/Desktop/bootloader/RLS/Sources/LIN_Stack/include/lin_diagnostic_service.h \
- C:/Users/xujj/Desktop/bootloader/RLS/Sources/driver/ftm/ftm.h \
- C:/Users/xujj/Desktop/bootloader/RLS/Sources/config_parameter/config_parameter.h
+ C:/Users/xujj/Desktop/bootloader/RLS/Sources/LIN_Stack/include/lin_diagnostic_service.h
 
 D:/CW11.0/CW\ MCU\ v11.0/MCU/ARM_GCC_Support/ewl/EWL_C/include/lib_ewl.prefix:
 
@@ -68,7 +66,3 @@ C:/Users/xujj/Desktop/bootloader/RLS/Sources/LIN_Stack/include/lin_common_proto.
 ../Sources/LIN_Stack/bsp/UART/lin_lld_timesrv.h:
 
 C:/Users/xujj/Desktop/bootloader/RLS/Sources/LIN_Stack/include/lin_diagnostic_service.h:
-
-C:/Users/xujj/Desktop/bootloader/RLS/Sources/driver/ftm/ftm.h:
-
-C:/Users/xujj/Desktop/bootloader/RLS/Sources/config_parameter/config_parameter.h:

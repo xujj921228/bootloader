@@ -31,35 +31,6 @@ l_u8 frame_signal_error;
 l_u8 frame_index;
 
 
-void lin_pid_response_callback_handler
-(
-    /* [IN] event id */
-    lin_lld_event_id event_id,
-    /* [IN] PID to process */
-    l_u8 pid
-)
-{
-    if (LIN_LLD_PID_OK == event_id)
-    {
-        lin_process_pid(pid);
-    }
-    else if (LIN_LLD_TX_COMPLETED == event_id)
-    {
-        lin_update_tx(pid);
-    }
-    else if (LIN_LLD_RX_COMPLETED == event_id)
-    {
-        lin_update_rx(pid);
-    }
-    else if (LIN_LLD_BUS_ACTIVITY_TIMEOUT == event_id)
-    {
-        lin_bus_activity_timeout(pid);
-    }
-    else
-    {
-        lin_handle_error(event_id, pid);
-    }
-}
 
 
 void lin_process_pid

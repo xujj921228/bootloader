@@ -30,7 +30,7 @@ C_DEPS_QUOTED += \
 # Each subdirectory must supply rules for building sources it contributes
 Sources/LIN_Stack/diagnostic/lin_diagnostic_service.o: ../Sources/LIN_Stack/diagnostic/lin_diagnostic_service.c
 	@echo 'Building file: $<'
-	@echo 'Executing target #11 $<'
+	@echo 'Executing target #10 $<'
 	@echo 'Invoking: ARM Ltd Windows GCC C Compiler'
 	"$(ARMSourceryDirEnv)/arm-none-eabi-gcc" "$<" @"Sources/LIN_Stack/diagnostic/lin_diagnostic_service.args" -MMD -MP -MF"$(@:%.o=%.d)" -o"Sources/LIN_Stack/diagnostic/lin_diagnostic_service.o"
 	@echo 'Finished building: $<'

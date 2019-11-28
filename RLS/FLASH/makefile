@@ -2,7 +2,7 @@
 # Automatically-generated file. Do not edit!
 ################################################################################
 
-#Progress monitor hint: 21
+#Progress monitor hint: 20
 first : all
 -include ../makefile.init
 
@@ -17,7 +17,6 @@ RM := "$(GNU_Make_Install_DirEnv)/rm" -rf
 -include Sources/subdir.mk
 -include Sources/lin_cfg/subdir.mk
 -include Sources/driver/gpio/subdir.mk
--include Sources/driver/ftm/subdir.mk
 -include Sources/driver/eeprom/subdir.mk
 -include Sources/driver/clock/subdir.mk
 -include Sources/LIN_Stack/transport/subdir.mk
@@ -77,14 +76,14 @@ all: warning-messages explicit-dependencies RLS.elf secondary-outputs
 # Tool invocations
 RLS.elf: $(OBJS) $(USER_OBJS) ../Project_Settings/Linker_Files/SKEAZN64_flash.ld
 	@echo 'Building target: $@'
-	@echo 'Executing target #22 $@'
+	@echo 'Executing target #21 $@'
 	@echo 'Invoking: ARM Ltd Windows GCC C Linker'
 	"$(ARMSourceryDirEnv)/arm-none-eabi-gcc"  $(USER_OBJS_QUOTED) $(LIBS_QUOTED) @"RLS.args" -o"RLS.elf"
 	@echo 'Finished building target: $@'
 	@echo ' '
 
 RLS.hex: RLS.elf
-	@echo 'Executing target #23 $@'
+	@echo 'Executing target #22 $@'
 	@echo 'Invoking: ARM Ltd Windows GNU Create Flash Image'
 	"$(ARMSourceryDirEnv)/arm-none-eabi-objcopy"  -O srec RLS.elf "RLS.hex"
 	@echo 'Finished building: $@'

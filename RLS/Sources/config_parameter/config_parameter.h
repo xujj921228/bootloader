@@ -17,9 +17,6 @@
 * @brief     Hardware configuration file
 * 
 ******************************************************************************/
-#ifndef    _CONFIG_PARAMETER_H_  
-#define    _CONFIG_PARAMETER_H_  
-
 
 
 #define  ENABLE_INTERRUPT  asm("CPSIE i");
@@ -38,4 +35,3 @@ typedef  unsigned long   uint32;     //unsigned 32 bit definition
 
 #define EEPROM_BOOT_REFRESH_LENTH        1
 
-#endif    /* _ADC_H_ */

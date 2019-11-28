@@ -15,7 +15,6 @@
 "./Sources/LIN_Stack/transport/lin_commontl_api.o"
 "./Sources/driver/clock/clock.o"
 "./Sources/driver/eeprom/eeprom.o"
-"./Sources/driver/ftm/ftm.o"
 "./Sources/driver/gpio/gpio.o"
 "./Sources/lin_cfg/lin_cfg.o"
 "./Sources/main.o"

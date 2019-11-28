@@ -51,7 +51,7 @@ C_DEPS_QUOTED += \
 # Each subdirectory must supply rules for building sources it contributes
 Sources/LIN_Stack/coreapi/lin_common_api.o: ../Sources/LIN_Stack/coreapi/lin_common_api.c
 	@echo 'Building file: $<'
-	@echo 'Executing target #12 $<'
+	@echo 'Executing target #11 $<'
 	@echo 'Invoking: ARM Ltd Windows GCC C Compiler'
 	"$(ARMSourceryDirEnv)/arm-none-eabi-gcc" "$<" @"Sources/LIN_Stack/coreapi/lin_common_api.args" -MMD -MP -MF"$(@:%.o=%.d)" -o"Sources/LIN_Stack/coreapi/lin_common_api.o"
 	@echo 'Finished building: $<'
@@ -59,7 +59,7 @@ Sources/LIN_Stack/coreapi/lin_common_api.o: ../Sources/LIN_Stack/coreapi/lin_com
 
 Sources/LIN_Stack/coreapi/lin_common_proto.o: ../Sources/LIN_Stack/coreapi/lin_common_proto.c
 	@echo 'Building file: $<'
-	@echo 'Executing target #13 $<'
+	@echo 'Executing target #12 $<'
 	@echo 'Invoking: ARM Ltd Windows GCC C Compiler'
 	"$(ARMSourceryDirEnv)/arm-none-eabi-gcc" "$<" @"Sources/LIN_Stack/coreapi/lin_common_proto.args" -MMD -MP -MF"$(@:%.o=%.d)" -o"Sources/LIN_Stack/coreapi/lin_common_proto.o"
 	@echo 'Finished building: $<'
@@ -67,7 +67,7 @@ Sources/LIN_Stack/coreapi/lin_common_proto.o: ../Sources/LIN_Stack/coreapi/lin_c
 
 Sources/LIN_Stack/coreapi/lin_lin21_api.o: ../Sources/LIN_Stack/coreapi/lin_lin21_api.c
 	@echo 'Building file: $<'
-	@echo 'Executing target #14 $<'
+	@echo 'Executing target #13 $<'
 	@echo 'Invoking: ARM Ltd Windows GCC C Compiler'
 	"$(ARMSourceryDirEnv)/arm-none-eabi-gcc" "$<" @"Sources/LIN_Stack/coreapi/lin_lin21_api.args" -MMD -MP -MF"$(@:%.o=%.d)" -o"Sources/LIN_Stack/coreapi/lin_lin21_api.o"
 	@echo 'Finished building: $<'
@@ -75,7 +75,7 @@ Sources/LIN_Stack/coreapi/lin_lin21_api.o: ../Sources/LIN_Stack/coreapi/lin_lin2
 
 Sources/LIN_Stack/coreapi/lin_lin21_proto.o: ../Sources/LIN_Stack/coreapi/lin_lin21_proto.c
 	@echo 'Building file: $<'
-	@echo 'Executing target #15 $<'
+	@echo 'Executing target #14 $<'
 	@echo 'Invoking: ARM Ltd Windows GCC C Compiler'
 	"$(ARMSourceryDirEnv)/arm-none-eabi-gcc" "$<" @"Sources/LIN_Stack/coreapi/lin_lin21_proto.args" -MMD -MP -MF"$(@:%.o=%.d)" -o"Sources/LIN_Stack/coreapi/lin_lin21_proto.o"
 	@echo 'Finished building: $<'

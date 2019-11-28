@@ -30,10 +30,6 @@
 #define MAKE_UNCONDITIONAL_FRAME 0      /**< make unconditional frame */
 #define UPDATE_UNCONDITIONAL_FRAME 1    /**< update unconditional frame */
 
-
-
-void lin_pid_response_callback_handler (lin_lld_event_id event_id, l_u8 pid);
-
 void lin_process_pid (l_u8 pid);
 
 void lin_update_rx (l_u8 pid);

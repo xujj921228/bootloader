@@ -30,7 +30,7 @@ C_DEPS_QUOTED += \
 # Each subdirectory must supply rules for building sources it contributes
 Sources/LIN_Stack/lowlevel/lin.o: ../Sources/LIN_Stack/lowlevel/lin.c
 	@echo 'Building file: $<'
-	@echo 'Executing target #10 $<'
+	@echo 'Executing target #9 $<'
 	@echo 'Invoking: ARM Ltd Windows GCC C Compiler'
 	"$(ARMSourceryDirEnv)/arm-none-eabi-gcc" "$<" @"Sources/LIN_Stack/lowlevel/lin.args" -MMD -MP -MF"$(@:%.o=%.d)" -o"Sources/LIN_Stack/lowlevel/lin.o"
 	@echo 'Finished building: $<'

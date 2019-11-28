@@ -18,7 +18,6 @@
 *
 ******************************************************************************/
 #include <SKEAZN642.h>
-#include "config_parameter.h"
 #include "eeprom.h"
 #include "clock.h"
 
@@ -331,24 +330,17 @@ uint16_t FLASH_Program1LongWord(uint32_t u32NVMTargetAddress, uint32_t u32DwData
 	FTMRH_FCCOBHI = u32NVMTargetAddress>>8;
 	// Write index to specify the word0 (MSB word) to be programmed
 	FTMRH_FCCOBIX = 0x2;
-#if     defined(BIG_ENDIAN)        
-	// Write the word  0
-	FTMRH_FCCOBHI = (u32DwData>>16)>>8;
-	FTMRH_FCCOBLO = (u32DwData>>16);
-#else        
+       
 	FTMRH_FCCOBHI = (u32DwData) >>8;
 	FTMRH_FCCOBLO = (u32DwData);
-#endif        
+       
 	// Write index to specify the word1 (LSB word) to be programmed
 	FTMRH_FCCOBIX = 0x3;
 	// Write the word1 
-#if     defined(BIG_ENDIAN)        
-	FTMRH_FCCOBHI = (u32DwData) >>8;
-	FTMRH_FCCOBLO = (u32DwData);
-#else
+
 	FTMRH_FCCOBHI = (u32DwData>>16)>>8;
 	FTMRH_FCCOBLO = (u32DwData>>16);
-#endif        
+      
 	// Launch the command
 	FLASH_LaunchCMD(TRUE);
 	

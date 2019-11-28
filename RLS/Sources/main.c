@@ -4,6 +4,8 @@
 #include "gpio.h"
 #include "eeprom.h"
 #include "lin_common_api.h"
+#include "lin_common_proto.h"
+#include "lin_lld_uart.h"
 
 
 /********************************
@@ -19,10 +21,11 @@
 * author:xujunjie@bb.com
 *2019/10/17
 ************************************************************************************************/  
-#define  VERIFIED_SECTOR 36
-typedef void(*JumpToPtr)(void);
-uint16_t *pNewAppEntry = 0x4804;
-JumpToPtr	pJumpTo;
+
+
+/************** var   ******************/
+lin_lld_event_id boot_event_id;
+l_u8 boot_rec_pid;
 
 
 uint16_t FLASH_Erase_APPSector(void)
@@ -35,15 +38,6 @@ uint16_t FLASH_Erase_APPSector(void)
    }
  return u16Err;
 }
-
-
-/**********************
- *  data for updata flash
- * 
- * *******************/
-uint8  u8DataBuff[512] = {0};
-uint8  u8DataBuff_read[512] = {0};
-
 
 /**********************
  * updata  flag (eeprom) 0x5a:should updata  else:no need to updata
@@ -102,6 +96,8 @@ void Lin_Sys_Init(void)
  * ********************/
 void boot_Var_init(void)
 {
+   boot_event_id = LIN_LLD_NODATA_TIMEOUT;
+   boot_rec_pid = 0xff;
 	
 }
 
@@ -170,14 +166,18 @@ uint8 boot_up_close(void)
  * 
  * xujunjie@baolong.com
  * ********************/
+typedef void(*JumpToPtr)(void);
+
 void boot_jump_to_APP(void)
 {
+	uint16_t *pNewAppEntry = 0x5004;
+	JumpToPtr	pJumpTo;
 	pJumpTo = *pNewAppEntry;
 	pJumpTo();
 	for(;;) { ; }
 }
 
-//#define VERIFIED_SECTOR				127
+
 
 void main(void)
 {	
@@ -201,12 +201,16 @@ void main(void)
     
     for(;;) 
 	{		
-    	
-    	
+		 if (LIN_LLD_RX_COMPLETED == boot_event_id)
+		{
+			lin_update_rx(boot_rec_pid);
+			 /* enable RX interrupt */
+			boot_event_id = LIN_LLD_NODATA_TIMEOUT;
+			boot_enable_rx();
+		}
+		 
 
-	}
- 
-	 	 
+	} 	 
 }
 
 

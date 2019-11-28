@@ -139,7 +139,7 @@ typedef unsigned char l_bool;
 #define PCI_WRITE_BY_IDENTIFY               0x03
 
 #define PCI_SESSION_CONTROL_BY_IDENTIFY         0x02
- 
+#define  VERIFIED_SECTOR 40
 /**
 * @var typedef l_u8 lin_tl_pdu_data[8]
 * PDU data
@@ -523,11 +523,6 @@ typedef struct {
 #define BIT(A,B)      (((A)>>(B))&0x01)   /**< return bit has position \a B in byte \a A, A is the variable while */
 
 /* Global functions */
-/**
-* @def CALLBACK_HANDLER(iii, event_id, pid)
-* call lin_pid_response_callback_handler function in MASTER mode
-*/
-#define CALLBACK_HANDLER(iii, event_id, pid) lin_pid_response_callback_handler((event_id), (pid))
 
 
 /*FUNCTION*--------------------------------------------------------------*//**

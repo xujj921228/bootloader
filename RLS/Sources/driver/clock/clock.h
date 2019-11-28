@@ -21,5 +21,3 @@
 
 
 extern void Clk_Init(void);
-//extern void Delay_Nus(uint8 n);
-//extern void Delay_Ms(uint16 Ms);

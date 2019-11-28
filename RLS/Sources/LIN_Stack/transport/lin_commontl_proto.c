@@ -21,7 +21,7 @@
 
 /*************************** FUNCTIONS *******************/
 
-
+l_u16 boot_data_tansfer_cn;
 void lin_tl_make_slaveres_pdu
 (
     /* [IN] service identifier */
@@ -94,9 +94,26 @@ void lin_tl_make_slaveres_pdu
 			}
         case SERVICE_TRANSFER_DATA:
         	if (POSITIVE == res_type)
-        	 {			
+        	 {		
+              /* SID */
+              lin_tl_pdu[2] = RES_POSITIVE + sid;
         		
              }
+        	break;
+        case SERVICE_TRIGGER_CHECK:
+        	if (POSITIVE == res_type)
+			 {		
+			  /* SID */
+        	 lin_tl_pdu[2] = RES_POSITIVE + sid;
+			 }
+        	break;
+        	
+        case SERVICE_EXIT_TRANSFER_DATA:
+        	if (POSITIVE == res_type)
+			 {		
+			  /* SID */
+        	  lin_tl_pdu[2] = RES_POSITIVE + sid;
+			 }
         	break;
         default:
             break;
@@ -353,7 +370,6 @@ void lin_tl_attach_service()
     /* check if request is functional request */
     if (NAD == LD_FUNCTIONAL_NAD)
     {
-        lin_diagsrv_functional_service();
         /* update service state */
         tl_diag_state = LD_DIAG_IDLE;
         tl_service_status = LD_SERVICE_IDLE;
@@ -391,6 +407,8 @@ void lin_tl_attach_service()
         switch (sid)
         {
             case SERVICE_TRIGGER_CHECK:
+            	lin_diagservice_service_trigger_check();
+            	break;
             case SERVICE_REQUEST_DOWNLOAD:
             	 lin_diagservice_request_download();
             	 break;
@@ -398,6 +416,8 @@ void lin_tl_attach_service()
             	lin_diagservice_transfer_data();
             	break;
             case SERVICE_EXIT_TRANSFER_DATA:
+            	lin_diagservice_exit_transfer();
+            	break;
             case SERVICE_SESSION_CONTROL:
                     	
                 lin_diagservice_session_control();
@@ -406,16 +426,6 @@ void lin_tl_attach_service()
             	
             	lin_diagservice_read_data_by_identifier();
             	break;
-           /* case SERVICE_WRITE_DATA_BY_IDENTIFY:
-            	if(diagnostic_Session == DIAGSRV_SESSION_DEFAULT)
-                {
-            		 lin_tl_make_slaveres_pdu(sid, NEGATIVE, SERVICE_NOT_SUPPORTED_ACTIVE_SESSION);
-                }
-            	else
-                {
-            		lin_diagservice_write_data_by_identifier();
-                }
-				break;  */
             default:
                 break;
         }/* end of switch */

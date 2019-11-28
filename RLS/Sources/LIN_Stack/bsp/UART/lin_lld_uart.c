@@ -15,7 +15,7 @@
 #include "lin_lld_timesrv.h"
 #include "lin_diagnostic_service.h"
 #include "lin_cfg.h"
-#include "ftm.h"
+
 
 
 
@@ -90,7 +90,8 @@ extern const l_u16 lin_max_frame_res_timeout_val[8];
 
 extern l_u8 lin_lld_response_buffer[10];
 
-
+extern lin_lld_event_id boot_event_id;
+extern l_u8 boot_rec_pid;
 
 /***** LOW-LEVEL API *****/
 
@@ -291,7 +292,7 @@ void lin_lld_uart_timeout
                 /* Set LIN mode to sleep mode */
                 lin_goto_sleep_flg = 1;
                 /* trigger callback */
-                CALLBACK_HANDLER((l_ifc_handle)ifc, LIN_LLD_BUS_ACTIVITY_TIMEOUT, 0xFF);
+                lin_bus_activity_timeout(0xFF);
                 /* goback to IDLE, reset max idle timeout */
                 idle_timeout_cnt = _MAX_IDLE_TIMEOUT_;
                 /* disable LIN break detect interrupt */
@@ -328,7 +329,7 @@ void lin_lld_uart_timeout
                     /* set lin status: error_in_response */
                     l_status.byte |= LIN_STA_ERROR_RESP;
                     /* trigger callback */
-                    CALLBACK_HANDLER((l_ifc_handle)ifc, LIN_LLD_NODATA_TIMEOUT, current_id);
+                    lin_handle_error(LIN_LLD_NODATA_TIMEOUT, current_id);
                 }
                 lin_goto_idle_state();
             }
@@ -411,7 +412,7 @@ void lin_lld_uart_rx_isr
         /* trigger callback */
         if ((state == RECV_DATA) || (state == SEND_DATA) || (state == SEND_DATA_COMPLETED))
         {
-            CALLBACK_HANDLER((l_ifc_handle)ifc, LIN_LLD_FRAME_ERR, current_id);
+            lin_handle_error(LIN_LLD_FRAME_ERR, current_id);
         }
         lin_goto_idle_state();
 
@@ -469,7 +470,7 @@ void lin_lld_uart_rx_isr
                     }
                     else
                     {
-                        CALLBACK_HANDLER((l_ifc_handle)ifc, LIN_LLD_READBACK_ERR, current_id);
+                        lin_handle_error(LIN_LLD_READBACK_ERR, current_id);
                         lin_goto_idle_state();
                     }
                     break;
@@ -494,7 +495,7 @@ void lin_lld_uart_rx_isr
                         /*** ID received correctly - parity OK ***/
                         /*****************************************/
                         /* trigger callback */
-                        CALLBACK_HANDLER((l_ifc_handle)ifc, LIN_LLD_PID_OK, current_id);
+                        lin_process_pid(current_id);
                         /* Set Maximum response frame timeout */
                         res_frame_timeout_cnt = lin_max_frame_res_timeout_val[*(response_buffer) - 1];
                     }
@@ -506,7 +507,7 @@ void lin_lld_uart_rx_isr
                         /* set lin status: parity_error */
                         l_status.byte |= LIN_STA_PARITY_ERR;
                         /* trigger callback */
-                        CALLBACK_HANDLER((l_ifc_handle)ifc, LIN_LLD_PID_ERR, 0xFF);
+                        lin_handle_error(LIN_LLD_PID_ERR, 0xFF);
                         lin_goto_idle_state();
                     }
                     break;
@@ -531,14 +532,8 @@ void lin_lld_uart_rx_isr
                             pUART->uartcr2.byte &= ~(UARTCR2_RE_MASK | UARTCR2_RIE_MASK);
                             state = PROC_CALLBACK;
                             /* trigger callback */
-                            CALLBACK_HANDLER((l_ifc_handle)ifc, LIN_LLD_RX_COMPLETED, current_id);
-
-                            /* enable RX interrupt */
-                            pUART->uartcr2.byte |= (UARTCR2_RE_MASK | UARTCR2_RIE_MASK);
-                            if (SLEEP_MODE != state)
-                            {
-                                lin_goto_idle_state();
-                            }
+                            boot_event_id = LIN_LLD_RX_COMPLETED;
+                            boot_rec_pid = current_id;
                         }
                         else
                         {
@@ -548,7 +543,7 @@ void lin_lld_uart_rx_isr
                             /* set lin status: error_in_response, checksum_error */
                             l_status.byte |= (LIN_STA_ERROR_RESP|LIN_STA_CHECKSUM_ERR);
                             /* trigger callback */
-                            CALLBACK_HANDLER((l_ifc_handle)ifc, LIN_LLD_CHECKSUM_ERR, current_id);
+                            lin_handle_error(LIN_LLD_CHECKSUM_ERR, current_id);
                             lin_goto_idle_state();
                         }
                     }
@@ -562,7 +557,7 @@ void lin_lld_uart_rx_isr
                     /* Check for READBACK error */
                     if (0 == (uart_flag_sr1&UARTSR1_TC_MASK))
                     {
-                        CALLBACK_HANDLER((l_ifc_handle)ifc, LIN_LLD_READBACK_ERR, current_id);
+                        lin_handle_error(LIN_LLD_READBACK_ERR, current_id);
                         lin_goto_idle_state();
                         break;
                     }
@@ -571,7 +566,7 @@ void lin_lld_uart_rx_isr
                         if (tmp_byte != response_buffer[cnt_byte])
                         {
                             /* Check if event trigger frame then allow to continue sending data */
-                            CALLBACK_HANDLER((l_ifc_handle)ifc, LIN_LLD_READBACK_ERR, current_id);
+                        	lin_handle_error(LIN_LLD_READBACK_ERR, current_id);
                             lin_goto_idle_state();
                             break;
                         }//End if (tmp_byte != response_buffer[cnt_byte])
@@ -590,7 +585,7 @@ void lin_lld_uart_rx_isr
                         pUART->uartcr2.byte &= ~(UARTCR2_RE_MASK|UARTCR2_RIE_MASK);
                         state = PROC_CALLBACK;
                         /* trigger CALLBACK */
-                        CALLBACK_HANDLER((l_ifc_handle)ifc, LIN_LLD_TX_COMPLETED, current_id);
+                        lin_update_tx(current_id);
                         /* Enable RX interrupt */
                         pUART->uartcr2.byte |= (UARTCR2_RE_MASK|UARTCR2_RIE_MASK);
                         lin_goto_idle_state();
@@ -614,3 +609,13 @@ void lin_lld_uart_rx_isr
         }
     }
 } /* End function lin_lld_UART_rx_isr() */
+
+/* enable RX interrupt */
+void boot_enable_rx(void)
+{
+	pUART->uartcr2.byte |= (UARTCR2_RE_MASK | UARTCR2_RIE_MASK);
+	if (SLEEP_MODE != state)
+	{
+		lin_goto_idle_state();
+	}
+}
