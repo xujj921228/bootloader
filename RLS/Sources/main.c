@@ -12,7 +12,7 @@
  * define  APP check  address
  * add by xujunjie
  * *****************************/
-#define  APP_check_ADDRESS      0XFFFE
+#define  APP_check_ADDRESS      0XFFFC
 /***********************************************************************************************
 * name :  main
 * input:  none
@@ -24,20 +24,10 @@
 
 
 /************** var   ******************/
-lin_lld_event_id boot_event_id;
-l_u8 boot_rec_pid;
-
-
-uint16_t FLASH_Erase_APPSector(void)
-{
-   uint16_t u16Err = 0;
-   uint8 i;
-   for(i = 0; i < 88 ; i++ )
-   {
-	   u16Err += FLASH_EraseSector((VERIFIED_SECTOR+i)*FLASH_SECTOR_SIZE);
-   }
- return u16Err;
-}
+uint8 boot_eraser_flag;
+l_u16 updata_flash_ID;
+l_u16 updata_length;
+uint8 DRIVE_flag;
 
 /**********************
  * updata  flag (eeprom) 0x5a:should updata  else:no need to updata
@@ -50,17 +40,7 @@ typedef enum
  APP_VALUE   = 1   
 }APP_check_t;
 
-uint8 APP_check_value[2]={0xa5,0x5a};
-
-
-
-
-
-
-
-
-
-
+uint8 APP_check_value[4]={0xa5,0x5a,0xa4,0x4a};
 
 
 /*******************************************************
@@ -96,9 +76,10 @@ void Lin_Sys_Init(void)
  * ********************/
 void boot_Var_init(void)
 {
-   boot_event_id = LIN_LLD_NODATA_TIMEOUT;
-   boot_rec_pid = 0xff;
-	
+   boot_eraser_flag = 0;
+   updata_flash_ID = 0;
+   updata_length = 0;
+   DRIVE_flag = 0;
 }
 
 /************************
@@ -122,9 +103,9 @@ APP_check_t boot_APP_check(void)
 {
 	uint8 i;
 	APP_check_t ret = APP_VALUE;
-	uint8 temp[2] ={ 0 };
+	uint8 temp[4] ={ 0 };
 	
-	for(i = 0;i < 2; i++)
+	for(i = 0;i < 4; i++)
 	{
 		temp[i] = *((uint8_t *)(APP_check_ADDRESS+i));
 		if(APP_check_value[i] != temp[i])
@@ -148,18 +129,6 @@ uint8 boot_up_check(void)
 	
 	return ret;
 }
-/************************
- * For APP up close
- * 
- * xujunjie@baolong.com
- * ********************/
-uint8 boot_up_close(void)
-{
-	uint8 ret = 0xFF;
-	
-	write_data_from_EEPROM(EEPROM_BOOT_REFRESH,&ret,EEPROM_BOOT_REFRESH_LENTH,ENABLE);
-	return ret;
-}
 
 /************************
  * For APP up close
@@ -178,22 +147,22 @@ void boot_jump_to_APP(void)
 }
 
 
-
 void main(void)
 {	
-
+	uint8 flash_eraser_cn;
+	uint32 id_add;
+	
 	boot_sysinit();
 	boot_Var_init();
 
 	
 	//case 0: normal start jump to app
-    /*if((boot_up_check() != 0x5a)
+    if((boot_up_check() != 0x5a)
        &&(boot_APP_check() == APP_VALUE))//if flag is equal to 1,jump to app.else doing updata
     {
 	   //Jump to app
        boot_jump_to_APP();
-    }  */ 
-    
+    }  
     
     
     //case 1: need to reload APP SDK
@@ -201,12 +170,19 @@ void main(void)
     
     for(;;) 
 	{		
-		 if (LIN_LLD_RX_COMPLETED == boot_event_id)
+    	WDOG_Feed();
+		if(boot_eraser_flag == 1)//²Á³ýflashÉÈÇø
 		{
-			lin_update_rx(boot_rec_pid);
-			 /* enable RX interrupt */
-			boot_event_id = LIN_LLD_NODATA_TIMEOUT;
-			boot_enable_rx();
+			if(flash_eraser_cn >= 88)
+			{
+				flash_eraser_cn = 0;
+				boot_eraser_flag = 0;
+				
+			}
+			else
+			{
+				FLASH_EraseSector((VERIFIED_SECTOR+boot_eraser_flag++)*FLASH_SECTOR_SIZE);
+			}
 		}
 		 
 

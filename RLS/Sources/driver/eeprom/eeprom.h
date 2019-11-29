@@ -83,7 +83,7 @@
 
 
 
-
+extern void WDOG_Feed(void);
 extern uint16 FLASH_Init(uint32 u32BusClock);
 extern uint16_t FLASH_EraseSector(uint32_t u32NVMTargetAddress);
 extern void FLASH_LaunchCMD(uint8 bWaitComplete);

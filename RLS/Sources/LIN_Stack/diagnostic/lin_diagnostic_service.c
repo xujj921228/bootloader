@@ -20,6 +20,10 @@
 
 l_u8 diagnostic_Session,diagnostic_Session_pre,diagnostic_Session_flg;
 l_u16 diagnostic_Session_timer;
+extern uint8 APP_check_value[4];
+extern l_u16 updata_flash_ID;
+extern l_u16 updata_length;
+extern uint8 DRIVE_flag = 0;
 
 void lin_diagservice_session_state(void)
 {
@@ -38,21 +42,6 @@ void lin_diagservice_session_state(void)
 	}
 	
 	diagnostic_Session_pre = diagnostic_Session;
-}
-
-/*******************************
- * 
- *jump to start
- *
- *******************************/
-typedef void(*JumpTostart)(void);
-void boot_jump_to_start(void)
-{
-	uint16_t *pNewAppEntry = 0x0004;
-	JumpTostart	pJumpTo;
-	pJumpTo = *pNewAppEntry;
-	pJumpTo();
-	for(;;) { ; }
 }
 
 
@@ -98,7 +87,7 @@ l_u8 lin_diagservice_session_control(void)
 				break;
 			case DIAGSRV_SESSION_RESTART:
 				lin_tl_make_slaveres_pdu(SERVICE_SESSION_CONTROL, POSITIVE, DIAGSRV_SESSION_RESTART);
-				boot_jump_to_start();
+				while(1);
 				break;
 			default:
 					/* Make a negative slave response PDU */
@@ -187,10 +176,6 @@ void lin_diagservice_write_data_by_identifier(void)
 }
 
 
-
-l_u16 updata_flash_ID;
-l_u16 updata_length;
-uint8 DRIVE_flag = 0;
 void lin_diagservice_request_download(void)
 {
 
@@ -223,16 +208,18 @@ void lin_diagservice_request_download(void)
 }
 
 uint8 boot_write_flash[50];
+uint8 data_cn1;
+uint8 data_cn2;
 l_u16 boot_flashdata_cn;
-l_u8 data_cn1;
-l_u8 data_cn2;
 
 void lin_diagservice_transfer_data(void)
 {
 	uint32 i;
+
     l_u16 length;
     l_u8 data[50];
     l_u8 service_flash_read[50]={0};
+
 
     
     if( DRIVE_flag == 1 ) //驱动数据传输
@@ -241,21 +228,22 @@ void lin_diagservice_transfer_data(void)
     }
     else if( DRIVE_flag == 2 )//应用程序传输
     {
-        /* 从队列中获取数据 */
-        ld_receive_message(&length, data);
-        
-        boot_flashdata_cn =  (l_u16)data[2]<<8 + (l_u16)data[1];
-        
-        for(i=0 ; i<length ; i++)
-        {
-           boot_write_flash[data_cn2+i] = data[i + 3];
-        }
-        length = data_cn2 + length ;
- 
-        data_cn1 = length/4;
-        data_cn2 = length%4;
-
-        //写入flash数据并将其读出，与写入数据做对比，如果写入和读出的不一样那么就有问题
+    		
+		/* 从队列中获取数据 */
+		ld_receive_message(&length, data);
+		
+		boot_flashdata_cn =  ((l_u16)data[2]<<8) + (l_u16)data[1];
+		
+		for(i=0 ; i<length ; i++)
+		{
+		   boot_write_flash[data_cn2+i] = data[i + 3];
+		}
+		length = data_cn2 + length ;
+	
+		data_cn1 = length/4;
+		data_cn2 = length%4;
+			
+		//写入flash数据并将其读出，与写入数据做对比，如果写入和读出的不一样那么就有问题
         FLASH_Program(updata_flash_ID,&boot_write_flash[0],4*data_cn1);
         for(i = 0;i < 4*data_cn1;i++)
 	    {
@@ -285,10 +273,10 @@ void lin_diagservice_transfer_data(void)
     
 }
 
+extern uint8 boot_eraser_flag;
 void lin_diagservice_service_trigger_check(void)
 {
     l_u16 length;
-    l_u16 u16Err = 0;
 	l_u8 data[20];
 	l_u8 i;
 	
@@ -298,15 +286,12 @@ void lin_diagservice_service_trigger_check(void)
 
 	if(data[3] == 0x01)//触发
 	{
-		if(data[5] == 0x00)//擦除flash
+		if(data[5] == 0x00)//触发擦除flash
 		{
-		    for(i = 0; i < 88 ; i++ )
-		    {
-		    	u16Err += FLASH_EraseSector((40+i)*FLASH_SECTOR_SIZE);
-		    }
+		  boot_eraser_flag = 1;
 		  lin_tl_make_slaveres_pdu(SERVICE_TRIGGER_CHECK, POSITIVE, RES_POSITIVE);
 		}
-		else if(data[5] == 0x01)//查询擦除完成
+		else if(data[5] == 0x01)//触发查询有效性验证
 		{
 			lin_tl_make_slaveres_pdu(SERVICE_TRIGGER_CHECK, POSITIVE, RES_POSITIVE);
 		}
@@ -317,9 +302,9 @@ void lin_diagservice_service_trigger_check(void)
 			
 
 	}
-	else if(data[3] == 0x03)//触发
+	else if(data[3] == 0x03)
 	{
-		if(data[5] == 0x00)//有效性验证
+		if((data[5] == 0x00)&&(boot_eraser_flag == 0))//查询擦除完成
 		{
 			lin_tl_make_slaveres_pdu(SERVICE_TRIGGER_CHECK, POSITIVE, RES_POSITIVE);
 		}
@@ -344,15 +329,36 @@ void lin_diagservice_service_trigger_check(void)
 
 }
 
+
 void lin_diagservice_exit_transfer(void)
 {
-	l_u16 length;
-	l_u8 data[20];
-	
-	/* get pdu from rx queue */
-	ld_receive_message(&length, data);
-	
-	lin_tl_make_slaveres_pdu(SERVICE_EXIT_TRANSFER_DATA, POSITIVE, RES_POSITIVE);
+	uint32 i;
+	l_u8 flash_check[4]={0};
+	uint8 ret = 0xFF;
+	    
+	if( DRIVE_flag == 1 ) //驱动数据传输
+	{
+		lin_tl_make_slaveres_pdu(SERVICE_TRANSFER_DATA, POSITIVE, RES_POSITIVE);
+	}
+	else if( DRIVE_flag == 2 )//应用程序传输
+	{
+	  FLASH_Program(0XFFFC,&APP_check_value[0],4);
+		 for(i = 0;i < 4;i++)
+		{
+			flash_check[i] = *((uint8_t *)(i+0XFFFC));
+			if(flash_check[i] != APP_check_value[i])
+			{
+				lin_tl_make_slaveres_pdu(SERVICE_EXIT_TRANSFER_DATA, NEGATIVE, INVALID_FORMAT);
+				return;
+			}			
+		}
+		write_data_from_EEPROM(0x10000020,&ret,1,ENABLE);
+		lin_tl_make_slaveres_pdu(SERVICE_EXIT_TRANSFER_DATA, POSITIVE, RES_POSITIVE);
+	}
+	else
+	{
+		lin_tl_make_slaveres_pdu(SERVICE_EXIT_TRANSFER_DATA, NEGATIVE, INVALID_FORMAT);
+	}
 	
 }
 

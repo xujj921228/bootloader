@@ -20,7 +20,15 @@
 #include <SKEAZN642.h>
 #include "eeprom.h"
 #include "clock.h"
+#include "config_parameter.h"
 
+void WDOG_Feed(void)
+{
+	DISABLE_INTERRUPT;
+    WDOG_CNT = 0x02A6;
+    WDOG_CNT = 0x80B4;
+    ENABLE_INTERRUPT;
+}
 
 uint16 FLASH_Init(uint32 u32BusClock)
 {
@@ -77,6 +85,7 @@ uint16_t FLASH_EraseSector(uint32_t u32NVMTargetAddress)
 	
 	// Check address to see if it is aligned to 4 bytes
 	// Global address [1:0] must be 00.
+	WDOG_Feed();
 	if(u32NVMTargetAddress & 0x03)
 	{
 		u16Err = FLASH_ERR_INVALID_PARAM;
@@ -240,6 +249,8 @@ uint16 FLASH_Program(uint32 u32NVMTargetAddress, uint8 *pData, uint16 u16SizeByt
 	uint32 *pDwData = (uint32_t*)pData;
 	int  i;
 	
+	
+	WDOG_Feed();
 	// Check address to see if it is aligned to 4 bytes
 	// Global address [1:0] must be 00.
 	if(u32NVMTargetAddress & 0x03)

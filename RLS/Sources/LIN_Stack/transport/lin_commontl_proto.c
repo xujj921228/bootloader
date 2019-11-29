@@ -22,6 +22,7 @@
 /*************************** FUNCTIONS *******************/
 
 l_u16 boot_data_tansfer_cn;
+extern l_u16 boot_flashdata_cn;
 void lin_tl_make_slaveres_pdu
 (
     /* [IN] service identifier */
@@ -97,6 +98,9 @@ void lin_tl_make_slaveres_pdu
         	 {		
               /* SID */
               lin_tl_pdu[2] = RES_POSITIVE + sid;
+              
+              lin_tl_pdu[3] = (l_u8)(boot_flashdata_cn >> 8);
+              lin_tl_pdu[3] = (l_u8)boot_flashdata_cn;
         		
              }
         	break;

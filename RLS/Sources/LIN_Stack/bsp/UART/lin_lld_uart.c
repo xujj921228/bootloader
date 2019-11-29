@@ -532,8 +532,13 @@ void lin_lld_uart_rx_isr
                             pUART->uartcr2.byte &= ~(UARTCR2_RE_MASK | UARTCR2_RIE_MASK);
                             state = PROC_CALLBACK;
                             /* trigger callback */
-                            boot_event_id = LIN_LLD_RX_COMPLETED;
-                            boot_rec_pid = current_id;
+                            lin_update_rx(current_id);
+                            /* enable RX interrupt */
+                            pUART->uartcr2.byte |= (UARTCR2_RE_MASK | UARTCR2_RIE_MASK);
+							if (SLEEP_MODE != state)
+							{
+								lin_goto_idle_state();
+							}        
                         }
                         else
                         {
@@ -610,12 +615,3 @@ void lin_lld_uart_rx_isr
     }
 } /* End function lin_lld_UART_rx_isr() */
 
-/* enable RX interrupt */
-void boot_enable_rx(void)
-{
-	pUART->uartcr2.byte |= (UARTCR2_RE_MASK | UARTCR2_RIE_MASK);
-	if (SLEEP_MODE != state)
-	{
-		lin_goto_idle_state();
-	}
-}

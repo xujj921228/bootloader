@@ -29,7 +29,7 @@
 -I"C:/Users/xujj/Desktop/bootloader/RLS/Sources/LIN_Stack/transport"
 -I"C:/Users/xujj/Desktop/bootloader/RLS/Sources/lin_cfg"
 -I"C:/Users/xujj/Desktop/bootloader/RLS/Sources/driver/SPI"
--O0
+-Os
 -ffunction-sections
 -fdata-sections
 -Wall
