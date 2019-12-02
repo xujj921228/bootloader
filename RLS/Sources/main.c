@@ -42,7 +42,7 @@ typedef enum
 }APP_check_t;
 
 uint8 APP_check_value[4]={0xa5,0x5a,0xa4,0x4a};
-
+uint8 read_datavalue[4]={0xa5,0x5a,0xa4,0x4a};
 
 /*******************************************************
  * FUNCTION NAME : Lin_Busy_Process()
@@ -152,7 +152,6 @@ void boot_jump_to_APP(void)
 void main(void)
 {	
 	
-	
 	uint32 flash_eraser_cn = 0;
 	
 	boot_sysinit();
@@ -160,8 +159,8 @@ void main(void)
 
 	
 	//case 0: normal start jump to app
-    if((boot_up_check() != 0x5a)
-       &&(boot_APP_check() == APP_VALUE))//if flag is equal to 1,jump to app.else doing updata
+    if(boot_up_check() == 0x5a)
+       //&&(boot_APP_check() == APP_VALUE))//if flag is equal to 1,jump to app.else doing updata
     {
 	   //Jump to app
        boot_jump_to_APP();
@@ -172,7 +171,7 @@ void main(void)
     Lin_Sys_Init();
     
     for(;;) 
-	{			
+	{				
     	WDOG_Feed();
 		if((boot_eraser_flag == 1)&&(tx_ok == 1))//²Á³ýflashÉÈÇø
 		{

@@ -359,11 +359,11 @@ l_u8 flash_check[4]={0};
 void lin_diagservice_exit_transfer(void)
 {
 	uint32 i;
-	uint8 ret = 0xFF;
+	uint8 ret = 0x5a;
 	    
 	if( DRIVE_flag == 1 ) //驱动数据传输
 	{
-		lin_tl_make_slaveres_pdu(SERVICE_TRANSFER_DATA, POSITIVE, RES_POSITIVE);
+		lin_tl_make_slaveres_pdu(SERVICE_EXIT_TRANSFER_DATA, POSITIVE, RES_POSITIVE);
 	}
 	else if( DRIVE_flag == 2 )//应用程序传输
 	{
