@@ -175,7 +175,28 @@ void lin_diagservice_write_data_by_identifier(void)
 	}
 }
 
-
+void lin_diagservice_service_securityaccess(void)
+{
+	 l_u16 length;
+	 l_u8 data[10];
+	 /* get pdu from rx queue */
+	 ld_receive_message(&length, data);
+	 
+	 if(data[1] == 1)
+	 {
+		 lin_tl_make_slaveres_pdu(SERVICE_SECURITYACCESS, POSITIVE, RES_POSITIVE);
+	 }
+	 else if(data[1] == 2)
+	 {
+		 lin_tl_make_slaveres_pdu(SERVICE_SECURITYACCESS, POSITIVE, RES_POSITIVE);
+	 }
+	 else
+	 {
+		 lin_tl_make_slaveres_pdu(SERVICE_SECURITYACCESS, NEGATIVE, SUBFUNCTION_NOT_SUPPORTED);
+	 }
+	
+	
+}
 void lin_diagservice_request_download(void)
 {
 
@@ -208,6 +229,7 @@ void lin_diagservice_request_download(void)
 }
 
 uint8 boot_write_flash[50];
+l_u8 service_flash_read[50]={0};
 uint8 data_cn1;
 uint8 data_cn2;
 l_u16 boot_flashdata_cn;
@@ -218,7 +240,7 @@ void lin_diagservice_transfer_data(void)
 
     l_u16 length;
     l_u8 data[50];
-    l_u8 service_flash_read[50]={0};
+
 
 
     
@@ -231,8 +253,10 @@ void lin_diagservice_transfer_data(void)
     		
 		/* 从队列中获取数据 */
 		ld_receive_message(&length, data);
+		length = length - 3;
 		
-		boot_flashdata_cn =  ((l_u16)data[2]<<8) + (l_u16)data[1];
+		
+		boot_flashdata_cn =  ((l_u16)data[1]<<8) + (l_u16)data[2];
 		
 		for(i=0 ; i<length ; i++)
 		{
@@ -248,7 +272,7 @@ void lin_diagservice_transfer_data(void)
         for(i = 0;i < 4*data_cn1;i++)
 	    {
 			service_flash_read[i] = *((uint8_t *)(i+updata_flash_ID));
-			if(service_flash_read[i] != data[i])
+			if(service_flash_read[i] != boot_write_flash[i])
 			{
 				lin_tl_make_slaveres_pdu(SERVICE_TRANSFER_DATA, NEGATIVE, INVALID_FORMAT);
 				return;
@@ -274,6 +298,7 @@ void lin_diagservice_transfer_data(void)
 }
 
 extern uint8 boot_eraser_flag;
+extern unsigned char tx_ok;
 void lin_diagservice_service_trigger_check(void)
 {
     l_u16 length;
@@ -288,8 +313,9 @@ void lin_diagservice_service_trigger_check(void)
 	{
 		if(data[5] == 0x00)//触发擦除flash
 		{
-		  boot_eraser_flag = 1;
 		  lin_tl_make_slaveres_pdu(SERVICE_TRIGGER_CHECK, POSITIVE, RES_POSITIVE);
+		  boot_eraser_flag = 1;
+		  tx_ok = 0;
 		}
 		else if(data[5] == 0x01)//触发查询有效性验证
 		{
@@ -329,11 +355,10 @@ void lin_diagservice_service_trigger_check(void)
 
 }
 
-
+l_u8 flash_check[4]={0};
 void lin_diagservice_exit_transfer(void)
 {
 	uint32 i;
-	l_u8 flash_check[4]={0};
 	uint8 ret = 0xFF;
 	    
 	if( DRIVE_flag == 1 ) //驱动数据传输

@@ -261,6 +261,7 @@ uint16 FLASH_Program(uint32 u32NVMTargetAddress, uint8 *pData, uint16 u16SizeByt
 	// Loop for the two longwords (8 bytes) programming
 	for(i = 0; i < u16w2LongWordCount; i++)
 	{
+		WDOG_Feed();
 		u32DwData0 = *pDwData++;
 		u32DwData1 = *pDwData++;
 		u16Err = FLASH_Program2LongWords(u32WrTargetAddress, u32DwData0, u32DwData1);
@@ -274,6 +275,7 @@ uint16 FLASH_Program(uint32 u32NVMTargetAddress, uint8 *pData, uint16 u16SizeByt
 	// Loop for the single longword (4 bytes) programming
 	for(i = 0; i < u16WrLeftLongWords; i++)
 	{
+		WDOG_Feed();
 		u32DwData0 = *pDwData++;
 		u16Err = FLASH_Program1LongWord(u32WrTargetAddress, u32DwData0);
 		if(u16Err)
@@ -292,6 +294,7 @@ uint16 FLASH_Program(uint32 u32NVMTargetAddress, uint8 *pData, uint16 u16SizeByt
 	pData = (uint8_t*)pDwData+u8WrLeftBytes-1;	// pointer to the left bytes
 	for(i = u8WrLeftBytes; i >0; i--)
 	{
+		WDOG_Feed();
 		u32DwData0 <<= 8;
 		u32DwData0 |= *pData--;	// MSB byte first
 	}

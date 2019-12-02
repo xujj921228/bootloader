@@ -28,6 +28,7 @@ uint8 boot_eraser_flag;
 l_u16 updata_flash_ID;
 l_u16 updata_length;
 uint8 DRIVE_flag;
+uint8 tx_ok;
 
 /**********************
  * updata  flag (eeprom) 0x5a:should updata  else:no need to updata
@@ -80,6 +81,7 @@ void boot_Var_init(void)
    updata_flash_ID = 0;
    updata_length = 0;
    DRIVE_flag = 0;
+   tx_ok = 0;
 }
 
 /************************
@@ -149,8 +151,9 @@ void boot_jump_to_APP(void)
 
 void main(void)
 {	
-	uint8 flash_eraser_cn;
-	uint32 id_add;
+	
+	
+	uint32 flash_eraser_cn = 0;
 	
 	boot_sysinit();
 	boot_Var_init();
@@ -169,19 +172,18 @@ void main(void)
     Lin_Sys_Init();
     
     for(;;) 
-	{		
+	{			
     	WDOG_Feed();
-		if(boot_eraser_flag == 1)//²Á³ýflashÉÈÇø
+		if((boot_eraser_flag == 1)&&(tx_ok == 1))//²Á³ýflashÉÈÇø
 		{
 			if(flash_eraser_cn >= 88)
 			{
 				flash_eraser_cn = 0;
-				boot_eraser_flag = 0;
-				
+				boot_eraser_flag = 0;	
 			}
 			else
 			{
-				FLASH_EraseSector((VERIFIED_SECTOR+boot_eraser_flag++)*FLASH_SECTOR_SIZE);
+				FLASH_EraseSector((VERIFIED_SECTOR+flash_eraser_cn++)*FLASH_SECTOR_SIZE);
 			}
 		}
 		 

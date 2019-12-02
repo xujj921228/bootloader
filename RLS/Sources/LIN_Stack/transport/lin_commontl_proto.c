@@ -119,6 +119,13 @@ void lin_tl_make_slaveres_pdu
         	  lin_tl_pdu[2] = RES_POSITIVE + sid;
 			 }
         	break;
+        case SERVICE_SECURITYACCESS:
+        	if (POSITIVE == res_type)
+			 {		
+			  /* SID */
+			  lin_tl_pdu[2] = RES_POSITIVE + sid;
+			 }
+        	break;
         default:
             break;
     }/* end of switch statement */
@@ -410,6 +417,9 @@ void lin_tl_attach_service()
         sid_supported_flag = 0;
         switch (sid)
         {
+            case SERVICE_SECURITYACCESS:
+        	    lin_diagservice_service_securityaccess();
+            	break;
             case SERVICE_TRIGGER_CHECK:
             	lin_diagservice_service_trigger_check();
             	break;
