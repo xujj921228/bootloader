@@ -100,7 +100,7 @@ void lin_tl_make_slaveres_pdu
               lin_tl_pdu[2] = RES_POSITIVE + sid;
               
               lin_tl_pdu[3] = (l_u8)(boot_flashdata_cn >> 8);
-              lin_tl_pdu[3] = (l_u8)boot_flashdata_cn;
+              lin_tl_pdu[4] = (l_u8)boot_flashdata_cn;
         		
              }
         	break;
