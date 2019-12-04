@@ -4,7 +4,7 @@
 
 
 extern void lin_diagservice_session_state(void);
-extern l_u8 lin_diagservice_session_control(void);
+extern void lin_diagservice_session_control(void);
 
 
 extern void lin_diagservice_read_data_by_identifier(void);

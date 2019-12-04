@@ -20,10 +20,67 @@
 
 l_u8 diagnostic_Session,diagnostic_Session_pre,diagnostic_Session_flg;
 l_u16 diagnostic_Session_timer;
-extern uint8 APP_check_value[4];
-extern l_u16 updata_flash_ID;
-extern l_u16 updata_length;
-extern uint8 DRIVE_flag = 0;
+
+extern uint8 boot_status_flag;
+l_u16 updata_flash_ID = 0;
+l_u16 updata_length = 0;
+l_u8 APP_check_value[4]={0xa5,0x5a,0xa4,0x4a};
+l_u8 boot_write_flash[50];
+l_u8 service_flash_read[50]={0};
+l_u8 data_cn1;   //4n
+l_u8 data_cn2;   //4n + m
+l_u16 boot_flashdata_cn ;
+l_u16 boot_flashdata_last_cn ; 
+
+
+/************************
+ * For APP check
+ * 
+ * xujunjie@baolong.com
+ * ********************/
+APP_check_t boot_APP_check(void)
+{
+	uint8 i;
+	APP_check_t ret = APP_VALUE;
+	uint8 temp[4] ={ 0 };
+	
+	for(i = 0;i < 4; i++)
+	{
+		temp[i] = *((uint8_t *)(APP_check_ADDRESS+i));
+		if(APP_check_value[i] != temp[i])
+		{
+			ret = APP_INVALUE;
+		}
+	}
+	
+	return  ret;
+}
+
+/************************
+ * For APP up check
+ * 
+ * xujunjie@baolong.com
+ * ********************/
+uint8 boot_up_check(uint16 temp)
+{
+	uint8 ret[2];
+	uint16 ret1 = 0 ; 
+	
+	read_data_from_EEPROM(EEPROM_BOOT_REFRESH,ret,EEPROM_BOOT_REFRESH_LENTH,ENABLE);
+	ret1 = ((uint16)ret[0] << 8) + (uint16)ret[1];
+	
+	if(temp == ret1)
+	{
+		return 1;
+	}
+	else
+	{
+		return 0;
+	}
+}
+
+
+
 
 void lin_diagservice_session_state(void)
 {
@@ -45,8 +102,7 @@ void lin_diagservice_session_state(void)
 }
 
 
-extern uint8 boot_reboot;
-l_u8 lin_diagservice_session_control(void)
+void lin_diagservice_session_control(void)
 {
 	l_u8 id;
 	lin_tl_pdu_data *lin_tl_pdu;
@@ -87,7 +143,7 @@ l_u8 lin_diagservice_session_control(void)
 				diagnostic_Session =  DIAGSRV_SESSION_EXTERN;
 				break;
 			case DIAGSRV_SESSION_RESTART:
-				boot_reboot = 1;
+				boot_status_flag = 6;
 				lin_tl_make_slaveres_pdu(SERVICE_SESSION_CONTROL, POSITIVE, DIAGSRV_SESSION_RESTART);
 				break;
 			default:
@@ -207,9 +263,9 @@ void lin_diagservice_request_download(void)
     ld_receive_message(&length, data+2);
     
     
-    DRIVE_flag = data[3];
-    if(DRIVE_flag == 1)
+    if(data[3] == 1)
     {
+    	boot_status_flag = 1;
     	lin_tl_make_slaveres_pdu(SERVICE_REQUEST_DOWNLOAD, POSITIVE, RES_POSITIVE);
     }
     else
@@ -219,7 +275,9 @@ void lin_diagservice_request_download(void)
      if(updata_flash_ID == APP_code_start)
      {
     	 lin_tl_make_slaveres_pdu(SERVICE_REQUEST_DOWNLOAD, POSITIVE, RES_POSITIVE);
-    	 DRIVE_flag = 2;
+    	 boot_flashdata_cn = 1;
+    	 boot_flashdata_last_cn = 0; 
+    	 boot_status_flag = 5;
      }
      else
      {
@@ -229,12 +287,6 @@ void lin_diagservice_request_download(void)
     
 }
 
-uint8 boot_write_flash[50];
-l_u8 service_flash_read[50]={0};
-uint8 data_cn1;
-uint8 data_cn2;
-l_u16 boot_flashdata_cn = 1;
-l_u16 boot_flashdata_last_cn = 0;
 void lin_diagservice_transfer_data(void)
 {
 	uint32 i;
@@ -242,14 +294,12 @@ void lin_diagservice_transfer_data(void)
     l_u16 length;
     l_u8 data[50];
 
-
-
     
-    if( DRIVE_flag == 1 ) //驱动数据传输
+    if( boot_status_flag == 1 ) //驱动数据传输
     {
     	lin_tl_make_slaveres_pdu(SERVICE_TRANSFER_DATA, POSITIVE, RES_POSITIVE);
     }
-    else if( DRIVE_flag == 2 )//应用程序传输
+    else if( boot_status_flag == 5 )//应用程序传输
     {
     		
 		/* 从队列中获取数据 */
@@ -310,13 +360,10 @@ void lin_diagservice_transfer_data(void)
     
 }
 
-extern uint8 boot_eraser_flag;
-extern unsigned char tx_ok;
 void lin_diagservice_service_trigger_check(void)
 {
     l_u16 length;
 	l_u8 data[20];
-	l_u8 i;
 	
     /* get pdu from rx queue */
 	ld_receive_message(&length, data+2);
@@ -327,8 +374,7 @@ void lin_diagservice_service_trigger_check(void)
 		if(data[5] == 0x00)//触发擦除flash
 		{
 		  lin_tl_make_slaveres_pdu(SERVICE_TRIGGER_CHECK, POSITIVE, RES_POSITIVE);
-		  boot_eraser_flag = 1;
-		  tx_ok = 0;
+		  boot_status_flag = 2;
 		}
 		else if(data[5] == 0x01)//触发查询有效性验证
 		{
@@ -343,7 +389,7 @@ void lin_diagservice_service_trigger_check(void)
 	}
 	else if(data[3] == 0x03)
 	{
-		if((data[5] == 0x00)&&(boot_eraser_flag == 2))//查询擦除完成
+		if((data[5] == 0x00)&&(boot_status_flag == 4))//查询擦除完成
 		{
 			lin_tl_make_slaveres_pdu(SERVICE_TRIGGER_CHECK, POSITIVE, RES_POSITIVE);
 		}
@@ -368,25 +414,19 @@ void lin_diagservice_service_trigger_check(void)
 
 }
 
-l_u8 flash_check[4]={0};
+
 void lin_diagservice_exit_transfer(void)
 {
-	uint32 i;
 	    
-	if( DRIVE_flag == 1 ) //驱动数据传输
+	if( boot_status_flag == 1 ) //驱动数据传输
 	{
 		lin_tl_make_slaveres_pdu(SERVICE_EXIT_TRANSFER_DATA, POSITIVE, RES_POSITIVE);
 	}
-	else if( DRIVE_flag == 2 )//应用程序传输
+	else if( boot_status_flag == 5 )//应用程序传输
 	{
-		boot_write_flash[0]=APP_check_value[0];
-		boot_write_flash[1]=APP_check_value[1];
-		boot_write_flash[2]=APP_check_value[2];
-		boot_write_flash[3]=APP_check_value[3];
-		updata_flash_ID = APP_check_ADDRESS;
-		
+	
 		//写入flash数据并将其读出，与写入数据做对比，如果写入和读出的不一样那么就有问题
-		FLASH_Program(updata_flash_ID,&boot_write_flash[0],4);
+		FLASH_Program(APP_check_ADDRESS,&APP_check_value[0],4);
 		if(boot_APP_check() == APP_INVALUE)
 		{
 			lin_tl_make_slaveres_pdu(SERVICE_EXIT_TRANSFER_DATA, NEGATIVE, INVALID_FORMAT);

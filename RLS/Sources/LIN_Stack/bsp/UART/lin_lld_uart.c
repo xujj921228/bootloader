@@ -362,7 +362,7 @@ void lin_goto_idle_state
     pUART->uartsr2.bit.lbkde = 1;
 } /* End function lin_goto_idle_state() */
 
-extern unsigned char tx_ok;
+extern l_u8 boot_status_flag;
 void lin_lld_uart_rx_isr
 (
 )
@@ -585,7 +585,10 @@ void lin_lld_uart_rx_isr
                     }
                     else
                     {
-                    	tx_ok = 1;//触发擦除回复ok以后才开始擦除
+                    	if(boot_status_flag == 2 )//触发擦除回复ok以后才开始擦除
+                    	{
+                    		boot_status_flag = 3;
+                    	}
                         /* TX transfer complete */
                         l_status.byte |= LIN_STA_SUCC_TRANSFER;
                         /* Disable RX interrupt */

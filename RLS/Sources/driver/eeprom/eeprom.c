@@ -696,45 +696,5 @@ uint8 write_data_from_EEPROM(uint32 startAddr, uint8 *p_data, uint16 len,uint8 c
    }
  }
  
- uint8 APP_check_value[4]={0xa5,0x5a,0xa4,0x4a};
 
-
- /************************
-  * For APP check
-  * 
-  * xujunjie@baolong.com
-  * ********************/
- APP_check_t boot_APP_check(void)
- {
- 	uint8 i;
- 	APP_check_t ret = APP_VALUE;
- 	uint8 temp[4] ={ 0 };
- 	
- 	for(i = 0;i < 4; i++)
- 	{
- 		temp[i] = *((uint8_t *)(APP_check_ADDRESS+i));
- 		if(APP_check_value[i] != temp[i])
- 		{
- 			ret = APP_INVALUE;
- 		}
- 	}
- 	
- 	return  ret;
- }
-
- /************************
-  * For APP up check
-  * 
-  * xujunjie@baolong.com
-  * ********************/
- uint16 boot_up_check(void)
- {
- 	uint16 ret = 0xFFFF;
- 	
- 	read_data_from_EEPROM(EEPROM_BOOT_REFRESH,&ret,EEPROM_BOOT_REFRESH_LENTH,ENABLE);
- 	
- 	return ret;
- }
- 
- 
  

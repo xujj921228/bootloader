@@ -18,12 +18,18 @@
 
 
 /************** var   ******************/
-uint8 boot_eraser_flag;
-l_u16 updata_flash_ID;
-l_u16 updata_length;
-uint8 DRIVE_flag;
-uint8 tx_ok;
-uint8 boot_reboot;
+/******
+ * DRIVE_flag
+ * 0:init
+ * 1:about driver
+ * 2.about start eraser 
+ * 3.about eraser tx ok
+ * 4.about end eraser
+ * 5.about start data 
+ * 6.reboot 
+ * 
+ * ***********/
+uint8 boot_status_flag;
 
 
 
@@ -34,12 +40,7 @@ uint8 boot_reboot;
  * ********************/
 void boot_Var_init(void)
 {
-   boot_eraser_flag = 0;
-   updata_flash_ID = 0;
-   updata_length = 0;
-   DRIVE_flag = 0;
-   tx_ok = 0;
-   boot_reboot = 0;
+   boot_status_flag = 0;
 }
 
 
@@ -53,11 +54,10 @@ void boot_Var_init(void)
  *******************************************************/ 
 void Lin_Sys_Init(void)
 {
-	uint8 ret = 0 ;
 	uint8 vector_number = 0;
 	
-    ret = l_sys_init();
-	ret = l_ifc_init(LI0);
+    l_sys_init();
+	l_ifc_init(LI0);
 	
 	vector_number = INT_UART0 -16;
 	
@@ -89,7 +89,7 @@ typedef void(*JumpToPtr)(void);
 
 void boot_jump_to_APP(void)
 {
-	uint16_t *pNewAppEntry = APP_start_address;
+	uint16 *pNewAppEntry = APP_start_address;
 	JumpToPtr	pJumpTo;
 	pJumpTo = *pNewAppEntry;
 	pJumpTo();
@@ -102,14 +102,14 @@ void main(void)
 {	
 	
 	uint32 flash_eraser_cn = 0;
-	uint16 boot_up_ret = 0xffff;
+	uint8 boot_up_ret[2] = {0};
 	
 	boot_sysinit();
 	boot_Var_init();
 
 	//FLASH_EraseSector((VERIFIED_SECTOR+87)*FLASH_SECTOR_SIZE); // for debug eraser flag 
 	//case 0: normal start jump to app
-    if((boot_up_check() != boot_up_value)
+    if((boot_up_check(boot_up_value) != 1)
        &&(boot_APP_check() == APP_VALUE))//if flag is equal to 1,jump to app.else doing updata
     {
 	   //Jump to app
@@ -123,23 +123,23 @@ void main(void)
     for(;;) 
 	{				
     	WDOG_Feed();
-		if((boot_eraser_flag == 1)&&(tx_ok == 1))//≤¡≥˝flash…»«¯
+		if(boot_status_flag == 3)//≤¡≥˝flash…»«¯
 		{
 			if(flash_eraser_cn >= 88)
 			{
 				flash_eraser_cn = 0;
-				boot_eraser_flag = 2;	
+				boot_status_flag = 4;	
 				do
 				{
-					write_data_from_EEPROM(0x10000020,&boot_up_ret,2,ENABLE);
-				}while(boot_up_check() == boot_up_value);
+					write_data_from_EEPROM(0x10000020,boot_up_ret,2,ENABLE);
+				}while(boot_up_check(boot_up_value));
 			}
 			else
 			{
 				u16Err_1 = FLASH_EraseSector((VERIFIED_SECTOR+flash_eraser_cn++)*FLASH_SECTOR_SIZE);
 			}
 		}
-		if(boot_reboot == 1)//÷ÿ∆Ù√¸¡Ó
+		if(boot_status_flag == 6)//÷ÿ∆Ù√¸¡Ó
 		{
 			while(1);
 		}
