@@ -45,6 +45,7 @@ void lin_diagservice_session_state(void)
 }
 
 
+extern uint8 boot_reboot;
 l_u8 lin_diagservice_session_control(void)
 {
 	l_u8 id;
@@ -86,8 +87,8 @@ l_u8 lin_diagservice_session_control(void)
 				diagnostic_Session =  DIAGSRV_SESSION_EXTERN;
 				break;
 			case DIAGSRV_SESSION_RESTART:
+				boot_reboot = 1;
 				lin_tl_make_slaveres_pdu(SERVICE_SESSION_CONTROL, POSITIVE, DIAGSRV_SESSION_RESTART);
-				while(1);
 				break;
 			default:
 					/* Make a negative slave response PDU */
@@ -232,8 +233,8 @@ uint8 boot_write_flash[50];
 l_u8 service_flash_read[50]={0};
 uint8 data_cn1;
 uint8 data_cn2;
-l_u16 boot_flashdata_cn;
-
+l_u16 boot_flashdata_cn = 1;
+l_u16 boot_flashdata_last_cn = 0;
 void lin_diagservice_transfer_data(void)
 {
 	uint32 i;
@@ -258,37 +259,49 @@ void lin_diagservice_transfer_data(void)
 		
 		boot_flashdata_cn =  ((l_u16)data[1]<<8) + (l_u16)data[2];
 		
-		for(i=0 ; i<length ; i++)
+		if(boot_flashdata_cn == (boot_flashdata_last_cn + 1))
 		{
-		   boot_write_flash[data_cn2+i] = data[i + 3];
-		}
-		length = data_cn2 + length ;
-	
-		data_cn1 = length/4;
-		data_cn2 = length%4;
-			
-		//写入flash数据并将其读出，与写入数据做对比，如果写入和读出的不一样那么就有问题
-        FLASH_Program(updata_flash_ID,&boot_write_flash[0],4*data_cn1);
-        for(i = 0;i < 4*data_cn1;i++)
-	    {
-			service_flash_read[i] = *((uint8_t *)(i+updata_flash_ID));
-			if(service_flash_read[i] != boot_write_flash[i])
+			for(i=0 ; i<length ; i++)
 			{
-				lin_tl_make_slaveres_pdu(SERVICE_TRANSFER_DATA, NEGATIVE, INVALID_FORMAT);
-				return;
-			}			
-	    }
-               		 
-        
-        updata_flash_ID = updata_flash_ID + 4*data_cn1;
-        
-        for(i = 0;i < data_cn2;i++ )
-        {
-        	boot_write_flash[i] = boot_write_flash[4*data_cn1 + i];
-        }
-        lin_tl_make_slaveres_pdu(SERVICE_TRANSFER_DATA, POSITIVE, RES_POSITIVE);
-    	
-
+			   boot_write_flash[data_cn2+i] = data[i + 3];
+			}
+			length = data_cn2 + length ;
+		
+			data_cn1 = length/4;
+			data_cn2 = length%4;
+				
+			//写入flash数据并将其读出，与写入数据做对比，如果写入和读出的不一样那么就有问题
+	        FLASH_Program(updata_flash_ID,&boot_write_flash[0],4*data_cn1);
+	        for(i = 0;i < 4*data_cn1;i++)
+		    {
+				service_flash_read[i] = *((uint8_t *)(i+updata_flash_ID));
+				if(service_flash_read[i] != boot_write_flash[i])
+				{
+					lin_tl_make_slaveres_pdu(SERVICE_TRANSFER_DATA, NEGATIVE, INVALID_FORMAT);
+					return;
+				}			
+		    }
+	               		 
+	        
+	        updata_flash_ID = updata_flash_ID + 4*data_cn1;
+	        
+	        for(i = 0;i < data_cn2;i++ )
+	        {
+	        	boot_write_flash[i] = boot_write_flash[4*data_cn1 + i];
+	        }
+	        
+	        boot_flashdata_last_cn = boot_flashdata_cn;
+	        lin_tl_make_slaveres_pdu(SERVICE_TRANSFER_DATA, POSITIVE, RES_POSITIVE);
+		}
+		else if(boot_flashdata_cn == boot_flashdata_last_cn)
+		{
+			boot_flashdata_last_cn = boot_flashdata_cn;
+			lin_tl_make_slaveres_pdu(SERVICE_TRANSFER_DATA, POSITIVE, RES_POSITIVE);
+		}
+		else
+		{
+			lin_tl_make_slaveres_pdu(SERVICE_TRANSFER_DATA, NEGATIVE, INVALID_FORMAT);
+		}	
     }
 	else
 	{
@@ -330,7 +343,7 @@ void lin_diagservice_service_trigger_check(void)
 	}
 	else if(data[3] == 0x03)
 	{
-		if((data[5] == 0x00)&&(boot_eraser_flag == 0))//查询擦除完成
+		if((data[5] == 0x00)&&(boot_eraser_flag == 2))//查询擦除完成
 		{
 			lin_tl_make_slaveres_pdu(SERVICE_TRIGGER_CHECK, POSITIVE, RES_POSITIVE);
 		}
@@ -359,7 +372,7 @@ l_u8 flash_check[4]={0};
 void lin_diagservice_exit_transfer(void)
 {
 	uint32 i;
-	uint8 ret = 0x5a;
+	uint16 ret = 0x5aa5;
 	    
 	if( DRIVE_flag == 1 ) //驱动数据传输
 	{
@@ -367,7 +380,18 @@ void lin_diagservice_exit_transfer(void)
 	}
 	else if( DRIVE_flag == 2 )//应用程序传输
 	{
-	  FLASH_Program(0XFFFC,&APP_check_value[0],4);
+		//写入flash数据并将其读出，与写入数据做对比，如果写入和读出的不一样那么就有问题
+	/*	FLASH_Program(0xfffc,&APP_check_value[0],4);
+		for(i = 0;i < 4;i++)
+		{
+			service_flash_read[i] = *((uint8_t *)(i+0xfffc));
+			if(service_flash_read[i] != APP_check_value[i])
+			{
+				lin_tl_make_slaveres_pdu(SERVICE_TRANSFER_DATA, NEGATIVE, INVALID_FORMAT);
+				return;
+			}			
+		}*/
+	  /*FLASH_Program(0XFFFC,&APP_check_value[0],4);
 		 for(i = 0;i < 4;i++)
 		{
 			flash_check[i] = *((uint8_t *)(i+0XFFFC));
@@ -376,8 +400,8 @@ void lin_diagservice_exit_transfer(void)
 				lin_tl_make_slaveres_pdu(SERVICE_EXIT_TRANSFER_DATA, NEGATIVE, INVALID_FORMAT);
 				return;
 			}			
-		}
-		write_data_from_EEPROM(0x10000020,&ret,1,ENABLE);
+		}*/
+		write_data_from_EEPROM(0x10000020,&ret,2,ENABLE);
 		lin_tl_make_slaveres_pdu(SERVICE_EXIT_TRANSFER_DATA, POSITIVE, RES_POSITIVE);
 	}
 	else

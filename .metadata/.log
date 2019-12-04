@@ -6462,3 +6462,1610 @@ Binding(CTRL+SHIFT+H,
 		,,true),null),
 	org.eclipse.ui.defaultAcceleratorConfiguration,
 	org.eclipse.cdt.ui.cViewScope,,,system)
+!SESSION 2019-12-03 14:56:53.712 -----------------------------------------------
+eclipse.buildId=I20070613-1755
+java.version=1.6.0_15
+java.vendor=Sun Microsystems Inc.
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=en
+Command-line arguments:  -os win32 -ws win32 -arch x86
+
+!ENTRY org.eclipse.osgi 2 1 2019-12-03 14:56:57.313
+!MESSAGE NLS missing message: ContentTypes_errorDialogAlreadyExists in: org.eclipse.ui.internal.messages
+
+!ENTRY org.eclipse.e4.ui.workbench 4 0 2019-12-03 14:56:57.396
+!MESSAGE Unable to load class 'org.eclipse.e4.ui.workbench.addons.splitteraddon.SplitterAddon' from bundle '144'
+!STACK 0
+java.lang.ClassNotFoundException: org.eclipse.e4.ui.workbench.addons.splitteraddon.SplitterAddon
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClassInternal(BundleLoader.java:501)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:421)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:412)
+	at org.eclipse.osgi.internal.baseadaptor.DefaultClassLoader.loadClass(DefaultClassLoader.java:107)
+	at java.lang.ClassLoader.loadClass(Unknown Source)
+	at org.eclipse.osgi.internal.loader.BundleLoader.loadClass(BundleLoader.java:340)
+	at org.eclipse.osgi.framework.internal.core.BundleHost.loadClass(BundleHost.java:229)
+	at org.eclipse.osgi.framework.internal.core.AbstractBundle.loadClass(AbstractBundle.java:1212)
+	at org.eclipse.e4.ui.internal.workbench.ReflectionContributionFactory.createFromBundle(ReflectionContributionFactory.java:100)
+	at org.eclipse.e4.ui.internal.workbench.ReflectionContributionFactory.doCreate(ReflectionContributionFactory.java:71)
+	at org.eclipse.e4.ui.internal.workbench.ReflectionContributionFactory.create(ReflectionContributionFactory.java:49)
+	at org.eclipse.e4.ui.internal.workbench.swt.E4Application.createE4Workbench(E4Application.java:258)
+	at org.eclipse.ui.internal.Workbench$5.run(Workbench.java:557)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:332)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:543)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:149)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:124)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:196)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:110)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:79)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:353)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:180)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:630)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:585)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1439)
+
+!ENTRY org.eclipse.e4.ui.workbench 4 0 2019-12-03 14:56:57.397
+!MESSAGE Unable to load class 'org.eclipse.ui.internal.ide.addons.SaveAllDirtyPartsAddon' from bundle '255'
+!STACK 0
+java.lang.ClassNotFoundException: org.eclipse.ui.internal.ide.addons.SaveAllDirtyPartsAddon
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClassInternal(BundleLoader.java:501)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:421)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:412)
+	at org.eclipse.osgi.internal.baseadaptor.DefaultClassLoader.loadClass(DefaultClassLoader.java:107)
+	at java.lang.ClassLoader.loadClass(Unknown Source)
+	at org.eclipse.osgi.internal.loader.BundleLoader.loadClass(BundleLoader.java:340)
+	at org.eclipse.osgi.framework.internal.core.BundleHost.loadClass(BundleHost.java:229)
+	at org.eclipse.osgi.framework.internal.core.AbstractBundle.loadClass(AbstractBundle.java:1212)
+	at org.eclipse.e4.ui.internal.workbench.ReflectionContributionFactory.createFromBundle(ReflectionContributionFactory.java:100)
+	at org.eclipse.e4.ui.internal.workbench.ReflectionContributionFactory.doCreate(ReflectionContributionFactory.java:71)
+	at org.eclipse.e4.ui.internal.workbench.ReflectionContributionFactory.create(ReflectionContributionFactory.java:49)
+	at org.eclipse.e4.ui.internal.workbench.swt.E4Application.createE4Workbench(E4Application.java:258)
+	at org.eclipse.ui.internal.Workbench$5.run(Workbench.java:557)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:332)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:543)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:149)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:124)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:196)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:110)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:79)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:353)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:180)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:630)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:585)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1439)
+
+!ENTRY org.eclipse.e4.ui.workbench 4 0 2019-12-03 14:56:57.398
+!MESSAGE Unable to load class 'org.eclipse.ui.internal.ide.application.addons.ModelCleanupAddon' from bundle '256'
+!STACK 0
+java.lang.ClassNotFoundException: org.eclipse.ui.internal.ide.application.addons.ModelCleanupAddon
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClassInternal(BundleLoader.java:501)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:421)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:412)
+	at org.eclipse.osgi.internal.baseadaptor.DefaultClassLoader.loadClass(DefaultClassLoader.java:107)
+	at java.lang.ClassLoader.loadClass(Unknown Source)
+	at org.eclipse.osgi.internal.loader.BundleLoader.loadClass(BundleLoader.java:340)
+	at org.eclipse.osgi.framework.internal.core.BundleHost.loadClass(BundleHost.java:229)
+	at org.eclipse.osgi.framework.internal.core.AbstractBundle.loadClass(AbstractBundle.java:1212)
+	at org.eclipse.e4.ui.internal.workbench.ReflectionContributionFactory.createFromBundle(ReflectionContributionFactory.java:100)
+	at org.eclipse.e4.ui.internal.workbench.ReflectionContributionFactory.doCreate(ReflectionContributionFactory.java:71)
+	at org.eclipse.e4.ui.internal.workbench.ReflectionContributionFactory.create(ReflectionContributionFactory.java:49)
+	at org.eclipse.e4.ui.internal.workbench.swt.E4Application.createE4Workbench(E4Application.java:258)
+	at org.eclipse.ui.internal.Workbench$5.run(Workbench.java:557)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:332)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:543)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:149)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:124)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:196)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:110)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:79)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:353)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:180)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:630)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:585)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1439)
+
+!ENTRY org.eclipse.ui 4 4 2019-12-03 14:56:58.514
+!MESSAGE Unable to find Action Set: org.eclipse.mylyn.doc.actionSet
+
+!ENTRY org.eclipse.ui 4 4 2019-12-03 14:56:58.516
+!MESSAGE Unable to find Action Set: org.eclipse.mylyn.tasks.ui.navigation
+
+!ENTRY com.freescale.core.ide.cdt.toolchain 4 0 2019-12-03 14:57:00.059
+!MESSAGE Environment Variable Dependency not resolved for 'ARMGNUDirEnv'.
+
+!ENTRY com.freescale.core.ide.cdt.toolchain 4 0 2019-12-03 14:57:00.060
+!MESSAGE Environment Variable Dependency not resolved for 'ARMSummonDirEnv'.
+
+!ENTRY com.freescale.core.ide.cdt.toolchain 4 0 2019-12-03 14:57:00.060
+!MESSAGE Environment Variable Dependency not resolved for 'ARMYagartoDirEnv'.
+
+!ENTRY com.freescale.core.ide.cdt.toolchain 4 0 2019-12-03 14:57:00.061
+!MESSAGE Environment Variable Dependency not resolved for 'ARMdevkitProDirEnv'.
+
+!ENTRY com.freescale.core.ide.wizard.ui 2 0 2019-12-03 14:57:01.016
+!MESSAGE External elements location 'D:\CW11.0\CW MCU v11.0\eclipse\../MCU/lib/wizard_data/mqx/4.0/ppc' does not exist
+
+!ENTRY com.freescale.core.ide.wizard.ui 2 0 2019-12-03 14:57:01.016
+!MESSAGE External elements location 'D:\CW11.0\CW MCU v11.0\eclipse\../MCU/lib/wizard_data/mqx/4.0/patches' does not exist
+
+!ENTRY com.freescale.core.ide.wizard.ui 2 0 2019-12-03 14:57:01.126
+!MESSAGE External elements location 'D:\CW11.0\CW MCU v11.0\eclipse\../MCU/lib/wizard_data/mqx/4.1/ppc' does not exist
+
+!ENTRY com.freescale.core.ide.wizard.ui 2 0 2019-12-03 14:57:01.126
+!MESSAGE External elements location 'D:\CW11.0\CW MCU v11.0\eclipse\../MCU/lib/wizard_data/mqx/4.1/patches' does not exist
+
+!ENTRY com.freescale.processorexpert.core 1 0 2019-12-03 14:57:02.198
+!MESSAGE Plugin com.freescale.processorexpert.core.service ProcessorExpertServiceProvider
+
+!ENTRY org.eclipse.equinox.p2.transport.ecf 2 0 2019-12-03 14:57:05.678
+!MESSAGE Connection to http://nxp.com/lgfiles/updates/Eclipse/MCU11_0/updatesite/p2.index failed on Received fatal alert: protocol_version. Retry attempt 0 started
+!STACK 0
+javax.net.ssl.SSLException: Received fatal alert: protocol_version
+	at com.sun.net.ssl.internal.ssl.Alerts.getSSLException(Unknown Source)
+	at com.sun.net.ssl.internal.ssl.Alerts.getSSLException(Unknown Source)
+	at com.sun.net.ssl.internal.ssl.SSLSocketImpl.recvAlert(Unknown Source)
+	at com.sun.net.ssl.internal.ssl.SSLSocketImpl.readRecord(Unknown Source)
+	at com.sun.net.ssl.internal.ssl.SSLSocketImpl.performInitialHandshake(Unknown Source)
+	at com.sun.net.ssl.internal.ssl.SSLSocketImpl.writeRecord(Unknown Source)
+	at com.sun.net.ssl.internal.ssl.AppOutputStream.write(Unknown Source)
+	at java.io.BufferedOutputStream.flushBuffer(Unknown Source)
+	at java.io.BufferedOutputStream.flush(Unknown Source)
+	at org.apache.commons.httpclient.HttpConnection.flushRequestOutputStream(HttpConnection.java:828)
+	at org.apache.commons.httpclient.MultiThreadedHttpConnectionManager$HttpConnectionAdapter.flushRequestOutputStream(MultiThreadedHttpConnectionManager.java:1565)
+	at org.apache.commons.httpclient.HttpMethodBase.writeRequest(HttpMethodBase.java:2116)
+	at org.apache.commons.httpclient.HttpMethodBase.execute(HttpMethodBase.java:1096)
+	at org.eclipse.ecf.provider.filetransfer.httpclient.HttpClientRetrieveFileTransfer$GzipGetMethod.execute(HttpClientRetrieveFileTransfer.java:120)
+	at org.apache.commons.httpclient.HttpMethodDirector.executeWithRetry(HttpMethodDirector.java:398)
+	at org.apache.commons.httpclient.HttpMethodDirector.executeMethod(HttpMethodDirector.java:171)
+	at org.apache.commons.httpclient.HttpClient.executeMethod(HttpClient.java:397)
+	at org.apache.commons.httpclient.HttpClient.executeMethod(HttpClient.java:346)
+	at org.eclipse.ecf.provider.filetransfer.httpclient.HttpClientRetrieveFileTransfer.performConnect(HttpClientRetrieveFileTransfer.java:1129)
+	at org.eclipse.ecf.provider.filetransfer.httpclient.HttpClientRetrieveFileTransfer.openStreams(HttpClientRetrieveFileTransfer.java:699)
+	at org.eclipse.ecf.provider.filetransfer.retrieve.AbstractRetrieveFileTransfer.sendRetrieveRequest(AbstractRetrieveFileTransfer.java:879)
+	at org.eclipse.ecf.provider.filetransfer.retrieve.AbstractRetrieveFileTransfer.sendRetrieveRequest(AbstractRetrieveFileTransfer.java:570)
+	at org.eclipse.ecf.provider.filetransfer.retrieve.MultiProtocolRetrieveAdapter.sendRetrieveRequest(MultiProtocolRetrieveAdapter.java:106)
+	at org.eclipse.equinox.internal.p2.transport.ecf.FileReader.sendRetrieveRequest(FileReader.java:422)
+	at org.eclipse.equinox.internal.p2.transport.ecf.FileReader.readInto(FileReader.java:355)
+	at org.eclipse.equinox.internal.p2.transport.ecf.RepositoryTransport.download(RepositoryTransport.java:101)
+	at org.eclipse.equinox.internal.p2.transport.ecf.RepositoryTransport.download(RepositoryTransport.java:156)
+	at org.eclipse.equinox.internal.p2.repository.helpers.AbstractRepositoryManager.loadIndexFile(AbstractRepositoryManager.java:721)
+	at org.eclipse.equinox.internal.p2.repository.helpers.AbstractRepositoryManager.loadRepository(AbstractRepositoryManager.java:640)
+	at org.eclipse.equinox.internal.p2.metadata.repository.MetadataRepositoryManager.loadRepository(MetadataRepositoryManager.java:96)
+	at org.eclipse.equinox.internal.p2.metadata.repository.MetadataRepositoryManager.loadRepository(MetadataRepositoryManager.java:92)
+	at org.eclipse.equinox.internal.p2.updatechecker.UpdateChecker.getAvailableRepositories(UpdateChecker.java:150)
+	at org.eclipse.equinox.internal.p2.updatechecker.UpdateChecker.checkForUpdates(UpdateChecker.java:128)
+	at org.eclipse.equinox.internal.p2.updatechecker.UpdateChecker$UpdateCheckThread.run(UpdateChecker.java:72)
+
+!ENTRY org.eclipse.equinox.p2.metadata.repository 4 1000 2019-12-03 14:57:08.313
+!MESSAGE No repository found at jar:file:D:%5CCW11.0%5CCW11.0%5Ccom.freescale.mcu11_0.s12z.updatesite.zip!/.
+
+!ENTRY org.eclipse.equinox.p2.metadata.repository 4 1000 2019-12-03 14:57:08.332
+!MESSAGE No repository found at jar:file:D:%5CCW11.0%5CCW11.0%5Ccom.freescale.mcu11_0.e200.updatesite.zip!/.
+
+!ENTRY org.eclipse.equinox.p2.metadata.repository 4 1000 2019-12-03 14:57:08.950
+!MESSAGE No repository found at jar:file:D:%5CCW11.0%5CCW11.0%5Ccom.freescale.mcu11_0.kinetis.updatesite.zip!/.
+
+!ENTRY org.eclipse.equinox.p2.metadata.repository 4 1000 2019-12-03 14:57:08.966
+!MESSAGE No repository found at jar:file:D:%5CCW11.0%5CCW11.0%5Ccom.freescale.mcu11_0.coldfire.updatesite.zip!/.
+
+!ENTRY org.eclipse.equinox.p2.metadata.repository 4 1000 2019-12-03 14:57:08.983
+!MESSAGE No repository found at jar:file:D:%5CCW11.0%5CCW11.0%5Ccom.freescale.mcu11_0.dsc.updatesite.zip!/.
+
+!ENTRY org.eclipse.equinox.p2.metadata.repository 4 1000 2019-12-03 14:57:08.996
+!MESSAGE No repository found at jar:file:D:%5CCW11.0%5CCW11.0%5Ccom.freescale.mcu11_0.hcs08_rs08.updatesite.zip!/.
+
+!ENTRY org.eclipse.cdt.core 1 0 2019-12-03 14:57:33.850
+!MESSAGE Indexed 'RLS' (20 sources, 50 headers) in 1.07 sec: 1,863 declarations; 4,820 references; 0 unresolved inclusions; 0 syntax errors; 0 unresolved names (0.00%)
+
+!ENTRY org.eclipse.osgi 2 1 2019-12-03 15:16:22.980
+!MESSAGE NLS unused message: trace_trigger_dv_error_title in: com.freescale.sa.mcu.analysispoints.nls.ui
+
+!ENTRY org.eclipse.osgi 2 1 2019-12-03 15:16:22.980
+!MESSAGE NLS unused message: trace_trigger_dv_error_message in: com.freescale.sa.mcu.analysispoints.nls.ui
+
+!ENTRY org.eclipse.jface 2 0 2019-12-03 15:16:23.031
+!MESSAGE Keybinding conflicts occurred.  They may interfere with normal accelerator operation.
+!SUBENTRY 1 org.eclipse.jface 2 0 2019-12-03 15:16:23.031
+!MESSAGE A conflict occurred for ALT+CTRL+I:
+Binding(ALT+CTRL+I,
+	ParameterizedCommand(Command(org.eclipse.cdt.ui.edit.open.include.browser,Open Include Browser,
+		Open an include browser on the selected element,
+		Category(org.eclipse.ui.category.navigate,Navigate,null,true),
+		org.eclipse.ui.internal.MakeHandlersGo@b0cc28,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.cdt.ui.cEditorScope,,,system)
+Binding(ALT+CTRL+I,
+	ParameterizedCommand(Command(org.eclipse.cdt.ui.edit.open.include.browser,Open Include Browser,
+		Open an include browser on the selected element,
+		Category(org.eclipse.ui.category.navigate,Navigate,null,true),
+		org.eclipse.ui.internal.MakeHandlersGo@b0cc28,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.cdt.ui.cViewScope,,,system)
+!SUBENTRY 1 org.eclipse.jface 2 0 2019-12-03 15:16:23.031
+!MESSAGE A conflict occurred for ALT+SHIFT+R:
+Binding(ALT+SHIFT+R,
+	ParameterizedCommand(Command(org.eclipse.cdt.ui.edit.text.rename.element,Rename - Refactoring ,
+		Rename the selected element,
+		Category(org.eclipse.cdt.ui.category.refactoring,Refactor - C++,C/C++ Refactorings,true),
+		org.eclipse.ui.internal.MakeHandlersGo@12b8081,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.cdt.ui.cEditorScope,,,system)
+Binding(ALT+SHIFT+R,
+	ParameterizedCommand(Command(org.eclipse.cdt.ui.edit.text.rename.element,Rename - Refactoring ,
+		Rename the selected element,
+		Category(org.eclipse.cdt.ui.category.refactoring,Refactor - C++,C/C++ Refactorings,true),
+		org.eclipse.ui.internal.MakeHandlersGo@12b8081,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.cdt.ui.cViewScope,,,system)
+!SUBENTRY 1 org.eclipse.jface 2 0 2019-12-03 15:16:23.031
+!MESSAGE A conflict occurred for F4:
+Binding(F4,
+	ParameterizedCommand(Command(org.eclipse.cdt.ui.edit.open.type.hierarchy,Open Type Hierarchy,
+		Open a type hierarchy on the selected element,
+		Category(org.eclipse.ui.category.navigate,Navigate,null,true),
+		org.eclipse.ui.internal.MakeHandlersGo@101c0d6,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.cdt.ui.cEditorScope,,,system)
+Binding(F4,
+	ParameterizedCommand(Command(org.eclipse.cdt.ui.edit.open.type.hierarchy,Open Type Hierarchy,
+		Open a type hierarchy on the selected element,
+		Category(org.eclipse.ui.category.navigate,Navigate,null,true),
+		org.eclipse.ui.internal.MakeHandlersGo@101c0d6,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.cdt.ui.cViewScope,,,system)
+!SUBENTRY 1 org.eclipse.jface 2 0 2019-12-03 15:16:23.031
+!MESSAGE A conflict occurred for CTRL+SHIFT+T:
+Binding(CTRL+SHIFT+T,
+	ParameterizedCommand(Command(org.eclipse.cdt.ui.navigate.opentype,Open Element,
+		Open an element in an Editor,
+		Category(org.eclipse.cdt.ui.category.source,C/C++ Source,C/C++ Source Actions,true),
+		org.eclipse.ui.internal.MakeHandlersGo@1b2f74,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.cdt.ui.cEditorScope,,,system)
+Binding(CTRL+SHIFT+T,
+	ParameterizedCommand(Command(org.eclipse.cdt.ui.navigate.opentype,Open Element,
+		Open an element in an Editor,
+		Category(org.eclipse.cdt.ui.category.source,C/C++ Source,C/C++ Source Actions,true),
+		org.eclipse.ui.internal.MakeHandlersGo@1b2f74,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.cdt.ui.cViewScope,,,system)
+!SUBENTRY 1 org.eclipse.jface 2 0 2019-12-03 15:16:23.031
+!MESSAGE A conflict occurred for F3:
+Binding(F3,
+	ParameterizedCommand(Command(org.eclipse.cdt.ui.edit.opendecl,Open Declaration,
+		Open an editor on the selected element's declaration(s),
+		Category(org.eclipse.cdt.ui.category.source,C/C++ Source,C/C++ Source Actions,true),
+		org.eclipse.ui.internal.MakeHandlersGo@c870ee,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.cdt.ui.cEditorScope,,,system)
+Binding(F3,
+	ParameterizedCommand(Command(org.eclipse.cdt.ui.edit.opendecl,Open Declaration,
+		Open an editor on the selected element's declaration(s),
+		Category(org.eclipse.cdt.ui.category.source,C/C++ Source,C/C++ Source Actions,true),
+		org.eclipse.ui.internal.MakeHandlersGo@c870ee,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.cdt.ui.cViewScope,,,system)
+!SUBENTRY 1 org.eclipse.jface 2 0 2019-12-03 15:16:23.031
+!MESSAGE A conflict occurred for CTRL+G:
+Binding(CTRL+G,
+	ParameterizedCommand(Command(org.eclipse.cdt.ui.search.finddecl,Declaration,
+		Search for declarations of the selected element in the workspace,
+		Category(org.eclipse.cdt.ui.category.source,C/C++ Source,C/C++ Source Actions,true),
+		org.eclipse.ui.internal.MakeHandlersGo@16e4f00,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.cdt.ui.cEditorScope,,,system)
+Binding(CTRL+G,
+	ParameterizedCommand(Command(org.eclipse.cdt.ui.search.finddecl,Declaration,
+		Search for declarations of the selected element in the workspace,
+		Category(org.eclipse.cdt.ui.category.source,C/C++ Source,C/C++ Source Actions,true),
+		org.eclipse.ui.internal.MakeHandlersGo@16e4f00,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.cdt.ui.cViewScope,,,system)
+!SUBENTRY 1 org.eclipse.jface 2 0 2019-12-03 15:16:23.031
+!MESSAGE A conflict occurred for CTRL+SHIFT+G:
+Binding(CTRL+SHIFT+G,
+	ParameterizedCommand(Command(org.eclipse.cdt.ui.search.findrefs,References,
+		Search for references to the selected element in the workspace,
+		Category(org.eclipse.cdt.ui.category.source,C/C++ Source,C/C++ Source Actions,true),
+		org.eclipse.ui.internal.MakeHandlersGo@104a988,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.cdt.ui.cEditorScope,,,system)
+Binding(CTRL+SHIFT+G,
+	ParameterizedCommand(Command(org.eclipse.cdt.ui.search.findrefs,References,
+		Search for references to the selected element in the workspace,
+		Category(org.eclipse.cdt.ui.category.source,C/C++ Source,C/C++ Source Actions,true),
+		org.eclipse.ui.internal.MakeHandlersGo@104a988,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.cdt.ui.cViewScope,,,system)
+!SUBENTRY 1 org.eclipse.jface 2 0 2019-12-03 15:16:23.031
+!MESSAGE A conflict occurred for ALT+CTRL+H:
+Binding(ALT+CTRL+H,
+	ParameterizedCommand(Command(org.eclipse.cdt.ui.edit.open.call.hierarchy,Open Call Hierarchy,
+		Open the call hierarchy for the selected element,
+		Category(org.eclipse.ui.category.navigate,Navigate,null,true),
+		org.eclipse.ui.internal.MakeHandlersGo@1165281,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.cdt.ui.cEditorScope,,,system)
+Binding(ALT+CTRL+H,
+	ParameterizedCommand(Command(org.eclipse.cdt.ui.edit.open.call.hierarchy,Open Call Hierarchy,
+		Open the call hierarchy for the selected element,
+		Category(org.eclipse.ui.category.navigate,Navigate,null,true),
+		org.eclipse.ui.internal.MakeHandlersGo@1165281,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.cdt.ui.cViewScope,,,system)
+!SUBENTRY 1 org.eclipse.jface 2 0 2019-12-03 15:16:23.031
+!MESSAGE A conflict occurred for CTRL+SHIFT+H:
+Binding(CTRL+SHIFT+H,
+	ParameterizedCommand(Command(org.eclipse.cdt.ui.navigate.open.type.in.hierarchy,Open Type in Hierarchy,
+		Open a type in the type hierarchy view,
+		Category(org.eclipse.ui.category.navigate,Navigate,null,true),
+		org.eclipse.ui.internal.MakeHandlersGo@82b79d,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.cdt.ui.cEditorScope,,,system)
+Binding(CTRL+SHIFT+H,
+	ParameterizedCommand(Command(org.eclipse.cdt.ui.navigate.open.type.in.hierarchy,Open Type in Hierarchy,
+		Open a type in the type hierarchy view,
+		Category(org.eclipse.ui.category.navigate,Navigate,null,true),
+		org.eclipse.ui.internal.MakeHandlersGo@82b79d,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.cdt.ui.cViewScope,,,system)
+
+!ENTRY org.eclipse.osgi 2 1 2019-12-03 16:34:35.806
+!MESSAGE NLS missing message: DisassemblyPreferencePage_showFunctionOffsets in: org.eclipse.cdt.dsf.debug.internal.ui.disassembly.DisassemblyMessages
+
+!ENTRY org.eclipse.osgi 2 1 2019-12-03 16:34:35.806
+!MESSAGE NLS missing message: DisassemblyPreferencePage_showFunctionOffsetsTooltip in: org.eclipse.cdt.dsf.debug.internal.ui.disassembly.DisassemblyMessages
+
+!ENTRY org.eclipse.osgi 2 1 2019-12-03 16:34:35.806
+!MESSAGE NLS missing message: DisassemblyPreferencePage_showCodeBytes in: org.eclipse.cdt.dsf.debug.internal.ui.disassembly.DisassemblyMessages
+
+!ENTRY org.eclipse.osgi 2 1 2019-12-03 16:34:35.807
+!MESSAGE NLS missing message: DisassemblyPreferencePage_showCodeBytesTooltip in: org.eclipse.cdt.dsf.debug.internal.ui.disassembly.DisassemblyMessages
+
+!ENTRY org.eclipse.osgi 2 1 2019-12-03 16:34:35.807
+!MESSAGE NLS missing message: DisassemblyPreferencePage_showAddress in: org.eclipse.cdt.dsf.debug.internal.ui.disassembly.DisassemblyMessages
+
+!ENTRY org.eclipse.osgi 2 1 2019-12-03 16:34:35.807
+!MESSAGE NLS missing message: DisassemblyPreferencePage_showAddressTooltip in: org.eclipse.cdt.dsf.debug.internal.ui.disassembly.DisassemblyMessages
+!SESSION 2019-12-03 16:38:22.658 -----------------------------------------------
+eclipse.buildId=I20070613-1755
+java.version=1.6.0_15
+java.vendor=Sun Microsystems Inc.
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=en
+Command-line arguments:  -os win32 -ws win32 -arch x86
+
+!ENTRY org.eclipse.osgi 2 1 2019-12-03 16:38:29.769
+!MESSAGE NLS missing message: ContentTypes_errorDialogAlreadyExists in: org.eclipse.ui.internal.messages
+
+!ENTRY org.eclipse.e4.ui.workbench 4 0 2019-12-03 16:38:29.847
+!MESSAGE Unable to load class 'org.eclipse.e4.ui.workbench.addons.splitteraddon.SplitterAddon' from bundle '144'
+!STACK 0
+java.lang.ClassNotFoundException: org.eclipse.e4.ui.workbench.addons.splitteraddon.SplitterAddon
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClassInternal(BundleLoader.java:501)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:421)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:412)
+	at org.eclipse.osgi.internal.baseadaptor.DefaultClassLoader.loadClass(DefaultClassLoader.java:107)
+	at java.lang.ClassLoader.loadClass(Unknown Source)
+	at org.eclipse.osgi.internal.loader.BundleLoader.loadClass(BundleLoader.java:340)
+	at org.eclipse.osgi.framework.internal.core.BundleHost.loadClass(BundleHost.java:229)
+	at org.eclipse.osgi.framework.internal.core.AbstractBundle.loadClass(AbstractBundle.java:1212)
+	at org.eclipse.e4.ui.internal.workbench.ReflectionContributionFactory.createFromBundle(ReflectionContributionFactory.java:100)
+	at org.eclipse.e4.ui.internal.workbench.ReflectionContributionFactory.doCreate(ReflectionContributionFactory.java:71)
+	at org.eclipse.e4.ui.internal.workbench.ReflectionContributionFactory.create(ReflectionContributionFactory.java:49)
+	at org.eclipse.e4.ui.internal.workbench.swt.E4Application.createE4Workbench(E4Application.java:258)
+	at org.eclipse.ui.internal.Workbench$5.run(Workbench.java:557)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:332)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:543)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:149)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:124)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:196)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:110)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:79)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:353)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:180)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:630)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:585)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1439)
+
+!ENTRY org.eclipse.e4.ui.workbench 4 0 2019-12-03 16:38:29.848
+!MESSAGE Unable to load class 'org.eclipse.ui.internal.ide.addons.SaveAllDirtyPartsAddon' from bundle '255'
+!STACK 0
+java.lang.ClassNotFoundException: org.eclipse.ui.internal.ide.addons.SaveAllDirtyPartsAddon
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClassInternal(BundleLoader.java:501)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:421)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:412)
+	at org.eclipse.osgi.internal.baseadaptor.DefaultClassLoader.loadClass(DefaultClassLoader.java:107)
+	at java.lang.ClassLoader.loadClass(Unknown Source)
+	at org.eclipse.osgi.internal.loader.BundleLoader.loadClass(BundleLoader.java:340)
+	at org.eclipse.osgi.framework.internal.core.BundleHost.loadClass(BundleHost.java:229)
+	at org.eclipse.osgi.framework.internal.core.AbstractBundle.loadClass(AbstractBundle.java:1212)
+	at org.eclipse.e4.ui.internal.workbench.ReflectionContributionFactory.createFromBundle(ReflectionContributionFactory.java:100)
+	at org.eclipse.e4.ui.internal.workbench.ReflectionContributionFactory.doCreate(ReflectionContributionFactory.java:71)
+	at org.eclipse.e4.ui.internal.workbench.ReflectionContributionFactory.create(ReflectionContributionFactory.java:49)
+	at org.eclipse.e4.ui.internal.workbench.swt.E4Application.createE4Workbench(E4Application.java:258)
+	at org.eclipse.ui.internal.Workbench$5.run(Workbench.java:557)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:332)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:543)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:149)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:124)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:196)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:110)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:79)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:353)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:180)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:630)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:585)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1439)
+
+!ENTRY org.eclipse.e4.ui.workbench 4 0 2019-12-03 16:38:29.848
+!MESSAGE Unable to load class 'org.eclipse.ui.internal.ide.application.addons.ModelCleanupAddon' from bundle '256'
+!STACK 0
+java.lang.ClassNotFoundException: org.eclipse.ui.internal.ide.application.addons.ModelCleanupAddon
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClassInternal(BundleLoader.java:501)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:421)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:412)
+	at org.eclipse.osgi.internal.baseadaptor.DefaultClassLoader.loadClass(DefaultClassLoader.java:107)
+	at java.lang.ClassLoader.loadClass(Unknown Source)
+	at org.eclipse.osgi.internal.loader.BundleLoader.loadClass(BundleLoader.java:340)
+	at org.eclipse.osgi.framework.internal.core.BundleHost.loadClass(BundleHost.java:229)
+	at org.eclipse.osgi.framework.internal.core.AbstractBundle.loadClass(AbstractBundle.java:1212)
+	at org.eclipse.e4.ui.internal.workbench.ReflectionContributionFactory.createFromBundle(ReflectionContributionFactory.java:100)
+	at org.eclipse.e4.ui.internal.workbench.ReflectionContributionFactory.doCreate(ReflectionContributionFactory.java:71)
+	at org.eclipse.e4.ui.internal.workbench.ReflectionContributionFactory.create(ReflectionContributionFactory.java:49)
+	at org.eclipse.e4.ui.internal.workbench.swt.E4Application.createE4Workbench(E4Application.java:258)
+	at org.eclipse.ui.internal.Workbench$5.run(Workbench.java:557)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:332)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:543)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:149)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:124)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:196)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:110)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:79)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:353)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:180)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:630)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:585)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1439)
+
+!ENTRY com.freescale.core.ide.cdt.toolchain 4 0 2019-12-03 16:38:31.342
+!MESSAGE Environment Variable Dependency not resolved for 'ARMGNUDirEnv'.
+
+!ENTRY com.freescale.core.ide.cdt.toolchain 4 0 2019-12-03 16:38:31.345
+!MESSAGE Environment Variable Dependency not resolved for 'ARMSummonDirEnv'.
+
+!ENTRY com.freescale.core.ide.cdt.toolchain 4 0 2019-12-03 16:38:31.346
+!MESSAGE Environment Variable Dependency not resolved for 'ARMYagartoDirEnv'.
+
+!ENTRY com.freescale.core.ide.cdt.toolchain 4 0 2019-12-03 16:38:31.346
+!MESSAGE Environment Variable Dependency not resolved for 'ARMdevkitProDirEnv'.
+
+!ENTRY com.freescale.core.ide.wizard.ui 2 0 2019-12-03 16:38:32.772
+!MESSAGE External elements location 'D:\CW11.0\CW MCU v11.0\eclipse\../MCU/lib/wizard_data/mqx/4.0/ppc' does not exist
+
+!ENTRY com.freescale.core.ide.wizard.ui 2 0 2019-12-03 16:38:32.773
+!MESSAGE External elements location 'D:\CW11.0\CW MCU v11.0\eclipse\../MCU/lib/wizard_data/mqx/4.0/patches' does not exist
+
+!ENTRY com.freescale.core.ide.wizard.ui 2 0 2019-12-03 16:38:32.879
+!MESSAGE External elements location 'D:\CW11.0\CW MCU v11.0\eclipse\../MCU/lib/wizard_data/mqx/4.1/ppc' does not exist
+
+!ENTRY com.freescale.core.ide.wizard.ui 2 0 2019-12-03 16:38:32.880
+!MESSAGE External elements location 'D:\CW11.0\CW MCU v11.0\eclipse\../MCU/lib/wizard_data/mqx/4.1/patches' does not exist
+
+!ENTRY com.freescale.processorexpert.core 1 0 2019-12-03 16:38:33.887
+!MESSAGE Plugin com.freescale.processorexpert.core.service ProcessorExpertServiceProvider
+
+!ENTRY org.eclipse.equinox.p2.transport.ecf 2 0 2019-12-03 16:38:37.191
+!MESSAGE Connection to http://nxp.com/lgfiles/updates/Eclipse/MCU11_0/updatesite/p2.index failed on Received fatal alert: protocol_version. Retry attempt 0 started
+!STACK 0
+javax.net.ssl.SSLException: Received fatal alert: protocol_version
+	at com.sun.net.ssl.internal.ssl.Alerts.getSSLException(Unknown Source)
+	at com.sun.net.ssl.internal.ssl.Alerts.getSSLException(Unknown Source)
+	at com.sun.net.ssl.internal.ssl.SSLSocketImpl.recvAlert(Unknown Source)
+	at com.sun.net.ssl.internal.ssl.SSLSocketImpl.readRecord(Unknown Source)
+	at com.sun.net.ssl.internal.ssl.SSLSocketImpl.performInitialHandshake(Unknown Source)
+	at com.sun.net.ssl.internal.ssl.SSLSocketImpl.writeRecord(Unknown Source)
+	at com.sun.net.ssl.internal.ssl.AppOutputStream.write(Unknown Source)
+	at java.io.BufferedOutputStream.flushBuffer(Unknown Source)
+	at java.io.BufferedOutputStream.flush(Unknown Source)
+	at org.apache.commons.httpclient.HttpConnection.flushRequestOutputStream(HttpConnection.java:828)
+	at org.apache.commons.httpclient.MultiThreadedHttpConnectionManager$HttpConnectionAdapter.flushRequestOutputStream(MultiThreadedHttpConnectionManager.java:1565)
+	at org.apache.commons.httpclient.HttpMethodBase.writeRequest(HttpMethodBase.java:2116)
+	at org.apache.commons.httpclient.HttpMethodBase.execute(HttpMethodBase.java:1096)
+	at org.eclipse.ecf.provider.filetransfer.httpclient.HttpClientRetrieveFileTransfer$GzipGetMethod.execute(HttpClientRetrieveFileTransfer.java:120)
+	at org.apache.commons.httpclient.HttpMethodDirector.executeWithRetry(HttpMethodDirector.java:398)
+	at org.apache.commons.httpclient.HttpMethodDirector.executeMethod(HttpMethodDirector.java:171)
+	at org.apache.commons.httpclient.HttpClient.executeMethod(HttpClient.java:397)
+	at org.apache.commons.httpclient.HttpClient.executeMethod(HttpClient.java:346)
+	at org.eclipse.ecf.provider.filetransfer.httpclient.HttpClientRetrieveFileTransfer.performConnect(HttpClientRetrieveFileTransfer.java:1129)
+	at org.eclipse.ecf.provider.filetransfer.httpclient.HttpClientRetrieveFileTransfer.openStreams(HttpClientRetrieveFileTransfer.java:699)
+	at org.eclipse.ecf.provider.filetransfer.retrieve.AbstractRetrieveFileTransfer.sendRetrieveRequest(AbstractRetrieveFileTransfer.java:879)
+	at org.eclipse.ecf.provider.filetransfer.retrieve.AbstractRetrieveFileTransfer.sendRetrieveRequest(AbstractRetrieveFileTransfer.java:570)
+	at org.eclipse.ecf.provider.filetransfer.retrieve.MultiProtocolRetrieveAdapter.sendRetrieveRequest(MultiProtocolRetrieveAdapter.java:106)
+	at org.eclipse.equinox.internal.p2.transport.ecf.FileReader.sendRetrieveRequest(FileReader.java:422)
+	at org.eclipse.equinox.internal.p2.transport.ecf.FileReader.readInto(FileReader.java:355)
+	at org.eclipse.equinox.internal.p2.transport.ecf.RepositoryTransport.download(RepositoryTransport.java:101)
+	at org.eclipse.equinox.internal.p2.transport.ecf.RepositoryTransport.download(RepositoryTransport.java:156)
+	at org.eclipse.equinox.internal.p2.repository.helpers.AbstractRepositoryManager.loadIndexFile(AbstractRepositoryManager.java:721)
+	at org.eclipse.equinox.internal.p2.repository.helpers.AbstractRepositoryManager.loadRepository(AbstractRepositoryManager.java:640)
+	at org.eclipse.equinox.internal.p2.metadata.repository.MetadataRepositoryManager.loadRepository(MetadataRepositoryManager.java:96)
+	at org.eclipse.equinox.internal.p2.metadata.repository.MetadataRepositoryManager.loadRepository(MetadataRepositoryManager.java:92)
+	at org.eclipse.equinox.internal.p2.updatechecker.UpdateChecker.getAvailableRepositories(UpdateChecker.java:150)
+	at org.eclipse.equinox.internal.p2.updatechecker.UpdateChecker.checkForUpdates(UpdateChecker.java:128)
+	at org.eclipse.equinox.internal.p2.updatechecker.UpdateChecker$UpdateCheckThread.run(UpdateChecker.java:72)
+
+!ENTRY org.eclipse.equinox.p2.metadata.repository 4 1000 2019-12-03 16:38:38.626
+!MESSAGE No repository found at jar:file:D:%5CCW11.0%5CCW11.0%5Ccom.freescale.mcu11_0.s12z.updatesite.zip!/.
+
+!ENTRY org.eclipse.equinox.p2.metadata.repository 4 1000 2019-12-03 16:38:38.653
+!MESSAGE No repository found at jar:file:D:%5CCW11.0%5CCW11.0%5Ccom.freescale.mcu11_0.e200.updatesite.zip!/.
+
+!ENTRY org.eclipse.equinox.p2.metadata.repository 4 1000 2019-12-03 16:38:39.186
+!MESSAGE No repository found at jar:file:D:%5CCW11.0%5CCW11.0%5Ccom.freescale.mcu11_0.kinetis.updatesite.zip!/.
+
+!ENTRY org.eclipse.equinox.p2.metadata.repository 4 1000 2019-12-03 16:38:39.202
+!MESSAGE No repository found at jar:file:D:%5CCW11.0%5CCW11.0%5Ccom.freescale.mcu11_0.coldfire.updatesite.zip!/.
+
+!ENTRY org.eclipse.equinox.p2.metadata.repository 4 1000 2019-12-03 16:38:39.217
+!MESSAGE No repository found at jar:file:D:%5CCW11.0%5CCW11.0%5Ccom.freescale.mcu11_0.dsc.updatesite.zip!/.
+
+!ENTRY org.eclipse.equinox.p2.metadata.repository 4 1000 2019-12-03 16:38:39.232
+!MESSAGE No repository found at jar:file:D:%5CCW11.0%5CCW11.0%5Ccom.freescale.mcu11_0.hcs08_rs08.updatesite.zip!/.
+
+!ENTRY org.eclipse.osgi 2 1 2019-12-03 16:41:24.742
+!MESSAGE NLS unused message: trace_trigger_dv_error_title in: com.freescale.sa.mcu.analysispoints.nls.ui
+
+!ENTRY org.eclipse.osgi 2 1 2019-12-03 16:41:24.742
+!MESSAGE NLS unused message: trace_trigger_dv_error_message in: com.freescale.sa.mcu.analysispoints.nls.ui
+
+!ENTRY org.eclipse.jface 2 0 2019-12-03 16:41:24.924
+!MESSAGE Keybinding conflicts occurred.  They may interfere with normal accelerator operation.
+!SUBENTRY 1 org.eclipse.jface 2 0 2019-12-03 16:41:24.924
+!MESSAGE A conflict occurred for ALT+CTRL+I:
+Binding(ALT+CTRL+I,
+	ParameterizedCommand(Command(org.eclipse.cdt.ui.edit.open.include.browser,Open Include Browser,
+		Open an include browser on the selected element,
+		Category(org.eclipse.ui.category.navigate,Navigate,null,true),
+		org.eclipse.ui.internal.MakeHandlersGo@1b31fae,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.cdt.ui.cEditorScope,,,system)
+Binding(ALT+CTRL+I,
+	ParameterizedCommand(Command(org.eclipse.cdt.ui.edit.open.include.browser,Open Include Browser,
+		Open an include browser on the selected element,
+		Category(org.eclipse.ui.category.navigate,Navigate,null,true),
+		org.eclipse.ui.internal.MakeHandlersGo@1b31fae,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.cdt.ui.cViewScope,,,system)
+!SUBENTRY 1 org.eclipse.jface 2 0 2019-12-03 16:41:24.924
+!MESSAGE A conflict occurred for ALT+SHIFT+R:
+Binding(ALT+SHIFT+R,
+	ParameterizedCommand(Command(org.eclipse.cdt.ui.edit.text.rename.element,Rename - Refactoring ,
+		Rename the selected element,
+		Category(org.eclipse.cdt.ui.category.refactoring,Refactor - C++,C/C++ Refactorings,true),
+		org.eclipse.ui.internal.MakeHandlersGo@e50fbf,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.cdt.ui.cEditorScope,,,system)
+Binding(ALT+SHIFT+R,
+	ParameterizedCommand(Command(org.eclipse.cdt.ui.edit.text.rename.element,Rename - Refactoring ,
+		Rename the selected element,
+		Category(org.eclipse.cdt.ui.category.refactoring,Refactor - C++,C/C++ Refactorings,true),
+		org.eclipse.ui.internal.MakeHandlersGo@e50fbf,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.cdt.ui.cViewScope,,,system)
+!SUBENTRY 1 org.eclipse.jface 2 0 2019-12-03 16:41:24.924
+!MESSAGE A conflict occurred for F4:
+Binding(F4,
+	ParameterizedCommand(Command(org.eclipse.cdt.ui.edit.open.type.hierarchy,Open Type Hierarchy,
+		Open a type hierarchy on the selected element,
+		Category(org.eclipse.ui.category.navigate,Navigate,null,true),
+		org.eclipse.ui.internal.MakeHandlersGo@6ce3d4,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.cdt.ui.cEditorScope,,,system)
+Binding(F4,
+	ParameterizedCommand(Command(org.eclipse.cdt.ui.edit.open.type.hierarchy,Open Type Hierarchy,
+		Open a type hierarchy on the selected element,
+		Category(org.eclipse.ui.category.navigate,Navigate,null,true),
+		org.eclipse.ui.internal.MakeHandlersGo@6ce3d4,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.cdt.ui.cViewScope,,,system)
+!SUBENTRY 1 org.eclipse.jface 2 0 2019-12-03 16:41:24.924
+!MESSAGE A conflict occurred for CTRL+SHIFT+T:
+Binding(CTRL+SHIFT+T,
+	ParameterizedCommand(Command(org.eclipse.cdt.ui.navigate.opentype,Open Element,
+		Open an element in an Editor,
+		Category(org.eclipse.cdt.ui.category.source,C/C++ Source,C/C++ Source Actions,true),
+		org.eclipse.ui.internal.MakeHandlersGo@e1a5c7,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.cdt.ui.cEditorScope,,,system)
+Binding(CTRL+SHIFT+T,
+	ParameterizedCommand(Command(org.eclipse.cdt.ui.navigate.opentype,Open Element,
+		Open an element in an Editor,
+		Category(org.eclipse.cdt.ui.category.source,C/C++ Source,C/C++ Source Actions,true),
+		org.eclipse.ui.internal.MakeHandlersGo@e1a5c7,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.cdt.ui.cViewScope,,,system)
+!SUBENTRY 1 org.eclipse.jface 2 0 2019-12-03 16:41:24.924
+!MESSAGE A conflict occurred for F3:
+Binding(F3,
+	ParameterizedCommand(Command(org.eclipse.cdt.ui.edit.opendecl,Open Declaration,
+		Open an editor on the selected element's declaration(s),
+		Category(org.eclipse.cdt.ui.category.source,C/C++ Source,C/C++ Source Actions,true),
+		org.eclipse.ui.internal.MakeHandlersGo@4ada6e,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.cdt.ui.cEditorScope,,,system)
+Binding(F3,
+	ParameterizedCommand(Command(org.eclipse.cdt.ui.edit.opendecl,Open Declaration,
+		Open an editor on the selected element's declaration(s),
+		Category(org.eclipse.cdt.ui.category.source,C/C++ Source,C/C++ Source Actions,true),
+		org.eclipse.ui.internal.MakeHandlersGo@4ada6e,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.cdt.ui.cViewScope,,,system)
+!SUBENTRY 1 org.eclipse.jface 2 0 2019-12-03 16:41:24.924
+!MESSAGE A conflict occurred for CTRL+G:
+Binding(CTRL+G,
+	ParameterizedCommand(Command(org.eclipse.cdt.ui.search.finddecl,Declaration,
+		Search for declarations of the selected element in the workspace,
+		Category(org.eclipse.cdt.ui.category.source,C/C++ Source,C/C++ Source Actions,true),
+		org.eclipse.ui.internal.MakeHandlersGo@4a762a,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.cdt.ui.cEditorScope,,,system)
+Binding(CTRL+G,
+	ParameterizedCommand(Command(org.eclipse.cdt.ui.search.finddecl,Declaration,
+		Search for declarations of the selected element in the workspace,
+		Category(org.eclipse.cdt.ui.category.source,C/C++ Source,C/C++ Source Actions,true),
+		org.eclipse.ui.internal.MakeHandlersGo@4a762a,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.cdt.ui.cViewScope,,,system)
+!SUBENTRY 1 org.eclipse.jface 2 0 2019-12-03 16:41:24.924
+!MESSAGE A conflict occurred for CTRL+SHIFT+G:
+Binding(CTRL+SHIFT+G,
+	ParameterizedCommand(Command(org.eclipse.cdt.ui.search.findrefs,References,
+		Search for references to the selected element in the workspace,
+		Category(org.eclipse.cdt.ui.category.source,C/C++ Source,C/C++ Source Actions,true),
+		org.eclipse.ui.internal.MakeHandlersGo@93df59,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.cdt.ui.cEditorScope,,,system)
+Binding(CTRL+SHIFT+G,
+	ParameterizedCommand(Command(org.eclipse.cdt.ui.search.findrefs,References,
+		Search for references to the selected element in the workspace,
+		Category(org.eclipse.cdt.ui.category.source,C/C++ Source,C/C++ Source Actions,true),
+		org.eclipse.ui.internal.MakeHandlersGo@93df59,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.cdt.ui.cViewScope,,,system)
+!SUBENTRY 1 org.eclipse.jface 2 0 2019-12-03 16:41:24.924
+!MESSAGE A conflict occurred for ALT+CTRL+H:
+Binding(ALT+CTRL+H,
+	ParameterizedCommand(Command(org.eclipse.cdt.ui.edit.open.call.hierarchy,Open Call Hierarchy,
+		Open the call hierarchy for the selected element,
+		Category(org.eclipse.ui.category.navigate,Navigate,null,true),
+		org.eclipse.ui.internal.MakeHandlersGo@2c517b,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.cdt.ui.cEditorScope,,,system)
+Binding(ALT+CTRL+H,
+	ParameterizedCommand(Command(org.eclipse.cdt.ui.edit.open.call.hierarchy,Open Call Hierarchy,
+		Open the call hierarchy for the selected element,
+		Category(org.eclipse.ui.category.navigate,Navigate,null,true),
+		org.eclipse.ui.internal.MakeHandlersGo@2c517b,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.cdt.ui.cViewScope,,,system)
+!SUBENTRY 1 org.eclipse.jface 2 0 2019-12-03 16:41:24.924
+!MESSAGE A conflict occurred for CTRL+SHIFT+H:
+Binding(CTRL+SHIFT+H,
+	ParameterizedCommand(Command(org.eclipse.cdt.ui.navigate.open.type.in.hierarchy,Open Type in Hierarchy,
+		Open a type in the type hierarchy view,
+		Category(org.eclipse.ui.category.navigate,Navigate,null,true),
+		org.eclipse.ui.internal.MakeHandlersGo@1999ccc,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.cdt.ui.cEditorScope,,,system)
+Binding(CTRL+SHIFT+H,
+	ParameterizedCommand(Command(org.eclipse.cdt.ui.navigate.open.type.in.hierarchy,Open Type in Hierarchy,
+		Open a type in the type hierarchy view,
+		Category(org.eclipse.ui.category.navigate,Navigate,null,true),
+		org.eclipse.ui.internal.MakeHandlersGo@1999ccc,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.cdt.ui.cViewScope,,,system)
+
+!ENTRY org.eclipse.osgi 2 1 2019-12-03 16:42:11.985
+!MESSAGE NLS missing message: DisassemblyPreferencePage_showFunctionOffsets in: org.eclipse.cdt.dsf.debug.internal.ui.disassembly.DisassemblyMessages
+
+!ENTRY org.eclipse.osgi 2 1 2019-12-03 16:42:11.986
+!MESSAGE NLS missing message: DisassemblyPreferencePage_showFunctionOffsetsTooltip in: org.eclipse.cdt.dsf.debug.internal.ui.disassembly.DisassemblyMessages
+
+!ENTRY org.eclipse.osgi 2 1 2019-12-03 16:42:11.986
+!MESSAGE NLS missing message: DisassemblyPreferencePage_showCodeBytes in: org.eclipse.cdt.dsf.debug.internal.ui.disassembly.DisassemblyMessages
+
+!ENTRY org.eclipse.osgi 2 1 2019-12-03 16:42:11.987
+!MESSAGE NLS missing message: DisassemblyPreferencePage_showCodeBytesTooltip in: org.eclipse.cdt.dsf.debug.internal.ui.disassembly.DisassemblyMessages
+
+!ENTRY org.eclipse.osgi 2 1 2019-12-03 16:42:11.987
+!MESSAGE NLS missing message: DisassemblyPreferencePage_showAddress in: org.eclipse.cdt.dsf.debug.internal.ui.disassembly.DisassemblyMessages
+
+!ENTRY org.eclipse.osgi 2 1 2019-12-03 16:42:11.987
+!MESSAGE NLS missing message: DisassemblyPreferencePage_showAddressTooltip in: org.eclipse.cdt.dsf.debug.internal.ui.disassembly.DisassemblyMessages
+
+!ENTRY com.freescale.core.debugger.cdt 4 16777218 2019-12-03 16:51:20.115
+!MESSAGE Error launching RLS FLASH
+!STACK 1
+org.eclipse.core.runtime.CoreException: ARM GDI Protocol Adapter : Can't connect. The Debugger can not connect to the P&E device
+	at com.freescale.cdt.debug.cw.core.DebugErrorUtils.handleDebugCoreError(DebugErrorUtils.java:281)
+	at com.freescale.cdt.launch.cw.DownloadLaunchDelegate.cwDoLaunch(DownloadLaunchDelegate.java:542)
+	at com.freescale.cdt.launch.cw.BaseLaunchDelegate.doLaunch(BaseLaunchDelegate.java:203)
+	at com.freescale.cdt.launch.cw.DownloadLaunchDelegate.launchDebug(DownloadLaunchDelegate.java:276)
+	at com.freescale.cdt.launch.cw.DownloadLaunchDelegate.launch(DownloadLaunchDelegate.java:123)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:862)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:704)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin.buildAndLaunch(DebugUIPlugin.java:1047)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin$8.run(DebugUIPlugin.java:1251)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:53)
+!SUBENTRY 1 com.freescale.core.debugger.cdt 4 16777218 2019-12-03 16:51:20.115
+!MESSAGE ARM GDI Protocol Adapter : Can't connect. The Debugger can not connect to the P&E device
+
+!ENTRY com.freescale.core.debugger.cdt 4 16777218 2019-12-03 16:53:02.127
+!MESSAGE Error launching RLS FLASH
+!STACK 1
+org.eclipse.core.runtime.CoreException: ARM GDI Protocol Adapter : Can't connect. The Debugger can not connect to the P&E device
+	at com.freescale.cdt.debug.cw.core.DebugErrorUtils.handleDebugCoreError(DebugErrorUtils.java:281)
+	at com.freescale.cdt.launch.cw.DownloadLaunchDelegate.cwDoLaunch(DownloadLaunchDelegate.java:542)
+	at com.freescale.cdt.launch.cw.BaseLaunchDelegate.doLaunch(BaseLaunchDelegate.java:203)
+	at com.freescale.cdt.launch.cw.DownloadLaunchDelegate.launchDebug(DownloadLaunchDelegate.java:276)
+	at com.freescale.cdt.launch.cw.DownloadLaunchDelegate.launch(DownloadLaunchDelegate.java:123)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:862)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:704)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin.buildAndLaunch(DebugUIPlugin.java:1047)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin$8.run(DebugUIPlugin.java:1251)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:53)
+!SUBENTRY 1 com.freescale.core.debugger.cdt 4 16777218 2019-12-03 16:53:02.127
+!MESSAGE ARM GDI Protocol Adapter : Can't connect. The Debugger can not connect to the P&E device
+
+!ENTRY com.freescale.core.debugger.cdt 4 16777218 2019-12-03 16:53:13.174
+!MESSAGE Error launching RLS FLASH
+!STACK 1
+org.eclipse.core.runtime.CoreException: ARM GDI Protocol Adapter : Can't connect. The Debugger can not connect to the P&E device
+	at com.freescale.cdt.debug.cw.core.DebugErrorUtils.handleDebugCoreError(DebugErrorUtils.java:281)
+	at com.freescale.cdt.launch.cw.DownloadLaunchDelegate.cwDoLaunch(DownloadLaunchDelegate.java:542)
+	at com.freescale.cdt.launch.cw.BaseLaunchDelegate.doLaunch(BaseLaunchDelegate.java:203)
+	at com.freescale.cdt.launch.cw.DownloadLaunchDelegate.launchDebug(DownloadLaunchDelegate.java:276)
+	at com.freescale.cdt.launch.cw.DownloadLaunchDelegate.launch(DownloadLaunchDelegate.java:123)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:862)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:704)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin.buildAndLaunch(DebugUIPlugin.java:1047)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin$8.run(DebugUIPlugin.java:1251)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:53)
+!SUBENTRY 1 com.freescale.core.debugger.cdt 4 16777218 2019-12-03 16:53:13.174
+!MESSAGE ARM GDI Protocol Adapter : Can't connect. The Debugger can not connect to the P&E device
+
+!ENTRY com.freescale.core.debugger.cdt 4 16777218 2019-12-03 16:53:53.032
+!MESSAGE Error launching RLS FLASH
+!STACK 1
+org.eclipse.core.runtime.CoreException: ARM GDI Protocol Adapter : Can't connect. The Debugger can not connect to the P&E device
+	at com.freescale.cdt.debug.cw.core.DebugErrorUtils.handleDebugCoreError(DebugErrorUtils.java:281)
+	at com.freescale.cdt.launch.cw.DownloadLaunchDelegate.cwDoLaunch(DownloadLaunchDelegate.java:542)
+	at com.freescale.cdt.launch.cw.BaseLaunchDelegate.doLaunch(BaseLaunchDelegate.java:203)
+	at com.freescale.cdt.launch.cw.DownloadLaunchDelegate.launchDebug(DownloadLaunchDelegate.java:276)
+	at com.freescale.cdt.launch.cw.DownloadLaunchDelegate.launch(DownloadLaunchDelegate.java:123)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:862)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:704)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin.buildAndLaunch(DebugUIPlugin.java:1047)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin$8.run(DebugUIPlugin.java:1251)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:53)
+!SUBENTRY 1 com.freescale.core.debugger.cdt 4 16777218 2019-12-03 16:53:53.032
+!MESSAGE ARM GDI Protocol Adapter : Can't connect. The Debugger can not connect to the P&E device
+
+!ENTRY com.freescale.core.debugger.cdt 4 16777218 2019-12-03 16:55:18.068
+!MESSAGE Error launching RLS FLASH
+!STACK 1
+org.eclipse.core.runtime.CoreException: ARM GDI Protocol Adapter : Can't connect. The Debugger can not connect to the P&E device
+	at com.freescale.cdt.debug.cw.core.DebugErrorUtils.handleDebugCoreError(DebugErrorUtils.java:281)
+	at com.freescale.cdt.launch.cw.DownloadLaunchDelegate.cwDoLaunch(DownloadLaunchDelegate.java:542)
+	at com.freescale.cdt.launch.cw.BaseLaunchDelegate.doLaunch(BaseLaunchDelegate.java:203)
+	at com.freescale.cdt.launch.cw.DownloadLaunchDelegate.launchDebug(DownloadLaunchDelegate.java:276)
+	at com.freescale.cdt.launch.cw.DownloadLaunchDelegate.launch(DownloadLaunchDelegate.java:123)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:862)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:704)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin.buildAndLaunch(DebugUIPlugin.java:1047)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin$8.run(DebugUIPlugin.java:1251)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:53)
+!SUBENTRY 1 com.freescale.core.debugger.cdt 4 16777218 2019-12-03 16:55:18.069
+!MESSAGE ARM GDI Protocol Adapter : Can't connect. The Debugger can not connect to the P&E device
+
+!ENTRY com.freescale.core.debugger.cdt 4 16777218 2019-12-03 16:57:19.797
+!MESSAGE Error launching RLS FLASH
+!STACK 1
+org.eclipse.core.runtime.CoreException: ARM GDI Protocol Adapter : Can't connect. The Debugger can not connect to the P&E device
+	at com.freescale.cdt.debug.cw.core.DebugErrorUtils.handleDebugCoreError(DebugErrorUtils.java:281)
+	at com.freescale.cdt.launch.cw.DownloadLaunchDelegate.cwDoLaunch(DownloadLaunchDelegate.java:542)
+	at com.freescale.cdt.launch.cw.BaseLaunchDelegate.doLaunch(BaseLaunchDelegate.java:203)
+	at com.freescale.cdt.launch.cw.DownloadLaunchDelegate.launchDebug(DownloadLaunchDelegate.java:276)
+	at com.freescale.cdt.launch.cw.DownloadLaunchDelegate.launch(DownloadLaunchDelegate.java:123)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:862)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:704)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin.buildAndLaunch(DebugUIPlugin.java:1047)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin$8.run(DebugUIPlugin.java:1251)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:53)
+!SUBENTRY 1 com.freescale.core.debugger.cdt 4 16777218 2019-12-03 16:57:19.797
+!MESSAGE ARM GDI Protocol Adapter : Can't connect. The Debugger can not connect to the P&E device
+
+!ENTRY com.freescale.core.debugger.cdt 4 16777218 2019-12-03 16:57:56.040
+!MESSAGE Error launching RLS FLASH
+!STACK 1
+org.eclipse.core.runtime.CoreException: ARM GDI Protocol Adapter : Can't connect. The Debugger can not connect to the P&E device
+	at com.freescale.cdt.debug.cw.core.DebugErrorUtils.handleDebugCoreError(DebugErrorUtils.java:281)
+	at com.freescale.cdt.launch.cw.DownloadLaunchDelegate.cwDoLaunch(DownloadLaunchDelegate.java:542)
+	at com.freescale.cdt.launch.cw.BaseLaunchDelegate.doLaunch(BaseLaunchDelegate.java:203)
+	at com.freescale.cdt.launch.cw.DownloadLaunchDelegate.launchDebug(DownloadLaunchDelegate.java:276)
+	at com.freescale.cdt.launch.cw.DownloadLaunchDelegate.launch(DownloadLaunchDelegate.java:123)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:862)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:704)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin.buildAndLaunch(DebugUIPlugin.java:1047)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin$8.run(DebugUIPlugin.java:1251)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:53)
+!SUBENTRY 1 com.freescale.core.debugger.cdt 4 16777218 2019-12-03 16:57:56.040
+!MESSAGE ARM GDI Protocol Adapter : Can't connect. The Debugger can not connect to the P&E device
+
+!ENTRY com.freescale.core.debugger.cdt 4 16777218 2019-12-03 16:58:20.620
+!MESSAGE Error launching RLS FLASH
+!STACK 1
+org.eclipse.core.runtime.CoreException: ARM GDI Protocol Adapter : Can't connect. The Debugger can not connect to the P&E device
+	at com.freescale.cdt.debug.cw.core.DebugErrorUtils.handleDebugCoreError(DebugErrorUtils.java:281)
+	at com.freescale.cdt.launch.cw.DownloadLaunchDelegate.cwDoLaunch(DownloadLaunchDelegate.java:542)
+	at com.freescale.cdt.launch.cw.BaseLaunchDelegate.doLaunch(BaseLaunchDelegate.java:203)
+	at com.freescale.cdt.launch.cw.DownloadLaunchDelegate.launchDebug(DownloadLaunchDelegate.java:276)
+	at com.freescale.cdt.launch.cw.DownloadLaunchDelegate.launch(DownloadLaunchDelegate.java:123)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:862)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:704)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin.buildAndLaunch(DebugUIPlugin.java:1047)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin$8.run(DebugUIPlugin.java:1251)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:53)
+!SUBENTRY 1 com.freescale.core.debugger.cdt 4 16777218 2019-12-03 16:58:20.620
+!MESSAGE ARM GDI Protocol Adapter : Can't connect. The Debugger can not connect to the P&E device
+
+!ENTRY com.freescale.core.debugger.cdt 4 16777218 2019-12-03 16:58:52.841
+!MESSAGE Error launching RLS FLASH
+!STACK 1
+org.eclipse.core.runtime.CoreException: ARM GDI Protocol Adapter : Can't connect. The Debugger can not connect to the P&E device
+	at com.freescale.cdt.debug.cw.core.DebugErrorUtils.handleDebugCoreError(DebugErrorUtils.java:281)
+	at com.freescale.cdt.launch.cw.DownloadLaunchDelegate.cwDoLaunch(DownloadLaunchDelegate.java:542)
+	at com.freescale.cdt.launch.cw.BaseLaunchDelegate.doLaunch(BaseLaunchDelegate.java:203)
+	at com.freescale.cdt.launch.cw.DownloadLaunchDelegate.launchDebug(DownloadLaunchDelegate.java:276)
+	at com.freescale.cdt.launch.cw.DownloadLaunchDelegate.launch(DownloadLaunchDelegate.java:123)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:862)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:704)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin.buildAndLaunch(DebugUIPlugin.java:1047)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin$8.run(DebugUIPlugin.java:1251)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:53)
+!SUBENTRY 1 com.freescale.core.debugger.cdt 4 16777218 2019-12-03 16:58:52.841
+!MESSAGE ARM GDI Protocol Adapter : Can't connect. The Debugger can not connect to the P&E device
+!SESSION 2019-12-03 16:59:23.575 -----------------------------------------------
+eclipse.buildId=I20070613-1755
+java.version=1.6.0_15
+java.vendor=Sun Microsystems Inc.
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=en
+Command-line arguments:  -os win32 -ws win32 -arch x86
+
+!ENTRY org.eclipse.osgi 2 1 2019-12-03 16:59:26.676
+!MESSAGE NLS missing message: ContentTypes_errorDialogAlreadyExists in: org.eclipse.ui.internal.messages
+
+!ENTRY org.eclipse.e4.ui.workbench 4 0 2019-12-03 16:59:26.753
+!MESSAGE Unable to load class 'org.eclipse.e4.ui.workbench.addons.splitteraddon.SplitterAddon' from bundle '144'
+!STACK 0
+java.lang.ClassNotFoundException: org.eclipse.e4.ui.workbench.addons.splitteraddon.SplitterAddon
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClassInternal(BundleLoader.java:501)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:421)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:412)
+	at org.eclipse.osgi.internal.baseadaptor.DefaultClassLoader.loadClass(DefaultClassLoader.java:107)
+	at java.lang.ClassLoader.loadClass(Unknown Source)
+	at org.eclipse.osgi.internal.loader.BundleLoader.loadClass(BundleLoader.java:340)
+	at org.eclipse.osgi.framework.internal.core.BundleHost.loadClass(BundleHost.java:229)
+	at org.eclipse.osgi.framework.internal.core.AbstractBundle.loadClass(AbstractBundle.java:1212)
+	at org.eclipse.e4.ui.internal.workbench.ReflectionContributionFactory.createFromBundle(ReflectionContributionFactory.java:100)
+	at org.eclipse.e4.ui.internal.workbench.ReflectionContributionFactory.doCreate(ReflectionContributionFactory.java:71)
+	at org.eclipse.e4.ui.internal.workbench.ReflectionContributionFactory.create(ReflectionContributionFactory.java:49)
+	at org.eclipse.e4.ui.internal.workbench.swt.E4Application.createE4Workbench(E4Application.java:258)
+	at org.eclipse.ui.internal.Workbench$5.run(Workbench.java:557)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:332)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:543)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:149)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:124)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:196)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:110)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:79)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:353)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:180)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:630)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:585)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1439)
+
+!ENTRY org.eclipse.e4.ui.workbench 4 0 2019-12-03 16:59:26.754
+!MESSAGE Unable to load class 'org.eclipse.ui.internal.ide.addons.SaveAllDirtyPartsAddon' from bundle '255'
+!STACK 0
+java.lang.ClassNotFoundException: org.eclipse.ui.internal.ide.addons.SaveAllDirtyPartsAddon
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClassInternal(BundleLoader.java:501)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:421)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:412)
+	at org.eclipse.osgi.internal.baseadaptor.DefaultClassLoader.loadClass(DefaultClassLoader.java:107)
+	at java.lang.ClassLoader.loadClass(Unknown Source)
+	at org.eclipse.osgi.internal.loader.BundleLoader.loadClass(BundleLoader.java:340)
+	at org.eclipse.osgi.framework.internal.core.BundleHost.loadClass(BundleHost.java:229)
+	at org.eclipse.osgi.framework.internal.core.AbstractBundle.loadClass(AbstractBundle.java:1212)
+	at org.eclipse.e4.ui.internal.workbench.ReflectionContributionFactory.createFromBundle(ReflectionContributionFactory.java:100)
+	at org.eclipse.e4.ui.internal.workbench.ReflectionContributionFactory.doCreate(ReflectionContributionFactory.java:71)
+	at org.eclipse.e4.ui.internal.workbench.ReflectionContributionFactory.create(ReflectionContributionFactory.java:49)
+	at org.eclipse.e4.ui.internal.workbench.swt.E4Application.createE4Workbench(E4Application.java:258)
+	at org.eclipse.ui.internal.Workbench$5.run(Workbench.java:557)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:332)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:543)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:149)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:124)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:196)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:110)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:79)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:353)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:180)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:630)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:585)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1439)
+
+!ENTRY org.eclipse.e4.ui.workbench 4 0 2019-12-03 16:59:26.762
+!MESSAGE Unable to load class 'org.eclipse.ui.internal.ide.application.addons.ModelCleanupAddon' from bundle '256'
+!STACK 0
+java.lang.ClassNotFoundException: org.eclipse.ui.internal.ide.application.addons.ModelCleanupAddon
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClassInternal(BundleLoader.java:501)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:421)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:412)
+	at org.eclipse.osgi.internal.baseadaptor.DefaultClassLoader.loadClass(DefaultClassLoader.java:107)
+	at java.lang.ClassLoader.loadClass(Unknown Source)
+	at org.eclipse.osgi.internal.loader.BundleLoader.loadClass(BundleLoader.java:340)
+	at org.eclipse.osgi.framework.internal.core.BundleHost.loadClass(BundleHost.java:229)
+	at org.eclipse.osgi.framework.internal.core.AbstractBundle.loadClass(AbstractBundle.java:1212)
+	at org.eclipse.e4.ui.internal.workbench.ReflectionContributionFactory.createFromBundle(ReflectionContributionFactory.java:100)
+	at org.eclipse.e4.ui.internal.workbench.ReflectionContributionFactory.doCreate(ReflectionContributionFactory.java:71)
+	at org.eclipse.e4.ui.internal.workbench.ReflectionContributionFactory.create(ReflectionContributionFactory.java:49)
+	at org.eclipse.e4.ui.internal.workbench.swt.E4Application.createE4Workbench(E4Application.java:258)
+	at org.eclipse.ui.internal.Workbench$5.run(Workbench.java:557)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:332)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:543)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:149)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:124)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:196)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:110)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:79)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:353)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:180)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:630)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:585)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1439)
+
+!ENTRY com.freescale.core.ide.cdt.toolchain 4 0 2019-12-03 16:59:30.682
+!MESSAGE Environment Variable Dependency not resolved for 'ARMGNUDirEnv'.
+
+!ENTRY com.freescale.core.ide.cdt.toolchain 4 0 2019-12-03 16:59:30.686
+!MESSAGE Environment Variable Dependency not resolved for 'ARMSummonDirEnv'.
+
+!ENTRY com.freescale.core.ide.cdt.toolchain 4 0 2019-12-03 16:59:30.686
+!MESSAGE Environment Variable Dependency not resolved for 'ARMYagartoDirEnv'.
+
+!ENTRY com.freescale.core.ide.cdt.toolchain 4 0 2019-12-03 16:59:30.687
+!MESSAGE Environment Variable Dependency not resolved for 'ARMdevkitProDirEnv'.
+
+!ENTRY com.freescale.core.ide.wizard.ui 2 0 2019-12-03 16:59:31.697
+!MESSAGE External elements location 'D:\CW11.0\CW MCU v11.0\eclipse\../MCU/lib/wizard_data/mqx/4.0/ppc' does not exist
+
+!ENTRY com.freescale.core.ide.wizard.ui 2 0 2019-12-03 16:59:31.697
+!MESSAGE External elements location 'D:\CW11.0\CW MCU v11.0\eclipse\../MCU/lib/wizard_data/mqx/4.0/patches' does not exist
+
+!ENTRY com.freescale.core.ide.wizard.ui 2 0 2019-12-03 16:59:31.802
+!MESSAGE External elements location 'D:\CW11.0\CW MCU v11.0\eclipse\../MCU/lib/wizard_data/mqx/4.1/ppc' does not exist
+
+!ENTRY com.freescale.core.ide.wizard.ui 2 0 2019-12-03 16:59:31.802
+!MESSAGE External elements location 'D:\CW11.0\CW MCU v11.0\eclipse\../MCU/lib/wizard_data/mqx/4.1/patches' does not exist
+
+!ENTRY com.freescale.processorexpert.core 1 0 2019-12-03 16:59:32.817
+!MESSAGE Plugin com.freescale.processorexpert.core.service ProcessorExpertServiceProvider
+
+!ENTRY org.eclipse.equinox.p2.transport.ecf 2 0 2019-12-03 16:59:36.630
+!MESSAGE Connection to http://nxp.com/lgfiles/updates/Eclipse/MCU11_0/updatesite/p2.index failed on Received fatal alert: protocol_version. Retry attempt 0 started
+!STACK 0
+javax.net.ssl.SSLException: Received fatal alert: protocol_version
+	at com.sun.net.ssl.internal.ssl.Alerts.getSSLException(Unknown Source)
+	at com.sun.net.ssl.internal.ssl.Alerts.getSSLException(Unknown Source)
+	at com.sun.net.ssl.internal.ssl.SSLSocketImpl.recvAlert(Unknown Source)
+	at com.sun.net.ssl.internal.ssl.SSLSocketImpl.readRecord(Unknown Source)
+	at com.sun.net.ssl.internal.ssl.SSLSocketImpl.performInitialHandshake(Unknown Source)
+	at com.sun.net.ssl.internal.ssl.SSLSocketImpl.writeRecord(Unknown Source)
+	at com.sun.net.ssl.internal.ssl.AppOutputStream.write(Unknown Source)
+	at java.io.BufferedOutputStream.flushBuffer(Unknown Source)
+	at java.io.BufferedOutputStream.flush(Unknown Source)
+	at org.apache.commons.httpclient.HttpConnection.flushRequestOutputStream(HttpConnection.java:828)
+	at org.apache.commons.httpclient.MultiThreadedHttpConnectionManager$HttpConnectionAdapter.flushRequestOutputStream(MultiThreadedHttpConnectionManager.java:1565)
+	at org.apache.commons.httpclient.HttpMethodBase.writeRequest(HttpMethodBase.java:2116)
+	at org.apache.commons.httpclient.HttpMethodBase.execute(HttpMethodBase.java:1096)
+	at org.eclipse.ecf.provider.filetransfer.httpclient.HttpClientRetrieveFileTransfer$GzipGetMethod.execute(HttpClientRetrieveFileTransfer.java:120)
+	at org.apache.commons.httpclient.HttpMethodDirector.executeWithRetry(HttpMethodDirector.java:398)
+	at org.apache.commons.httpclient.HttpMethodDirector.executeMethod(HttpMethodDirector.java:171)
+	at org.apache.commons.httpclient.HttpClient.executeMethod(HttpClient.java:397)
+	at org.apache.commons.httpclient.HttpClient.executeMethod(HttpClient.java:346)
+	at org.eclipse.ecf.provider.filetransfer.httpclient.HttpClientRetrieveFileTransfer.performConnect(HttpClientRetrieveFileTransfer.java:1129)
+	at org.eclipse.ecf.provider.filetransfer.httpclient.HttpClientRetrieveFileTransfer.openStreams(HttpClientRetrieveFileTransfer.java:699)
+	at org.eclipse.ecf.provider.filetransfer.retrieve.AbstractRetrieveFileTransfer.sendRetrieveRequest(AbstractRetrieveFileTransfer.java:879)
+	at org.eclipse.ecf.provider.filetransfer.retrieve.AbstractRetrieveFileTransfer.sendRetrieveRequest(AbstractRetrieveFileTransfer.java:570)
+	at org.eclipse.ecf.provider.filetransfer.retrieve.MultiProtocolRetrieveAdapter.sendRetrieveRequest(MultiProtocolRetrieveAdapter.java:106)
+	at org.eclipse.equinox.internal.p2.transport.ecf.FileReader.sendRetrieveRequest(FileReader.java:422)
+	at org.eclipse.equinox.internal.p2.transport.ecf.FileReader.readInto(FileReader.java:355)
+	at org.eclipse.equinox.internal.p2.transport.ecf.RepositoryTransport.download(RepositoryTransport.java:101)
+	at org.eclipse.equinox.internal.p2.transport.ecf.RepositoryTransport.download(RepositoryTransport.java:156)
+	at org.eclipse.equinox.internal.p2.repository.helpers.AbstractRepositoryManager.loadIndexFile(AbstractRepositoryManager.java:721)
+	at org.eclipse.equinox.internal.p2.repository.helpers.AbstractRepositoryManager.loadRepository(AbstractRepositoryManager.java:640)
+	at org.eclipse.equinox.internal.p2.metadata.repository.MetadataRepositoryManager.loadRepository(MetadataRepositoryManager.java:96)
+	at org.eclipse.equinox.internal.p2.metadata.repository.MetadataRepositoryManager.loadRepository(MetadataRepositoryManager.java:92)
+	at org.eclipse.equinox.internal.p2.updatechecker.UpdateChecker.getAvailableRepositories(UpdateChecker.java:150)
+	at org.eclipse.equinox.internal.p2.updatechecker.UpdateChecker.checkForUpdates(UpdateChecker.java:128)
+	at org.eclipse.equinox.internal.p2.updatechecker.UpdateChecker$UpdateCheckThread.run(UpdateChecker.java:72)
+
+!ENTRY org.eclipse.equinox.p2.metadata.repository 4 1000 2019-12-03 16:59:38.098
+!MESSAGE No repository found at jar:file:D:%5CCW11.0%5CCW11.0%5Ccom.freescale.mcu11_0.s12z.updatesite.zip!/.
+
+!ENTRY org.eclipse.equinox.p2.metadata.repository 4 1000 2019-12-03 16:59:38.116
+!MESSAGE No repository found at jar:file:D:%5CCW11.0%5CCW11.0%5Ccom.freescale.mcu11_0.e200.updatesite.zip!/.
+
+!ENTRY org.eclipse.equinox.p2.metadata.repository 4 1000 2019-12-03 16:59:38.557
+!MESSAGE No repository found at jar:file:D:%5CCW11.0%5CCW11.0%5Ccom.freescale.mcu11_0.kinetis.updatesite.zip!/.
+
+!ENTRY org.eclipse.equinox.p2.metadata.repository 4 1000 2019-12-03 16:59:38.574
+!MESSAGE No repository found at jar:file:D:%5CCW11.0%5CCW11.0%5Ccom.freescale.mcu11_0.coldfire.updatesite.zip!/.
+
+!ENTRY org.eclipse.equinox.p2.metadata.repository 4 1000 2019-12-03 16:59:38.589
+!MESSAGE No repository found at jar:file:D:%5CCW11.0%5CCW11.0%5Ccom.freescale.mcu11_0.dsc.updatesite.zip!/.
+
+!ENTRY org.eclipse.equinox.p2.metadata.repository 4 1000 2019-12-03 16:59:38.603
+!MESSAGE No repository found at jar:file:D:%5CCW11.0%5CCW11.0%5Ccom.freescale.mcu11_0.hcs08_rs08.updatesite.zip!/.
+
+!ENTRY com.freescale.core.debugger.cdt 4 16777218 2019-12-03 16:59:58.600
+!MESSAGE Error launching RLS FLASH
+!STACK 1
+org.eclipse.core.runtime.CoreException: ARM GDI Protocol Adapter : Can't connect. The Debugger can not connect to the P&E device
+	at com.freescale.cdt.debug.cw.core.DebugErrorUtils.handleDebugCoreError(DebugErrorUtils.java:281)
+	at com.freescale.cdt.launch.cw.DownloadLaunchDelegate.cwDoLaunch(DownloadLaunchDelegate.java:542)
+	at com.freescale.cdt.launch.cw.BaseLaunchDelegate.doLaunch(BaseLaunchDelegate.java:203)
+	at com.freescale.cdt.launch.cw.DownloadLaunchDelegate.launchDebug(DownloadLaunchDelegate.java:276)
+	at com.freescale.cdt.launch.cw.DownloadLaunchDelegate.launch(DownloadLaunchDelegate.java:123)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:862)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:704)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin.buildAndLaunch(DebugUIPlugin.java:1047)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin$8.run(DebugUIPlugin.java:1251)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:53)
+!SUBENTRY 1 com.freescale.core.debugger.cdt 4 16777218 2019-12-03 16:59:58.601
+!MESSAGE ARM GDI Protocol Adapter : Can't connect. The Debugger can not connect to the P&E device
+
+!ENTRY com.freescale.core.debugger.cdt 4 16777218 2019-12-03 17:04:06.317
+!MESSAGE Error launching RLS FLASH
+!STACK 1
+org.eclipse.core.runtime.CoreException: ARM GDI Protocol Adapter : Can't connect. The Debugger can not connect to the P&E device
+	at com.freescale.cdt.debug.cw.core.DebugErrorUtils.handleDebugCoreError(DebugErrorUtils.java:281)
+	at com.freescale.cdt.launch.cw.DownloadLaunchDelegate.cwDoLaunch(DownloadLaunchDelegate.java:542)
+	at com.freescale.cdt.launch.cw.BaseLaunchDelegate.doLaunch(BaseLaunchDelegate.java:203)
+	at com.freescale.cdt.launch.cw.DownloadLaunchDelegate.launchDebug(DownloadLaunchDelegate.java:276)
+	at com.freescale.cdt.launch.cw.DownloadLaunchDelegate.launch(DownloadLaunchDelegate.java:123)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:862)
+	at org.eclipse.debug.internal.core.LaunchConfiguration.launch(LaunchConfiguration.java:704)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin.buildAndLaunch(DebugUIPlugin.java:1047)
+	at org.eclipse.debug.internal.ui.DebugUIPlugin$8.run(DebugUIPlugin.java:1251)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:53)
+!SUBENTRY 1 com.freescale.core.debugger.cdt 4 16777218 2019-12-03 17:04:06.317
+!MESSAGE ARM GDI Protocol Adapter : Can't connect. The Debugger can not connect to the P&E device
+
+!ENTRY org.eclipse.osgi 2 1 2019-12-03 17:33:05.839
+!MESSAGE NLS unused message: trace_trigger_dv_error_title in: com.freescale.sa.mcu.analysispoints.nls.ui
+
+!ENTRY org.eclipse.osgi 2 1 2019-12-03 17:33:05.839
+!MESSAGE NLS unused message: trace_trigger_dv_error_message in: com.freescale.sa.mcu.analysispoints.nls.ui
+
+!ENTRY org.eclipse.osgi 2 1 2019-12-03 17:39:11.638
+!MESSAGE NLS missing message: DisassemblyPreferencePage_showFunctionOffsets in: org.eclipse.cdt.dsf.debug.internal.ui.disassembly.DisassemblyMessages
+
+!ENTRY org.eclipse.osgi 2 1 2019-12-03 17:39:11.638
+!MESSAGE NLS missing message: DisassemblyPreferencePage_showFunctionOffsetsTooltip in: org.eclipse.cdt.dsf.debug.internal.ui.disassembly.DisassemblyMessages
+
+!ENTRY org.eclipse.osgi 2 1 2019-12-03 17:39:11.639
+!MESSAGE NLS missing message: DisassemblyPreferencePage_showCodeBytes in: org.eclipse.cdt.dsf.debug.internal.ui.disassembly.DisassemblyMessages
+
+!ENTRY org.eclipse.osgi 2 1 2019-12-03 17:39:11.639
+!MESSAGE NLS missing message: DisassemblyPreferencePage_showCodeBytesTooltip in: org.eclipse.cdt.dsf.debug.internal.ui.disassembly.DisassemblyMessages
+
+!ENTRY org.eclipse.osgi 2 1 2019-12-03 17:39:11.639
+!MESSAGE NLS missing message: DisassemblyPreferencePage_showAddress in: org.eclipse.cdt.dsf.debug.internal.ui.disassembly.DisassemblyMessages
+
+!ENTRY org.eclipse.osgi 2 1 2019-12-03 17:39:11.640
+!MESSAGE NLS missing message: DisassemblyPreferencePage_showAddressTooltip in: org.eclipse.cdt.dsf.debug.internal.ui.disassembly.DisassemblyMessages
+!SESSION 2019-12-04 09:12:31.545 -----------------------------------------------
+eclipse.buildId=I20070613-1755
+java.version=1.6.0_15
+java.vendor=Sun Microsystems Inc.
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=en
+Command-line arguments:  -os win32 -ws win32 -arch x86
+
+!ENTRY org.eclipse.osgi 2 1 2019-12-04 09:12:35.118
+!MESSAGE NLS missing message: ContentTypes_errorDialogAlreadyExists in: org.eclipse.ui.internal.messages
+
+!ENTRY org.eclipse.e4.ui.workbench 4 0 2019-12-04 09:12:35.196
+!MESSAGE Unable to load class 'org.eclipse.e4.ui.workbench.addons.splitteraddon.SplitterAddon' from bundle '144'
+!STACK 0
+java.lang.ClassNotFoundException: org.eclipse.e4.ui.workbench.addons.splitteraddon.SplitterAddon
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClassInternal(BundleLoader.java:501)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:421)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:412)
+	at org.eclipse.osgi.internal.baseadaptor.DefaultClassLoader.loadClass(DefaultClassLoader.java:107)
+	at java.lang.ClassLoader.loadClass(Unknown Source)
+	at org.eclipse.osgi.internal.loader.BundleLoader.loadClass(BundleLoader.java:340)
+	at org.eclipse.osgi.framework.internal.core.BundleHost.loadClass(BundleHost.java:229)
+	at org.eclipse.osgi.framework.internal.core.AbstractBundle.loadClass(AbstractBundle.java:1212)
+	at org.eclipse.e4.ui.internal.workbench.ReflectionContributionFactory.createFromBundle(ReflectionContributionFactory.java:100)
+	at org.eclipse.e4.ui.internal.workbench.ReflectionContributionFactory.doCreate(ReflectionContributionFactory.java:71)
+	at org.eclipse.e4.ui.internal.workbench.ReflectionContributionFactory.create(ReflectionContributionFactory.java:49)
+	at org.eclipse.e4.ui.internal.workbench.swt.E4Application.createE4Workbench(E4Application.java:258)
+	at org.eclipse.ui.internal.Workbench$5.run(Workbench.java:557)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:332)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:543)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:149)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:124)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:196)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:110)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:79)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:353)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:180)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:630)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:585)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1439)
+
+!ENTRY org.eclipse.e4.ui.workbench 4 0 2019-12-04 09:12:35.212
+!MESSAGE Unable to load class 'org.eclipse.ui.internal.ide.addons.SaveAllDirtyPartsAddon' from bundle '255'
+!STACK 0
+java.lang.ClassNotFoundException: org.eclipse.ui.internal.ide.addons.SaveAllDirtyPartsAddon
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClassInternal(BundleLoader.java:501)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:421)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:412)
+	at org.eclipse.osgi.internal.baseadaptor.DefaultClassLoader.loadClass(DefaultClassLoader.java:107)
+	at java.lang.ClassLoader.loadClass(Unknown Source)
+	at org.eclipse.osgi.internal.loader.BundleLoader.loadClass(BundleLoader.java:340)
+	at org.eclipse.osgi.framework.internal.core.BundleHost.loadClass(BundleHost.java:229)
+	at org.eclipse.osgi.framework.internal.core.AbstractBundle.loadClass(AbstractBundle.java:1212)
+	at org.eclipse.e4.ui.internal.workbench.ReflectionContributionFactory.createFromBundle(ReflectionContributionFactory.java:100)
+	at org.eclipse.e4.ui.internal.workbench.ReflectionContributionFactory.doCreate(ReflectionContributionFactory.java:71)
+	at org.eclipse.e4.ui.internal.workbench.ReflectionContributionFactory.create(ReflectionContributionFactory.java:49)
+	at org.eclipse.e4.ui.internal.workbench.swt.E4Application.createE4Workbench(E4Application.java:258)
+	at org.eclipse.ui.internal.Workbench$5.run(Workbench.java:557)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:332)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:543)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:149)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:124)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:196)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:110)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:79)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:353)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:180)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:630)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:585)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1439)
+
+!ENTRY org.eclipse.e4.ui.workbench 4 0 2019-12-04 09:12:35.212
+!MESSAGE Unable to load class 'org.eclipse.ui.internal.ide.application.addons.ModelCleanupAddon' from bundle '256'
+!STACK 0
+java.lang.ClassNotFoundException: org.eclipse.ui.internal.ide.application.addons.ModelCleanupAddon
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClassInternal(BundleLoader.java:501)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:421)
+	at org.eclipse.osgi.internal.loader.BundleLoader.findClass(BundleLoader.java:412)
+	at org.eclipse.osgi.internal.baseadaptor.DefaultClassLoader.loadClass(DefaultClassLoader.java:107)
+	at java.lang.ClassLoader.loadClass(Unknown Source)
+	at org.eclipse.osgi.internal.loader.BundleLoader.loadClass(BundleLoader.java:340)
+	at org.eclipse.osgi.framework.internal.core.BundleHost.loadClass(BundleHost.java:229)
+	at org.eclipse.osgi.framework.internal.core.AbstractBundle.loadClass(AbstractBundle.java:1212)
+	at org.eclipse.e4.ui.internal.workbench.ReflectionContributionFactory.createFromBundle(ReflectionContributionFactory.java:100)
+	at org.eclipse.e4.ui.internal.workbench.ReflectionContributionFactory.doCreate(ReflectionContributionFactory.java:71)
+	at org.eclipse.e4.ui.internal.workbench.ReflectionContributionFactory.create(ReflectionContributionFactory.java:49)
+	at org.eclipse.e4.ui.internal.workbench.swt.E4Application.createE4Workbench(E4Application.java:258)
+	at org.eclipse.ui.internal.Workbench$5.run(Workbench.java:557)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:332)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:543)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:149)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:124)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:196)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:110)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:79)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:353)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:180)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:630)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:585)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1439)
+
+!ENTRY com.freescale.core.ide.cdt.toolchain 4 0 2019-12-04 09:12:39.477
+!MESSAGE Environment Variable Dependency not resolved for 'ARMGNUDirEnv'.
+
+!ENTRY com.freescale.core.ide.cdt.toolchain 4 0 2019-12-04 09:12:39.477
+!MESSAGE Environment Variable Dependency not resolved for 'ARMSummonDirEnv'.
+
+!ENTRY com.freescale.core.ide.cdt.toolchain 4 0 2019-12-04 09:12:39.477
+!MESSAGE Environment Variable Dependency not resolved for 'ARMYagartoDirEnv'.
+
+!ENTRY com.freescale.core.ide.cdt.toolchain 4 0 2019-12-04 09:12:39.492
+!MESSAGE Environment Variable Dependency not resolved for 'ARMdevkitProDirEnv'.
+
+!ENTRY com.freescale.core.ide.wizard.ui 2 0 2019-12-04 09:12:40.883
+!MESSAGE External elements location 'D:\CW11.0\CW MCU v11.0\eclipse\../MCU/lib/wizard_data/mqx/4.0/ppc' does not exist
+
+!ENTRY com.freescale.core.ide.wizard.ui 2 0 2019-12-04 09:12:40.883
+!MESSAGE External elements location 'D:\CW11.0\CW MCU v11.0\eclipse\../MCU/lib/wizard_data/mqx/4.0/patches' does not exist
+
+!ENTRY com.freescale.core.ide.wizard.ui 2 0 2019-12-04 09:12:41.070
+!MESSAGE External elements location 'D:\CW11.0\CW MCU v11.0\eclipse\../MCU/lib/wizard_data/mqx/4.1/ppc' does not exist
+
+!ENTRY com.freescale.core.ide.wizard.ui 2 0 2019-12-04 09:12:41.070
+!MESSAGE External elements location 'D:\CW11.0\CW MCU v11.0\eclipse\../MCU/lib/wizard_data/mqx/4.1/patches' does not exist
+
+!ENTRY com.freescale.processorexpert.core 1 0 2019-12-04 09:12:42.476
+!MESSAGE Plugin com.freescale.processorexpert.core.service ProcessorExpertServiceProvider
+
+!ENTRY org.eclipse.equinox.p2.transport.ecf 2 0 2019-12-04 09:12:46.559
+!MESSAGE Connection to http://nxp.com/lgfiles/updates/Eclipse/MCU11_0/updatesite/p2.index failed on Received fatal alert: protocol_version. Retry attempt 0 started
+!STACK 0
+javax.net.ssl.SSLException: Received fatal alert: protocol_version
+	at com.sun.net.ssl.internal.ssl.Alerts.getSSLException(Unknown Source)
+	at com.sun.net.ssl.internal.ssl.Alerts.getSSLException(Unknown Source)
+	at com.sun.net.ssl.internal.ssl.SSLSocketImpl.recvAlert(Unknown Source)
+	at com.sun.net.ssl.internal.ssl.SSLSocketImpl.readRecord(Unknown Source)
+	at com.sun.net.ssl.internal.ssl.SSLSocketImpl.performInitialHandshake(Unknown Source)
+	at com.sun.net.ssl.internal.ssl.SSLSocketImpl.writeRecord(Unknown Source)
+	at com.sun.net.ssl.internal.ssl.AppOutputStream.write(Unknown Source)
+	at java.io.BufferedOutputStream.flushBuffer(Unknown Source)
+	at java.io.BufferedOutputStream.flush(Unknown Source)
+	at org.apache.commons.httpclient.HttpConnection.flushRequestOutputStream(HttpConnection.java:828)
+	at org.apache.commons.httpclient.MultiThreadedHttpConnectionManager$HttpConnectionAdapter.flushRequestOutputStream(MultiThreadedHttpConnectionManager.java:1565)
+	at org.apache.commons.httpclient.HttpMethodBase.writeRequest(HttpMethodBase.java:2116)
+	at org.apache.commons.httpclient.HttpMethodBase.execute(HttpMethodBase.java:1096)
+	at org.eclipse.ecf.provider.filetransfer.httpclient.HttpClientRetrieveFileTransfer$GzipGetMethod.execute(HttpClientRetrieveFileTransfer.java:120)
+	at org.apache.commons.httpclient.HttpMethodDirector.executeWithRetry(HttpMethodDirector.java:398)
+	at org.apache.commons.httpclient.HttpMethodDirector.executeMethod(HttpMethodDirector.java:171)
+	at org.apache.commons.httpclient.HttpClient.executeMethod(HttpClient.java:397)
+	at org.apache.commons.httpclient.HttpClient.executeMethod(HttpClient.java:346)
+	at org.eclipse.ecf.provider.filetransfer.httpclient.HttpClientRetrieveFileTransfer.performConnect(HttpClientRetrieveFileTransfer.java:1129)
+	at org.eclipse.ecf.provider.filetransfer.httpclient.HttpClientRetrieveFileTransfer.openStreams(HttpClientRetrieveFileTransfer.java:699)
+	at org.eclipse.ecf.provider.filetransfer.retrieve.AbstractRetrieveFileTransfer.sendRetrieveRequest(AbstractRetrieveFileTransfer.java:879)
+	at org.eclipse.ecf.provider.filetransfer.retrieve.AbstractRetrieveFileTransfer.sendRetrieveRequest(AbstractRetrieveFileTransfer.java:570)
+	at org.eclipse.ecf.provider.filetransfer.retrieve.MultiProtocolRetrieveAdapter.sendRetrieveRequest(MultiProtocolRetrieveAdapter.java:106)
+	at org.eclipse.equinox.internal.p2.transport.ecf.FileReader.sendRetrieveRequest(FileReader.java:422)
+	at org.eclipse.equinox.internal.p2.transport.ecf.FileReader.readInto(FileReader.java:355)
+	at org.eclipse.equinox.internal.p2.transport.ecf.RepositoryTransport.download(RepositoryTransport.java:101)
+	at org.eclipse.equinox.internal.p2.transport.ecf.RepositoryTransport.download(RepositoryTransport.java:156)
+	at org.eclipse.equinox.internal.p2.repository.helpers.AbstractRepositoryManager.loadIndexFile(AbstractRepositoryManager.java:721)
+	at org.eclipse.equinox.internal.p2.repository.helpers.AbstractRepositoryManager.loadRepository(AbstractRepositoryManager.java:640)
+	at org.eclipse.equinox.internal.p2.metadata.repository.MetadataRepositoryManager.loadRepository(MetadataRepositoryManager.java:96)
+	at org.eclipse.equinox.internal.p2.metadata.repository.MetadataRepositoryManager.loadRepository(MetadataRepositoryManager.java:92)
+	at org.eclipse.equinox.internal.p2.updatechecker.UpdateChecker.getAvailableRepositories(UpdateChecker.java:150)
+	at org.eclipse.equinox.internal.p2.updatechecker.UpdateChecker.checkForUpdates(UpdateChecker.java:128)
+	at org.eclipse.equinox.internal.p2.updatechecker.UpdateChecker$UpdateCheckThread.run(UpdateChecker.java:72)
+
+!ENTRY org.eclipse.equinox.p2.metadata.repository 4 1000 2019-12-04 09:12:48.006
+!MESSAGE No repository found at jar:file:D:%5CCW11.0%5CCW11.0%5Ccom.freescale.mcu11_0.s12z.updatesite.zip!/.
+
+!ENTRY org.eclipse.equinox.p2.metadata.repository 4 1000 2019-12-04 09:12:48.018
+!MESSAGE No repository found at jar:file:D:%5CCW11.0%5CCW11.0%5Ccom.freescale.mcu11_0.e200.updatesite.zip!/.
+
+!ENTRY org.eclipse.equinox.p2.metadata.repository 4 1000 2019-12-04 09:12:48.317
+!MESSAGE No repository found at jar:file:D:%5CCW11.0%5CCW11.0%5Ccom.freescale.mcu11_0.kinetis.updatesite.zip!/.
+
+!ENTRY org.eclipse.equinox.p2.metadata.repository 4 1000 2019-12-04 09:12:48.330
+!MESSAGE No repository found at jar:file:D:%5CCW11.0%5CCW11.0%5Ccom.freescale.mcu11_0.coldfire.updatesite.zip!/.
+
+!ENTRY org.eclipse.equinox.p2.metadata.repository 4 1000 2019-12-04 09:12:48.342
+!MESSAGE No repository found at jar:file:D:%5CCW11.0%5CCW11.0%5Ccom.freescale.mcu11_0.dsc.updatesite.zip!/.
+
+!ENTRY org.eclipse.equinox.p2.metadata.repository 4 1000 2019-12-04 09:12:48.357
+!MESSAGE No repository found at jar:file:D:%5CCW11.0%5CCW11.0%5Ccom.freescale.mcu11_0.hcs08_rs08.updatesite.zip!/.
+
+!ENTRY org.eclipse.jface 2 0 2019-12-04 09:18:36.376
+!MESSAGE Keybinding conflicts occurred.  They may interfere with normal accelerator operation.
+!SUBENTRY 1 org.eclipse.jface 2 0 2019-12-04 09:18:36.376
+!MESSAGE A conflict occurred for ALT+CTRL+I:
+Binding(ALT+CTRL+I,
+	ParameterizedCommand(Command(org.eclipse.cdt.ui.edit.open.include.browser,Open Include Browser,
+		Open an include browser on the selected element,
+		Category(org.eclipse.ui.category.navigate,Navigate,null,true),
+		org.eclipse.ui.internal.MakeHandlersGo@1d837fe,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.cdt.ui.cEditorScope,,,system)
+Binding(ALT+CTRL+I,
+	ParameterizedCommand(Command(org.eclipse.cdt.ui.edit.open.include.browser,Open Include Browser,
+		Open an include browser on the selected element,
+		Category(org.eclipse.ui.category.navigate,Navigate,null,true),
+		org.eclipse.ui.internal.MakeHandlersGo@1d837fe,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.cdt.ui.cViewScope,,,system)
+!SUBENTRY 1 org.eclipse.jface 2 0 2019-12-04 09:18:36.376
+!MESSAGE A conflict occurred for ALT+SHIFT+R:
+Binding(ALT+SHIFT+R,
+	ParameterizedCommand(Command(org.eclipse.cdt.ui.edit.text.rename.element,Rename - Refactoring ,
+		Rename the selected element,
+		Category(org.eclipse.cdt.ui.category.refactoring,Refactor - C++,C/C++ Refactorings,true),
+		org.eclipse.ui.internal.MakeHandlersGo@441507,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.cdt.ui.cEditorScope,,,system)
+Binding(ALT+SHIFT+R,
+	ParameterizedCommand(Command(org.eclipse.cdt.ui.edit.text.rename.element,Rename - Refactoring ,
+		Rename the selected element,
+		Category(org.eclipse.cdt.ui.category.refactoring,Refactor - C++,C/C++ Refactorings,true),
+		org.eclipse.ui.internal.MakeHandlersGo@441507,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.cdt.ui.cViewScope,,,system)
+!SUBENTRY 1 org.eclipse.jface 2 0 2019-12-04 09:18:36.376
+!MESSAGE A conflict occurred for F4:
+Binding(F4,
+	ParameterizedCommand(Command(org.eclipse.cdt.ui.edit.open.type.hierarchy,Open Type Hierarchy,
+		Open a type hierarchy on the selected element,
+		Category(org.eclipse.ui.category.navigate,Navigate,null,true),
+		org.eclipse.ui.internal.MakeHandlersGo@1c09545,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.cdt.ui.cEditorScope,,,system)
+Binding(F4,
+	ParameterizedCommand(Command(org.eclipse.cdt.ui.edit.open.type.hierarchy,Open Type Hierarchy,
+		Open a type hierarchy on the selected element,
+		Category(org.eclipse.ui.category.navigate,Navigate,null,true),
+		org.eclipse.ui.internal.MakeHandlersGo@1c09545,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.cdt.ui.cViewScope,,,system)
+!SUBENTRY 1 org.eclipse.jface 2 0 2019-12-04 09:18:36.376
+!MESSAGE A conflict occurred for CTRL+SHIFT+T:
+Binding(CTRL+SHIFT+T,
+	ParameterizedCommand(Command(org.eclipse.cdt.ui.navigate.opentype,Open Element,
+		Open an element in an Editor,
+		Category(org.eclipse.cdt.ui.category.source,C/C++ Source,C/C++ Source Actions,true),
+		org.eclipse.ui.internal.MakeHandlersGo@87fa6d,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.cdt.ui.cEditorScope,,,system)
+Binding(CTRL+SHIFT+T,
+	ParameterizedCommand(Command(org.eclipse.cdt.ui.navigate.opentype,Open Element,
+		Open an element in an Editor,
+		Category(org.eclipse.cdt.ui.category.source,C/C++ Source,C/C++ Source Actions,true),
+		org.eclipse.ui.internal.MakeHandlersGo@87fa6d,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.cdt.ui.cViewScope,,,system)
+!SUBENTRY 1 org.eclipse.jface 2 0 2019-12-04 09:18:36.376
+!MESSAGE A conflict occurred for F3:
+Binding(F3,
+	ParameterizedCommand(Command(org.eclipse.cdt.ui.edit.opendecl,Open Declaration,
+		Open an editor on the selected element's declaration(s),
+		Category(org.eclipse.cdt.ui.category.source,C/C++ Source,C/C++ Source Actions,true),
+		org.eclipse.ui.internal.MakeHandlersGo@14a1bd1,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.cdt.ui.cEditorScope,,,system)
+Binding(F3,
+	ParameterizedCommand(Command(org.eclipse.cdt.ui.edit.opendecl,Open Declaration,
+		Open an editor on the selected element's declaration(s),
+		Category(org.eclipse.cdt.ui.category.source,C/C++ Source,C/C++ Source Actions,true),
+		org.eclipse.ui.internal.MakeHandlersGo@14a1bd1,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.cdt.ui.cViewScope,,,system)
+!SUBENTRY 1 org.eclipse.jface 2 0 2019-12-04 09:18:36.376
+!MESSAGE A conflict occurred for CTRL+G:
+Binding(CTRL+G,
+	ParameterizedCommand(Command(org.eclipse.cdt.ui.search.finddecl,Declaration,
+		Search for declarations of the selected element in the workspace,
+		Category(org.eclipse.cdt.ui.category.source,C/C++ Source,C/C++ Source Actions,true),
+		org.eclipse.ui.internal.MakeHandlersGo@1870b40,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.cdt.ui.cEditorScope,,,system)
+Binding(CTRL+G,
+	ParameterizedCommand(Command(org.eclipse.cdt.ui.search.finddecl,Declaration,
+		Search for declarations of the selected element in the workspace,
+		Category(org.eclipse.cdt.ui.category.source,C/C++ Source,C/C++ Source Actions,true),
+		org.eclipse.ui.internal.MakeHandlersGo@1870b40,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.cdt.ui.cViewScope,,,system)
+!SUBENTRY 1 org.eclipse.jface 2 0 2019-12-04 09:18:36.376
+!MESSAGE A conflict occurred for CTRL+SHIFT+G:
+Binding(CTRL+SHIFT+G,
+	ParameterizedCommand(Command(org.eclipse.cdt.ui.search.findrefs,References,
+		Search for references to the selected element in the workspace,
+		Category(org.eclipse.cdt.ui.category.source,C/C++ Source,C/C++ Source Actions,true),
+		org.eclipse.ui.internal.MakeHandlersGo@f3a6eb,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.cdt.ui.cEditorScope,,,system)
+Binding(CTRL+SHIFT+G,
+	ParameterizedCommand(Command(org.eclipse.cdt.ui.search.findrefs,References,
+		Search for references to the selected element in the workspace,
+		Category(org.eclipse.cdt.ui.category.source,C/C++ Source,C/C++ Source Actions,true),
+		org.eclipse.ui.internal.MakeHandlersGo@f3a6eb,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.cdt.ui.cViewScope,,,system)
+!SUBENTRY 1 org.eclipse.jface 2 0 2019-12-04 09:18:36.376
+!MESSAGE A conflict occurred for ALT+CTRL+H:
+Binding(ALT+CTRL+H,
+	ParameterizedCommand(Command(org.eclipse.cdt.ui.edit.open.call.hierarchy,Open Call Hierarchy,
+		Open the call hierarchy for the selected element,
+		Category(org.eclipse.ui.category.navigate,Navigate,null,true),
+		org.eclipse.ui.internal.MakeHandlersGo@53bcf3,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.cdt.ui.cEditorScope,,,system)
+Binding(ALT+CTRL+H,
+	ParameterizedCommand(Command(org.eclipse.cdt.ui.edit.open.call.hierarchy,Open Call Hierarchy,
+		Open the call hierarchy for the selected element,
+		Category(org.eclipse.ui.category.navigate,Navigate,null,true),
+		org.eclipse.ui.internal.MakeHandlersGo@53bcf3,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.cdt.ui.cViewScope,,,system)
+!SUBENTRY 1 org.eclipse.jface 2 0 2019-12-04 09:18:36.377
+!MESSAGE A conflict occurred for CTRL+SHIFT+H:
+Binding(CTRL+SHIFT+H,
+	ParameterizedCommand(Command(org.eclipse.cdt.ui.navigate.open.type.in.hierarchy,Open Type in Hierarchy,
+		Open a type in the type hierarchy view,
+		Category(org.eclipse.ui.category.navigate,Navigate,null,true),
+		org.eclipse.ui.internal.MakeHandlersGo@19a0f55,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.cdt.ui.cEditorScope,,,system)
+Binding(CTRL+SHIFT+H,
+	ParameterizedCommand(Command(org.eclipse.cdt.ui.navigate.open.type.in.hierarchy,Open Type in Hierarchy,
+		Open a type in the type hierarchy view,
+		Category(org.eclipse.ui.category.navigate,Navigate,null,true),
+		org.eclipse.ui.internal.MakeHandlersGo@19a0f55,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.cdt.ui.cViewScope,,,system)
+
+!ENTRY org.eclipse.osgi 2 1 2019-12-04 09:18:50.053
+!MESSAGE NLS unused message: trace_trigger_dv_error_title in: com.freescale.sa.mcu.analysispoints.nls.ui
+
+!ENTRY org.eclipse.osgi 2 1 2019-12-04 09:18:50.053
+!MESSAGE NLS unused message: trace_trigger_dv_error_message in: com.freescale.sa.mcu.analysispoints.nls.ui
+
+!ENTRY org.eclipse.osgi 2 1 2019-12-04 10:32:21.763
+!MESSAGE NLS missing message: DisassemblyPreferencePage_showFunctionOffsets in: org.eclipse.cdt.dsf.debug.internal.ui.disassembly.DisassemblyMessages
+
+!ENTRY org.eclipse.osgi 2 1 2019-12-04 10:32:21.764
+!MESSAGE NLS missing message: DisassemblyPreferencePage_showFunctionOffsetsTooltip in: org.eclipse.cdt.dsf.debug.internal.ui.disassembly.DisassemblyMessages
+
+!ENTRY org.eclipse.osgi 2 1 2019-12-04 10:32:21.764
+!MESSAGE NLS missing message: DisassemblyPreferencePage_showCodeBytes in: org.eclipse.cdt.dsf.debug.internal.ui.disassembly.DisassemblyMessages
+
+!ENTRY org.eclipse.osgi 2 1 2019-12-04 10:32:21.764
+!MESSAGE NLS missing message: DisassemblyPreferencePage_showCodeBytesTooltip in: org.eclipse.cdt.dsf.debug.internal.ui.disassembly.DisassemblyMessages
+
+!ENTRY org.eclipse.osgi 2 1 2019-12-04 10:32:21.764
+!MESSAGE NLS missing message: DisassemblyPreferencePage_showAddress in: org.eclipse.cdt.dsf.debug.internal.ui.disassembly.DisassemblyMessages
+
+!ENTRY org.eclipse.osgi 2 1 2019-12-04 10:32:21.765
+!MESSAGE NLS missing message: DisassemblyPreferencePage_showAddressTooltip in: org.eclipse.cdt.dsf.debug.internal.ui.disassembly.DisassemblyMessages
+
+!ENTRY org.eclipse.debug.core 4 125 2019-12-04 10:32:25.655
+!MESSAGE Error logged from Debug Core: 
+!STACK 1
+org.eclipse.debug.core.DebugException: 
+	at org.eclipse.cdt.debug.internal.core.CGlobalVariableManager.addGlobals(CGlobalVariableManager.java:123)
+	at org.eclipse.cdt.debug.internal.core.CGlobalVariableManager.getGlobals(CGlobalVariableManager.java:89)
+	at com.freescale.cdt.debug.cw.core.cdi.model.Target.getContentForVariableView(Target.java:4712)
+	at com.freescale.cdt.debug.cw.core.cdi.model.Target.getAllChildren(Target.java:4646)
+	at com.freescale.cdt.debug.cw.core.cdi.model.Target.getChildCount(Target.java:4661)
+	at org.eclipse.cdt.debug.internal.ui.elements.adapters.CDebugTargetContentProvider.getChildCount(CDebugTargetContentProvider.java:83)
+	at org.eclipse.debug.internal.ui.model.elements.ElementContentProvider.retrieveChildCount(ElementContentProvider.java:114)
+	at org.eclipse.debug.internal.ui.model.elements.ElementContentProvider$2.run(ElementContentProvider.java:63)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:53)
+Contains: Global variable not found
+!SUBENTRY 1 org.eclipse.cdt.debug.core 4 0 2019-12-04 10:32:25.656
+!MESSAGE 
+!SUBENTRY 2 org.eclipse.cdt.debug.core 4 5010 2019-12-04 10:32:25.656
+!MESSAGE Global variable not found
+
+!ENTRY org.eclipse.jface 2 0 2019-12-04 10:33:25.205
+!MESSAGE Keybinding conflicts occurred.  They may interfere with normal accelerator operation.
+!SUBENTRY 1 org.eclipse.jface 2 0 2019-12-04 10:33:25.205
+!MESSAGE A conflict occurred for HOME:
+Binding(HOME,
+	ParameterizedCommand(Command(org.eclipse.ui.edit.text.goto.lineStart,Line Start,
+		Go to the start of the line of text,
+		Category(org.eclipse.ui.category.textEditor,Text Editing,Text Editing Commands,true),
+		org.eclipse.ui.internal.MakeHandlersGo@17492a8,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.ui.textEditorScope,,,system)
+Binding(HOME,
+	ParameterizedCommand(Command(org.eclipse.cdt.dsf.debug.ui.disassembly.commands.gotoPC,Go to Program Counter,
+		Navigate to current program counter,
+		Category(org.eclipse.debug.ui.category.run,Run/Debug,Run/Debug command category,true),
+		org.eclipse.ui.internal.MakeHandlersGo@485457,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.cdt.dsf.debug.ui.disassembly.context,,,system)

@@ -29,6 +29,7 @@ l_u16 updata_flash_ID;
 l_u16 updata_length;
 uint8 DRIVE_flag;
 uint8 tx_ok;
+uint8 boot_reboot;
 
 /**********************
  * updata  flag (eeprom) 0x5a:should updata  else:no need to updata
@@ -42,7 +43,6 @@ typedef enum
 }APP_check_t;
 
 uint8 APP_check_value[4]={0xa5,0x5a,0xa4,0x4a};
-uint8 read_datavalue[4]={0xa5,0x5a,0xa4,0x4a};
 
 /*******************************************************
  * FUNCTION NAME : Lin_Busy_Process()
@@ -82,6 +82,7 @@ void boot_Var_init(void)
    updata_length = 0;
    DRIVE_flag = 0;
    tx_ok = 0;
+   boot_reboot = 0;
 }
 
 /************************
@@ -123,9 +124,9 @@ APP_check_t boot_APP_check(void)
  * 
  * xujunjie@baolong.com
  * ********************/
-uint8 boot_up_check(void)
+uint16 boot_up_check(void)
 {
-	uint8 ret = 0xFF;
+	uint16 ret = 0xFFFF;
 	
 	read_data_from_EEPROM(EEPROM_BOOT_REFRESH,&ret,EEPROM_BOOT_REFRESH_LENTH,ENABLE);
 	
@@ -148,6 +149,7 @@ void boot_jump_to_APP(void)
 	for(;;) { ; }
 }
 
+uint16_t u16Err_1 = FLASH_ERR_SUCCESS;
 
 void main(void)
 {	
@@ -159,7 +161,7 @@ void main(void)
 
 	
 	//case 0: normal start jump to app
-    if(boot_up_check() == 0x5a)
+    if(boot_up_check() == 0x5aa5)
        //&&(boot_APP_check() == APP_VALUE))//if flag is equal to 1,jump to app.else doing updata
     {
 	   //Jump to app
@@ -178,12 +180,16 @@ void main(void)
 			if(flash_eraser_cn >= 88)
 			{
 				flash_eraser_cn = 0;
-				boot_eraser_flag = 0;	
+				boot_eraser_flag = 2;	
 			}
 			else
 			{
-				FLASH_EraseSector((VERIFIED_SECTOR+flash_eraser_cn++)*FLASH_SECTOR_SIZE);
+				u16Err_1 = FLASH_EraseSector((VERIFIED_SECTOR+flash_eraser_cn++)*FLASH_SECTOR_SIZE);
 			}
+		}
+		if(boot_reboot == 1)
+		{
+			while(1);
 		}
 		 
 

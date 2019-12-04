@@ -45,6 +45,7 @@ Allocating common symbols
 Common symbol       size              file
 
 tl_rx_msg_status    0x1               ./Sources/lin_cfg/lin_cfg.o
+boot_reboot         0x1               ./Sources/main.o
 tl_ld_error_code    0x1               ./Sources/lin_cfg/lin_cfg.o
 data_cn1            0x1               ./Sources/LIN_Stack/diagnostic/lin_diagnostic_service.o
 diagnostic_Session  0x1               ./Sources/LIN_Stack/diagnostic/lin_diagnostic_service.o
@@ -92,7 +93,6 @@ lin_lld_response_buffer
                     0xa               ./Sources/lin_cfg/lin_cfg.o
 diagnostic_Session_pre
                     0x1               ./Sources/LIN_Stack/diagnostic/lin_diagnostic_service.o
-boot_flashdata_cn   0x2               ./Sources/LIN_Stack/diagnostic/lin_diagnostic_service.o
 
 Discarded input sections
 
@@ -178,6 +178,8 @@ Discarded input sections
                 0x00000000       0x40 ./Sources/LIN_Stack/diagnostic/lin_diagnostic_service.o
  .text.lin_diagservice_write_data_by_identifier
                 0x00000000       0x24 ./Sources/LIN_Stack/diagnostic/lin_diagnostic_service.o
+ .bss.flash_check
+                0x00000000        0x4 ./Sources/LIN_Stack/diagnostic/lin_diagnostic_service.o
  .text          0x00000000        0x0 ./Sources/LIN_Stack/lowlevel/lin.o
  .data          0x00000000        0x0 ./Sources/LIN_Stack/lowlevel/lin.o
  .bss           0x00000000        0x0 ./Sources/LIN_Stack/lowlevel/lin.o
@@ -263,6 +265,8 @@ Discarded input sections
                 0x00000000        0x6 ./Sources/lin_cfg/lin_cfg.o
  .rodata.lin_configuration_ROM
                 0x00000000       0x10 ./Sources/lin_cfg/lin_cfg.o
+ .rodata.lin_initial_NAD
+                0x00000000        0x1 ./Sources/lin_cfg/lin_cfg.o
  .rodata.product_serial_num
                 0x00000000        0x4 ./Sources/lin_cfg/lin_cfg.o
  .rodata.lin_virtual_ifc
@@ -272,7 +276,7 @@ Discarded input sections
  .bss           0x00000000        0x0 ./Sources/main.o
  .text.boot_APP_check
                 0x00000000       0x34 ./Sources/main.o
- .data.read_datavalue
+ .data.APP_check_value
                 0x00000000        0x4 ./Sources/main.o
  .text          0x00000000        0x0 D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(exit.o)
  .data          0x00000000        0x0 D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(exit.o)
@@ -394,7 +398,7 @@ END GROUP
  *(.cfmconfig)
                 0x00000400                . = ALIGN (0x4)
 
-.text           0x00000800     0x3100
+.text           0x00000800     0x30d0
                 0x00000800                . = ALIGN (0x4)
  *(.text)
  .text          0x00000800       0x14 d:/cw11.0/cw mcu v11.0/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(_thumb1_case_uqi.o)
@@ -574,175 +578,173 @@ END GROUP
                 0x00002694       0x6c ./Sources/LIN_Stack/diagnostic/lin_diagnostic_service.o
                 0x00002694                lin_diagservice_request_download
  .text.lin_diagservice_transfer_data
-                0x00002700       0xd4 ./Sources/LIN_Stack/diagnostic/lin_diagnostic_service.o
+                0x00002700       0xf4 ./Sources/LIN_Stack/diagnostic/lin_diagnostic_service.o
                 0x00002700                lin_diagservice_transfer_data
  .text.lin_diagservice_service_trigger_check
-                0x000027d4       0x70 ./Sources/LIN_Stack/diagnostic/lin_diagnostic_service.o
-                0x000027d4                lin_diagservice_service_trigger_check
+                0x000027f4       0x70 ./Sources/LIN_Stack/diagnostic/lin_diagnostic_service.o
+                0x000027f4                lin_diagservice_service_trigger_check
  .text.lin_diagservice_exit_transfer
-                0x00002844       0x80 ./Sources/LIN_Stack/diagnostic/lin_diagnostic_service.o
-                0x00002844                lin_diagservice_exit_transfer
+                0x00002864       0x40 ./Sources/LIN_Stack/diagnostic/lin_diagnostic_service.o
+                0x00002864                lin_diagservice_exit_transfer
  .text.lin_lld_init
-                0x000028c4        0xc ./Sources/LIN_Stack/lowlevel/lin.o
-                0x000028c4                lin_lld_init
+                0x000028a4        0xc ./Sources/LIN_Stack/lowlevel/lin.o
+                0x000028a4                lin_lld_init
  .text.lin_lld_ignore_response
-                0x000028d0        0x8 ./Sources/LIN_Stack/lowlevel/lin.o
-                0x000028d0                lin_lld_ignore_response
+                0x000028b0        0x8 ./Sources/LIN_Stack/lowlevel/lin.o
+                0x000028b0                lin_lld_ignore_response
  .text.lin_lld_set_low_power_mode
-                0x000028d8        0x8 ./Sources/LIN_Stack/lowlevel/lin.o
-                0x000028d8                lin_lld_set_low_power_mode
+                0x000028b8        0x8 ./Sources/LIN_Stack/lowlevel/lin.o
+                0x000028b8                lin_lld_set_low_power_mode
  .text.lin_lld_set_response
-                0x000028e0       0x1c ./Sources/LIN_Stack/lowlevel/lin.o
-                0x000028e0                lin_lld_set_response
+                0x000028c0       0x1c ./Sources/LIN_Stack/lowlevel/lin.o
+                0x000028c0                lin_lld_set_response
  .text.lin_lld_rx_response
-                0x000028fc        0xa ./Sources/LIN_Stack/lowlevel/lin.o
-                0x000028fc                lin_lld_rx_response
+                0x000028dc        0xa ./Sources/LIN_Stack/lowlevel/lin.o
+                0x000028dc                lin_lld_rx_response
  .text.lin_process_parity
-                0x00002906       0x52 ./Sources/LIN_Stack/lowlevel/lin.o
-                0x00002906                lin_process_parity
+                0x000028e6       0x52 ./Sources/LIN_Stack/lowlevel/lin.o
+                0x000028e6                lin_process_parity
  .text.lin_checksum
-                0x00002958       0x2e ./Sources/LIN_Stack/lowlevel/lin.o
-                0x00002958                lin_checksum
+                0x00002938       0x2e ./Sources/LIN_Stack/lowlevel/lin.o
+                0x00002938                lin_checksum
  .text.lin_lld_timer_init
-                0x00002986        0x8 ./Sources/LIN_Stack/lowlevel/lin.o
-                0x00002986                lin_lld_timer_init
- *fill*         0x0000298e        0x2 00
+                0x00002966        0x8 ./Sources/LIN_Stack/lowlevel/lin.o
+                0x00002966                lin_lld_timer_init
+ *fill*         0x0000296e        0x2 00
  .text.lin_tl_make_slaveres_pdu
-                0x00002990      0x110 ./Sources/LIN_Stack/transport/lin_commontl_proto.o
-                0x00002990                lin_tl_make_slaveres_pdu
+                0x00002970      0x110 ./Sources/LIN_Stack/transport/lin_commontl_proto.o
+                0x00002970                lin_tl_make_slaveres_pdu
  .text.lin_tl_attach_service
-                0x00002aa0       0xbc ./Sources/LIN_Stack/transport/lin_commontl_proto.o
-                0x00002aa0                lin_tl_attach_service
+                0x00002a80       0xbc ./Sources/LIN_Stack/transport/lin_commontl_proto.o
+                0x00002a80                lin_tl_attach_service
  .text.tl_put_raw
-                0x00002b5c       0x54 ./Sources/LIN_Stack/transport/lin_commontl_proto.o
-                0x00002b5c                tl_put_raw
+                0x00002b3c       0x54 ./Sources/LIN_Stack/transport/lin_commontl_proto.o
+                0x00002b3c                tl_put_raw
  .text.lin_tl_handler
-                0x00002bb0      0x218 ./Sources/LIN_Stack/transport/lin_commontl_proto.o
-                0x00002bb0                lin_tl_handler
+                0x00002b90      0x200 ./Sources/LIN_Stack/transport/lin_commontl_proto.o
+                0x00002b90                lin_tl_handler
  .text.tl_get_raw
-                0x00002dc8       0x54 ./Sources/LIN_Stack/transport/lin_commontl_proto.o
-                0x00002dc8                tl_get_raw
+                0x00002d90       0x54 ./Sources/LIN_Stack/transport/lin_commontl_proto.o
+                0x00002d90                tl_get_raw
  .text.lin_tl_get_pdu
-                0x00002e1c       0x28 ./Sources/LIN_Stack/transport/lin_commontl_proto.o
-                0x00002e1c                lin_tl_get_pdu
+                0x00002de4       0x28 ./Sources/LIN_Stack/transport/lin_commontl_proto.o
+                0x00002de4                lin_tl_get_pdu
  .text.ld_get_raw
-                0x00002e44       0x10 ./Sources/LIN_Stack/transport/lin_commontl_api.o
-                0x00002e44                ld_get_raw
+                0x00002e0c       0x10 ./Sources/LIN_Stack/transport/lin_commontl_api.o
+                0x00002e0c                ld_get_raw
  .text.ld_receive_message
-                0x00002e54       0xf8 ./Sources/LIN_Stack/transport/lin_commontl_api.o
-                0x00002e54                ld_receive_message
+                0x00002e1c       0xf8 ./Sources/LIN_Stack/transport/lin_commontl_api.o
+                0x00002e1c                ld_receive_message
  .text.Clk_Init
-                0x00002f4c       0x4c ./Sources/driver/clock/clock.o
-                0x00002f4c                Clk_Init
+                0x00002f14       0x4c ./Sources/driver/clock/clock.o
+                0x00002f14                Clk_Init
  .text.WDOG_Feed
-                0x00002f98       0x1c ./Sources/driver/eeprom/eeprom.o
-                0x00002f98                WDOG_Feed
+                0x00002f60       0x1c ./Sources/driver/eeprom/eeprom.o
+                0x00002f60                WDOG_Feed
  .text.FLASH_Init
-                0x00002fb4       0x64 ./Sources/driver/eeprom/eeprom.o
-                0x00002fb4                FLASH_Init
+                0x00002f7c       0x64 ./Sources/driver/eeprom/eeprom.o
+                0x00002f7c                FLASH_Init
  .text.FLASH_LaunchCMD
-                0x00003018       0x2c ./Sources/driver/eeprom/eeprom.o
-                0x00003018                FLASH_LaunchCMD
+                0x00002fe0       0x2c ./Sources/driver/eeprom/eeprom.o
+                0x00002fe0                FLASH_LaunchCMD
  .text.FLASH_EraseSector
-                0x00003044       0x78 ./Sources/driver/eeprom/eeprom.o
-                0x00003044                FLASH_EraseSector
+                0x0000300c       0x74 ./Sources/driver/eeprom/eeprom.o
+                0x0000300c                FLASH_EraseSector
  .text.FLASH_Program2LongWords
-                0x000030bc       0xac ./Sources/driver/eeprom/eeprom.o
-                0x000030bc                FLASH_Program2LongWords
+                0x00003080       0xac ./Sources/driver/eeprom/eeprom.o
+                0x00003080                FLASH_Program2LongWords
  .text.FLASH_Program1LongWord
-                0x00003168       0x90 ./Sources/driver/eeprom/eeprom.o
-                0x00003168                FLASH_Program1LongWord
+                0x0000312c       0x90 ./Sources/driver/eeprom/eeprom.o
+                0x0000312c                FLASH_Program1LongWord
  .text.FLASH_Program
-                0x000031f8       0xac ./Sources/driver/eeprom/eeprom.o
-                0x000031f8                FLASH_Program
+                0x000031bc       0x94 ./Sources/driver/eeprom/eeprom.o
+                0x000031bc                FLASH_Program
  .text.EEPROM_EraseSector
-                0x000032a4       0x68 ./Sources/driver/eeprom/eeprom.o
-                0x000032a4                EEPROM_EraseSector
+                0x00003250       0x68 ./Sources/driver/eeprom/eeprom.o
+                0x00003250                EEPROM_EraseSector
  .text.EEPROM_ProgramWord
-                0x0000330c       0x7c ./Sources/driver/eeprom/eeprom.o
-                0x0000330c                EEPROM_ProgramWord
+                0x000032b8       0x7c ./Sources/driver/eeprom/eeprom.o
+                0x000032b8                EEPROM_ProgramWord
  .text.read_data_from_EEPROM
-                0x00003388       0x7c ./Sources/driver/eeprom/eeprom.o
-                0x00003388                read_data_from_EEPROM
+                0x00003334       0x7c ./Sources/driver/eeprom/eeprom.o
+                0x00003334                read_data_from_EEPROM
  .text.write_data_from_EEPROM
-                0x00003404      0x188 ./Sources/driver/eeprom/eeprom.o
-                0x00003404                write_data_from_EEPROM
+                0x000033b0      0x188 ./Sources/driver/eeprom/eeprom.o
+                0x000033b0                write_data_from_EEPROM
  .text.GPIO_Init
-                0x0000358c       0x28 ./Sources/driver/gpio/gpio.o
-                0x0000358c                GPIO_Init
+                0x00003538       0x28 ./Sources/driver/gpio/gpio.o
+                0x00003538                GPIO_Init
  .text.Lin_Sys_Init
-                0x000035b4       0x28 ./Sources/main.o
-                0x000035b4                Lin_Sys_Init
+                0x00003560       0x28 ./Sources/main.o
+                0x00003560                Lin_Sys_Init
  .text.boot_Var_init
-                0x000035dc       0x30 ./Sources/main.o
-                0x000035dc                boot_Var_init
+                0x00003588       0x38 ./Sources/main.o
+                0x00003588                boot_Var_init
  .text.boot_sysinit
-                0x0000360c       0x18 ./Sources/main.o
-                0x0000360c                boot_sysinit
+                0x000035c0       0x18 ./Sources/main.o
+                0x000035c0                boot_sysinit
  .text.boot_up_check
-                0x00003624       0x20 ./Sources/main.o
-                0x00003624                boot_up_check
+                0x000035d8       0x20 ./Sources/main.o
+                0x000035d8                boot_up_check
  .text.boot_jump_to_APP
-                0x00003644       0x10 ./Sources/main.o
-                0x00003644                boot_jump_to_APP
+                0x000035f8       0x10 ./Sources/main.o
+                0x000035f8                boot_jump_to_APP
  .text.startup.main
-                0x00003654       0x50 ./Sources/main.o
-                0x00003654                main
- .text.exit     0x000036a4       0x38 D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(exit.o)
-                0x000036a4                exit
- .text.memset   0x000036dc        0xc D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(memset.o)
-                0x000036dc                memset
+                0x00003608       0x6c ./Sources/main.o
+                0x00003608                main
+ .text.exit     0x00003674       0x38 D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(exit.o)
+                0x00003674                exit
+ .text.memset   0x000036ac        0xc D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(memset.o)
+                0x000036ac                memset
  .text.__fill_mem
-                0x000036e8       0x7e D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(__filll_mem.o)
-                0x000036e8                __fill_mem
- *fill*         0x00003766        0x2 00
+                0x000036b8       0x7e D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(__filll_mem.o)
+                0x000036b8                __fill_mem
+ *fill*         0x00003736        0x2 00
  .text.__init_cpp
-                0x00003768       0x48 D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\librt.a(gcc_ctor_dtor.o)
-                0x00003768                __init_cpp
+                0x00003738       0x48 D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\librt.a(gcc_ctor_dtor.o)
+                0x00003738                __init_cpp
  .text.__fini_cpp
-                0x000037b0       0x34 D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\librt.a(gcc_ctor_dtor.o)
-                0x000037b0                __fini_cpp
+                0x00003780       0x34 D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\librt.a(gcc_ctor_dtor.o)
+                0x00003780                __fini_cpp
  .text.__destroy_global_chain
-                0x000037e4       0x1c D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\librt.a(__arm_eabi_init.o)
-                0x000037e4                __destroy_global_chain
+                0x000037b4       0x1c D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\librt.a(__arm_eabi_init.o)
+                0x000037b4                __destroy_global_chain
  .text.__init_registers
-                0x00003800       0x1c D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\librt.a(__arm_eabi_init.o)
-                0x00003800                __init_registers
+                0x000037d0       0x1c D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\librt.a(__arm_eabi_init.o)
+                0x000037d0                __init_registers
  .text.__init_user
-                0x0000381c        0x4 D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\librt.a(__arm_eabi_init.o)
-                0x0000381c                __init_user
+                0x000037ec        0x4 D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\librt.a(__arm_eabi_init.o)
+                0x000037ec                __init_user
  .text.__copy_rom_section
-                0x00003820       0x48 D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\librt.a(ROMCopy.o)
-                0x00003820                __copy_rom_section
+                0x000037f0       0x48 D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\librt.a(ROMCopy.o)
+                0x000037f0                __copy_rom_section
  .text.__copy_rom_sections_to_ram
-                0x00003868       0x34 D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\librt.a(ROMCopy.o)
-                0x00003868                __copy_rom_sections_to_ram
+                0x00003838       0x34 D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\librt.a(ROMCopy.o)
+                0x00003838                __copy_rom_sections_to_ram
  *(.rodata)
  *(.rodata*)
  .rodata.response_error_byte_offset
-                0x0000389c        0x1 ./Sources/lin_cfg/lin_cfg.o
-                0x0000389c                response_error_byte_offset
- .rodata.lin_initial_NAD
-                0x0000389d        0x1 ./Sources/lin_cfg/lin_cfg.o
-                0x0000389d                lin_initial_NAD
+                0x0000386c        0x1 ./Sources/lin_cfg/lin_cfg.o
+                0x0000386c                response_error_byte_offset
  .rodata.response_error_bit_offset
-                0x0000389e        0x1 ./Sources/lin_cfg/lin_cfg.o
-                0x0000389e                response_error_bit_offset
+                0x0000386d        0x1 ./Sources/lin_cfg/lin_cfg.o
+                0x0000386d                response_error_bit_offset
  .rodata.LI0_response_error_signal
-                0x0000389f        0x1 ./Sources/lin_cfg/lin_cfg.o
-                0x0000389f                LI0_response_error_signal
+                0x0000386e        0x1 ./Sources/lin_cfg/lin_cfg.o
+                0x0000386e                LI0_response_error_signal
+ *fill*         0x0000386f        0x1 00
  .rodata.lin_max_frame_res_timeout_val
-                0x000038a0       0x10 ./Sources/lin_cfg/lin_cfg.o
-                0x000038a0                lin_max_frame_res_timeout_val
+                0x00003870       0x10 ./Sources/lin_cfg/lin_cfg.o
+                0x00003870                lin_max_frame_res_timeout_val
  .rodata.lin_frame_tbl
-                0x000038b0       0x48 ./Sources/lin_cfg/lin_cfg.o
-                0x000038b0                lin_frame_tbl
+                0x00003880       0x48 ./Sources/lin_cfg/lin_cfg.o
+                0x00003880                lin_frame_tbl
  .rodata.lin_diag_services_supported
-                0x000038f8        0x7 ./Sources/lin_cfg/lin_cfg.o
-                0x000038f8                lin_diag_services_supported
+                0x000038c8        0x7 ./Sources/lin_cfg/lin_cfg.o
+                0x000038c8                lin_diag_services_supported
  .rodata.response_error
-                0x000038ff        0x1 ./Sources/lin_cfg/lin_cfg.o
-                0x000038ff                response_error
+                0x000038cf        0x1 ./Sources/lin_cfg/lin_cfg.o
+                0x000038cf                response_error
  *(.glue_7)
  .glue_7        0x00000000        0x0 linker stubs
  *(.glue_7t)
@@ -750,62 +752,62 @@ END GROUP
  *(.eh_frame)
  *(.init)
  *(.fini)
-                0x00003900                . = ALIGN (0x4)
-                0x00003900                _etext = .
+                0x000038d0                . = ALIGN (0x4)
+                0x000038d0                _etext = .
 
-.vfp11_veneer   0x00003900        0x0
+.vfp11_veneer   0x000038d0        0x0
  .vfp11_veneer  0x00000000        0x0 linker stubs
 
-.v4_bx          0x00003900        0x0
+.v4_bx          0x000038d0        0x0
  .v4_bx         0x00000000        0x0 linker stubs
 
-.iplt           0x00003900        0x0
+.iplt           0x000038d0        0x0
  .iplt          0x00000000        0x0 ./Project_Settings/Startup_Code/kinetis_sysinit.o
 
-.rel.dyn        0x00003900        0x0
+.rel.dyn        0x000038d0        0x0
  .rel.iplt      0x00000000        0x0 ./Project_Settings/Startup_Code/kinetis_sysinit.o
 
 .ARM.extab
  *(.ARM.extab* .gnu.linkonce.armextab.*)
 
-.ARM            0x00003900        0x0
-                0x00003900                __exidx_start = .
+.ARM            0x000038d0        0x0
+                0x000038d0                __exidx_start = .
  *(.ARM.exidx*)
-                0x00003900                __exidx_end = .
+                0x000038d0                __exidx_end = .
 
-.ctors          0x00003900        0x0
-                0x00003900                __CTOR_LIST__ = .
+.ctors          0x000038d0        0x0
+                0x000038d0                __CTOR_LIST__ = .
  *crtbegin.o(.ctors)
  *(EXCLUDE_FILE(*crtend.o) .ctors)
  *(SORT(.ctors.*))
  *(.ctors)
-                0x00003900                __CTOR_END__ = .
+                0x000038d0                __CTOR_END__ = .
 
-.dtors          0x00003900        0x0
-                0x00003900                __DTOR_LIST__ = .
+.dtors          0x000038d0        0x0
+                0x000038d0                __DTOR_LIST__ = .
  *crtbegin.o(.dtors)
  *(EXCLUDE_FILE(*crtend.o) .dtors)
  *(SORT(.dtors.*))
  *(.dtors)
-                0x00003900                __DTOR_END__ = .
+                0x000038d0                __DTOR_END__ = .
 
-.preinit_array  0x00003900        0x0
-                0x00003900                PROVIDE (__preinit_array_start, .)
+.preinit_array  0x000038d0        0x0
+                0x000038d0                PROVIDE (__preinit_array_start, .)
  *(.preinit_array*)
-                0x00003900                PROVIDE (__preinit_array_end, .)
+                0x000038d0                PROVIDE (__preinit_array_end, .)
 
-.init_array     0x00003900        0x0
-                0x00003900                PROVIDE (__init_array_start, .)
+.init_array     0x000038d0        0x0
+                0x000038d0                PROVIDE (__init_array_start, .)
  *(SORT(.init_array.*))
  *(.init_array*)
-                0x00003900                PROVIDE (__init_array_end, .)
+                0x000038d0                PROVIDE (__init_array_end, .)
 
-.fini_array     0x00003900        0x0
-                0x00003900                PROVIDE (__fini_array_start, .)
+.fini_array     0x000038d0        0x0
+                0x000038d0                PROVIDE (__fini_array_start, .)
  *(SORT(.fini_array.*))
  *(.fini_array*)
-                0x00003900                PROVIDE (__fini_array_end, .)
-                0x00003900                ___ROM_AT = .
+                0x000038d0                PROVIDE (__fini_array_end, .)
+                0x000038d0                ___ROM_AT = .
 
 .mtb            0x1ffffc00        0x0
                 0x1ffffc00                . = ALIGN (0x8)
@@ -814,7 +816,7 @@ END GROUP
                 0x1ffffc00                . = ALIGN (0x8)
                 0x1ffffc00                _mtb_end = .
 
-.data           0x1ffffc00       0x48 load address 0x00003900
+.data           0x1ffffc00       0x48 load address 0x000038d0
                 0x1ffffc00                . = ALIGN (0x4)
                 0x1ffffc00                _sdata = .
  *(.data)
@@ -823,38 +825,39 @@ END GROUP
  .data.ifc      0x1ffffc01        0x1 ./Sources/LIN_Stack/bsp/UART/lin_lld_uart.o
  .data.pid      0x1ffffc02        0x1 ./Sources/LIN_Stack/bsp/UART/lin_lld_uart.o
  *fill*         0x1ffffc03        0x1 00
+ .data.boot_flashdata_cn
+                0x1ffffc04        0x2 ./Sources/LIN_Stack/diagnostic/lin_diagnostic_service.o
+                0x1ffffc04                boot_flashdata_cn
+ *fill*         0x1ffffc06        0x2 00
  .data.lin_tl_rx_queue
-                0x1ffffc04       0x10 ./Sources/lin_cfg/lin_cfg.o
-                0x1ffffc04                lin_tl_rx_queue
+                0x1ffffc08       0x10 ./Sources/lin_cfg/lin_cfg.o
+                0x1ffffc08                lin_tl_rx_queue
  .data.lin_configured_NAD
-                0x1ffffc14        0x1 ./Sources/lin_cfg/lin_cfg.o
-                0x1ffffc14                lin_configured_NAD
- *fill*         0x1ffffc15        0x3 00
+                0x1ffffc18        0x1 ./Sources/lin_cfg/lin_cfg.o
+                0x1ffffc18                lin_configured_NAD
+ *fill*         0x1ffffc19        0x3 00
  .data.lin_tl_tx_queue
-                0x1ffffc18       0x10 ./Sources/lin_cfg/lin_cfg.o
-                0x1ffffc18                lin_tl_tx_queue
+                0x1ffffc1c       0x10 ./Sources/lin_cfg/lin_cfg.o
+                0x1ffffc1c                lin_tl_tx_queue
  .data.tl_service_status
-                0x1ffffc28        0x1 ./Sources/lin_cfg/lin_cfg.o
-                0x1ffffc28                tl_service_status
+                0x1ffffc2c        0x1 ./Sources/lin_cfg/lin_cfg.o
+                0x1ffffc2c                tl_service_status
  .data.lin_pFrameBuf
-                0x1ffffc29       0x12 ./Sources/lin_cfg/lin_cfg.o
-                0x1ffffc29                lin_pFrameBuf
+                0x1ffffc2d       0x12 ./Sources/lin_cfg/lin_cfg.o
+                0x1ffffc2d                lin_pFrameBuf
  .data.lin_configuration_RAM
-                0x1ffffc3b        0x8 ./Sources/lin_cfg/lin_cfg.o
-                0x1ffffc3b                lin_configuration_RAM
- .data.APP_check_value
-                0x1ffffc43        0x4 ./Sources/main.o
-                0x1ffffc43                APP_check_value
+                0x1ffffc3f        0x8 ./Sources/lin_cfg/lin_cfg.o
+                0x1ffffc3f                lin_configuration_RAM
                 0x1ffffc48                . = ALIGN (0x4)
  *fill*         0x1ffffc47        0x1 00
                 0x1ffffc48                _edata = .
                 0x00000048                ___data_size = (_edata - _sdata)
 
-.igot.plt       0x1ffffc48        0x0 load address 0x00003948
+.igot.plt       0x1ffffc48        0x0 load address 0x00003918
  .igot.plt      0x00000000        0x0 ./Project_Settings/Startup_Code/kinetis_sysinit.o
                 0x1ffffc48                . = ALIGN (0x4)
 
-.bss            0x1ffffc48      0x164 load address 0x00003948
+.bss            0x1ffffc48      0x164 load address 0x00003918
                 0x1ffffc48                __START_BSS = .
                 0x1ffffc48                PROVIDE (__bss_start__, __START_BSS)
  *(.bss)
@@ -881,28 +884,31 @@ END GROUP
  .bss.DRIVE_flag
                 0x1ffffc92        0x1 ./Sources/LIN_Stack/diagnostic/lin_diagnostic_service.o
                 0x1ffffc92                DRIVE_flag
- .bss.flash_check
-                0x1ffffc93        0x4 ./Sources/LIN_Stack/diagnostic/lin_diagnostic_service.o
-                0x1ffffc93                flash_check
+ *fill*         0x1ffffc93        0x1 00
+ .bss.boot_flashdata_last_cn
+                0x1ffffc94        0x2 ./Sources/LIN_Stack/diagnostic/lin_diagnostic_service.o
+                0x1ffffc94                boot_flashdata_last_cn
  .bss.tl_diag_state
-                0x1ffffc97        0x1 ./Sources/lin_cfg/lin_cfg.o
-                0x1ffffc97                tl_diag_state
+                0x1ffffc96        0x1 ./Sources/lin_cfg/lin_cfg.o
+                0x1ffffc96                tl_diag_state
  .bss.lin_flag_handle_tbl
-                0x1ffffc98        0x6 ./Sources/lin_cfg/lin_cfg.o
-                0x1ffffc98                lin_flag_handle_tbl
+                0x1ffffc97        0x6 ./Sources/lin_cfg/lin_cfg.o
+                0x1ffffc97                lin_flag_handle_tbl
  .bss.tl_slaveresp_cnt
-                0x1ffffc9e        0x1 ./Sources/lin_cfg/lin_cfg.o
-                0x1ffffc9e                tl_slaveresp_cnt
+                0x1ffffc9d        0x1 ./Sources/lin_cfg/lin_cfg.o
+                0x1ffffc9d                tl_slaveresp_cnt
  .bss.lin_save_configuration_flg
-                0x1ffffc9f        0x1 ./Sources/lin_cfg/lin_cfg.o
-                0x1ffffc9f                lin_save_configuration_flg
+                0x1ffffc9e        0x1 ./Sources/lin_cfg/lin_cfg.o
+                0x1ffffc9e                lin_save_configuration_flg
  .bss.lin_frame_flag_tbl
-                0x1ffffca0        0x6 ./Sources/lin_cfg/lin_cfg.o
-                0x1ffffca0                lin_frame_flag_tbl
+                0x1ffffc9f        0x6 ./Sources/lin_cfg/lin_cfg.o
+                0x1ffffc9f                lin_frame_flag_tbl
  .bss.lin_diag_services_flag
-                0x1ffffca6        0x7 ./Sources/lin_cfg/lin_cfg.o
-                0x1ffffca6                lin_diag_services_flag
- *fill*         0x1ffffcad        0x3 00
+                0x1ffffca5        0x7 ./Sources/lin_cfg/lin_cfg.o
+                0x1ffffca5                lin_diag_services_flag
+ .bss.u16Err_1  0x1ffffcac        0x2 ./Sources/main.o
+                0x1ffffcac                u16Err_1
+ *fill*         0x1ffffcae        0x2 00
  .bss.__stdio_exit
                 0x1ffffcb0        0x4 D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(exit.o)
                 0x1ffffcb0                __stdio_exit
@@ -917,7 +923,7 @@ END GROUP
  COMMON         0x1ffffcc8        0x2 ./Sources/LIN_Stack/coreapi/lin_common_proto.o
                 0x1ffffcc8                frame_signal_error
                 0x1ffffcc9                frame_index
- COMMON         0x1ffffcca       0x3c ./Sources/LIN_Stack/diagnostic/lin_diagnostic_service.o
+ COMMON         0x1ffffcca       0x39 ./Sources/LIN_Stack/diagnostic/lin_diagnostic_service.o
                 0x1ffffcca                data_cn1
                 0x1ffffccb                diagnostic_Session
                 0x1ffffccc                boot_write_flash
@@ -925,48 +931,48 @@ END GROUP
                 0x1ffffcff                diagnostic_Session_flg
                 0x1ffffd00                diagnostic_Session_timer
                 0x1ffffd02                diagnostic_Session_pre
-                0x1ffffd04                boot_flashdata_cn
- *fill*         0x1ffffd06        0x2 00
- COMMON         0x1ffffd08       0x9b ./Sources/lin_cfg/lin_cfg.o
-                0x1ffffd08                tl_rx_msg_status
-                0x1ffffd09                tl_ld_error_code
-                0x1ffffd0a                tl_receive_msg_status
-                0x1ffffd0c                tl_check_timeout
-                0x1ffffd0e                tl_rx_queue_data
-                0x1ffffd3e                tl_frame_counter
-                0x1ffffd3f                tl_tx_queue_data
-                0x1ffffd70                tl_tx_msg_size
-                0x1ffffd72                tl_last_cfg_result
-                0x1ffffd73                tl_tx_msg_status
-                0x1ffffd74                tl_last_RSID
-                0x1ffffd75                lin_successful_transfer
-                0x1ffffd76                tl_rx_msg_index
-                0x1ffffd78                tl_no_of_pdu
-                0x1ffffd79                lin_diag_signal_tbl
-                0x1ffffd89                lin_goto_sleep_flg
-                0x1ffffd8a                tl_rx_msg_size
-                0x1ffffd8c                lin_word_status
-                0x1ffffd8e                tl_tx_msg_index
-                0x1ffffd90                tl_check_timeout_type
-                0x1ffffd91                lin_current_pid
-                0x1ffffd94                tl_ident_data
-                0x1ffffd98                lin_error_in_response
-                0x1ffffd99                lin_lld_response_buffer
- *fill*         0x1ffffda3        0x1 00
- COMMON         0x1ffffda4        0x7 ./Sources/main.o
-                0x1ffffda4                updata_flash_ID
-                0x1ffffda6                tx_ok
-                0x1ffffda8                updata_length
-                0x1ffffdaa                boot_eraser_flag
+ *fill*         0x1ffffd03        0x1 00
+ COMMON         0x1ffffd04       0x9b ./Sources/lin_cfg/lin_cfg.o
+                0x1ffffd04                tl_rx_msg_status
+                0x1ffffd05                tl_ld_error_code
+                0x1ffffd06                tl_receive_msg_status
+                0x1ffffd08                tl_check_timeout
+                0x1ffffd0a                tl_rx_queue_data
+                0x1ffffd3a                tl_frame_counter
+                0x1ffffd3b                tl_tx_queue_data
+                0x1ffffd6c                tl_tx_msg_size
+                0x1ffffd6e                tl_last_cfg_result
+                0x1ffffd6f                tl_tx_msg_status
+                0x1ffffd70                tl_last_RSID
+                0x1ffffd71                lin_successful_transfer
+                0x1ffffd72                tl_rx_msg_index
+                0x1ffffd74                tl_no_of_pdu
+                0x1ffffd75                lin_diag_signal_tbl
+                0x1ffffd85                lin_goto_sleep_flg
+                0x1ffffd86                tl_rx_msg_size
+                0x1ffffd88                lin_word_status
+                0x1ffffd8a                tl_tx_msg_index
+                0x1ffffd8c                tl_check_timeout_type
+                0x1ffffd8d                lin_current_pid
+                0x1ffffd90                tl_ident_data
+                0x1ffffd94                lin_error_in_response
+                0x1ffffd95                lin_lld_response_buffer
+ *fill*         0x1ffffd9f        0x1 00
+ COMMON         0x1ffffda0        0x9 ./Sources/main.o
+                0x1ffffda0                boot_reboot
+                0x1ffffda2                updata_flash_ID
+                0x1ffffda4                tx_ok
+                0x1ffffda6                updata_length
+                0x1ffffda8                boot_eraser_flag
                 0x1ffffdac                . = ALIGN (0x4)
- *fill*         0x1ffffdab        0x1 00
+ *fill*         0x1ffffda9        0x3 00
                 0x1ffffdac                __END_BSS = .
                 0x1ffffdac                PROVIDE (__bss_end__, __END_BSS)
-                0x00003948                _romp_at = (___ROM_AT + SIZEOF (.data))
+                0x00003918                _romp_at = (___ROM_AT + SIZEOF (.data))
 
-.romp           0x1ffffdac       0x18 load address 0x00003948
-                0x00003948                __S_romp = _romp_at
-                0x1ffffdac        0x4 LONG 0x3900 ___ROM_AT
+.romp           0x1ffffdac       0x18 load address 0x00003918
+                0x00003918                __S_romp = _romp_at
+                0x1ffffdac        0x4 LONG 0x38d0 ___ROM_AT
                 0x1ffffdb0        0x4 LONG 0x1ffffc00 _sdata
                 0x1ffffdb4        0x4 LONG 0x48 ___data_size
                 0x1ffffdb8        0x4 LONG 0x0
@@ -974,7 +980,7 @@ END GROUP
                 0x1ffffdc0        0x4 LONG 0x0
 
 ._user_heap_stack
-                0x1ffffdc4      0x200 load address 0x00003960
+                0x1ffffdc4      0x200 load address 0x00003930
                 0x1ffffdc4                . = ALIGN (0x4)
                 0x1ffffdc4                PROVIDE (end, .)
                 0x1ffffdc4                PROVIDE (_end, .)
@@ -1066,7 +1072,7 @@ END GROUP
                 0x0000067b       0x31 D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\librt.a(ROMCopy.o)
 OUTPUT(RLS.elf elf32-littlearm)
 
-.debug_info     0x00000000     0x5f16
+.debug_info     0x00000000     0x5f2e
  .debug_info    0x00000000      0x385 ./Project_Settings/Startup_Code/kinetis_sysinit.o
  .debug_info    0x00000385      0x148 ./Project_Settings/Startup_Code/__arm_start.o
  .debug_info    0x000004cd       0x53 ./Project_Settings/Startup_Code/__arm_end.o
@@ -1076,21 +1082,21 @@ OUTPUT(RLS.elf elf32-littlearm)
  .debug_info    0x00001a2a      0x378 ./Sources/LIN_Stack/coreapi/lin_lin21_proto.o
  .debug_info    0x00001da2      0x820 ./Sources/LIN_Stack/coreapi/lin_common_proto.o
  .debug_info    0x000025c2      0x337 ./Sources/LIN_Stack/coreapi/lin_common_api.o
- .debug_info    0x000028f9      0x478 ./Sources/LIN_Stack/diagnostic/lin_diagnostic_service.o
- .debug_info    0x00002d71      0x363 ./Sources/LIN_Stack/lowlevel/lin.o
- .debug_info    0x000030d4      0x65a ./Sources/LIN_Stack/transport/lin_commontl_proto.o
- .debug_info    0x0000372e      0x65b ./Sources/LIN_Stack/transport/lin_commontl_api.o
- .debug_info    0x00003d89       0xf2 ./Sources/driver/clock/clock.o
- .debug_info    0x00003e7b      0x7ac ./Sources/driver/eeprom/eeprom.o
- .debug_info    0x00004627      0x1a3 ./Sources/driver/gpio/gpio.o
- .debug_info    0x000047ca      0x9e6 ./Sources/lin_cfg/lin_cfg.o
- .debug_info    0x000051b0      0x4d1 ./Sources/main.o
- .debug_info    0x00005681       0xe8 D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(exit.o)
- .debug_info    0x00005769       0xec D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(memset.o)
- .debug_info    0x00005855      0x137 D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(__filll_mem.o)
- .debug_info    0x0000598c      0x136 D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\librt.a(gcc_ctor_dtor.o)
- .debug_info    0x00005ac2      0x2b9 D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\librt.a(__arm_eabi_init.o)
- .debug_info    0x00005d7b      0x19b D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\librt.a(ROMCopy.o)
+ .debug_info    0x000028f9      0x485 ./Sources/LIN_Stack/diagnostic/lin_diagnostic_service.o
+ .debug_info    0x00002d7e      0x363 ./Sources/LIN_Stack/lowlevel/lin.o
+ .debug_info    0x000030e1      0x648 ./Sources/LIN_Stack/transport/lin_commontl_proto.o
+ .debug_info    0x00003729      0x65b ./Sources/LIN_Stack/transport/lin_commontl_api.o
+ .debug_info    0x00003d84       0xf2 ./Sources/driver/clock/clock.o
+ .debug_info    0x00003e76      0x7ac ./Sources/driver/eeprom/eeprom.o
+ .debug_info    0x00004622      0x1a3 ./Sources/driver/gpio/gpio.o
+ .debug_info    0x000047c5      0x9e6 ./Sources/lin_cfg/lin_cfg.o
+ .debug_info    0x000051ab      0x4ee ./Sources/main.o
+ .debug_info    0x00005699       0xe8 D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(exit.o)
+ .debug_info    0x00005781       0xec D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(memset.o)
+ .debug_info    0x0000586d      0x137 D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(__filll_mem.o)
+ .debug_info    0x000059a4      0x136 D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\librt.a(gcc_ctor_dtor.o)
+ .debug_info    0x00005ada      0x2b9 D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\librt.a(__arm_eabi_init.o)
+ .debug_info    0x00005d93      0x19b D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\librt.a(ROMCopy.o)
 
 .debug_abbrev   0x00000000     0x1c50
  .debug_abbrev  0x00000000      0x133 ./Project_Settings/Startup_Code/kinetis_sysinit.o
@@ -1206,7 +1212,7 @@ OUTPUT(RLS.elf elf32-littlearm)
  .debug_macinfo
                 0x001f5b52    0x256ba ./Sources/main.o
 
-.debug_line     0x00000000     0x47b8
+.debug_line     0x00000000     0x47a2
  .debug_line    0x00000000      0x207 ./Project_Settings/Startup_Code/kinetis_sysinit.o
  .debug_line    0x00000207      0x27d ./Project_Settings/Startup_Code/__arm_start.o
  .debug_line    0x00000484      0x259 ./Project_Settings/Startup_Code/__arm_end.o
@@ -1216,23 +1222,23 @@ OUTPUT(RLS.elf elf32-littlearm)
  .debug_line    0x00001293      0x367 ./Sources/LIN_Stack/coreapi/lin_lin21_proto.o
  .debug_line    0x000015fa      0x4b8 ./Sources/LIN_Stack/coreapi/lin_common_proto.o
  .debug_line    0x00001ab2      0x3c3 ./Sources/LIN_Stack/coreapi/lin_common_api.o
- .debug_line    0x00001e75      0x529 ./Sources/LIN_Stack/diagnostic/lin_diagnostic_service.o
- .debug_line    0x0000239e      0x41c ./Sources/LIN_Stack/lowlevel/lin.o
- .debug_line    0x000027ba      0x593 ./Sources/LIN_Stack/transport/lin_commontl_proto.o
- .debug_line    0x00002d4d      0x539 ./Sources/LIN_Stack/transport/lin_commontl_api.o
- .debug_line    0x00003286      0x1da ./Sources/driver/clock/clock.o
- .debug_line    0x00003460      0x4f4 ./Sources/driver/eeprom/eeprom.o
- .debug_line    0x00003954      0x1d0 ./Sources/driver/gpio/gpio.o
- .debug_line    0x00003b24      0x2d5 ./Sources/lin_cfg/lin_cfg.o
- .debug_line    0x00003df9      0x56c ./Sources/main.o
- .debug_line    0x00004365       0x8d D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(exit.o)
- .debug_line    0x000043f2       0x90 D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(memset.o)
- .debug_line    0x00004482       0xf6 D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(__filll_mem.o)
- .debug_line    0x00004578       0x6c D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\librt.a(gcc_ctor_dtor.o)
- .debug_line    0x000045e4      0x117 D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\librt.a(__arm_eabi_init.o)
- .debug_line    0x000046fb       0xbd D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\librt.a(ROMCopy.o)
+ .debug_line    0x00001e75      0x514 ./Sources/LIN_Stack/diagnostic/lin_diagnostic_service.o
+ .debug_line    0x00002389      0x41c ./Sources/LIN_Stack/lowlevel/lin.o
+ .debug_line    0x000027a5      0x593 ./Sources/LIN_Stack/transport/lin_commontl_proto.o
+ .debug_line    0x00002d38      0x539 ./Sources/LIN_Stack/transport/lin_commontl_api.o
+ .debug_line    0x00003271      0x1da ./Sources/driver/clock/clock.o
+ .debug_line    0x0000344b      0x4f1 ./Sources/driver/eeprom/eeprom.o
+ .debug_line    0x0000393c      0x1d0 ./Sources/driver/gpio/gpio.o
+ .debug_line    0x00003b0c      0x2d5 ./Sources/lin_cfg/lin_cfg.o
+ .debug_line    0x00003de1      0x56e ./Sources/main.o
+ .debug_line    0x0000434f       0x8d D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(exit.o)
+ .debug_line    0x000043dc       0x90 D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(memset.o)
+ .debug_line    0x0000446c       0xf6 D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(__filll_mem.o)
+ .debug_line    0x00004562       0x6c D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\librt.a(gcc_ctor_dtor.o)
+ .debug_line    0x000045ce      0x117 D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\librt.a(__arm_eabi_init.o)
+ .debug_line    0x000046e5       0xbd D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\librt.a(ROMCopy.o)
 
-.debug_str      0x00000000     0x2708
+.debug_str      0x00000000     0x272c
  .debug_str     0x00000000      0x239 ./Project_Settings/Startup_Code/kinetis_sysinit.o
                                 0x260 (size before relaxing)
  .debug_str     0x00000239       0x85 ./Project_Settings/Startup_Code/__arm_start.o
@@ -1251,35 +1257,35 @@ OUTPUT(RLS.elf elf32-littlearm)
                                 0xa25 (size before relaxing)
  .debug_str     0x000015be       0xc5 ./Sources/LIN_Stack/coreapi/lin_common_api.o
                                 0x294 (size before relaxing)
- .debug_str     0x00001683      0x257 ./Sources/LIN_Stack/diagnostic/lin_diagnostic_service.o
-                                0x3c6 (size before relaxing)
- .debug_str     0x000018da      0x225 ./Sources/LIN_Stack/lowlevel/lin.o
+ .debug_str     0x00001683      0x271 ./Sources/LIN_Stack/diagnostic/lin_diagnostic_service.o
+                                0x3e0 (size before relaxing)
+ .debug_str     0x000018f4      0x225 ./Sources/LIN_Stack/lowlevel/lin.o
                                 0x37f (size before relaxing)
- .debug_str     0x00001aff      0x194 ./Sources/LIN_Stack/transport/lin_commontl_proto.o
-                                0x67e (size before relaxing)
- .debug_str     0x00001c93      0x1ae ./Sources/LIN_Stack/transport/lin_commontl_api.o
+ .debug_str     0x00001b19      0x184 ./Sources/LIN_Stack/transport/lin_commontl_proto.o
+                                0x66e (size before relaxing)
+ .debug_str     0x00001c9d      0x1ae ./Sources/LIN_Stack/transport/lin_commontl_api.o
                                 0x6a1 (size before relaxing)
- .debug_str     0x00001e41       0x42 ./Sources/driver/clock/clock.o
+ .debug_str     0x00001e4b       0x42 ./Sources/driver/clock/clock.o
                                 0x147 (size before relaxing)
- .debug_str     0x00001e83      0x2a4 ./Sources/driver/eeprom/eeprom.o
+ .debug_str     0x00001e8d      0x2a4 ./Sources/driver/eeprom/eeprom.o
                                 0x43a (size before relaxing)
- .debug_str     0x00002127       0x66 ./Sources/driver/gpio/gpio.o
+ .debug_str     0x00002131       0x66 ./Sources/driver/gpio/gpio.o
                                 0x1af (size before relaxing)
- .debug_str     0x0000218d      0x137 ./Sources/lin_cfg/lin_cfg.o
+ .debug_str     0x00002197      0x147 ./Sources/lin_cfg/lin_cfg.o
                                 0xba0 (size before relaxing)
- .debug_str     0x000022c4       0xed ./Sources/main.o
-                                0x544 (size before relaxing)
- .debug_str     0x000023b1       0x4e D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(exit.o)
+ .debug_str     0x000022de       0xf7 ./Sources/main.o
+                                0x551 (size before relaxing)
+ .debug_str     0x000023d5       0x4e D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(exit.o)
                                 0x157 (size before relaxing)
- .debug_str     0x000023ff       0x23 D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(memset.o)
+ .debug_str     0x00002423       0x23 D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(memset.o)
                                 0x140 (size before relaxing)
- .debug_str     0x00002422       0x2d D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(__filll_mem.o)
+ .debug_str     0x00002446       0x2d D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(__filll_mem.o)
                                 0x152 (size before relaxing)
- .debug_str     0x0000244f      0x126 D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\librt.a(gcc_ctor_dtor.o)
+ .debug_str     0x00002473      0x126 D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\librt.a(gcc_ctor_dtor.o)
                                 0x181 (size before relaxing)
- .debug_str     0x00002575       0xf8 D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\librt.a(__arm_eabi_init.o)
+ .debug_str     0x00002599       0xf8 D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\librt.a(__arm_eabi_init.o)
                                 0x1b5 (size before relaxing)
- .debug_str     0x0000266d       0x9b D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\librt.a(ROMCopy.o)
+ .debug_str     0x00002691       0x9b D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\librt.a(ROMCopy.o)
                                 0x13c (size before relaxing)
 
 .comment        0x00000000       0x79
@@ -1309,7 +1315,7 @@ OUTPUT(RLS.elf elf32-littlearm)
  .comment       0x00000000       0x7a D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\librt.a(__arm_eabi_init.o)
  .comment       0x00000000       0x7a D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\librt.a(ROMCopy.o)
 
-.debug_frame    0x00000000      0xf04
+.debug_frame    0x00000000      0xefc
  .debug_frame   0x00000000       0x30 ./Project_Settings/Startup_Code/kinetis_sysinit.o
  .debug_frame   0x00000030       0x30 ./Project_Settings/Startup_Code/__arm_start.o
  .debug_frame   0x00000060       0x28 ./Project_Settings/Startup_Code/__arm_end.o
@@ -1319,33 +1325,33 @@ OUTPUT(RLS.elf elf32-littlearm)
  .debug_frame   0x00000248       0x58 ./Sources/LIN_Stack/coreapi/lin_lin21_proto.o
  .debug_frame   0x000002a0      0x118 ./Sources/LIN_Stack/coreapi/lin_common_proto.o
  .debug_frame   0x000003b8       0xd8 ./Sources/LIN_Stack/coreapi/lin_common_api.o
- .debug_frame   0x00000490      0x124 ./Sources/LIN_Stack/diagnostic/lin_diagnostic_service.o
- .debug_frame   0x000005b4      0x194 ./Sources/LIN_Stack/lowlevel/lin.o
- .debug_frame   0x00000748       0xb8 ./Sources/LIN_Stack/transport/lin_commontl_proto.o
- .debug_frame   0x00000800      0x100 ./Sources/LIN_Stack/transport/lin_commontl_api.o
- .debug_frame   0x00000900       0x28 ./Sources/driver/clock/clock.o
- .debug_frame   0x00000928      0x134 ./Sources/driver/eeprom/eeprom.o
- .debug_frame   0x00000a5c       0x20 ./Sources/driver/gpio/gpio.o
- .debug_frame   0x00000a7c       0x28 ./Sources/lin_cfg/lin_cfg.o
- .debug_frame   0x00000aa4       0xb4 ./Sources/main.o
- .debug_frame   0x00000b58       0x2c D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(exit.o)
- .debug_frame   0x00000b84       0x28 D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(memset.o)
- .debug_frame   0x00000bac       0x2c D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(__filll_mem.o)
- .debug_frame   0x00000bd8       0x20 d:/cw11.0/cw mcu v11.0/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(_udivsi3.o)
- .debug_frame   0x00000bf8       0x20 d:/cw11.0/cw mcu v11.0/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(_divsi3.o)
- .debug_frame   0x00000c18       0x2c d:/cw11.0/cw mcu v11.0/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(_fixunsdfsi.o)
- .debug_frame   0x00000c44       0x3c d:/cw11.0/cw mcu v11.0/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(adddf3.o)
- .debug_frame   0x00000c80       0x38 d:/cw11.0/cw mcu v11.0/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(subdf3.o)
- .debug_frame   0x00000cb8       0x2c d:/cw11.0/cw mcu v11.0/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(fixdfsi.o)
- .debug_frame   0x00000ce4       0x2c d:/cw11.0/cw mcu v11.0/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(floatunsidf.o)
- .debug_frame   0x00000d10       0x34 d:/cw11.0/cw mcu v11.0/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(eqdf2.o)
- .debug_frame   0x00000d44       0x38 d:/cw11.0/cw mcu v11.0/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(gedf2.o)
- .debug_frame   0x00000d7c       0x38 d:/cw11.0/cw mcu v11.0/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(ledf2.o)
- .debug_frame   0x00000db4       0x40 D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\librt.a(gcc_ctor_dtor.o)
- .debug_frame   0x00000df4       0xbc D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\librt.a(__arm_eabi_init.o)
- .debug_frame   0x00000eb0       0x54 D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\librt.a(ROMCopy.o)
+ .debug_frame   0x00000490      0x120 ./Sources/LIN_Stack/diagnostic/lin_diagnostic_service.o
+ .debug_frame   0x000005b0      0x194 ./Sources/LIN_Stack/lowlevel/lin.o
+ .debug_frame   0x00000744       0xb8 ./Sources/LIN_Stack/transport/lin_commontl_proto.o
+ .debug_frame   0x000007fc      0x100 ./Sources/LIN_Stack/transport/lin_commontl_api.o
+ .debug_frame   0x000008fc       0x28 ./Sources/driver/clock/clock.o
+ .debug_frame   0x00000924      0x130 ./Sources/driver/eeprom/eeprom.o
+ .debug_frame   0x00000a54       0x20 ./Sources/driver/gpio/gpio.o
+ .debug_frame   0x00000a74       0x28 ./Sources/lin_cfg/lin_cfg.o
+ .debug_frame   0x00000a9c       0xb4 ./Sources/main.o
+ .debug_frame   0x00000b50       0x2c D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(exit.o)
+ .debug_frame   0x00000b7c       0x28 D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(memset.o)
+ .debug_frame   0x00000ba4       0x2c D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(__filll_mem.o)
+ .debug_frame   0x00000bd0       0x20 d:/cw11.0/cw mcu v11.0/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(_udivsi3.o)
+ .debug_frame   0x00000bf0       0x20 d:/cw11.0/cw mcu v11.0/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(_divsi3.o)
+ .debug_frame   0x00000c10       0x2c d:/cw11.0/cw mcu v11.0/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(_fixunsdfsi.o)
+ .debug_frame   0x00000c3c       0x3c d:/cw11.0/cw mcu v11.0/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(adddf3.o)
+ .debug_frame   0x00000c78       0x38 d:/cw11.0/cw mcu v11.0/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(subdf3.o)
+ .debug_frame   0x00000cb0       0x2c d:/cw11.0/cw mcu v11.0/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(fixdfsi.o)
+ .debug_frame   0x00000cdc       0x2c d:/cw11.0/cw mcu v11.0/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(floatunsidf.o)
+ .debug_frame   0x00000d08       0x34 d:/cw11.0/cw mcu v11.0/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(eqdf2.o)
+ .debug_frame   0x00000d3c       0x38 d:/cw11.0/cw mcu v11.0/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(gedf2.o)
+ .debug_frame   0x00000d74       0x38 d:/cw11.0/cw mcu v11.0/cross_tools/arm-none-eabi-gcc-4_7_3/bin/../lib/gcc/arm-none-eabi/4.7.3/armv6-m\libgcc.a(ledf2.o)
+ .debug_frame   0x00000dac       0x40 D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\librt.a(gcc_ctor_dtor.o)
+ .debug_frame   0x00000dec       0xbc D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\librt.a(__arm_eabi_init.o)
+ .debug_frame   0x00000ea8       0x54 D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\librt.a(ROMCopy.o)
 
-.debug_loc      0x00000000     0x243e
+.debug_loc      0x00000000     0x23f1
  .debug_loc     0x00000000       0x20 ./Project_Settings/Startup_Code/__arm_end.o
  .debug_loc     0x00000020      0x295 ./Sources/LIN_Stack/bsp/UART/lin_lld_uart.o
  .debug_loc     0x000002b5       0x20 ./Sources/LIN_Stack/bsp/UART/lin_lld_timesrv.o
@@ -1353,17 +1359,17 @@ OUTPUT(RLS.elf elf32-littlearm)
  .debug_loc     0x00000315       0x99 ./Sources/LIN_Stack/coreapi/lin_lin21_proto.o
  .debug_loc     0x000003ae      0x43c ./Sources/LIN_Stack/coreapi/lin_common_proto.o
  .debug_loc     0x000007ea       0xff ./Sources/LIN_Stack/coreapi/lin_common_api.o
- .debug_loc     0x000008e9      0x33e ./Sources/LIN_Stack/diagnostic/lin_diagnostic_service.o
- .debug_loc     0x00000c27      0x2d3 ./Sources/LIN_Stack/lowlevel/lin.o
- .debug_loc     0x00000efa      0x3e7 ./Sources/LIN_Stack/transport/lin_commontl_proto.o
- .debug_loc     0x000012e1      0x3d9 ./Sources/LIN_Stack/transport/lin_commontl_api.o
- .debug_loc     0x000016ba       0x20 ./Sources/driver/clock/clock.o
- .debug_loc     0x000016da      0x729 ./Sources/driver/eeprom/eeprom.o
- .debug_loc     0x00001e03       0x46 ./Sources/lin_cfg/lin_cfg.o
- .debug_loc     0x00001e49       0xf1 ./Sources/main.o
- .debug_loc     0x00001f3a       0x3e D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(exit.o)
- .debug_loc     0x00001f78       0x6f D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(memset.o)
- .debug_loc     0x00001fe7      0x14a D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(__filll_mem.o)
- .debug_loc     0x00002131       0x9d D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\librt.a(gcc_ctor_dtor.o)
- .debug_loc     0x000021ce      0x197 D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\librt.a(__arm_eabi_init.o)
- .debug_loc     0x00002365       0xd9 D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\librt.a(ROMCopy.o)
+ .debug_loc     0x000008e9      0x310 ./Sources/LIN_Stack/diagnostic/lin_diagnostic_service.o
+ .debug_loc     0x00000bf9      0x2d3 ./Sources/LIN_Stack/lowlevel/lin.o
+ .debug_loc     0x00000ecc      0x3d4 ./Sources/LIN_Stack/transport/lin_commontl_proto.o
+ .debug_loc     0x000012a0      0x3d9 ./Sources/LIN_Stack/transport/lin_commontl_api.o
+ .debug_loc     0x00001679       0x20 ./Sources/driver/clock/clock.o
+ .debug_loc     0x00001699      0x71d ./Sources/driver/eeprom/eeprom.o
+ .debug_loc     0x00001db6       0x46 ./Sources/lin_cfg/lin_cfg.o
+ .debug_loc     0x00001dfc       0xf1 ./Sources/main.o
+ .debug_loc     0x00001eed       0x3e D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(exit.o)
+ .debug_loc     0x00001f2b       0x6f D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(memset.o)
+ .debug_loc     0x00001f9a      0x14a D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(__filll_mem.o)
+ .debug_loc     0x000020e4       0x9d D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\librt.a(gcc_ctor_dtor.o)
+ .debug_loc     0x00002181      0x197 D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\librt.a(__arm_eabi_init.o)
+ .debug_loc     0x00002318       0xd9 D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\librt.a(ROMCopy.o)

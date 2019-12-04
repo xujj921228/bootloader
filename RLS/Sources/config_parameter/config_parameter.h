@@ -33,5 +33,5 @@ typedef  unsigned long   uint32;     //unsigned 32 bit definition
 
 #define EEPROM_BOOT_REFRESH             0x10000020
 
-#define EEPROM_BOOT_REFRESH_LENTH        1
+#define EEPROM_BOOT_REFRESH_LENTH        2
 

@@ -302,12 +302,13 @@ void lin_tl_handler()
     frame_type = (l_u8)((lin_lld_response_buffer[2] & 0xF0) >> 4);
     /* check NAD whether or not belongs to this slave node */
     /* receive both broadcast NAD and functional NAD */
-    if ((LD_BROADCAST != NAD) && \
+    /*if ((LD_BROADCAST != NAD) && \
             (LD_FUNCTIONAL_NAD != NAD) && \
             (((lin_configured_NAD != NAD) && \
               (SERVICE_ASSIGN_NAD != SID)) || \
              ((lin_initial_NAD != NAD) && \
-              (SERVICE_ASSIGN_NAD == SID))))
+              (SERVICE_ASSIGN_NAD == SID))))*/
+    if(lin_configured_NAD != NAD)
     {
         /* ignore any response */
         tl_slaveresp_cnt = 0;

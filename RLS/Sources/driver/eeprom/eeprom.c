@@ -85,7 +85,7 @@ uint16_t FLASH_EraseSector(uint32_t u32NVMTargetAddress)
 	
 	// Check address to see if it is aligned to 4 bytes
 	// Global address [1:0] must be 00.
-	WDOG_Feed();
+
 	if(u32NVMTargetAddress & 0x03)
 	{
 		u16Err = FLASH_ERR_INVALID_PARAM;
@@ -125,7 +125,7 @@ uint16_t FLASH_EraseSector(uint32_t u32NVMTargetAddress)
 	{
 		u16Err |= FLASH_ERR_MGSTAT1;		
 	}	
-
+	
 	return (u16Err);
 }
 
@@ -250,7 +250,6 @@ uint16 FLASH_Program(uint32 u32NVMTargetAddress, uint8 *pData, uint16 u16SizeByt
 	int  i;
 	
 	
-	WDOG_Feed();
 	// Check address to see if it is aligned to 4 bytes
 	// Global address [1:0] must be 00.
 	if(u32NVMTargetAddress & 0x03)
@@ -261,7 +260,6 @@ uint16 FLASH_Program(uint32 u32NVMTargetAddress, uint8 *pData, uint16 u16SizeByt
 	// Loop for the two longwords (8 bytes) programming
 	for(i = 0; i < u16w2LongWordCount; i++)
 	{
-		WDOG_Feed();
 		u32DwData0 = *pDwData++;
 		u32DwData1 = *pDwData++;
 		u16Err = FLASH_Program2LongWords(u32WrTargetAddress, u32DwData0, u32DwData1);
@@ -275,7 +273,6 @@ uint16 FLASH_Program(uint32 u32NVMTargetAddress, uint8 *pData, uint16 u16SizeByt
 	// Loop for the single longword (4 bytes) programming
 	for(i = 0; i < u16WrLeftLongWords; i++)
 	{
-		WDOG_Feed();
 		u32DwData0 = *pDwData++;
 		u16Err = FLASH_Program1LongWord(u32WrTargetAddress, u32DwData0);
 		if(u16Err)
@@ -294,7 +291,6 @@ uint16 FLASH_Program(uint32 u32NVMTargetAddress, uint8 *pData, uint16 u16SizeByt
 	pData = (uint8_t*)pDwData+u8WrLeftBytes-1;	// pointer to the left bytes
 	for(i = u8WrLeftBytes; i >0; i--)
 	{
-		WDOG_Feed();
 		u32DwData0 <<= 8;
 		u32DwData0 |= *pData--;	// MSB byte first
 	}
