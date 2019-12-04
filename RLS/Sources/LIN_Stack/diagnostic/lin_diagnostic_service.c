@@ -216,7 +216,7 @@ void lin_diagservice_request_download(void)
     {
      updata_flash_ID = (((l_u16)data[5])<<8) + (l_u16)data[6];
      updata_length = (((l_u16)data[8])<<8) + (l_u16)data[9];
-     if(updata_flash_ID == 0x5000)
+     if(updata_flash_ID == APP_code_start)
      {
     	 lin_tl_make_slaveres_pdu(SERVICE_REQUEST_DOWNLOAD, POSITIVE, RES_POSITIVE);
     	 DRIVE_flag = 2;
@@ -387,17 +387,11 @@ void lin_diagservice_exit_transfer(void)
 		
 		//写入flash数据并将其读出，与写入数据做对比，如果写入和读出的不一样那么就有问题
 		FLASH_Program(updata_flash_ID,&boot_write_flash[0],4);
-		for(i = 0;i < 4;i++)
+		if(boot_APP_check() == APP_INVALUE)
 		{
-			service_flash_read[i] = *((uint8_t *)(i+updata_flash_ID));
-			if(service_flash_read[i] != boot_write_flash[i])
-			{
-				lin_tl_make_slaveres_pdu(SERVICE_EXIT_TRANSFER_DATA, NEGATIVE, INVALID_FORMAT);
-				return;
-			}			
+			lin_tl_make_slaveres_pdu(SERVICE_EXIT_TRANSFER_DATA, NEGATIVE, INVALID_FORMAT);
+	     	return;
 		}
-		/*uint16 ret = 0x5aa5;
-		write_data_from_EEPROM(0x10000020,&ret,2,ENABLE);*/
 		lin_tl_make_slaveres_pdu(SERVICE_EXIT_TRANSFER_DATA, POSITIVE, RES_POSITIVE);
 	}
 	else

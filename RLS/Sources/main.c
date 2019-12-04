@@ -25,18 +25,23 @@ uint8 DRIVE_flag;
 uint8 tx_ok;
 uint8 boot_reboot;
 
-/**********************
- * updata  flag (eeprom) 0x5a:should updata  else:no need to updata
- * app check flag (last two byte in flash )
- * ****************************/
 
-typedef enum
+
+/************************
+ * For all Var init
+ * 
+ * xujunjie@baolong.com
+ * ********************/
+void boot_Var_init(void)
 {
- APP_INVALUE = 0 ,
- APP_VALUE   = 1   
-}APP_check_t;
+   boot_eraser_flag = 0;
+   updata_flash_ID = 0;
+   updata_length = 0;
+   DRIVE_flag = 0;
+   tx_ok = 0;
+   boot_reboot = 0;
+}
 
-uint8 APP_check_value[4]={0xa5,0x5a,0xa4,0x4a};
 
 /*******************************************************
  * FUNCTION NAME : Lin_Busy_Process()
@@ -62,23 +67,6 @@ void Lin_Sys_Init(void)
 
 
 
-
-
-/************************
- * For all Var init
- * 
- * xujunjie@baolong.com
- * ********************/
-void boot_Var_init(void)
-{
-   boot_eraser_flag = 0;
-   updata_flash_ID = 0;
-   updata_length = 0;
-   DRIVE_flag = 0;
-   tx_ok = 0;
-   boot_reboot = 0;
-}
-
 /************************
  * For all sys init
  * 
@@ -91,41 +79,6 @@ void boot_sysinit(void)
 	FLASH_Init(BUS_CLCOK);                 /*Initialize the Flash Memory module */
 }
 
-/************************
- * For APP check
- * 
- * xujunjie@baolong.com
- * ********************/
-APP_check_t boot_APP_check(void)
-{
-	uint8 i;
-	APP_check_t ret = APP_VALUE;
-	uint8 temp[4] ={ 0 };
-	
-	for(i = 0;i < 4; i++)
-	{
-		temp[i] = *((uint8_t *)(APP_check_ADDRESS+i));
-		if(APP_check_value[i] != temp[i])
-		{
-			ret = APP_INVALUE;
-		}
-	}
-	
-	return  ret;
-}
-/************************
- * For APP up check
- * 
- * xujunjie@baolong.com
- * ********************/
-uint16 boot_up_check(void)
-{
-	uint16 ret = 0xFFFF;
-	
-	read_data_from_EEPROM(EEPROM_BOOT_REFRESH,&ret,EEPROM_BOOT_REFRESH_LENTH,ENABLE);
-	
-	return ret;
-}
 
 /************************
  * For APP up close
@@ -149,6 +102,7 @@ void main(void)
 {	
 	
 	uint32 flash_eraser_cn = 0;
+	uint16 boot_up_ret = 0xffff;
 	
 	boot_sysinit();
 	boot_Var_init();
@@ -175,13 +129,17 @@ void main(void)
 			{
 				flash_eraser_cn = 0;
 				boot_eraser_flag = 2;	
+				do
+				{
+					write_data_from_EEPROM(0x10000020,&boot_up_ret,2,ENABLE);
+				}while(boot_up_check() == boot_up_value);
 			}
 			else
 			{
 				u16Err_1 = FLASH_EraseSector((VERIFIED_SECTOR+flash_eraser_cn++)*FLASH_SECTOR_SIZE);
 			}
 		}
-		if(boot_reboot == 1)
+		if(boot_reboot == 1)//ÖØÆôÃüÁî
 		{
 			while(1);
 		}

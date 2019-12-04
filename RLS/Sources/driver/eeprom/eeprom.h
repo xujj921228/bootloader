@@ -29,6 +29,18 @@
 #define  APP_code_start         0x5000
 #define  APP_start_address      APP_code_start+4
 
+
+/**********************
+ * updata  flag (eeprom) 0x5a:should updata  else:no need to updata
+ * app check flag (last two byte in flash )
+ * ****************************/
+typedef enum
+{
+ APP_INVALUE = 0 ,
+ APP_VALUE   = 1   
+}APP_check_t;
+
+
 #define     ENABLE                        1
 #define     DISABLE                       0
 
@@ -98,3 +110,6 @@ extern uint16_t FLASH_Program1LongWord(uint32_t u32NVMTargetAddress, uint32_t u3
 extern uint16 EEPROM_ProgramWord(uint32 u32NVMTargetAddress, uint16 u16DwData);
 extern uint8 write_data_from_EEPROM(uint32 startAddr, uint8 *p_data, uint16 len,uint8 checksumEnable);
 extern uint8 read_data_from_EEPROM(uint32 startAddr,uint8 *p_data,uint16 len, uint8 checksumEnable); 
+extern APP_check_t boot_APP_check(void);
+extern  uint16 boot_up_check(void);
+
