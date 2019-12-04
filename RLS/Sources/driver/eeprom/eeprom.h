@@ -17,12 +17,17 @@
 * @brief     Hardware configuration file
 * 
 ******************************************************************************/
-#ifndef    _EEPROM_H_  
-#define    _EEPROM_H_  
-
 #include <SKEAZN642.h>
 #include "config_parameter.h"
 
+/********************************
+ * define  APP check  address
+ * add by xujunjie
+ * *****************************/
+#define  APP_check_ADDRESS      0xFFFC
+#define  boot_up_value          0x5aa5
+#define  APP_code_start         0x5000
+#define  APP_start_address      APP_code_start+4
 
 #define     ENABLE                        1
 #define     DISABLE                       0
@@ -93,4 +98,3 @@ extern uint16_t FLASH_Program1LongWord(uint32_t u32NVMTargetAddress, uint32_t u3
 extern uint16 EEPROM_ProgramWord(uint32 u32NVMTargetAddress, uint16 u16DwData);
 extern uint8 write_data_from_EEPROM(uint32 startAddr, uint8 *p_data, uint16 len,uint8 checksumEnable);
 extern uint8 read_data_from_EEPROM(uint32 startAddr,uint8 *p_data,uint16 len, uint8 checksumEnable); 
-#endif    /* _ADC_H_ */

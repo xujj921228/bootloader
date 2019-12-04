@@ -372,7 +372,6 @@ l_u8 flash_check[4]={0};
 void lin_diagservice_exit_transfer(void)
 {
 	uint32 i;
-	uint16 ret = 0x5aa5;
 	    
 	if( DRIVE_flag == 1 ) //驱动数据传输
 	{
@@ -380,28 +379,25 @@ void lin_diagservice_exit_transfer(void)
 	}
 	else if( DRIVE_flag == 2 )//应用程序传输
 	{
+		boot_write_flash[0]=APP_check_value[0];
+		boot_write_flash[1]=APP_check_value[1];
+		boot_write_flash[2]=APP_check_value[2];
+		boot_write_flash[3]=APP_check_value[3];
+		updata_flash_ID = APP_check_ADDRESS;
+		
 		//写入flash数据并将其读出，与写入数据做对比，如果写入和读出的不一样那么就有问题
-	/*	FLASH_Program(0xfffc,&APP_check_value[0],4);
+		FLASH_Program(updata_flash_ID,&boot_write_flash[0],4);
 		for(i = 0;i < 4;i++)
 		{
-			service_flash_read[i] = *((uint8_t *)(i+0xfffc));
-			if(service_flash_read[i] != APP_check_value[i])
-			{
-				lin_tl_make_slaveres_pdu(SERVICE_TRANSFER_DATA, NEGATIVE, INVALID_FORMAT);
-				return;
-			}			
-		}*/
-	  /*FLASH_Program(0XFFFC,&APP_check_value[0],4);
-		 for(i = 0;i < 4;i++)
-		{
-			flash_check[i] = *((uint8_t *)(i+0XFFFC));
-			if(flash_check[i] != APP_check_value[i])
+			service_flash_read[i] = *((uint8_t *)(i+updata_flash_ID));
+			if(service_flash_read[i] != boot_write_flash[i])
 			{
 				lin_tl_make_slaveres_pdu(SERVICE_EXIT_TRANSFER_DATA, NEGATIVE, INVALID_FORMAT);
 				return;
 			}			
-		}*/
-		write_data_from_EEPROM(0x10000020,&ret,2,ENABLE);
+		}
+		/*uint16 ret = 0x5aa5;
+		write_data_from_EEPROM(0x10000020,&ret,2,ENABLE);*/
 		lin_tl_make_slaveres_pdu(SERVICE_EXIT_TRANSFER_DATA, POSITIVE, RES_POSITIVE);
 	}
 	else

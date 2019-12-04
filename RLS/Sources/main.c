@@ -7,12 +7,6 @@
 #include "lin_common_proto.h"
 #include "lin_lld_uart.h"
 
-
-/********************************
- * define  APP check  address
- * add by xujunjie
- * *****************************/
-#define  APP_check_ADDRESS      0XFFFC
 /***********************************************************************************************
 * name :  main
 * input:  none
@@ -142,7 +136,7 @@ typedef void(*JumpToPtr)(void);
 
 void boot_jump_to_APP(void)
 {
-	uint16_t *pNewAppEntry = 0x5004;
+	uint16_t *pNewAppEntry = APP_start_address;
 	JumpToPtr	pJumpTo;
 	pJumpTo = *pNewAppEntry;
 	pJumpTo();
@@ -159,10 +153,10 @@ void main(void)
 	boot_sysinit();
 	boot_Var_init();
 
-	
+	//FLASH_EraseSector((VERIFIED_SECTOR+87)*FLASH_SECTOR_SIZE); // for debug eraser flag 
 	//case 0: normal start jump to app
-    if(boot_up_check() == 0x5aa5)
-       //&&(boot_APP_check() == APP_VALUE))//if flag is equal to 1,jump to app.else doing updata
+    if((boot_up_check() != boot_up_value)
+       &&(boot_APP_check() == APP_VALUE))//if flag is equal to 1,jump to app.else doing updata
     {
 	   //Jump to app
        boot_jump_to_APP();
