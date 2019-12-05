@@ -23,7 +23,7 @@ l_u16 diagnostic_Session_timer;
 
 extern uint8_t boot_status_flag;
 uint32_t updata_flash_ID = 0;
-l_u16 updata_length = 0;
+uint16_t updata_length = 0;
 l_u8 APP_check_value[4]={0xa5,0x5a,0xa4,0x4a};
 l_u8 boot_write_flash[50];
 l_u8 service_flash_read[50]={0};
@@ -143,7 +143,7 @@ void lin_diagservice_session_control(void)
 				diagnostic_Session =  DIAGSRV_SESSION_EXTERN;
 				break;
 			case DIAGSRV_SESSION_RESTART:
-				boot_status_flag = 6;
+				boot_status_flag = 7;
 				lin_tl_make_slaveres_pdu(SERVICE_SESSION_CONTROL, POSITIVE, DIAGSRV_SESSION_RESTART);
 				break;
 			default:

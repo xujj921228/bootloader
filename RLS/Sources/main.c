@@ -139,6 +139,10 @@ void main(void)
     
     for(;;) 
 	{				
+    	
+    	
+    	lin_diagservice_transfer_data();
+    	
     	WDOG_Feed();
     	if(boot_rx_ok_id != 0) //rx ok 
     	{
