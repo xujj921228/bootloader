@@ -22,10 +22,10 @@ l_u8 diagnostic_Session,diagnostic_Session_pre,diagnostic_Session_flg;
 l_u16 diagnostic_Session_timer;
 
 extern uint8_t boot_status_flag;
-uint32_t updata_flash_ID = 0;
+static uint32_t updata_flash_ID = 0;
 uint16_t updata_length = 0;
 l_u8 APP_check_value[4]={0xa5,0x5a,0xa4,0x4a};
-l_u8 boot_write_flash[50];
+static l_u8 boot_write_flash[50];
 l_u8 service_flash_read[50]={0};
 l_u8 data_cn1;   //4n
 l_u8 data_cn2;   //4n + m
@@ -320,7 +320,7 @@ void lin_diagservice_transfer_data(void)
 			data_cn1 = length/4;
 			data_cn2 = length%4;
 				
-	        FLASH_Program(updata_flash_ID,&boot_write_flash[0],(uint16_t)(4*data_cn1));
+			FLASH_Program(updata_flash_ID,&boot_write_flash[0],(uint16_t)(4*data_cn1));
 	        for(i = 0;i < 4*data_cn1;i++)
 		    {
 				service_flash_read[i] = *((uint8_t *)(i+updata_flash_ID));

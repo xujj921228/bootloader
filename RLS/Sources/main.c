@@ -115,7 +115,7 @@ void boot_jump_to_APP(void)
 
 uint16_t u16Err_1 = FLASH_ERR_SUCCESS;
 
-void main(void)
+int main(void)
 {	
 	uint32_t flash_eraser_cn = 0;
 	uint8_t boot_up_ret[2] = {0};
@@ -139,10 +139,6 @@ void main(void)
     
     for(;;) 
 	{				
-    	
-    	
-    	lin_diagservice_transfer_data();
-    	
     	WDOG_Feed();
     	if(boot_rx_ok_id != 0) //rx ok 
     	{
