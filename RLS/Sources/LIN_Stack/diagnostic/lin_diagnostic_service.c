@@ -21,8 +21,8 @@
 l_u8 diagnostic_Session,diagnostic_Session_pre,diagnostic_Session_flg;
 l_u16 diagnostic_Session_timer;
 
-extern uint8 boot_status_flag;
-l_u16 updata_flash_ID = 0;
+extern uint8_t boot_status_flag;
+uint32_t updata_flash_ID = 0;
 l_u16 updata_length = 0;
 l_u8 APP_check_value[4]={0xa5,0x5a,0xa4,0x4a};
 l_u8 boot_write_flash[50];
@@ -40,9 +40,9 @@ l_u16 boot_flashdata_last_cn ;
  * ********************/
 APP_check_t boot_APP_check(void)
 {
-	uint8 i;
+	uint8_t i;
 	APP_check_t ret = APP_VALUE;
-	uint8 temp[4] ={ 0 };
+	uint8_t temp[4] ={ 0 };
 	
 	for(i = 0;i < 4; i++)
 	{
@@ -61,13 +61,13 @@ APP_check_t boot_APP_check(void)
  * 
  * xujunjie@baolong.com
  * ********************/
-uint8 boot_up_check(uint16 temp)
+uint8_t boot_up_check(uint16_t temp)
 {
-	uint8 ret[2];
-	uint16 ret1 = 0 ; 
+	uint8_t ret[2];
+	uint16_t ret1 = 0 ; 
 	
 	read_data_from_EEPROM(EEPROM_BOOT_REFRESH,ret,EEPROM_BOOT_REFRESH_LENTH,ENABLE);
-	ret1 = ((uint16)ret[0] << 8) + (uint16)ret[1];
+	ret1 = ((uint16_t)ret[0] << 8) + (uint16_t)ret[1];
 	
 	if(temp == ret1)
 	{
@@ -289,7 +289,7 @@ void lin_diagservice_request_download(void)
 
 void lin_diagservice_transfer_data(void)
 {
-	uint32 i;
+	uint32_t i;
 
     l_u16 length;
     l_u8 data[50];
@@ -320,8 +320,7 @@ void lin_diagservice_transfer_data(void)
 			data_cn1 = length/4;
 			data_cn2 = length%4;
 				
-			//写入flash数据并将其读出，与写入数据做对比，如果写入和读出的不一样那么就有问题
-	        FLASH_Program(updata_flash_ID,&boot_write_flash[0],4*data_cn1);
+	        FLASH_Program(updata_flash_ID,&boot_write_flash[0],(uint16_t)(4*data_cn1));
 	        for(i = 0;i < 4*data_cn1;i++)
 		    {
 				service_flash_read[i] = *((uint8_t *)(i+updata_flash_ID));

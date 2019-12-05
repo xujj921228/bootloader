@@ -7,6 +7,7 @@
 #include "lin_common_proto.h"
 #include "lin_lld_uart.h"
 
+
 /***********************************************************************************************
 * name :  main
 * input:  none
@@ -25,12 +26,13 @@
  * 2.about start eraser 
  * 3.about eraser tx ok
  * 4.about end eraser
- * 5.about start data 
- * 6.reboot 
+ * 5.about start data
+ * 6.flash write 
+ * 7.reboot 
  * 
  * ***********/
-uint8 boot_status_flag;
-
+uint8_t boot_status_flag;
+uint8_t boot_rx_ok_id;
 
 
 /************************
@@ -41,6 +43,7 @@ uint8 boot_status_flag;
 void boot_Var_init(void)
 {
    boot_status_flag = 0;
+   boot_rx_ok_id = 0;
 }
 
 
@@ -54,7 +57,7 @@ void boot_Var_init(void)
  *******************************************************/ 
 void Lin_Sys_Init(void)
 {
-	uint8 vector_number = 0;
+	uint8_t vector_number = 0;
 	
     l_sys_init();
 	l_ifc_init(LI0);
@@ -80,6 +83,20 @@ void boot_sysinit(void)
 }
 
 
+/******************************************************************************
+* protect bootloader section from 0 to 3FFF.
+******************************************************************************/
+void Flash_bootloader_protect(void)
+{
+	//Flash Protection Operation Enable
+	FTMRH_FPROT |= FTMRH_FPROT_FPOPEN_MASK;
+	//Flash Protection Higher Address Range Disable
+	FTMRH_FPROT |= FTMRH_FPROT_FPHDIS_MASK;
+	//Flash Protection Lower Address Range Disable
+	FTMRH_FPROT &= ~FTMRH_FPROT_FPLDIS_MASK;
+	//Flash Protection Lower Address Size, from 0 to 0x3FFF
+	FTMRH_FPROT |= FTMRH_FPROT_FPLS_MASK;
+}
 /************************
  * For APP up close
  * 
@@ -89,7 +106,7 @@ typedef void(*JumpToPtr)(void);
 
 void boot_jump_to_APP(void)
 {
-	uint16 *pNewAppEntry = APP_start_address;
+	uint16_t *pNewAppEntry = APP_start_address;
 	JumpToPtr	pJumpTo;
 	pJumpTo = *pNewAppEntry;
 	pJumpTo();
@@ -100,12 +117,12 @@ uint16_t u16Err_1 = FLASH_ERR_SUCCESS;
 
 void main(void)
 {	
-	
-	uint32 flash_eraser_cn = 0;
-	uint8 boot_up_ret[2] = {0};
+	uint32_t flash_eraser_cn = 0;
+	uint8_t boot_up_ret[2] = {0};
 	
 	boot_sysinit();
 	boot_Var_init();
+	//Flash_bootloader_protect();
 
 	//FLASH_EraseSector((VERIFIED_SECTOR+87)*FLASH_SECTOR_SIZE); // for debug eraser flag 
 	//case 0: normal start jump to app
@@ -123,6 +140,16 @@ void main(void)
     for(;;) 
 	{				
     	WDOG_Feed();
+    	if(boot_rx_ok_id != 0) //rx ok 
+    	{
+    		DISABLE_INTERRUPT;
+            /* trigger callback */
+            lin_update_rx(boot_rx_ok_id);
+            boot_rx_ok_id = 0;
+            ENABLE_INTERRUPT;
+    	}
+    	
+    	
 		if(boot_status_flag == 3)//≤¡≥˝flash…»«¯
 		{
 			if(flash_eraser_cn >= 88)
@@ -139,7 +166,7 @@ void main(void)
 				u16Err_1 = FLASH_EraseSector((VERIFIED_SECTOR+flash_eraser_cn++)*FLASH_SECTOR_SIZE);
 			}
 		}
-		if(boot_status_flag == 6)//÷ÿ∆Ù√¸¡Ó
+		if(boot_status_flag == 7)//÷ÿ∆Ù√¸¡Ó
 		{
 			while(1);
 		}

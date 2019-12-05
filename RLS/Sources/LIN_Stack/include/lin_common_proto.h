@@ -50,6 +50,6 @@ void lin_make_res_diag_frame (void);
 
 l_u8 lin_get_frame_index (l_u8 pid);
 
-
+void Strart_next_rx(void);
 
 

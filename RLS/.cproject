@@ -36,20 +36,11 @@
 								<option id="org.eclipse.cdt.cross.arm.gnu.c.compiler.option.optimization.level.1423534227" name="Optimization level" superClass="org.eclipse.cdt.cross.arm.gnu.c.compiler.option.optimization.level" value="org.eclipse.cdt.cross.arm.gnu.base.option.optimization.level.size" valueType="enumerated"/>
 								<option id="org.eclipse.cdt.cross.arm.gnu.c.compiler.option.misc.enable.lstfilename.1411332102" name="Enable Assembler Listing" superClass="org.eclipse.cdt.cross.arm.gnu.c.compiler.option.misc.enable.lstfilename" value="false" valueType="boolean"/>
 								<option id="org.eclipse.cdt.cross.arm.gnu.c.compiler.option.include.paths.1921746714" name="Include paths (-I)" superClass="org.eclipse.cdt.cross.arm.gnu.c.compiler.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/Sources/RLS_app&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/Sources/driver/IIC&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/Sources/humid_app&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/Sources/driver/watchdog&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/Sources/driver/rtc&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/Sources/driver/pmc&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/Sources/LIN_app&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/Project_Headers&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/Sources/driver/clock&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/Sources/driver/eeprom&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/Sources/driver/ftm&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/Sources/driver/gpio&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/Sources/config_parameter&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/Sources/driver/adc&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/Project_Settings/Startup_Code&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${MCUToolsBaseDir}/ARM_GCC_Support/ewl/EWL_C/include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${MCUToolsBaseDir}/ARM_GCC_Support/ewl/EWL_Runtime/include&quot;"/>
@@ -60,7 +51,6 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/RLS/Sources/LIN_Stack/lowlevel}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/RLS/Sources/LIN_Stack/transport}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/RLS/Sources/lin_cfg}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${ProjDirPath}/Sources/driver/SPI&quot;"/>
 								</option>
 								<option id="org.eclipse.cdt.cross.arm.gnu.c.compiler.option.optimization.functionsections.1829518990" name="Function sections (-ffunction-sections)" superClass="org.eclipse.cdt.cross.arm.gnu.c.compiler.option.optimization.functionsections" value="true" valueType="boolean"/>
 								<option id="org.eclipse.cdt.cross.arm.gnu.c.compiler.option.optimization.datasections.1271620599" name="Data sections (-fdata-sections)" superClass="org.eclipse.cdt.cross.arm.gnu.c.compiler.option.optimization.datasections" value="true" valueType="boolean"/>

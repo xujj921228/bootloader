@@ -158,6 +158,7 @@ void lin_update_rx
 
     /* update word status */
     lin_update_word_status_lin21 (pid);
+    Strart_next_rx();
 }
 
 void lin_update_tx
