@@ -2,9 +2,9 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
 		<item value="273" key="DIALOG_WIDTH"/>
-		<item value="111" key="DIALOG_Y_ORIGIN"/>
+		<item value="110" key="DIALOG_Y_ORIGIN"/>
 		<item value="400" key="DIALOG_HEIGHT"/>
-		<item value="753" key="DIALOG_X_ORIGIN"/>
+		<item value="885" key="DIALOG_X_ORIGIN"/>
 		<item value="1|Microsoft YaHei UI|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|Microsoft YaHei UI" key="DIALOG_FONT_NAME"/>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
@@ -13,15 +13,23 @@
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wholeword"/>
-		<item value="boot_status_flag" key="selection"/>
+		<item value="boot_up_ret" key="selection"/>
 		<list key="findhistory">
+			<item value="boot_up_ret"/>
+			<item value="lin_diagservice_session_control"/>
 			<item value="boot_status_flag"/>
-			<item value="return"/>
-			<item value="i"/>
-			<item value="err"/>
-			<item value="boot_up_check"/>
+			<item value="FLASH_Program2LongWords"/>
+			<item value="uint8"/>
+			<item value="u16w2LongWordCount"/>
+			<item value="u16WrLeftLongWords"/>
+			<item value="u16SizeBytes"/>
 		</list>
 		<list key="replacehistory">
+			<item value="uint8_t"/>
 		</list>
+	</section>
+	<section name="org.eclipse.ui.texteditor.GotoLineAction$GotoLineDialog_dialogBounds">
+		<item value="234" key="DIALOG_Y_ORIGIN"/>
+		<item value="452" key="DIALOG_X_ORIGIN"/>
 	</section>
 </section>

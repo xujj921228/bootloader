@@ -166,7 +166,7 @@ int main(void)
 				u16Err_1 = FLASH_EraseSector((VERIFIED_SECTOR+flash_eraser_cn++)*FLASH_SECTOR_SIZE);
 			}
 		}
-		if(boot_status_flag == 7)//÷ÿ∆Ù√¸¡Ó
+		if(boot_status_flag == 7)
 		{
 			while(1);
 		}
