@@ -15,7 +15,7 @@
 #include "lin_lld_timesrv.h"
 #include "lin_diagnostic_service.h"
 #include "lin_cfg.h"
-
+#include "eeprom.h"
 
 
 
@@ -91,6 +91,8 @@ extern const l_u16 lin_max_frame_res_timeout_val[8];
 extern l_u8 lin_lld_response_buffer[10];
 
 extern l_u8 boot_rx_ok_id;
+
+extern Boot_Fsm_t boot_status_flag;
 
 /***** LOW-LEVEL API *****/
 
@@ -361,7 +363,6 @@ void lin_goto_idle_state
     pUART->uartsr2.bit.lbkde = 1;
 } /* End function lin_goto_idle_state() */
 
-extern l_u8 boot_status_flag;
 void lin_lld_uart_rx_isr
 (
 )
@@ -577,9 +578,9 @@ void lin_lld_uart_rx_isr
                     }
                     else
                     {
-                    	if(boot_status_flag == 2 )
+                    	if(boot_status_flag == boot_fsm_start_eraser )
                     	{
-                    		boot_status_flag = 3;
+                    		boot_status_flag = boot_fsm_erasering;
                     	}
                         /* TX transfer complete */
                         l_status.byte |= LIN_STA_SUCC_TRANSFER;

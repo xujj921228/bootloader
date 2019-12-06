@@ -31,7 +31,7 @@
  * 7.reboot 
  * 
  * ***********/
-uint8_t boot_status_flag;
+Boot_Fsm_t boot_status_flag;
 uint8_t boot_rx_ok_id;
 
 
@@ -42,7 +42,7 @@ uint8_t boot_rx_ok_id;
  * ********************/
 void boot_Var_init(void)
 {
-   boot_status_flag = 0;
+   boot_status_flag = boot_fsm_idle;
    boot_rx_ok_id = 0;
 }
 
@@ -150,12 +150,12 @@ int main(void)
     	}
     	
     	
-		if(boot_status_flag == 3)//²Á³ýflashÉÈÇø
+		if(boot_status_flag == boot_fsm_erasering)//²Á³ýflashÉÈÇø
 		{
 			if(flash_eraser_cn >= 88)
 			{
 				flash_eraser_cn = 0;
-				boot_status_flag = 4;	
+				boot_status_flag = boot_fsm_enderaser;	
 				do
 				{
 					write_data_from_EEPROM(0x10000020,boot_up_ret,2,ENABLE);
@@ -166,7 +166,7 @@ int main(void)
 				u16Err_1 = FLASH_EraseSector((VERIFIED_SECTOR+flash_eraser_cn++)*FLASH_SECTOR_SIZE);
 			}
 		}
-		if(boot_status_flag == 7)
+		if(boot_status_flag == boot_fsm_reboot)
 		{
 			while(1);
 		}

@@ -55,6 +55,17 @@ typedef enum
 #define     ENABLE                        1
 #define     DISABLE                       0
 
+typedef enum
+{
+ boot_fsm_idle                          = 0 ,
+ boot_fsm_requestdriver                 = 1 ,
+ boot_fsm_start_eraser                  = 2 ,
+ boot_fsm_erasering                     = 3 , 
+ boot_fsm_enderaser                     = 4 ,
+ boot_fsm_startdownload                 = 5 ,
+ boot_fsm_flashdownloading              = 6 ,
+ boot_fsm_reboot                        = 7
+}Boot_Fsm_t;
 
 #define FTMRE_FSTAT_MGSTAT0_MASK  (1)						/* FTMRE FSTAT MGSTAT0 MASK */
 #define FTMRE_FSTAT_MGSTAT1_MASK  (1<<1)					/* FTMRE FSTAT MGSTAT1 MASK */

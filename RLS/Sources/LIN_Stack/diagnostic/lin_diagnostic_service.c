@@ -21,7 +21,7 @@
 l_u8 diagnostic_Session,diagnostic_Session_pre,diagnostic_Session_flg;
 l_u16 diagnostic_Session_timer;
 
-extern uint8_t boot_status_flag;
+extern Boot_Fsm_t boot_status_flag;
 uint32_t updata_flash_ID = 0;
 uint16_t updata_length = 0;
 l_u8 APP_check_value[4]={0xa5,0x5a,0xa4,0x4a};
@@ -143,7 +143,7 @@ void lin_diagservice_session_control(void)
 				diagnostic_Session =  DIAGSRV_SESSION_EXTERN;
 				break;
 			case DIAGSRV_SESSION_RESTART:
-				boot_status_flag = 7;
+				boot_status_flag = boot_fsm_reboot;
 				lin_tl_make_slaveres_pdu(SERVICE_SESSION_CONTROL, POSITIVE, DIAGSRV_SESSION_RESTART);
 				break;
 			default:
@@ -265,7 +265,7 @@ void lin_diagservice_request_download(void)
     
     if(data[3] == 1)
     {
-    	boot_status_flag = 1;
+    	boot_status_flag = boot_fsm_requestdriver;
     	lin_tl_make_slaveres_pdu(SERVICE_REQUEST_DOWNLOAD, POSITIVE, RES_POSITIVE);
     }
     else
@@ -277,7 +277,7 @@ void lin_diagservice_request_download(void)
     	 lin_tl_make_slaveres_pdu(SERVICE_REQUEST_DOWNLOAD, POSITIVE, RES_POSITIVE);
     	 boot_flashdata_cn = 1;
     	 boot_flashdata_last_cn = 0; 
-    	 boot_status_flag = 5;
+    	 boot_status_flag = boot_fsm_startdownload;
      }
      else
      {
@@ -295,11 +295,11 @@ void lin_diagservice_transfer_data(void)
     l_u8 data[50];
 
     
-    if( boot_status_flag == 1 ) //驱动数据传输
+    if( boot_status_flag == boot_fsm_requestdriver ) //驱动数据传输
     {
     	lin_tl_make_slaveres_pdu(SERVICE_TRANSFER_DATA, POSITIVE, RES_POSITIVE);
     }
-    else if( boot_status_flag == 5 )//应用程序传输
+    else if( boot_status_flag == boot_fsm_startdownload )//应用程序传输
     {
     		
 		/* 从队列中获取数据 */
@@ -373,7 +373,7 @@ void lin_diagservice_service_trigger_check(void)
 		if(data[5] == 0x00)//触发擦除flash
 		{
 		  lin_tl_make_slaveres_pdu(SERVICE_TRIGGER_CHECK, POSITIVE, RES_POSITIVE);
-		  boot_status_flag = 2;
+		  boot_status_flag = boot_fsm_start_eraser;
 		}
 		else if(data[5] == 0x01)//触发查询有效性验证
 		{
@@ -388,7 +388,7 @@ void lin_diagservice_service_trigger_check(void)
 	}
 	else if(data[3] == 0x03)
 	{
-		if((data[5] == 0x00)&&(boot_status_flag == 4))//查询擦除完成
+		if((data[5] == 0x00)&&(boot_status_flag == boot_fsm_enderaser))//查询擦除完成
 		{
 			lin_tl_make_slaveres_pdu(SERVICE_TRIGGER_CHECK, POSITIVE, RES_POSITIVE);
 		}
@@ -417,11 +417,11 @@ void lin_diagservice_service_trigger_check(void)
 void lin_diagservice_exit_transfer(void)
 {
 	    
-	if( boot_status_flag == 1 ) //驱动数据传输
+	if( boot_status_flag == boot_fsm_requestdriver ) //驱动数据传输
 	{
 		lin_tl_make_slaveres_pdu(SERVICE_EXIT_TRANSFER_DATA, POSITIVE, RES_POSITIVE);
 	}
-	else if( boot_status_flag == 5 )//应用程序传输
+	else if( boot_status_flag == boot_fsm_startdownload )//应用程序传输
 	{
 	
 		//写入flash数据并将其读出，与写入数据做对比，如果写入和读出的不一样那么就有问题
