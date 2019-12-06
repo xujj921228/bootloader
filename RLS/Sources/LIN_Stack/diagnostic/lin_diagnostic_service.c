@@ -21,6 +21,8 @@
 l_u8 diagnostic_Session,diagnostic_Session_pre,diagnostic_Session_flg;
 l_u16 diagnostic_Session_timer;
 
+extern uint8_t boot_up_ret[2];
+
 extern Boot_Fsm_t boot_status_flag;
 uint32_t updata_flash_ID = 0;
 uint16_t updata_length = 0;
@@ -61,46 +63,30 @@ APP_check_t boot_APP_check(void)
  * 
  * xujunjie@baolong.com
  * ********************/
-uint8_t boot_up_check(uint16_t temp)
+uint8_t boot_up_check()
 {
-	uint8_t ret[2];
-	uint16_t ret1 = 0 ; 
-	
-	read_data_from_EEPROM(EEPROM_BOOT_REFRESH,ret,EEPROM_BOOT_REFRESH_LENTH,ENABLE);
-	ret1 = ((uint16_t)ret[0] << 8) + (uint16_t)ret[1];
-	
-	if(temp == ret1)
+	read_data_from_EEPROM(EEPROM_BOOT_REFRESH,boot_up_ret,EEPROM_BOOT_REFRESH_LENTH,ENABLE);
+		
+	if(boot_up_value == boot_up_ret[0])
 	{
 		return 1;
 	}
+	else if(boot_up_ret[0] == 0xff)
+	{
+		boot_up_ret[0] = 0;
+		boot_up_ret[1] = 0;
+		write_data_from_EEPROM(EEPROM_BOOT_REFRESH,boot_up_ret,EEPROM_BOOT_REFRESH_LENTH,ENABLE);
+	}
 	else
 	{
-		return 0;
-	}
-}
-
-
-
-
-void lin_diagservice_session_state(void)
-{
-	if(diagnostic_Session_flg == 1)
-	{
-		if(diagnostic_Session_timer >= 500) //5s
+		if(((boot_up_ret[1] >> 4) > 4)||((boot_up_ret[1]&0x0f) > 4))
 		{
-			diagnostic_Session =  DIAGSRV_SESSION_DEFAULT;
-			diagnostic_Session_flg = 0;
-			diagnostic_Session_timer = 0;
+			boot_up_ret[1] = 0;
 		}
-		else
-		{
-			diagnostic_Session_timer++;
-		}
+		write_data_from_EEPROM(EEPROM_BOOT_REFRESH,boot_up_ret,EEPROM_BOOT_REFRESH_LENTH,ENABLE);
 	}
-	
-	diagnostic_Session_pre = diagnostic_Session;
+	return 0;
 }
-
 
 void lin_diagservice_session_control(void)
 {
@@ -119,11 +105,22 @@ void lin_diagservice_session_control(void)
     
 	if(length == PCI_SESSION_CONTROL_BY_IDENTIFY)
 	{
+		diagnostic_Session_pre = boot_up_ret[0] >> 4;
+		diagnostic_Session = boot_up_ret[0] & 0x0f;
 		switch (id)
 		{
-			case DIAGSRV_SESSION_DEFAULT:			
-				lin_tl_make_slaveres_pdu(SERVICE_SESSION_CONTROL, POSITIVE, DIAGSRV_SESSION_DEFAULT);
-				diagnostic_Session =  DIAGSRV_SESSION_DEFAULT;
+			case DIAGSRV_SESSION_DEFAULT:	
+				if(boot_APP_check() == APP_INVALUE)
+				{
+					lin_tl_make_slaveres_pdu(SERVICE_SESSION_CONTROL, NEGATIVE, SERVICE_NOT_SUPPORTED_ACTIVE_SESSION);
+				}
+				else
+				{
+					boot_up_ret[1] = 0;
+					boot_status_flag = boot_fsm_reboot;
+					lin_tl_make_slaveres_pdu(SERVICE_SESSION_CONTROL, POSITIVE, DIAGSRV_SESSION_DEFAULT);
+					diagnostic_Session =  DIAGSRV_SESSION_DEFAULT;
+				}
 				break;
 			case DIAGSRV_SESSION_PROGRAM:
 				if(diagnostic_Session_pre == DIAGSRV_SESSION_DEFAULT)
@@ -139,6 +136,17 @@ void lin_diagservice_session_control(void)
 				}
 				break;
 			case DIAGSRV_SESSION_EXTERN:
+				/*if(boot_APP_check() == APP_INVALUE)
+				{
+					lin_tl_make_slaveres_pdu(SERVICE_SESSION_CONTROL, NEGATIVE, SERVICE_NOT_SUPPORTED_ACTIVE_SESSION);
+				}
+				else
+				{
+					boot_up_ret[1] = 0;
+					boot_status_flag = boot_fsm_reboot;
+					lin_tl_make_slaveres_pdu(SERVICE_SESSION_CONTROL, POSITIVE, DIAGSRV_SESSION_EXTERN);
+					diagnostic_Session =  DIAGSRV_SESSION_EXTERN;
+				}*/
 				lin_tl_make_slaveres_pdu(SERVICE_SESSION_CONTROL, POSITIVE, DIAGSRV_SESSION_EXTERN);
 				diagnostic_Session =  DIAGSRV_SESSION_EXTERN;
 				break;
@@ -151,6 +159,12 @@ void lin_diagservice_session_control(void)
 					lin_tl_make_slaveres_pdu(SERVICE_SESSION_CONTROL, NEGATIVE, SUBFUNCTION_NOT_SUPPORTED);
 				break;
 		} /* End of switch */
+		if(diagnostic_Session_pre != diagnostic_Session)
+		{	
+			boot_up_ret[1] = diagnostic_Session_pre|diagnostic_Session;
+			write_data_from_EEPROM(EEPROM_BOOT_REFRESH,boot_up_ret,EEPROM_BOOT_REFRESH_LENTH,ENABLE);
+		}
+		diagnostic_Session_pre = diagnostic_Session;
 	}
 	else
 	{

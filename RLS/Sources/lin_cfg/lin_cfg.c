@@ -141,7 +141,7 @@ const l_u16  lin_configuration_ROM[LIN_SIZE_OF_CFG]= {0x00, 0x11, 0x12, 0x03, 0x
 
 /***************************************** Node Attribute*****************************************/
 
-l_u8 lin_configured_NAD = 0x16;    /*<configured_NAD>*/
+l_u8 lin_configured_NAD = 0x22;    /*<configured_NAD>*/
 const l_u8 lin_initial_NAD    =0x03;    /*<initial_NAD>*/
 const lin_product_id product_id = {0x0003, 0x0003, 0x00FF };  /* {<supplier_id>,<function_id>,<variant>} */
 

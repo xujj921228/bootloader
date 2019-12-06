@@ -36,7 +36,7 @@
  * add by xujunjie
  * *****************************/
 #define  APP_check_ADDRESS      0xFFFC
-#define  boot_up_value          0x5aa5
+#define  boot_up_value          0x5a
 #define  APP_code_start         0x5000
 #define  APP_start_address      APP_code_start+4
 
@@ -133,5 +133,5 @@ extern uint16_t EEPROM_ProgramWord(uint32_t u32NVMTargetAddress, uint16_t u16DwD
 extern uint8_t write_data_from_EEPROM(uint32_t startAddr, uint8_t *p_data, uint16_t len,uint8_t checksumEnable);
 extern uint8_t read_data_from_EEPROM(uint32_t startAddr,uint8_t *p_data,uint16_t len, uint8_t checksumEnable); 
 extern APP_check_t boot_APP_check(void);
-extern  uint8_t boot_up_check(uint16_t temp);
+extern  uint8_t boot_up_check();
 

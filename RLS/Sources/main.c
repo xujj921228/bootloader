@@ -33,7 +33,7 @@
  * ***********/
 Boot_Fsm_t boot_status_flag;
 uint8_t boot_rx_ok_id;
-
+uint8_t boot_up_ret[2];
 
 /************************
  * For all Var init
@@ -44,6 +44,8 @@ void boot_Var_init(void)
 {
    boot_status_flag = boot_fsm_idle;
    boot_rx_ok_id = 0;
+   boot_up_ret[0] = 0;
+   boot_up_ret[1] = 0;
 }
 
 
@@ -118,7 +120,6 @@ uint16_t u16Err_1 = FLASH_ERR_SUCCESS;
 int main(void)
 {	
 	uint32_t flash_eraser_cn = 0;
-	uint8_t boot_up_ret[2] = {0};
 	
 	boot_sysinit();
 	boot_Var_init();
@@ -126,7 +127,7 @@ int main(void)
 
 	//FLASH_EraseSector((VERIFIED_SECTOR+87)*FLASH_SECTOR_SIZE); // for debug eraser flag 
 	//case 0: normal start jump to app
-    if((boot_up_check(boot_up_value) != 1)
+    if((boot_up_check() != 1)
        &&(boot_APP_check() == APP_VALUE))//if flag is equal to 1,jump to app.else doing updata
     {
 	   //Jump to app
@@ -158,8 +159,9 @@ int main(void)
 				boot_status_flag = boot_fsm_enderaser;	
 				do
 				{
+					boot_up_ret[0] = 0;
 					write_data_from_EEPROM(0x10000020,boot_up_ret,2,ENABLE);
-				}while(boot_up_check(boot_up_value));
+				}while(boot_up_check());
 			}
 			else
 			{
