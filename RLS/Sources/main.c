@@ -168,7 +168,7 @@ int main(void)
 			else
 			{
 				flash_eraser_cn++;
-	//			u16Err_1 = FLASH_EraseSector((VERIFIED_SECTOR+flash_eraser_cn++)*FLASH_SECTOR_SIZE);
+				u16Err_1 = FLASH_EraseSector((VERIFIED_SECTOR+flash_eraser_cn++)*FLASH_SECTOR_SIZE);
 			}
 		}
 		if(boot_status_flag == boot_fsm_reboot)
