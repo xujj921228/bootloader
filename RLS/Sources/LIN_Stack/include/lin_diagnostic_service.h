@@ -10,6 +10,7 @@ extern void lin_diagservice_session_control(void);
 extern void lin_diagservice_read_data_by_identifier(void);
 extern void lin_diagservice_write_data_by_identifier(void);
 
+extern void uds_calc_key(uint8_t *seed,uint8_t *key);
 extern void lin_diagservice_service_securityaccess(void);
 extern void lin_diagservice_request_download(void);
 extern void lin_diagservice_transfer_data(void);

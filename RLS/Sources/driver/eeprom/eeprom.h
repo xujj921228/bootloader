@@ -38,7 +38,7 @@
 #define  APP_check_ADDRESS      0xFFFC
 #define  boot_up_value          0x5a
 #define  APP_code_start         0x5000
-#define  APP_start_address      APP_code_start+4
+#define  APP_start_address      (APP_code_start+4)
 
 
 /**********************
@@ -64,7 +64,9 @@ typedef enum
  boot_fsm_enderaser                     = 4 ,
  boot_fsm_startdownload                 = 5 ,
  boot_fsm_flashdownloading              = 6 ,
- boot_fsm_reboot                        = 7
+ boot_fsm_reboot                        = 7 ,
+ boot_fsm_sendseed                      = 8 ,
+ boot_fsm_getkey                        = 9
 }Boot_Fsm_t;
 
 #define FTMRE_FSTAT_MGSTAT0_MASK  (1)						/* FTMRE FSTAT MGSTAT0 MASK */

@@ -21,8 +21,10 @@
 
 /*************************** FUNCTIONS *******************/
 
-l_u16 boot_data_tansfer_cn;
+extern Boot_Fsm_t boot_status_flag;
 extern l_u16 boot_flashdata_cn;
+extern uint8_t boot_seed[4];
+
 void lin_tl_make_slaveres_pdu
 (
     /* [IN] service identifier */
@@ -123,6 +125,16 @@ void lin_tl_make_slaveres_pdu
         	if (POSITIVE == res_type)
 			 {		
 			  /* SID */
+			  if(boot_status_flag == boot_fsm_sendseed)
+        		{
+				    lin_tl_pdu[1] = 0x08;
+        			lin_tl_pdu[2] = RES_POSITIVE + sid;
+        			lin_tl_pdu[3] = 1;
+        			lin_tl_pdu[4] = boot_seed[0];
+        			lin_tl_pdu[5] = boot_seed[1];
+        			lin_tl_pdu[6] = boot_seed[2];
+        			lin_tl_pdu[7] = boot_seed[3];
+        		}
 			  lin_tl_pdu[2] = RES_POSITIVE + sid;
 			 }
         	break;

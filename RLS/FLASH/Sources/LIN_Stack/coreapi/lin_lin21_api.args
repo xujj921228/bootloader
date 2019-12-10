@@ -19,7 +19,7 @@
 -I"C:/Users/xujj/Desktop/bootloader/RLS/Sources/LIN_Stack/lowlevel"
 -I"C:/Users/xujj/Desktop/bootloader/RLS/Sources/LIN_Stack/transport"
 -I"C:/Users/xujj/Desktop/bootloader/RLS/Sources/lin_cfg"
--Os
+-O3
 -ffunction-sections
 -fdata-sections
 -Wall

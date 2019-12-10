@@ -26,14 +26,15 @@ extern uint8_t boot_up_ret[2];
 extern Boot_Fsm_t boot_status_flag;
 uint32_t updata_flash_ID = 0;
 uint16_t updata_length = 0;
+uint8_t boot_seed[4];
+uint8_t boot_key[4];
 l_u8 APP_check_value[4]={0xa5,0x5a,0xa4,0x4a};
-l_u8 boot_write_flash[50];
-l_u8 service_flash_read[50]={0};
+l_u8 boot_write_flash[100];
+l_u8 service_flash_read[100]={0};
 l_u8 data_cn1;   //4n
 l_u8 data_cn2;   //4n + m
 l_u16 boot_flashdata_cn ;
 l_u16 boot_flashdata_last_cn ; 
-
 
 /************************
  * For APP check
@@ -246,19 +247,69 @@ void lin_diagservice_write_data_by_identifier(void)
 	}
 }
 
+
+
+void uds_calc_key(uint8_t *seed,uint8_t *key)
+{
+     uint8_t i;
+     uint32_t mask;
+
+     uint32_t wort;     
+     
+     mask = 0x7FADEBFC;
+     
+     wort = (((uint32_t)seed[0])<<24) + (((uint32_t)seed[0])<<16) + (((uint32_t)seed[0])<<8) + ((uint32_t)seed[0]);
+         
+     for(i = 0 ;i<35;i++)
+     {
+        if(wort&0x80000000)
+        {
+            wort = wort<<1;
+            wort = wort^mask;
+        }
+        else
+        {
+            wort = wort<<1; 
+        }
+        
+     } 
+     key[0] = (uint8_t)(wort >> 24);
+     key[1] = (uint8_t)(wort >> 16);
+     key[2] = (uint8_t)(wort >> 8);
+     key[3] = (uint8_t)wort;
+}
+
+
 void lin_diagservice_service_securityaccess(void)
 {
 	 l_u16 length;
 	 l_u8 data[10];
+	 uint8_t i; 
 	 /* get pdu from rx queue */
 	 ld_receive_message(&length, data);
 	 
 	 if(data[1] == 1)
 	 {
+		 boot_status_flag = boot_fsm_sendseed;
+		 boot_seed[0] = rand();
+		 boot_seed[1] = rand();
+		 boot_seed[2] = rand();
+		 boot_seed[3] = rand();
 		 lin_tl_make_slaveres_pdu(SERVICE_SECURITYACCESS, POSITIVE, RES_POSITIVE);
 	 }
-	 else if(data[1] == 2)
+	 else if((data[1] == 2)&&(boot_status_flag == boot_fsm_sendseed))
 	 {
+		 uds_calc_key(boot_seed,boot_key);
+		 for(i = 0; i < 4;i++ )
+		 {
+			 if(boot_key[i] != data[2 + i])
+			 {
+				 boot_status_flag = boot_fsm_sendseed;
+				 lin_tl_make_slaveres_pdu(SERVICE_SECURITYACCESS, NEGATIVE, SUBFUNCTION_NOT_SUPPORTED);
+				 return;
+			 }
+         }
+		 boot_status_flag = boot_fsm_getkey;
 		 lin_tl_make_slaveres_pdu(SERVICE_SECURITYACCESS, POSITIVE, RES_POSITIVE);
 	 }
 	 else
@@ -277,12 +328,14 @@ void lin_diagservice_request_download(void)
     ld_receive_message(&length, data+2);
     
     
-    if(data[3] == 1)
+    if((data[3] == 1) && (boot_status_flag == boot_fsm_getkey))
     {
     	boot_status_flag = boot_fsm_requestdriver;
     	lin_tl_make_slaveres_pdu(SERVICE_REQUEST_DOWNLOAD, POSITIVE, RES_POSITIVE);
     }
-    else
+    
+    
+    if((boot_status_flag == boot_fsm_enderaser) && (data[3] == 0))
     {
      updata_flash_ID = (((l_u16)data[5])<<8) + (l_u16)data[6];
      updata_length = (((l_u16)data[8])<<8) + (l_u16)data[9];
@@ -304,10 +357,9 @@ void lin_diagservice_request_download(void)
 void lin_diagservice_transfer_data(void)
 {
 	uint32_t i;
-
-    l_u16 length;
+    static l_u16 length;
     l_u8 data[50];
-
+    uint16_t sum = 0;
     
     if( boot_status_flag == boot_fsm_requestdriver ) //驱动数据传输
     {
@@ -318,48 +370,62 @@ void lin_diagservice_transfer_data(void)
     		
 		/* 从队列中获取数据 */
 		ld_receive_message(&length, data);
-		length = length - 3;
-		
-		
-		boot_flashdata_cn =  ((l_u16)data[1]<<8) + (l_u16)data[2];
-		
-		if(boot_flashdata_cn == (boot_flashdata_last_cn + 1))
+		for(i = 0;i < (length - 2);i++)
 		{
-			for(i=0 ; i<length ; i++)
-			{
-			   boot_write_flash[data_cn2+i] = data[i + 3];
-			}
-			length = data_cn2 + length ;
-		
-			data_cn1 = length/4;
-			data_cn2 = length%4;
-				
-			FLASH_Program(updata_flash_ID,&boot_write_flash[0],(uint16_t)(4*data_cn1));
-	        for(i = 0;i < 4*data_cn1;i++)
-		    {
-				service_flash_read[i] = *((uint8_t *)(i+updata_flash_ID));
-				if(service_flash_read[i] != boot_write_flash[i])
-				{
-					lin_tl_make_slaveres_pdu(SERVICE_TRANSFER_DATA, NEGATIVE, INVALID_FORMAT);
-					return;
-				}			
-		    }
-	               		 
-	        
-	        updata_flash_ID = updata_flash_ID + 4*data_cn1;
-	        
-	        for(i = 0;i < data_cn2;i++ )
-	        {
-	        	boot_write_flash[i] = boot_write_flash[4*data_cn1 + i];
-	        }
-	        
-	        boot_flashdata_last_cn = boot_flashdata_cn;
-	        lin_tl_make_slaveres_pdu(SERVICE_TRANSFER_DATA, POSITIVE, RES_POSITIVE);
+			sum = sum + data[1 + i];
+			if ((sum & 0xFF00)!=0)
+				sum = (l_u8)((sum & 0x00FF) + 1); 
 		}
-		else if(boot_flashdata_cn == boot_flashdata_last_cn)
+		sum =sum ^ 0x00FF;
+		if(data[length - 1] == (l_u8)sum)
 		{
-			boot_flashdata_last_cn = boot_flashdata_cn;
-			lin_tl_make_slaveres_pdu(SERVICE_TRANSFER_DATA, POSITIVE, RES_POSITIVE);
+			length = length - 4;
+					
+					
+			boot_flashdata_cn =  ((l_u16)data[1]<<8) + (l_u16)data[2];
+			
+			if(boot_flashdata_cn == (boot_flashdata_last_cn + 1))
+			{
+				for(i=0 ; i<length ; i++)
+				{
+				   boot_write_flash[data_cn2+i] = data[i + 3];
+				}
+				length = data_cn2 + length ;
+			
+				data_cn1 = length/4;
+				data_cn2 = length%4;
+					
+				FLASH_Program(updata_flash_ID,&boot_write_flash[0],(uint16_t)(4*data_cn1));
+				for(i = 0;i < 4*data_cn1;i++)
+				{
+					service_flash_read[i] = *((uint8_t *)(i+updata_flash_ID));
+					if(service_flash_read[i] != boot_write_flash[i])
+					{
+						lin_tl_make_slaveres_pdu(SERVICE_TRANSFER_DATA, NEGATIVE, INVALID_FORMAT);
+						return;
+					}			
+				}
+							 
+				
+				updata_flash_ID = updata_flash_ID + 4*data_cn1;
+				
+				for(i = 0;i < data_cn2;i++ )
+				{
+					boot_write_flash[i] = boot_write_flash[4*data_cn1 + i];
+				}
+				
+				boot_flashdata_last_cn = boot_flashdata_cn;
+				lin_tl_make_slaveres_pdu(SERVICE_TRANSFER_DATA, POSITIVE, RES_POSITIVE);
+			}
+			else if(boot_flashdata_cn == boot_flashdata_last_cn)
+			{
+				boot_flashdata_last_cn = boot_flashdata_cn;
+				lin_tl_make_slaveres_pdu(SERVICE_TRANSFER_DATA, POSITIVE, RES_POSITIVE);
+			}
+			else
+			{
+				lin_tl_make_slaveres_pdu(SERVICE_TRANSFER_DATA, NEGATIVE, INVALID_FORMAT);
+			}	
 		}
 		else
 		{
@@ -384,7 +450,7 @@ void lin_diagservice_service_trigger_check(void)
 
 	if(data[3] == 0x01)//触发
 	{
-		if(data[5] == 0x00)//触发擦除flash
+		if((data[5] == 0x00) && ( boot_status_flag = boot_fsm_requestdriver))//触发擦除flash
 		{
 		  lin_tl_make_slaveres_pdu(SERVICE_TRIGGER_CHECK, POSITIVE, RES_POSITIVE);
 		  boot_status_flag = boot_fsm_start_eraser;

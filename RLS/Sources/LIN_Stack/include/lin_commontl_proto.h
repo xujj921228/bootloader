@@ -62,7 +62,7 @@
 
 
 
-extern l_u8 ld_read_by_id_callout(l_u8 id, l_u8 *data);
+
 
 void lin_tl_make_slaveres_pdu(l_u8 sid, l_u8 res_type, l_u8 error_code);
 

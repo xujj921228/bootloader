@@ -29,7 +29,8 @@
  * 5.about start data
  * 6.flash write 
  * 7.reboot 
- * 
+ * 8.request seed 
+ * 9.send key 
  * ***********/
 Boot_Fsm_t boot_status_flag;
 uint8_t boot_rx_ok_id;
@@ -139,7 +140,8 @@ int main(void)
     Lin_Sys_Init();
     
     for(;;) 
-	{				
+	{			
+    	
     	WDOG_Feed();
     	if(boot_rx_ok_id != 0) //rx ok 
     	{
@@ -165,7 +167,8 @@ int main(void)
 			}
 			else
 			{
-				u16Err_1 = FLASH_EraseSector((VERIFIED_SECTOR+flash_eraser_cn++)*FLASH_SECTOR_SIZE);
+				flash_eraser_cn++;
+	//			u16Err_1 = FLASH_EraseSector((VERIFIED_SECTOR+flash_eraser_cn++)*FLASH_SECTOR_SIZE);
 			}
 		}
 		if(boot_status_flag == boot_fsm_reboot)

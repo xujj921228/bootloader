@@ -18,7 +18,6 @@
 *
 ******************************************************************************/
 #include <SKEAZN642.h>
-//#include "config_parameter.h"
 #include "gpio.h"
 
 

@@ -17,7 +17,7 @@
 #include "lin_hw_cfg.h"
 #include "lin_reg.h"
 
-#pragma MESSAGE DISABLE C5703 /* Disable warning message with ID C5703 */
+//#pragma MESSAGE DISABLE C5703 /* Disable warning message with ID C5703 */
 
 
     /* Calculate N_As & N_Cr max timeout */
