@@ -67,9 +67,20 @@ C_DEPS_QUOTED :=
 SUBDIRS := \
 Sources \
 Sources/lin_cfg \
+Sources/humid_app \
+Sources/driver/watchdog \
+Sources/driver/rtc \
+Sources/driver/pmc \
 Sources/driver/gpio \
+Sources/driver/ftm \
 Sources/driver/eeprom \
 Sources/driver/clock \
+Sources/driver/adc \
+Sources/driver/SPI \
+Sources/driver/IIC \
+Sources/config_parameter \
+Sources/RLS_app \
+Sources/LIN_app \
 Sources/LIN_Stack/transport \
 Sources/LIN_Stack/lowlevel \
 Sources/LIN_Stack/diagnostic \

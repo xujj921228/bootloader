@@ -150,18 +150,6 @@ extern l_u16 diagnostic_Session_timer;
 
 #endif /* End (LIN_PROTOCOL == PROTOCOL_21) */
 
-typedef enum
-{
- boot_fsm_idle                          = 0 ,
- boot_session_extern                    = 1 ,
- boot_fsm_sendseed                      = 2 ,
- boot_fsm_getkey                        = 3 ,
- boot_reset                             = 4 
-}Boot_Fsm_t;
-
-
-extern void uds_calc_key(uint8_t *seed,uint8_t *key);
-extern void lin_diagservice_service_securityaccess(void);
 
 #if LIN_PROTOCOL == PROTOCOL_J2602
 

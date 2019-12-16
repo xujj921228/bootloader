@@ -20,7 +20,7 @@
 #ifndef    _CLOCK_H_  
 #define    _CLOCK_H_  
 
-#include "derivative.h" /* include peripheral declarations */
+#include "config_parameter.h"
 
 
 #define   BUS_CLCOK 20000000

@@ -50,7 +50,6 @@ void UART0_SCI0_IRQHandler ()
     lin_lld_uart_rx_isr(UART0);
 #else
     lin_lld_uart_rx_isr();
-    Lin_Busy_Process();
 	
 #endif /* (LIN_MODE == _MASTER_MODE_) */
 

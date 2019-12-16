@@ -434,7 +434,6 @@ void lin_lld_uart_rx_isr
         /* Receive data not inverted */
         pUART->uartsr2.bit.rxinv = 0;
         /* check state of node is SLEEP_MODE */
-               
         //return;
     }
 #endif
@@ -509,6 +508,7 @@ void lin_lld_uart_rx_isr
                     {
                         state = RECV_PID;
                         Mcu_wakeup_state = 1;         //xujun 20181008
+                        Lin_Busy_Process();
                     }
                     else
                     {
@@ -571,7 +571,18 @@ void lin_lld_uart_rx_isr
                         /* checksum checking */
                         if (lin_checksum(response_buffer, pid) == tmp_byte)
                         {                       	
-                        	RLS_Analysis_Master_Data();
+                        	
+                            if((current_id == 0x12) || (current_id == 0x11))
+                            {
+                            	RLS_Analysis_Master_Data();
+                            	if(current_id == 0x12)
+                            	{
+                            		RLS_Wipe_Park_Process();
+                            	}
+                            }
+                        	
+                        	
+                        	//RLS_Analysis_Master_Data();
                             /*******************************************/
                             /***  RX Buffer Full - Checksum OK       ***/
                             /*******************************************/

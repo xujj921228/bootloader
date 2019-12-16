@@ -5,7 +5,7 @@
  */
  
 #include "kinetis_sysinit.h"
-#include <SKEAZN642.h>
+#include "derivative.h"
 
 /**
  **===========================================================================
@@ -48,6 +48,17 @@ void __init_hardware()
     WDOG_TOVALL = 0xA0;
 	//WDOG_TOVAL = 4000; // setting timeout value	
 	/* Disable the Watchdog because it may reset the core before entering main(). */
+#if 0
+	WDOG_TOVAL = 0xE803; // setting timeout value
+	WDOG_CS2 = WDOG_CS2_CLK_MASK; // setting 1-kHz clock source
+	WDOG_CS1 = 0x23; // Watchdog disabled, 
+					 // Watchdog interrupts are disabled. Watchdog resets are not delayed, 
+					 // Updates allowed. Software can modify the watchdog configuration registers within 128 bus clocks after performing the unlock write sequence,
+					 // Watchdog test mode disabled,
+					 // Watchdog disabled in chip debug mode,
+					 // Watchdog enabled in chip wait mode,
+					 // Watchdog enabled in chip stop mode.
+#endif
 }
 
 /* Weak definitions of handlers point to Default_Handler if not implemented */

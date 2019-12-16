@@ -49,8 +49,7 @@
 #if (_LIN_GPIO_ == 0) && !defined(_MC9S08SC4_H) && !defined(MCU_SKEAZN84)
 /*************************** FUNCTIONS *******************/
 
-extern uint8_t boot_seed[4];
-extern Boot_Fsm_t boot_status_flag;
+
 void lin_tl_make_slaveres_pdu
 (
     /* [IN] service identifier */
@@ -121,7 +120,7 @@ void lin_tl_make_slaveres_pdu
 
 				if (error_code == (LIN_PRODUCT_SERIAL_NUMBER0&0xFF))
 				{
-					read_data_from_EEPROM(EEPROM_SERIAL_NUMBER0_ADDR,temp_data,EEPROM_SERIAL_NUMBER_LENTH,ENABLE);
+					read_data_from_EEPROM(EEPROM_SERIAL_NUMBER0_ADDR,&temp_data,EEPROM_SERIAL_NUMBER_LENTH,ENABLE);
 					/* PCI type */
 				    lin_tl_pdu[1] = PCI_READ_SERIAL_BY_IDENTIFY;
 					/* Get Identifier infor */
@@ -134,7 +133,7 @@ void lin_tl_make_slaveres_pdu
 				}
 				else if (error_code == (LIN_PRODUCT_SERIAL_NUMBER1&0xFF))
 				{
-					read_data_from_EEPROM(EEPROM_SERIAL_NUMBER1_ADDR,temp_data,EEPROM_SERIAL_NUMBER_LENTH,ENABLE);
+					read_data_from_EEPROM(EEPROM_SERIAL_NUMBER1_ADDR,&temp_data,EEPROM_SERIAL_NUMBER_LENTH,ENABLE);
 					/* PCI type */
 					lin_tl_pdu[1] = PCI_READ_SERIAL_BY_IDENTIFY;
 					/* Get Identifier infor */
@@ -147,7 +146,7 @@ void lin_tl_make_slaveres_pdu
 				}
 				else if (error_code == (LIN_PRODUCT_SERIAL_NUMBER2&0xFF))
 				{
-					read_data_from_EEPROM(EEPROM_SERIAL_NUMBER2_ADDR,temp_data,EEPROM_SERIAL_NUMBER_LENTH,ENABLE);
+					read_data_from_EEPROM(EEPROM_SERIAL_NUMBER2_ADDR,&temp_data,EEPROM_SERIAL_NUMBER_LENTH,ENABLE);
 					/* PCI type */
 					lin_tl_pdu[1] = PCI_READ_SERIAL_BY_IDENTIFY;
 					/* Get Identifier infor */
@@ -160,7 +159,7 @@ void lin_tl_make_slaveres_pdu
 				}
 				else if (error_code == (LIN_PRODUCT_SERIAL_NUMBER3&0xFF))
 				{
-					read_data_from_EEPROM(EEPROM_SERIAL_NUMBER3_ADDR,temp_data,EEPROM_SERIAL_NUMBER_LENTH,ENABLE);
+					read_data_from_EEPROM(EEPROM_SERIAL_NUMBER3_ADDR,&temp_data,EEPROM_SERIAL_NUMBER_LENTH,ENABLE);
 					/* PCI type */
 					lin_tl_pdu[1] = PCI_READ_SERIAL_BY_IDENTIFY;
 					/* Get Identifier infor */
@@ -173,7 +172,7 @@ void lin_tl_make_slaveres_pdu
 				}
 				else if (error_code == (LIN_LS_FW_PARAM&0xFF))
 				{
-					read_data_from_EEPROM(EEPROM_BR_LIG_PER_ADDR,temp_data,EEPROM_BR_LIG_PER_LENTH,ENABLE);
+					read_data_from_EEPROM(EEPROM_BR_LIG_PER_ADDR,&temp_data,EEPROM_BR_LIG_PER_LENTH,ENABLE);
 					
 					if(temp_data[0] == 0xFF)
 					{
@@ -192,7 +191,7 @@ void lin_tl_make_slaveres_pdu
 				}
 				else if (error_code == (LIN_LS_IR_PARAM&0xFF))
 				{
-					read_data_from_EEPROM(EEPROM_IR_PER_ADDR,temp_data,EEPROM_IR_PER_LENTH,ENABLE);
+					read_data_from_EEPROM(EEPROM_IR_PER_ADDR,&temp_data,EEPROM_IR_PER_LENTH,ENABLE);
 					if(temp_data[0] == 0xFF)
 					{
 						Brightness_Infrared_Percentage[0] = 100;
@@ -215,8 +214,8 @@ void lin_tl_make_slaveres_pdu
 					/* Get Identifier infor */
 					lin_tl_pdu[3] = (LIN_RAIN_ADC_A_PARAM>>8) ;
 					lin_tl_pdu[4] = (l_u8)(LIN_RAIN_ADC_A_PARAM&0xFF);
-					lin_tl_pdu[5] = (l_u8)(Mnrval.IR_A>>8);
-					lin_tl_pdu[6] = (l_u8)(Mnrval.IR_A);
+					lin_tl_pdu[5] = (l_u8)(Mnrval.IR_A);
+					lin_tl_pdu[6] = (l_u8)(Mnrval.IR_A>>8);
 				}
 				else if (error_code == (LIN_RAIN_ADC_B_PARAM&0xFF))
 				{
@@ -225,8 +224,8 @@ void lin_tl_make_slaveres_pdu
 					/* Get Identifier infor */
 					lin_tl_pdu[3] = (LIN_RAIN_ADC_B_PARAM>>8) ;
 					lin_tl_pdu[4] = (l_u8)(LIN_RAIN_ADC_B_PARAM&0xFF);
-					lin_tl_pdu[5] = (l_u8)(Mnrval.IR_B>>8);
-					lin_tl_pdu[6] = (l_u8)(Mnrval.IR_B);
+					lin_tl_pdu[5] = (l_u8)(Mnrval.IR_B);
+					lin_tl_pdu[6] = (l_u8)(Mnrval.IR_B>>8);
 				}
 				else if (error_code >= LIN_READ_USR_DEF_MIN && error_code <= LIN_READ_USR_DEF_MAX)
 				{
@@ -395,23 +394,6 @@ void lin_tl_make_slaveres_pdu
             lin_tl_pdu[4] = 0xFF;
             break;
         #endif /* End (LIN_PROTOCOL == PROTOCOL_21) */
-		case SERVICE_SECURITYACCESS:
-        	if (POSITIVE == res_type)
-			 {		
-			  /* SID */
-			  if(boot_status_flag == boot_fsm_sendseed)
-        		{
-				    lin_tl_pdu[1] = 0x08;
-        			lin_tl_pdu[2] = RES_POSITIVE + sid;
-        			lin_tl_pdu[3] = 1;
-        			lin_tl_pdu[4] = boot_seed[0];
-        			lin_tl_pdu[5] = boot_seed[1];
-        			lin_tl_pdu[6] = boot_seed[2];
-        			lin_tl_pdu[7] = boot_seed[3];
-        		}
-			  lin_tl_pdu[2] = RES_POSITIVE + sid;
-			 }
-        	break;
         default:
             break;
     }/* end of switch statement */
@@ -1724,10 +1706,6 @@ void lin_tl_attach_service (l_ifc_handle iii)
                     }
                     break;
 #endif /* (End LIN_PROTOCOL == LIN_PROTOCOL_J2602) */
-
-                case SERVICE_SECURITYACCESS:
-        	        lin_diagservice_service_securityaccess();
-            	    break;
                 default:
                     break;
             }

@@ -67,17 +67,6 @@ void lin_diagservice_session_state(void)
 	diagnostic_Session_pre = diagnostic_Session;
 }
 
-uint8_t boot_up_ret[2];
-uint8_t boot_seed[4];
-uint8_t boot_key[4];
-
-Boot_Fsm_t boot_status_flag;
-#define EEPROM_BOOT_REFRESH             0x10000020
-
-#define EEPROM_BOOT_REFRESH_LENTH        2
-
-#define  boot_up_value          0x5a
-
 l_u8 lin_diagservice_session_control(void)
 {
 	l_u8 id;
@@ -114,31 +103,17 @@ l_u8 lin_diagservice_session_control(void)
 				}
 				else
 				{
-                                      if(boot_status_flag == boot_fsm_getkey)
-                                      {
-                                           boot_up_ret[0] = boot_up_value;
-                                           write_data_from_EEPROM(EEPROM_BOOT_REFRESH,boot_up_ret,EEPROM_BOOT_REFRESH_LENTH,ENABLE);
-                                           boot_up_ret[0] = 0;
-                                           read_data_from_EEPROM(EEPROM_BOOT_REFRESH,boot_up_ret,EEPROM_BOOT_REFRESH_LENTH,ENABLE);
-                                           if(boot_up_ret[0] == boot_up_value)
-                                           {
-                                             while(1);
-                                           }
-                                      }
-                                      /* Make a negative slave response PDU */
-					lin_tl_make_slaveres_pdu(SERVICE_SESSION_CONTROL, NEGATIVE, SERVICE_NOT_SUPPORTED_ACTIVE_SESSION);
-					diagnostic_Session = DIAGSRV_SESSION_DEFAULT ;
-                                        
+					lin_tl_make_slaveres_pdu(SERVICE_SESSION_CONTROL, POSITIVE, DIAGSRV_SESSION_PROGRAM);
+					diagnostic_Session =  DIAGSRV_SESSION_PROGRAM;
 				}
 				break;
 			case DIAGSRV_SESSION_EXTERN:
-                                boot_status_flag = boot_session_extern;
 				lin_tl_make_slaveres_pdu(SERVICE_SESSION_CONTROL, POSITIVE, DIAGSRV_SESSION_EXTERN);
 				diagnostic_Session =  DIAGSRV_SESSION_EXTERN;
 				break;
 			default:
 					/* Make a negative slave response PDU */
-		         lin_tl_make_slaveres_pdu(SERVICE_SESSION_CONTROL, NEGATIVE, SUBFUNCTION_NOT_SUPPORTED);
+					lin_tl_make_slaveres_pdu(SERVICE_SESSION_CONTROL, NEGATIVE, SUBFUNCTION_NOT_SUPPORTED);
 				break;
 		} /* End of switch */
 	}
@@ -148,90 +123,6 @@ l_u8 lin_diagservice_session_control(void)
 		lin_tl_make_slaveres_pdu(SERVICE_SESSION_CONTROL, NEGATIVE, INVALID_FORMAT);
 	}
 }
-
-
-
-
-void uds_calc_key(uint8_t *seed,uint8_t *key)
-{
-     uint8_t i;
-     uint32_t mask;
-
-     uint32_t wort;     
-     
-     mask = 0x7FADEBFC;
-     
-     wort = (((uint32_t)seed[0])<<24) + (((uint32_t)seed[0])<<16) + (((uint32_t)seed[0])<<8) + ((uint32_t)seed[0]);
-         
-     for(i = 0 ;i<35;i++)
-     {
-        if(wort&0x80000000)
-        {
-            wort = wort<<1;
-            wort = wort^mask;
-        }
-        else
-        {
-            wort = wort<<1; 
-        }
-        
-     } 
-     key[0] = (uint8_t)(wort >> 24);
-     key[1] = (uint8_t)(wort >> 16);
-     key[2] = (uint8_t)(wort >> 8);
-     key[3] = (uint8_t)wort;
-}
-
-
-void lin_diagservice_service_securityaccess(void)
-{
-	 l_u16 length;
-	 l_u8 data[10];
-	 uint8_t i; 
-	 /* get pdu from rx queue */
-	 ld_receive_message(&length, data);
-	 
-	 if((data[1] == 1)&&( boot_status_flag == boot_session_extern))
-	 {
-		 boot_status_flag = boot_fsm_sendseed;
-		 boot_seed[0] = rand();
-		 boot_seed[1] = rand();
-		 boot_seed[2] = rand();
-		 boot_seed[3] = rand();
-		 lin_tl_make_slaveres_pdu(SERVICE_SECURITYACCESS, POSITIVE, RES_POSITIVE);
-	 }
-	 else if((data[1] == 2)&&(boot_status_flag == boot_fsm_sendseed))
-	 {
-		 uds_calc_key(boot_seed,boot_key);
-		 for(i = 0; i < 4;i++ )
-		 {
-			 if(boot_key[i] != data[2 + i])
-			 {
-				 boot_status_flag = boot_fsm_sendseed;
-				 lin_tl_make_slaveres_pdu(SERVICE_SECURITYACCESS, NEGATIVE, SUBFUNCTION_NOT_SUPPORTED);
-				 return;
-			 }
-                  }
-		 boot_status_flag = boot_fsm_getkey;
-		 lin_tl_make_slaveres_pdu(SERVICE_SECURITYACCESS, POSITIVE, RES_POSITIVE);
-	 }
-	 else
-	 {
-		 lin_tl_make_slaveres_pdu(SERVICE_SECURITYACCESS, NEGATIVE, SUBFUNCTION_NOT_SUPPORTED);
-	 }
-	
-	
-}
-
-
-
-
-
-
-
-
-
-
 
 void lin_diagservice_read_data_by_identifier(void)
 {

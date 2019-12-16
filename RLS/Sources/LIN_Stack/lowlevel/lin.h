@@ -131,8 +131,6 @@ typedef unsigned char l_bool;
 #define SERVICE_FAULT_MEMORY_READ         0x19      /**< service fault memory read */
 #define SERIVCE_FAULT_MEMORY_CLEAR        0x14      /**< service fault memory clear */
 
-#define SERVICE_SECURITYACCESS            0x27      /**< service security access */
-
 /* Define PCI's services */
 #define PCI_ASSIGN_NAD                    0x06      /**< PCI value assign NAD */
 #define PCI_READ_BY_IDENTIFY              0x06      /**< PCI value read by identify */

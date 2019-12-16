@@ -30,9 +30,9 @@ l_u8 lin_save_configuration_flg = 0;
 lin_word_status_str lin_word_status;
 l_u8 lin_current_pid;
 
-const l_signal_handle LI0_response_error_signal = LI0_LIN_Error;
-const l_u8 response_error_byte_offset = LIN_BYTE_OFFSET_LI0_LIN_Error;
-const l_u8 response_error_bit_offset = LIN_BIT_OFFSET_LI0_LIN_Error;
+const l_signal_handle LI0_response_error_signal = LI0_RLS_LIN_Error;
+const l_u8 response_error_byte_offset = LIN_BYTE_OFFSET_LI0_RLS_LIN_Error;
+const l_u8 response_error_bit_offset = LIN_BIT_OFFSET_LI0_RLS_LIN_Error;
 
 
 /* definition and initialization of signal array */
@@ -40,45 +40,42 @@ l_u8    lin_pFrameBuf[LIN_FRAME_BUF_SIZE] =
 {
 
 
-  0xe0 /* 0 : 11100000 */ /* start of frame LI0_RLS_01 */
+  0x00 /* 0 : 00000000 */ /* start of frame LI0_BCM_01 */
 
   ,0x00 /* 1 : 00000000 */
-  ,0xf0 /* 2 : 11110000 */
+  ,0x00 /* 2 : 00000000 */
   ,0x00 /* 3 : 00000000 */
-  ,0x00 /* 4 : 00000000 */
+
+
+  ,0x00 /* 4 : 00000000 */ /* start of frame LI0_BCM_02 */
+
   ,0x00 /* 5 : 00000000 */
-  ,0x00 /* 6 : 00000000 */
+  
+
+  ,0xff /* 6 : 11111111 */ /* start of frame LI0_RLS_01 */
+
   ,0xff /* 7 : 11111111 */
-
-
-  ,0x00 /* 8 : 00000000 */ /* start of frame LI0_BCM_01 */
-
-  ,0xe0 /* 9 : 11100000 */
   
-  ,0xfe /* 10 : 11111110 */
+  ,0xff /* 8 : 11111111 */
   
-  ,0xff /* 11 : 11111111 */
+  ,0xff /* 9 : 11111111 */
+  
+  ,0x00 /* 10 : 00000000 */
+  
+  ,0x00 /* 11 : 00000000 */
   
   ,0x00 /* 12 : 00000000 */
   
-  ,0xff /* 13 : 11111111 */
-  
-  ,0x80 /* 14 : 10000000 */
-  
-  ,0xff /* 15 : 11111111 */
+  ,0x08 /* 13 : 00001000 */
   
 
-  ,0xf0 /* 16 : 11110000 */ /* start of frame LI0_BCM_02 */
+  ,0x00 /* 14 : 00000000 */ /* start of frame LI0_RLS_02 */
 
-  ,0xff /* 17 : 11111111 */
+  ,0x7F /* 15 : 00000000 */
   
-  ,0xff /* 18 : 11111111 */
+  ,0x00 /* 16 : 00000000 */
   
-  ,0xff /* 19 : 11111111 */
-  
-  ,0xff /* 20 : 11111111 */
-  
-  ,0xff /* 21 : 11111111 */
+  ,0x00 /* 17 : 00000000 */
   
 };
 
@@ -87,18 +84,21 @@ l_u8    lin_flag_handle_tbl[LIN_FLAG_BUF_SIZE] =
 {
 
 
-  0x00 /* 0: start of flag frame LI0_RLS_01 */
+  0x00 /* 0: start of flag frame LI0_BCM_01 */
 
   ,0x00 /* 1: */
 
 
-  ,0x00 /* 2: start of flag frame LI0_BCM_01 */
+  ,0x00 /* 2: start of flag frame LI0_BCM_02 */
 
-  ,0x00 /* 3: */
+
+  ,0x00 /* 3: start of flag frame LI0_RLS_01 */
+
+
+  ,0x00 /* 4: start of flag frame LI0_RLS_02 */
+
+  ,0x00 /* 5: */
   
-
-  ,0x00 /* 4: start of flag frame LI0_BCM_02 */
-
 };
 
 /*************************** Flag set when signal is updated ******************/
@@ -109,11 +109,13 @@ l_u8 lin_diag_signal_tbl[16];
 /**********************************  Frame table **********************************/
 const lin_frame_struct lin_frame_tbl[LIN_NUM_OF_FRMS] ={
 
-    { LIN_FRM_UNCD, 8, LIN_RES_PUB, 0, 0, 2  , (l_u8*)&LI0_response_error_signal  }
+    { LIN_FRM_UNCD, 4, LIN_RES_SUB, 0, 0, 2   , (l_u8*)0 }
 
-   ,{ LIN_FRM_UNCD, 8, LIN_RES_SUB, 8, 2, 2 , (l_u8*)0 }
+   ,{ LIN_FRM_UNCD, 2, LIN_RES_SUB, 4, 2, 1 , (l_u8*)0 }
   
-   ,{ LIN_FRM_UNCD, 6, LIN_RES_SUB, 16, 4, 1 , (l_u8*)0 }
+   ,{ LIN_FRM_UNCD, 8, LIN_RES_PUB, 6, 3, 1 , (l_u8*)&LI0_response_error_signal }
+  
+   ,{ LIN_FRM_UNCD, 4, LIN_RES_PUB, 14, 4, 2 , (l_u8*)0 }
   
    ,{ LIN_FRM_DIAG, 8, LIN_RES_SUB, 0, 0, 0 , (l_u8*)0 }
   
@@ -134,17 +136,17 @@ const l_u16 lin_max_frame_res_timeout_val[8]={
 };
 
 
-l_u8 lin_configuration_RAM[LIN_SIZE_OF_CFG]= {0x00, 0x23, 0x31, 0x32, 0x3C, 0x3D ,0xFF};
-const l_u16  lin_configuration_ROM[LIN_SIZE_OF_CFG]= {0x00, 0x23, 0x31, 0x32, 0x3C, 0x3D ,0xFFFF};
+l_u8 lin_configuration_RAM[LIN_SIZE_OF_CFG]= {0x00, 0x11, 0x12, 0x03, 0x10, 0x3C, 0x3D ,0xFF};
+const l_u16  lin_configuration_ROM[LIN_SIZE_OF_CFG]= {0x00, 0x11, 0x12, 0x03, 0x10, 0x3C, 0x3D ,0xFFFF};
 
 /***************************************** Node Attribute*****************************************/
 
-l_u8 lin_configured_NAD = 0x22;    /*<configured_NAD>*/
-const l_u8 lin_initial_NAD    =0x22;    /*<initial_NAD>*/
-const lin_product_id product_id = {0x0023, 0x0023, 0x00FF };  /* {<supplier_id>,<function_id>,<variant>} */
+l_u8 lin_configured_NAD = 0x16;    /*<configured_NAD>*/
+const l_u8 lin_initial_NAD    =0x03;    /*<initial_NAD>*/
+const lin_product_id product_id = {0x0003, 0x0003, 0x00FF };  /* {<supplier_id>,<function_id>,<variant>} */
 
 const lin_product_serial_num product_serial_num = {0x2018, 0x0824};  /* {<supplier_id>,<function_id>,<variant>} */
-const l_signal_handle response_error =  LI0_LIN_Error;
+const l_signal_handle response_error =  LI0_RLS_LIN_Error;
 
 /************************** TL Layer and Diagnostic: SINGLE interface **************************/
 /* QUEUE information */
@@ -195,14 +197,15 @@ lin_message_status tl_tx_msg_status;                  /* cooked tx status */
 
 /****************************Support SID Initialization ***********************/
 
-const l_u8 lin_diag_services_supported[_DIAG_NUMBER_OF_SERVICES_] = {0xB2,0xB6,0xB7,0x22,0x10,0xB3,0xB0,0x2E};
-l_u8 lin_diag_services_flag[_DIAG_NUMBER_OF_SERVICES_] = {0,0,0,0,0,0,0,0};
+const l_u8 lin_diag_services_supported[_DIAG_NUMBER_OF_SERVICES_] = {0xB2,0xB7,0x22,0xB6,0xB3,0xB0,0x2E};
+l_u8 lin_diag_services_flag[_DIAG_NUMBER_OF_SERVICES_] = {0,0,0,0,0,0,0};
 l_u8 tl_slaveresp_cnt = 0;
 /* This function is an example of response; real implementation is application-dependent */
 /* You can use one of the following define to set PCI of response frame for */
 /* this service to the correct value */
-l_u8 ld_read_by_id_callout(l_u8 id, l_u8 *data){
-    l_u8 retval = LD_ID_NO_RESPONSE;
+l_u8 ld_read_by_id_callout(l_u8 id, l_u8 *data)
+{
+    l_u8 retval = LD_NEGATIVE_RESPONSE;
     /* Following code is an example - Real implementation is application-dependent */
     /*
      * the handling does essentially depend on the id of the

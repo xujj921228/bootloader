@@ -21,6 +21,7 @@
 #define    _EEPROM_H_  
 
 #include "derivative.h" /* include peripheral declarations */
+#include "config_parameter.h"
 
 
 #define     ENABLE                        1
