@@ -1,0 +1,19 @@
+"--endian=little" 
+
+"--cpu=Cortex-M0+" 
+
+"--fpu=None" 
+
+"-p" 
+
+"D:\IAR Systems\Embedded Workbench 8.2\arm\CONFIG\debugger\NXP\KEAZN64xxx2.ddf" 
+
+"--semihosting=none" 
+
+"--device=KEAZN64xxx2" 
+
+"--multicore_nr_of_cores=1" 
+
+
+
+
