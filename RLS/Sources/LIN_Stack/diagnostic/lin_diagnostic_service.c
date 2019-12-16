@@ -124,13 +124,13 @@ void lin_diagservice_session_control(void)
 				}
 				break;
 			case DIAGSRV_SESSION_PROGRAM:
-				if(diagnostic_Session_pre == DIAGSRV_SESSION_DEFAULT)
+				/*if(diagnostic_Session_pre == DIAGSRV_SESSION_DEFAULT)
 				{
-					/* Make a negative slave response PDU */
+					 Make a negative slave response PDU 
 					lin_tl_make_slaveres_pdu(SERVICE_SESSION_CONTROL, NEGATIVE, SERVICE_NOT_SUPPORTED_ACTIVE_SESSION);
 					diagnostic_Session = DIAGSRV_SESSION_DEFAULT ;
 				}
-				else
+				else*/
 				{
 					lin_tl_make_slaveres_pdu(SERVICE_SESSION_CONTROL, POSITIVE, DIAGSRV_SESSION_PROGRAM);
 					diagnostic_Session =  DIAGSRV_SESSION_PROGRAM;

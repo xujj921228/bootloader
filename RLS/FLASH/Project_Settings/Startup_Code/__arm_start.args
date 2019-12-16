@@ -4,21 +4,21 @@
 -g3
 -gdwarf-2
 -gstrict-dwarf
--I"C:/Users/xujj/Desktop/bootloader/RLS/Project_Headers"
--I"C:/Users/xujj/Desktop/bootloader/RLS/Sources/driver/clock"
--I"C:/Users/xujj/Desktop/bootloader/RLS/Sources/driver/eeprom"
--I"C:/Users/xujj/Desktop/bootloader/RLS/Sources/driver/gpio"
--I"C:/Users/xujj/Desktop/bootloader/RLS/Sources/config_parameter"
--I"C:/Users/xujj/Desktop/bootloader/RLS/Project_Settings/Startup_Code"
+-I"C:/Users/Administrator/Desktop/bootloader/RLS/Project_Headers"
+-I"C:/Users/Administrator/Desktop/bootloader/RLS/Sources/driver/clock"
+-I"C:/Users/Administrator/Desktop/bootloader/RLS/Sources/driver/eeprom"
+-I"C:/Users/Administrator/Desktop/bootloader/RLS/Sources/driver/gpio"
+-I"C:/Users/Administrator/Desktop/bootloader/RLS/Sources/config_parameter"
+-I"C:/Users/Administrator/Desktop/bootloader/RLS/Project_Settings/Startup_Code"
 -I"D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/EWL_C/include"
 -I"D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/EWL_Runtime/include"
--I"C:/Users/xujj/Desktop/bootloader/RLS/Sources/LIN_Stack/bsp/UART"
--I"C:/Users/xujj/Desktop/bootloader/RLS/Sources/LIN_Stack/coreapi"
--I"C:/Users/xujj/Desktop/bootloader/RLS/Sources/LIN_Stack/diagnostic"
--I"C:/Users/xujj/Desktop/bootloader/RLS/Sources/LIN_Stack/include"
--I"C:/Users/xujj/Desktop/bootloader/RLS/Sources/LIN_Stack/lowlevel"
--I"C:/Users/xujj/Desktop/bootloader/RLS/Sources/LIN_Stack/transport"
--I"C:/Users/xujj/Desktop/bootloader/RLS/Sources/lin_cfg"
+-I"C:/Users/Administrator/Desktop/bootloader/RLS/Sources/LIN_Stack/bsp/UART"
+-I"C:/Users/Administrator/Desktop/bootloader/RLS/Sources/LIN_Stack/coreapi"
+-I"C:/Users/Administrator/Desktop/bootloader/RLS/Sources/LIN_Stack/diagnostic"
+-I"C:/Users/Administrator/Desktop/bootloader/RLS/Sources/LIN_Stack/include"
+-I"C:/Users/Administrator/Desktop/bootloader/RLS/Sources/LIN_Stack/lowlevel"
+-I"C:/Users/Administrator/Desktop/bootloader/RLS/Sources/LIN_Stack/transport"
+-I"C:/Users/Administrator/Desktop/bootloader/RLS/Sources/lin_cfg"
 -O3
 -ffunction-sections
 -fdata-sections

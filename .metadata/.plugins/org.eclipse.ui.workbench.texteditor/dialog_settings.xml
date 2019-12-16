@@ -13,16 +13,16 @@
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wholeword"/>
-		<item value="boot_up_ret" key="selection"/>
+		<item value="" key="selection"/>
 		<list key="findhistory">
+			<item value="err"/>
+			<item value="boot_seed"/>
 			<item value="boot_up_ret"/>
 			<item value="lin_diagservice_session_control"/>
 			<item value="boot_status_flag"/>
 			<item value="FLASH_Program2LongWords"/>
 			<item value="uint8"/>
 			<item value="u16w2LongWordCount"/>
-			<item value="u16WrLeftLongWords"/>
-			<item value="u16SizeBytes"/>
 		</list>
 		<list key="replacehistory">
 			<item value="uint8_t"/>

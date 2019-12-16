@@ -62,4 +62,5 @@ void lin_lld_uart_rx_isr(void);
 
 void lin_goto_idle_state(void);
 
+void lin_lld_uart_timeout();
 

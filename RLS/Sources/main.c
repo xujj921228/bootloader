@@ -105,7 +105,7 @@ void Flash_bootloader_protect(void)
  * 
  * xujunjie@baolong.com
  * ********************/
-typedef void(*JumpToPtr)(void);
+/*typedef void(*JumpToPtr)(void);
 
 void boot_jump_to_APP(void)
 {
@@ -114,7 +114,7 @@ void boot_jump_to_APP(void)
 	pJumpTo = *pNewAppEntry;
 	pJumpTo();
 	for(;;) { ; }
-}
+}*/
 
 uint16_t u16Err_1 = FLASH_ERR_SUCCESS;
 
@@ -132,7 +132,8 @@ int main(void)
        &&(boot_APP_check() == APP_VALUE))//if flag is equal to 1,jump to app.else doing updata
     {
 	   //Jump to app
-       boot_jump_to_APP();
+       //boot_jump_to_APP();
+	   ((void (*)())APP_start_address)();
     }  
     
     
@@ -173,7 +174,7 @@ int main(void)
 		}
 		if(boot_status_flag == boot_fsm_reboot)
 		{
-			while(1);
+			((void (*)())0x0)();
 		}
 		 
 
