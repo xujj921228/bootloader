@@ -1,0 +1,20 @@
+spi.pbi: C:\Users\xujj\Desktop\IAR_WX1348\Sources\driver\SPI\spi.c \
+  C:\Users\xujj\Desktop\IAR_WX1348\Include\derivative.h \
+  C:\Program\ Files\ (x86)\IAR\ Systems\Embedded\ Workbench\ 8.3\arm\inc\NXP/SKEAZN642.h \
+  C:\Program\ Files\ (x86)\IAR\ Systems\Embedded\ Workbench\ 8.3\arm\inc\c\stdint.h \
+  C:\Program\ Files\ (x86)\IAR\ Systems\Embedded\ Workbench\ 8.3\arm\inc\c\ycheck.h \
+  C:\Program\ Files\ (x86)\IAR\ Systems\Embedded\ Workbench\ 8.3\arm\inc\c\yvals.h \
+  C:\Program\ Files\ (x86)\IAR\ Systems\Embedded\ Workbench\ 8.3\arm\inc\c\DLib_Defaults.h \
+  C:\\Program\ Files\ (x86)\\IAR\ Systems\\Embedded\ Workbench\ 8.3\\arm\\inc\\c\\DLib_Config_Normal.h \
+  C:\Program\ Files\ (x86)\IAR\ Systems\Embedded\ Workbench\ 8.3\arm\inc\c\DLib_Product.h \
+  C:\Users\xujj\Desktop\IAR_WX1348\Include/typedefs.h \
+  C:\Users\xujj\Desktop\IAR_WX1348\Sources\config_parameter\config_parameter.h \
+  C:\Users\xujj\Desktop\IAR_WX1348\Sources\driver\gpio\gpio.h \
+  C:\Users\xujj\Desktop\IAR_WX1348\Sources\driver\clock\clock.h \
+  C:\Users\xujj\Desktop\IAR_WX1348\Sources\driver\SPI/spi.h \
+  C:\Users\xujj\Desktop\IAR_WX1348\Sources\LIN_Stack\lowlevel\lin.h \
+  C:\Users\xujj\Desktop\IAR_WX1348\Sources\lin_cfg\lin_cfg.h \
+  C:\Users\xujj\Desktop\IAR_WX1348\Sources\lin_cfg/lin_hw_cfg.h \
+  C:\Users\xujj\Desktop\IAR_WX1348\Sources\lin_cfg\lin_hw_cfg.h \
+  C:\Users\xujj\Desktop\IAR_WX1348\Sources\LIN_Stack\bsp\UART\lin_reg.h \
+  C:\Users\xujj\Desktop\IAR_WX1348\Sources\RLS_app\rls_app.h

@@ -1,0 +1,62 @@
+#Generating source browse information for project RLS
+
+
+#Abbreviations
+cc = C$:\Program$ Files$ (x86)\IAR$ Systems\Embedded$ Workbench$ 8.3\common\bin\SourceIndexer.exe
+ll = C$:\Program$ Files$ (x86)\IAR$ Systems\Embedded$ Workbench$ 8.3\common\bin\PbdLink.exe
+bd = C$:\Program$ Files$ (x86)\IAR$ Systems\Embedded$ Workbench$ 8.3\common\bin\makeBrowseData.exe
+
+
+
+#Rules
+rule index
+  depfile = $out.dep
+  command = $cc -out=$out -f $in
+rule link
+  command = $ll -M $out $in
+rule browsedata
+  command = $bd $in -output  $out
+
+
+
+#Build steps
+build low_level_init.pbi : index low_level_init.xcl
+build config_parameter.pbi : index config_parameter.xcl
+build adc.pbi : index adc.xcl
+build clock.pbi : index clock.xcl
+build eeprom.pbi : index eeprom.xcl
+build ftm.pbi : index ftm.xcl
+build gpio.pbi : index gpio.xcl
+build pmc.pbi : index pmc.xcl
+build rtc.pbi : index rtc.xcl
+build spi.pbi : index spi.xcl
+build lin_app.pbi : index lin_app.xcl
+build lin_cfg.pbi : index lin_cfg.xcl
+build lin_isr.pbi : index lin_isr.xcl
+build lin_lld_timesrv.pbi : index lin_lld_timesrv.xcl
+build lin_lld_uart.pbi : index lin_lld_uart.xcl
+build lin_common_api.pbi : index lin_common_api.xcl
+build lin_common_proto.pbi : index lin_common_proto.xcl
+build lin_j2602_api.pbi : index lin_j2602_api.xcl
+build lin_j2602_proto.pbi : index lin_j2602_proto.xcl
+build lin_lin21_api.pbi : index lin_lin21_api.xcl
+build lin_lin21_proto.pbi : index lin_lin21_proto.xcl
+build lin_diagnostic_service.pbi : index lin_diagnostic_service.xcl
+build lin.pbi : index lin.xcl
+build lin_commontl_api.pbi : index lin_commontl_api.xcl
+build lin_commontl_proto.pbi : index lin_commontl_proto.xcl
+build lin_j2602tl_api.pbi : index lin_j2602tl_api.xcl
+build lin_lin21tl_api.pbi : index lin_lin21tl_api.xcl
+build rls_app.pbi : index rls_app.xcl
+build watchdog.pbi : index watchdog.xcl
+build main.pbi : index main.xcl
+build RLS_part0.pbi : link low_level_init.pbi config_parameter.pbi adc.pbi clock.pbi eeprom.pbi
+build RLS_part1.pbi : link ftm.pbi gpio.pbi pmc.pbi rtc.pbi spi.pbi
+build RLS_part2.pbi : link lin_app.pbi lin_cfg.pbi lin_isr.pbi lin_lld_timesrv.pbi lin_lld_uart.pbi
+build RLS_part3.pbi : link lin_common_api.pbi lin_common_proto.pbi lin_j2602_api.pbi lin_j2602_proto.pbi lin_lin21_api.pbi
+build RLS_part4.pbi : link lin_lin21_proto.pbi lin_diagnostic_service.pbi lin.pbi lin_commontl_api.pbi lin_commontl_proto.pbi
+build RLS_part5.pbi : link lin_j2602tl_api.pbi lin_lin21tl_api.pbi rls_app.pbi watchdog.pbi main.pbi
+build RLS.pbd : link RLS_part0.pbi RLS_part1.pbi RLS_part2.pbi RLS_part3.pbi RLS_part4.pbi RLS_part5.pbi
+build RLS.pbw : browsedata RLS.pbd
+
+
