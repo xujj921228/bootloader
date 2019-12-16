@@ -1,200 +1,132 @@
-#include <SKEAZN642.h>
-#include <math.h> 
+/*
+ * main implementation: use this 'C' sample to create your own application
+ *
+ */
+#include "derivative.h" /* include peripheral declarations */
+#include "config_parameter.h"
+#include "lin_diagnostic_service.h"
 #include "clock.h"
+#include "lin.h"
+#include "adc.h"
 #include "gpio.h"
 #include "eeprom.h"
-#include "lin_common_api.h"
-#include "lin_common_proto.h"
-#include "lin_lld_uart.h"
+#include "ftm.h"
+#include "pmc.h"
+#include "rtc.h"
+#include "rls_app.h"
+#include "lin_app.h"
+#include "watchdog.h"
 
 
 /***********************************************************************************************
-* name :  main
-* input:  none
-* output: none
-* introduction:For lin-boot
-* author:xujunjie@bb.com
-*2019/10/17
+*
+* @brief    main - Initialize 
+* @param    none
+* @return   none
+*
 ************************************************************************************************/  
-
-
-/************** var   ******************/
-/******
- * DRIVE_flag
- * 0:init
- * 1:about driver
- * 2.about start eraser 
- * 3.about eraser tx ok
- * 4.about end eraser
- * 5.about start data
- * 6.flash write 
- * 7.reboot 
- * 8.request seed 
- * 9.send key 
- * ***********/
-Boot_Fsm_t boot_status_flag;
-uint8_t boot_rx_ok_id;
-uint8_t boot_up_ret[2];
-
-/************************
- * For all Var init
- * 
- * xujunjie@baolong.com
- * ********************/
-void boot_Var_init(void)
-{
-   boot_status_flag = boot_fsm_idle;
-   boot_rx_ok_id = 0;
-   boot_up_ret[0] = 0;
-   boot_up_ret[1] = 0;
-}
-
-
-/*******************************************************
- * FUNCTION NAME : Lin_Busy_Process()
- *   DESCRIPTION : Lin_Busy_Process  
- *         INPUT : NONE
- *        OUTPUT : void  
- *        RETURN : NONE              
- *        OTHERS : NONE
- *******************************************************/ 
-void Lin_Sys_Init(void)
-{
-	uint8_t vector_number = 0;
+void main(void)
+{	
+	unsigned char ret = 0 ;
+	unsigned char vector_number = 0;
 	
-    l_sys_init();
-	l_ifc_init(LI0);
+	Clk_Init();	
+	FTM0_Init();
+	ADC_Init();
+	GPIO_Init();
+	FLASH_Init(BUS_CLCOK);	
+	PMC_Init();
+	Globle_parameter_Init();
+	MLX75308_Init();
+	RTC_Init();
+	ret = l_sys_init();
+	ret = l_ifc_init(LI0);
 	
 	vector_number = INT_UART0 -16;
 	
 	NVIC_ICPR |= 1 << (vector_number%32);
 	NVIC_ISER |= 1 << (vector_number%32);
-}
-
-
-
-/************************
- * For all sys init
- * 
- * xujunjie@baolong.com
- * ********************/
-void boot_sysinit(void)
-{
-	Clk_Init();	                           //time for MCU;
-    GPIO_Init();                           //Setting the LDO of LIN to control Power.   
-	FLASH_Init(BUS_CLCOK);                 /*Initialize the Flash Memory module */
-}
-
-
-/******************************************************************************
-* protect bootloader section from 0 to 3FFF.
-******************************************************************************/
-void Flash_bootloader_protect(void)
-{
-	//Flash Protection Operation Enable
-	FTMRH_FPROT |= FTMRH_FPROT_FPOPEN_MASK;
-	//Flash Protection Higher Address Range Disable
-	FTMRH_FPROT |= FTMRH_FPROT_FPHDIS_MASK;
-	//Flash Protection Lower Address Range Disable
-	FTMRH_FPROT &= ~FTMRH_FPROT_FPLDIS_MASK;
-	//Flash Protection Lower Address Size, from 0 to 0x3FFF
-	FTMRH_FPROT |= FTMRH_FPROT_FPLS_MASK;
-}
-/************************
- * For APP up close
- * 
- * xujunjie@baolong.com
- * ********************/
-typedef void(*JumpToPtr)(void);
-
-void boot_jump_to_APP(void)
-{
-	uint16_t *pNewAppEntry = APP_start_address;
-	JumpToPtr	pJumpTo;
-	pJumpTo = *pNewAppEntry;
-	pJumpTo();
-	for(;;) { ; }
-}
-
-uint16_t u16Err_1 = FLASH_ERR_SUCCESS;
-
-int main(void)
-{	
-	uint32_t flash_eraser_cn = 0;
 	
-	boot_sysinit();
-	boot_Var_init();
-	//Flash_bootloader_protect();
+	while(!DR);
 
-	//FLASH_EraseSector((VERIFIED_SECTOR+87)*FLASH_SECTOR_SIZE); // for debug eraser flag 
-	//case 0: normal start jump to app
-    if((boot_up_check() != 1)
-       &&(boot_APP_check() == APP_VALUE))//if flag is equal to 1,jump to app.else doing updata
-    {
-	   //Jump to app
-       boot_jump_to_APP();
-    }  
-    
-    
-    //case 1: need to reload APP SDK
-    Lin_Sys_Init();
-    
-    for(;;) 
+	for(;;) 
 	{			
-    	
-    	WDOG_Feed();
-    	if(boot_rx_ok_id != 0) //rx ok 
-    	{
-    		DISABLE_INTERRUPT;
-            /* trigger callback */
-            lin_update_rx(boot_rx_ok_id);
-            boot_rx_ok_id = 0;
-            ENABLE_INTERRUPT;
-    	}
-    	
-    	
-		if(boot_status_flag == boot_fsm_erasering)//²Á³ýflashÉÈÇø
+		WDOG_Feed();
+		if(G_4sFlag == TRUE)
 		{
-			if(flash_eraser_cn >= 88)
-			{
-				flash_eraser_cn = 0;
-				boot_status_flag = boot_fsm_enderaser;	
-				do
-				{
-					boot_up_ret[0] = 0;
-					write_data_from_EEPROM(0x10000020,boot_up_ret,2,ENABLE);
-				}while(boot_up_check());
-			}
-			else
-			{
-				flash_eraser_cn++;
-				u16Err_1 = FLASH_EraseSector((VERIFIED_SECTOR+flash_eraser_cn++)*FLASH_SECTOR_SIZE);
+			G_4sFlag = 0;
+			G_4s_counter = 0;
+			if (Lin_Busy_Flag == 0)
+			{				
+				Sleep_Process();
 			}
 		}
-		if(boot_status_flag == boot_fsm_reboot)
+		
+		if((u8_lin_cmd_sleep == 1)||(u8_auto_roof_rain_measure_sleep_flg == 1)||(u8_wakeup_bcm_cnt_sleep_flg == 1))
 		{
-			while(1);
+			if(u8_lin_cmd_sleep == 1)                    u8_lin_cmd_sleep = 0;
+			if(u8_auto_roof_rain_measure_sleep_flg == 1) u8_auto_roof_rain_measure_sleep_flg = 0;
+			if(u8_wakeup_bcm_cnt_sleep_flg == 1)         u8_wakeup_bcm_cnt_sleep_flg = 0;
+			Sleep_Process();
 		}
-		 
-
-	} 	 
+		
+		
+		if (Lin_Busy_Flag == 1)
+		{
+			Lin_Busy_Flag = 0;			
+		}
+		
+		if (Enter_Sleep_Flag == 1) 
+		{
+			Enter_Sleep_Flag = 0;  
+			Recover_Process();
+		}
+									
+		switch(RLS_RunMode)
+		{
+			  case NORMAL:
+			  {                                       		
+					if( G_10msFlag == TRUE)
+					{
+						G_10msFlag = FALSE;
+						lin_diagservice_session_state();
+#ifdef ENABLE_AUTO_ROOF
+						if(u8_polling_mode_enter == 1)
+						{
+							Auto_Roof_Process();
+						}
+#endif
+					}		
+					
+					if( G_50msFlag == TRUE)
+					{
+						G_50msFlag = FALSE;
+						RLS_Battery_State();                
+					}
+					
+					if( G_100msFlag == TRUE)
+					{
+						G_100msFlag = FALSE;  			
+						RLS_Auto_Light_Task();
+						RLS_Auto_Rain_Task();	
+						Lin_RLS_data();
+					}
+					
+					if( G_500msFlag == TRUE)
+					{
+						G_500msFlag = FALSE;	
+					}
+			  }break;
+			  
+			  case SLEFADAPT:
+			  {
+				  RLS_SelfAdaptTask();
+			  }break;
+			  
+			  default: 
+					 RLS_RunMode = NORMAL; 
+					 break;
+		}
+				
+	 }	
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

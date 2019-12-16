@@ -1,3 +1,14 @@
+/******************************************************************************
+*
+* Freescale Semiconductor Inc.
+* (c) Copyright 2008-2015 Freescale Semiconductor, Inc.
+* ALL RIGHTS RESERVED.
+*
+******************************************************************************/
+/**************************************************************************//**
+* @addtogroup UART_group
+* @{
+******************************************************************************/
 /**************************************************************************//**
 *
 * @file      bsp/UART/lin_lld_UART.c
@@ -8,6 +19,14 @@
 *
 ******************************************************************************/
 
+/******************************************************************************
+ *
+ * History:
+ *
+ * 20101027     v1.0    First version
+ * 20111005     v1.1    Updated hardware support, multi timers
+ *
+ *****************************************************************************/
 
 #include "lin_lld_uart.h"
 #include "lin_hw_cfg.h"
@@ -15,14 +34,21 @@
 #include "lin_lld_timesrv.h"
 #include "lin_diagnostic_service.h"
 #include "lin_cfg.h"
-#include "eeprom.h"
+#include "rls_app.h"
+#include "lin_app.h"
+#include "ftm.h"
 
 
+#if (LIN_MODE == _SLAVE_MODE_)
 
+/***** Globle variable data *****/
 
 /* pUART func ifc checksum_mode state  l_status cnt_byte  *ptr current_pid *response_buffer
   pid_out tbit frame_timeout_cnt res_frame_timeout_cnt idle_timeout_cnt */
 
+/**
+* @var static tUART *pUART
+*/
 static tUART          *pUART = (tUART*)UART_ADDR;
 
 /**
@@ -90,9 +116,7 @@ extern const l_u16 lin_max_frame_res_timeout_val[8];
 
 extern l_u8 lin_lld_response_buffer[10];
 
-extern l_u8 boot_rx_ok_id;
 
-extern Boot_Fsm_t boot_status_flag;
 
 /***** LOW-LEVEL API *****/
 
@@ -117,9 +141,15 @@ void lin_lld_uart_init
     tmp = MCU_BUS_FREQ/LIN_BAUD_RATE/16;
     //tmp = (MCU_BUS_FREQ/LIN_BAUD_RATE) >> 4;
     /* Select clock source for UART */
-    SIM_SCGC |= SIM_SCGC_UART0_MASK;  //uart0 timer enable
-
-
+#if _UART0_ == 1
+    SIM_SCGC |= SIM_SCGC_UART0_MASK;
+#endif /* end _UART0_ == 1 */
+#if _UART1_ == 1
+    SIM_SCGC |= SIM_SCGC_UART1_MASK;
+#endif /* end _UART1_ == 1 */
+#if _UART2_ == 1
+    SIM_SCGC |= SIM_SCGC_UART2_MASK;
+#endif /* end _UART2_ == 1 */
     pUART->uartbdh.byte = (tmp >> 8)&0x1F;
     pUART->uartbdl.byte = tmp&0xFF;
 
@@ -261,6 +291,8 @@ void lin_lld_uart_timeout
 (
 )
 {
+    /* Multi frame support */
+#if (_TL_FRAME_SUPPORT_ == _TL_MULTI_FRAME_)
     if (LD_CHECK_N_CR_TIMEOUT == tl_check_timeout_type)
     {
         if (0 == --tl_check_timeout)
@@ -285,6 +317,8 @@ void lin_lld_uart_timeout
             tl_diag_state = LD_DIAG_IDLE;
         }
     }
+#endif /* END (_TL_FRAME_SUPPORT_ == _TL_MULTI_FRAME_) */
+#if !defined(MCU_SKEAZN84)
     switch(state)
     {
         case IDLE:
@@ -293,7 +327,7 @@ void lin_lld_uart_timeout
                 /* Set LIN mode to sleep mode */
                 lin_goto_sleep_flg = 1;
                 /* trigger callback */
-                lin_bus_activity_timeout(0xFF);
+                CALLBACK_HANDLER((l_ifc_handle)ifc, LIN_LLD_BUS_ACTIVITY_TIMEOUT, 0xFF);
                 /* goback to IDLE, reset max idle timeout */
                 idle_timeout_cnt = _MAX_IDLE_TIMEOUT_;
                 /* disable LIN break detect interrupt */
@@ -330,7 +364,7 @@ void lin_lld_uart_timeout
                     /* set lin status: error_in_response */
                     l_status.byte |= LIN_STA_ERROR_RESP;
                     /* trigger callback */
-                    lin_handle_error(LIN_LLD_NODATA_TIMEOUT, current_id);
+                    CALLBACK_HANDLER((l_ifc_handle)ifc, LIN_LLD_NODATA_TIMEOUT, current_id);
                 }
                 lin_goto_idle_state();
             }
@@ -344,6 +378,7 @@ void lin_lld_uart_timeout
         default:
             ;
     }
+#endif /*!defined(MCU_SKEAZN84) */
 } /* End function lin_lld_UART_timeout() */
 
 
@@ -378,6 +413,7 @@ void lin_lld_uart_rx_isr
     /* if the lbkdif is set */
     uart_flag_sr1 = pUART->uartsr1.byte ;
     uart_flag_sr2 = pUART->uartsr2.byte ;
+#if 1
     if ((uart_flag_sr2 & UARTSR2_RXEDGIF_MASK) && (!(uart_flag_sr2 & UARTSR2_LBKDIF_MASK)))
     {
         /* Clear flag */
@@ -398,8 +434,11 @@ void lin_lld_uart_rx_isr
         /* Receive data not inverted */
         pUART->uartsr2.bit.rxinv = 0;
         /* check state of node is SLEEP_MODE */
+               
         //return;
     }
+#endif
+#if !defined(MCU_SKEAZN84) /* Not cover for KEA8 platform */
     /******************************
     *** 3. FRAME ERROR DETECTED
     *******************************/
@@ -413,11 +452,12 @@ void lin_lld_uart_rx_isr
         /* trigger callback */
         if ((state == RECV_DATA) || (state == SEND_DATA) || (state == SEND_DATA_COMPLETED))
         {
-            lin_handle_error(LIN_LLD_FRAME_ERR, current_id);
+            CALLBACK_HANDLER((l_ifc_handle)ifc, LIN_LLD_FRAME_ERR, current_id);
         }
         lin_goto_idle_state();
 
     }
+#endif
 
     if (uart_flag_sr2 & UARTSR2_LBKDIF_MASK)
     {
@@ -468,10 +508,13 @@ void lin_lld_uart_rx_isr
                     if (0x55 == tmp_byte)
                     {
                         state = RECV_PID;
+                        Mcu_wakeup_state = 1;         //xujun 20181008
                     }
                     else
                     {
-                        lin_handle_error(LIN_LLD_READBACK_ERR, current_id);
+                    #if (LIN_PROTOCOL == PROTOCOL_21)
+                        CALLBACK_HANDLER((l_ifc_handle)ifc, LIN_LLD_READBACK_ERR, current_id);
+                    #endif /* End of (LIN_PROTOCOL == PROTOCOL_21) */ //xujun 20180826
                         lin_goto_idle_state();
                     }
                     break;
@@ -496,10 +539,13 @@ void lin_lld_uart_rx_isr
                         /*** ID received correctly - parity OK ***/
                         /*****************************************/
                         /* trigger callback */
-                        lin_process_pid(current_id);
+                        CALLBACK_HANDLER((l_ifc_handle)ifc, LIN_LLD_PID_OK, current_id);
                         /* Set Maximum response frame timeout */
+                    #if !defined(MCU_SKEAZN84) /* Not cover for KEA8 platform */
                         res_frame_timeout_cnt = lin_max_frame_res_timeout_val[*(response_buffer) - 1];
+                    #endif /*!defined(MCU_SKEAZN84) */
                     }
+                #if !defined(MCU_SKEAZN84) /* Not cover for KEA8 platform */
                     else
                     {
                         /*****************************************/
@@ -508,9 +554,10 @@ void lin_lld_uart_rx_isr
                         /* set lin status: parity_error */
                         l_status.byte |= LIN_STA_PARITY_ERR;
                         /* trigger callback */
-                        lin_handle_error(LIN_LLD_PID_ERR, 0xFF);
+                        CALLBACK_HANDLER((l_ifc_handle)ifc, LIN_LLD_PID_ERR, 0xFF);
                         lin_goto_idle_state();
                     }
+                #endif
                     break;
                 /******************************
                 *** 4.4 SLAVE: Receiving data
@@ -524,6 +571,7 @@ void lin_lld_uart_rx_isr
                         /* checksum checking */
                         if (lin_checksum(response_buffer, pid) == tmp_byte)
                         {                       	
+                        	RLS_Analysis_Master_Data();
                             /*******************************************/
                             /***  RX Buffer Full - Checksum OK       ***/
                             /*******************************************/
@@ -532,8 +580,24 @@ void lin_lld_uart_rx_isr
                             /* disable RX interrupt */
                             pUART->uartcr2.byte &= ~(UARTCR2_RE_MASK | UARTCR2_RIE_MASK);
                             state = PROC_CALLBACK;
-                            boot_rx_ok_id = current_id;
+                            /* trigger callback */
+                            CALLBACK_HANDLER((l_ifc_handle)ifc, LIN_LLD_RX_COMPLETED, current_id);
+
+                            /* enable RX interrupt */
+                            pUART->uartcr2.byte |= (UARTCR2_RE_MASK | UARTCR2_RIE_MASK);
+                            if (SLEEP_MODE != state)
+                            {
+                                lin_goto_idle_state();
+                            }
+                            
+                            if((current_id == 0x3C)&&(response_buffer[1] == 0x00)&&(response_buffer[2] == 0xff)&&(response_buffer[3] == 0xff)\
+                            		&&(response_buffer[4] == 0xff)&&(response_buffer[5] == 0xff)&&(response_buffer[5] == 0xff)\
+                            		&&(response_buffer[7] == 0xff)&&(response_buffer[7] == 0xff))
+                            {
+                            	u8_lin_cmd_sleep = 1 ;
+                            }
                         }
+                    #if !defined(MCU_SKEAZN84) /* Not cover for KEA8 platform */
                         else
                         {
                             /*******************************************/
@@ -542,9 +606,10 @@ void lin_lld_uart_rx_isr
                             /* set lin status: error_in_response, checksum_error */
                             l_status.byte |= (LIN_STA_ERROR_RESP|LIN_STA_CHECKSUM_ERR);
                             /* trigger callback */
-                            lin_handle_error(LIN_LLD_CHECKSUM_ERR, current_id);
+                            CALLBACK_HANDLER((l_ifc_handle)ifc, LIN_LLD_CHECKSUM_ERR, current_id);
                             lin_goto_idle_state();
                         }
+                    #endif
                     }
                     cnt_byte++;
                     break;
@@ -553,10 +618,11 @@ void lin_lld_uart_rx_isr
                 *** 4.5 SLAVE: Sending data
                 *******************************/
                 case SEND_DATA:
+                #if !defined(MCU_SKEAZN84) /* Not cover for KEA8 platform */
                     /* Check for READBACK error */
                     if (0 == (uart_flag_sr1&UARTSR1_TC_MASK))
                     {
-                        lin_handle_error(LIN_LLD_READBACK_ERR, current_id);
+                        CALLBACK_HANDLER((l_ifc_handle)ifc, LIN_LLD_READBACK_ERR, current_id);
                         lin_goto_idle_state();
                         break;
                     }
@@ -565,11 +631,12 @@ void lin_lld_uart_rx_isr
                         if (tmp_byte != response_buffer[cnt_byte])
                         {
                             /* Check if event trigger frame then allow to continue sending data */
-                        	lin_handle_error(LIN_LLD_READBACK_ERR, current_id);
+                            CALLBACK_HANDLER((l_ifc_handle)ifc, LIN_LLD_READBACK_ERR, current_id);
                             lin_goto_idle_state();
                             break;
                         }//End if (tmp_byte != response_buffer[cnt_byte])
                     }
+                #endif /*!defined(MCU_SKEAZN84) */
                     if (cnt_byte <= (response_buffer[0]))
                     {
                         /* Send data bytes and checksum */
@@ -578,17 +645,15 @@ void lin_lld_uart_rx_isr
                     }
                     else
                     {
-                    	if(boot_status_flag == boot_fsm_start_eraser )
-                    	{
-                    		boot_status_flag = boot_fsm_erasering;
-                    	}
+                    	u8_Cmd_Execution = 0;
+                    	message_cnt(); //message cnt increase //xujun 20180826
                         /* TX transfer complete */
                         l_status.byte |= LIN_STA_SUCC_TRANSFER;
                         /* Disable RX interrupt */
                         pUART->uartcr2.byte &= ~(UARTCR2_RE_MASK|UARTCR2_RIE_MASK);
                         state = PROC_CALLBACK;
                         /* trigger CALLBACK */
-                        lin_update_tx(current_id);
+                        CALLBACK_HANDLER((l_ifc_handle)ifc, LIN_LLD_TX_COMPLETED, current_id);
                         /* Enable RX interrupt */
                         pUART->uartcr2.byte |= (UARTCR2_RE_MASK|UARTCR2_RIE_MASK);
                         lin_goto_idle_state();
@@ -613,13 +678,664 @@ void lin_lld_uart_rx_isr
     }
 } /* End function lin_lld_UART_rx_isr() */
 
-void Strart_next_rx(void)
+#endif /* End (LIN_MODE == _SLAVE_MODE_) */
+
+/*--------------------------------------------------------------------*/
+
+#if (LIN_MODE == _MASTER_MODE_)
+/***** Globle variable data *****/
+
+extern lin_node lin_node_descrs[NUM_OF_UART_CHANNEL];
+extern const l_u16 lin_max_frame_res_timeout_val[LIN_NUM_OF_IFCS][8];
+
+#ifdef MULTI_TIMER_MODE
+extern const l_u16 max_idle_timeout[LIN_NUM_OF_IFCS];
+#endif /* End  MULTI_TIMER_MODE */
+/***** LOW-LEVEL API *****/
+
+
+void lin_lld_uart_init
+(
+    /* [IN] UART channel name */
+    uart_channel_name  channel,
+    /* [IN] LIN interface name */
+    l_ifc_handle iii
+)
 {
-	 /* enable RX interrupt */
-	pUART->uartcr2.byte |= (UARTCR2_RE_MASK | UARTCR2_RIE_MASK);
-	if (SLEEP_MODE != state)
-	{
-		lin_goto_idle_state();
-	}      
+    lin_node *lnode_p;
+    tUART* _pUART;
+    lin_configuration *lconf_p;
+
+    lnode_p = (lin_node *)&lin_node_descrs[channel];
+    _pUART = lnode_p->pUART;
+    lconf_p = (lin_configuration *)&lin_ifc_configuration[iii];
+
+    /* Config */
+    lnode_p->ifc = (l_u8)iii;
+    lnode_p->response_buffer = lconf_p->response_buffer;
+    /* Set UART is Master or Slave */
+    lnode_p->func = (l_bool)lconf_p->function;
+    lnode_p->tbit = (l_u16)(1000000/lconf_p->baud_rate);
+
+    /* Select clock source for UART */
+#if _UART0_ == 1
+    SIM_SCGC |= SIM_SCGC_UART0_MASK;
+#endif /* end _UART0_ == 1 */
+#if _UART1_ == 1
+    SIM_SCGC |= SIM_SCGC_UART1_MASK;
+#endif /* end _UART1_ == 1 */
+#if _UART2_ == 1
+    SIM_SCGC |= SIM_SCGC_UART2_MASK;
+#endif /* end _UART2_ == 1 */
+
+    /* Initialize UART */
+    /* Set baud rate */
+    _pUART->uartbdh.byte  = ((MCU_BUS_FREQ/lconf_p->baud_rate/16) >> 8)&0x1F;
+    _pUART->uartbdl.byte    = (MCU_BUS_FREQ/lconf_p->baud_rate/16)&0xFF;
+
+    /* Enable use of 13bit breaks and UART frame for LIN */
+    _pUART->uartcr1.byte = 0x00;    /* one start bit, eight data bits, one stop bit */
+    _pUART->uartcr2.byte = (UARTCR2_TE_MASK | UARTCR2_RE_MASK);
+
+    _pUART->uartsr2.byte |= (UARTSR2_LBKDIF_MASK | UARTSR2_BRK13_MASK | UARTSR2_LBKDE_MASK);   /* clear LIN Break Detection flag */
+    _pUART->uartcr2.byte |= UARTCR2_RIE_MASK;      /* enable RX complete interrupt */
+    //_pUART->uartcr2.byte |= UARTCR2_TIE_MASK;      /* enable TX complete interrupt */
+    _pUART->uartcr3.byte |= UARTCR3_FEIE_MASK;     /* Enable Frame Error interrupt */
+    _pUART->uartbdh.byte |= UARTBDH_LBKDIE_MASK;        /* enable LIN Break Detection interrupt */
+
+    /* Enter IDLE state */
+    lin_goto_idle_state(channel);
+
+} /* End function lin_lld_uart_init(uart_channel_name  channel, l_ifc_handle iii) */
+
+
+void lin_lld_uart_deinit
+(
+    /* [IN] UART channel name */
+    uart_channel_name  channel
+)
+{
+    lin_node *lnode_p;
+    lnode_p = (lin_node *)&lin_node_descrs[channel];
+    lnode_p->state = UNINIT;
+    lin_lld_uart_int_disable(channel);
+} /* End function lin_lld_UART_deinit(UART_channel_name  channel) */
+
+
+void lin_lld_uart_tx_header
+(
+    /* [IN] UART channel name */
+    uart_channel_name  channel,
+    /* [IN] PID to be send */
+    l_u8  pid_id
+)
+{
+    lin_node *lnode_p;
+    /* Check the UART is Master ? */
+    lnode_p = (lin_node *)&lin_node_descrs[channel];
+    if (lnode_p->func)
+    {
+        return;
+    }
+    /* Make PID and put PID into the ongoing buffer */
+    lnode_p->current_id = pid_id;
+    lnode_p->pid = lin_process_parity(pid_id, MAKE_PARITY);
+    /* Set LIN Status */
+    lnode_p->state = SEND_BREAK;
+    /* Send Break */
+    lnode_p->pUART->uartcr2.byte |= UARTCR2_SBK_MASK;
+    lnode_p->pUART->uartcr2.byte &= ~UARTCR2_SBK_MASK;
+} /* End function lin_lld_UART_tx_header(UART_channel_name  channel, l_u8  pid_id) */
+
+
+void lin_lld_uart_tx_wake_up
+(
+    /* [IN] UART channel name */
+    uart_channel_name  channel
+)
+{
+    //l_u8 uart_flag_sr1;
+    lin_node *lnode_p;
+    lnode_p = (lin_node *)&lin_node_descrs[channel];
+    if ((lnode_p->state == IDLE) || (lnode_p->state == SLEEP_MODE))
+    {
+        //uart_flag_sr1 = lnode_p->pUART->uartsr1.byte;
+        /* Send wake signal byte = 0x80 */
+        lnode_p->pUART->uartd.byte = UARTD_R7_T7_MASK;
+        /* Set Lin state to idle */
+        lin_goto_idle_state(channel);
+    }
 }
 
+void lin_lld_UART_int_enable
+(
+    /* [IN] UART channel name */
+    uart_channel_name  channel
+)
+{
+    lin_node *lnode_p;
+    /* Get Lin node descriptor */
+    lnode_p = (lin_node *)&lin_node_descrs[channel];
+
+
+    /* Can't enable in interrupt context */
+    if ((lnode_p->state == PROC_CALLBACK) || (lnode_p->state == UNINIT) || (lnode_p->state == SLEEP_MODE))
+    {
+        return;
+    }
+
+    /* Enable UART Channel */
+    lnode_p->pUART->uartcr2.byte |= (UARTCR2_RE_MASK | UARTCR2_RIE_MASK);
+}
+
+
+void lin_lld_uart_int_disable
+(
+    /* [IN] UART channel name */
+    uart_channel_name  channel
+)
+{
+    lin_node *lnode_p;
+    /* Get Lin node descriptor */
+    lnode_p = (lin_node *)&lin_node_descrs[channel];
+    /* Can't disable in interrupt context */
+    if ((lnode_p->state == PROC_CALLBACK) || (lnode_p->state == UNINIT) || (lnode_p->state == SLEEP_MODE))
+    {
+        return;
+    }
+
+    while(lnode_p->state != IDLE)
+    {}
+    /* Disable UART Channel */
+    lnode_p->pUART->uartcr2.byte &= ~(UARTCR2_RE_MASK | UARTCR2_RIE_MASK);
+}
+
+
+void lin_lld_uart_ignore_response
+(
+    /* [IN] UART channel name */
+    uart_channel_name  channel
+)
+{
+    lin_goto_idle_state(channel);
+}
+
+
+void lin_lld_uart_set_low_power_mode
+(
+    /* [IN] UART channel name */
+    uart_channel_name  channel
+)
+{
+    lin_node *lnode_p;
+    /* Get Lin node descriptor */
+    lnode_p = (lin_node *)&lin_node_descrs[channel];
+
+    /* Configure Hw code */
+
+    /* Set Lin status = receiving data */
+    lnode_p->state = SLEEP_MODE;
+}
+
+
+void lin_lld_uart_rx_response
+(
+    /* [IN] UART channel name */
+    uart_channel_name  channel,
+    /* [IN] Length of response data expect to wait */
+    l_u8  msg_length
+)
+{
+    lin_node *lnode_p;
+
+    /* Get Lin node descriptor */
+    lnode_p = (lin_node *)&lin_node_descrs[channel];
+    /* Put response length and pointer of response buffer into descriptor */
+    *(lnode_p->response_buffer) = msg_length;
+    lnode_p->cnt_byte = 0;
+    lnode_p->ptr = lnode_p->response_buffer;
+
+    /* Set Lin status = receiving data */
+    lnode_p->state = RECV_DATA;
+}
+
+void lin_lld_uart_tx_response
+(
+    /* [IN] UART channel name */
+    uart_channel_name  channel
+)
+{
+    lin_node *lnode_p;
+    lnode_p = (lin_node *)&lin_node_descrs[channel];
+
+    /* calculate checksum */
+    lnode_p->response_buffer[*(lnode_p->response_buffer)+1] = lin_checksum(lnode_p->response_buffer, lnode_p->pid);
+    lnode_p->cnt_byte = 1;
+    /* Send First byte */
+    lnode_p->pUART->uartd.byte = lnode_p->response_buffer[1];
+    /* Set LIN Status */
+    lnode_p->state = SEND_DATA;
+} /* End function lin_lld_UART_tx_response(UART_channel_name  channel) */
+
+l_u8 lin_lld_uart_get_state
+(
+    /* [IN] UART channel name */
+    uart_channel_name  channel
+)
+{
+    lin_node *lnode_p;
+    /* Get Lin node descriptor */
+    lnode_p = (lin_node *)&lin_node_descrs[channel];
+
+    return  lnode_p->state;
+}
+
+void lin_lld_uart_timeout
+(
+    /* [IN] UART channel name */
+    uart_channel_name  channel
+)
+{
+    register lin_node *lnode_p;
+#ifdef MULTI_TIMER_MODE
+    l_u8 i;
+#endif /* End MULTI_TIMER_MODE */
+    /* multi frame support */
+#if (_TL_FRAME_SUPPORT_ == _TL_MULTI_FRAME_)
+    lin_configuration * conf;
+    lin_tl_descriptor *tl_conf;
+#endif /* End (_TL_FRAME_SUPPORT_ == _TL_MULTI_FRAME_) */
+    lnode_p = (lin_node *)&lin_node_descrs[channel];
+#if (_TL_FRAME_SUPPORT_ == _TL_MULTI_FRAME_)
+
+    conf = (lin_configuration *)&lin_ifc_configuration[(l_ifc_handle)lnode_p->ifc];
+    /* Get TL configuration */
+    tl_conf = conf->tl_desc;
+
+    if (LD_CHECK_N_CR_TIMEOUT == tl_conf->tl_check_timeout_type)
+    {
+        if (0 == --tl_conf->tl_check_timeout)
+        {
+            /* switch to normal table */
+            if (_MASTER_ == conf->function)
+            {
+                *(conf->active_schedule_id) = *(conf->previous_schedule_id);
+                conf->schedule_start_entry[*(conf->active_schedule_id)] = 0;
+            }
+            /* update status of transport layer */
+            *conf->diagnostic_mode = DIAG_NONE;
+            *conf->tl_service_status = LD_SERVICE_ERROR;
+            tl_conf->tl_receive_msg_status = LD_N_CR_TIMEOUT;
+            tl_conf->tl_rx_msg_status = LD_N_CR_TIMEOUT;
+            tl_conf->tl_check_timeout_type = LD_NO_CHECK_TIMEOUT;
+        }
+    }
+
+    if (LD_CHECK_N_AS_TIMEOUT == tl_conf->tl_check_timeout_type)
+    {
+        if (0 == --tl_conf->tl_check_timeout)
+        {
+            /* switch to normal table */
+            if (_MASTER_ == conf->function)
+            {
+                *(conf->active_schedule_id) = *(conf->previous_schedule_id);
+                conf->schedule_start_entry[*(conf->active_schedule_id)] = 0;
+            }
+            /* update status of transport layer */
+            *conf->diagnostic_mode = DIAG_NONE;
+            *conf->tl_service_status = LD_SERVICE_ERROR;
+            tl_conf->tl_tx_msg_status = LD_N_AS_TIMEOUT;
+            tl_conf->tl_check_timeout_type = LD_NO_CHECK_TIMEOUT;
+        }
+    }
+#endif /* End (_TL_FRAME_SUPPORT_ == _TL_MULTI_FRAME_) */
+
+    switch(lnode_p->state)
+    {
+
+        case IDLE:
+            if (lnode_p->idle_timeout_cnt == 0)
+            {
+                /* trigger callback */
+                CALLBACK_HANDLER((l_ifc_handle)lnode_p->ifc, LIN_LLD_BUS_ACTIVITY_TIMEOUT, 0xFF);
+                /* goback to IDLE, reset max idle timeout */
+                lnode_p->idle_timeout_cnt = _MAX_IDLE_TIMEOUT_;
+                /* disable LIN break detect interrupt */
+                lnode_p->pUART->uartsr2.bit.lbkde = 0;
+            }
+            else
+            {
+                lnode_p->idle_timeout_cnt--;
+            }
+
+            break;
+
+        case SEND_PID:    /* Master */
+        case RECV_SYN:
+        case RECV_PID:
+        case SEND_DATA:
+        case SEND_DATA_COMPLETED:
+            /* timeout send has occurred - change state of the node and inform core */
+            if (0 == lnode_p->frame_timeout_cnt)
+            {
+                lin_goto_idle_state(channel);
+            }
+            else
+            {
+                lnode_p->frame_timeout_cnt--;
+            }
+            break;
+        case RECV_DATA:
+            /* timeout receive has occurred - change state of the node and inform core */
+            if (0 == lnode_p->res_frame_timeout_cnt)
+            {
+                if (lnode_p->cnt_byte)
+                {
+                    /* set lin status: error_in_response */
+                    lnode_p->l_status.byte |= LIN_STA_ERROR_RESP;
+                    /* trigger callback */
+                    CALLBACK_HANDLER((l_ifc_handle)lnode_p->ifc, LIN_LLD_NODATA_TIMEOUT, lnode_p->current_id);
+                }
+                lin_goto_idle_state(channel);
+            }
+            else
+            {
+                lnode_p->res_frame_timeout_cnt--;
+            }
+
+            break;
+        case PROC_CALLBACK:
+            break;
+        default:
+            break;
+    }
+} /* End function lin_lld_UART_timeout(UART_channel_name  channel) */
+
+/*** INTERNAL FUNTIONS ***/
+
+
+void lin_goto_idle_state
+(
+    /* [IN] UART channel name */
+    uart_channel_name  channel
+)
+{
+
+    lin_node *lnode_p;
+    lnode_p = (lin_node *)&lin_node_descrs[channel];
+    /* set lin status: ~bus_activity */
+    lnode_p->l_status.byte &= ~LIN_STA_BUS_ACTIVITY;
+    /* Set max idle timeout */
+    lnode_p->idle_timeout_cnt = _MAX_IDLE_TIMEOUT_;
+    lnode_p->state = IDLE;
+    /* Enable LBK detect */
+    lnode_p->pUART->uartsr2.bit.lbkde = 1;
+} /* End function lin_goto_idle_state(UART_channel_name  channel) */
+
+
+
+void lin_lld_uart_rx_isr
+(
+    /* [IN] UART channel name */
+    uart_channel_name  channel
+)
+{
+    l_u8 uart_flag_sr1;
+    l_u8 uart_flag_sr2;
+    l_u8 tmp_byte;
+
+    register lin_node *lnode_p;     /* local pointer to the lin node descriptor */
+    volatile tUART* _pUART;
+    lnode_p = (lin_node *)&lin_node_descrs[channel];
+    _pUART = lnode_p->pUART;
+
+    uart_flag_sr2 = _pUART->uartsr2.byte ;
+
+    if ((uart_flag_sr2 & UARTSR2_RXEDGIF_MASK) && (!(uart_flag_sr2 & UARTSR2_LBKDIF_MASK)))
+    {
+        /* Clear flag */
+        _pUART->uartsr2.bit.rxedgif = 1;
+        /* check state of node is SLEEP_MODE */
+        if (SLEEP_MODE == lnode_p->state)
+        {
+            lin_goto_idle_state(channel);
+        }
+
+        /* Enable Break interrupt */
+        _pUART->uartbdh.byte |= UARTBDH_LBKDIE_MASK ;
+        /* Disable Active Edge interrupt */
+        _pUART->uartbdh.byte &= ~UARTBDH_RXEDGIE_MASK;
+
+        /* Receive data not inverted */
+        _pUART->uartsr2.bit.rxinv = 0;
+        return;
+    }
+
+    /* Check LBK flag */
+    if (1 == _pUART->uartsr2.bit.lbkdif)
+    {
+        /* Clear flag */
+        _pUART->uartsr2.bit.lbkdif = 1;
+        /* Enable Active Edge interrupt */
+        _pUART->uartbdh.byte |= UARTBDH_RXEDGIE_MASK;
+        /* Disable Break interrupt */
+        _pUART->uartbdh.byte &= ~UARTBDH_LBKDIE_MASK ;
+        /* check state of node is SLEEP_MODE */
+        if (SLEEP_MODE == lnode_p->state)
+        {
+            lin_goto_idle_state(channel);
+            return;
+        }
+        /* reset lin status */
+        lnode_p->l_status.byte = LIN_STA_BUS_ACTIVITY;
+        /* Set max frame timeout */
+        lnode_p->frame_timeout_cnt  = lin_max_frame_res_timeout_val[lnode_p->ifc][7];
+        /******************************
+        *** 1.1 MASTER NODE: Sending SYN field
+        *******************************/
+        if (lnode_p->func == 0/* Master */)
+        {
+            lnode_p->state = SEND_PID;
+            /* Send syn field */
+            _pUART->uartd.byte = 0x55;
+        }
+        /******************************
+        *** 1.2 SLAVE NODE: Wait for SYN
+        *******************************/
+        else
+        {
+            lnode_p->state = RECV_SYN;
+        }
+        /* Disable LBK interrupt */
+        _pUART->uartsr2.bit.lbkde = 0;
+        return;
+    }
+    else
+    {
+        uart_flag_sr1 = lnode_p->pUART->uartsr1.byte;
+        tmp_byte = lnode_p->pUART->uartd.byte;
+
+        /******************************
+        *** 4. BYTE RECIEVED
+        *******************************/
+        if (0 != (uart_flag_sr1&UARTSR1_RDRF_MASK))
+        {
+
+            switch(lnode_p->state)
+            {
+                /******************************
+                *** 4.1 MASTER: Sending PID of frame
+                *******************************/
+                case SEND_PID:
+                    lnode_p->state = RECV_PID;
+                    /* Send PID byte */
+                    _pUART->uartd.byte = lnode_p->pid;
+                    break;
+                /******************************
+                *** 4.2 SLAVE: Receiving SYN byte
+                *******************************/
+                case RECV_SYN:
+                    if (0x55 == tmp_byte)
+                    {
+                        lnode_p->state = RECV_PID;
+                    }
+                    else
+                    {
+                    #if (LIN_PROTOCOL == PROTOCOL_J2602)
+                        CALLBACK_HANDLER((l_ifc_handle)lnode_p->ifc, LIN_LLD_READBACK_ERR, lnode_p->current_id);
+                    #endif /* End of (LIN_PROTOCOL == PROTOCOL_J2602) */
+                        lin_goto_idle_state(channel);
+                    }
+                    break;
+                /******************************
+                *** 4.3 SLAVE: Receiving PID
+                *******************************/
+                case RECV_PID:
+                    if (!lnode_p->func) /* Master */
+                    {
+                        /* trigger callback */
+                        CALLBACK_HANDLER((l_ifc_handle)lnode_p->ifc, LIN_LLD_PID_OK, lnode_p->current_id);
+                        /* Set Maximum response frame timeout */
+                        lnode_p->res_frame_timeout_cnt = lin_max_frame_res_timeout_val[lnode_p->ifc][*(lnode_p->response_buffer) - 1];
+                    }
+                    else /* Slave node */
+                    {
+                        /* checkparity and extrait PID */
+                        lnode_p->current_id = lin_process_parity(tmp_byte, CHECK_PARITY);
+                        /* Keep the PID */
+                        lnode_p->pid = tmp_byte;
+                        if (lnode_p->current_id != 0xFF)
+                        {
+                            /*****************************************/
+                            /*** ID received correctly - parity OK ***/
+                            /*****************************************/
+                            /* trigger callback */
+                            CALLBACK_HANDLER((l_ifc_handle)lnode_p->ifc, LIN_LLD_PID_OK, lnode_p->current_id);
+                            /* Set Maximum response frame timeout */
+                            lnode_p->res_frame_timeout_cnt = lin_max_frame_res_timeout_val[lnode_p->ifc][*(lnode_p->response_buffer) - 1];
+                        }
+                        else
+                        {
+                            /*****************************************/
+                            /*** ID Parity Error                   ***/
+                            /*****************************************/
+                            /* set lin status: parity_error */
+                            lnode_p->l_status.byte |= LIN_STA_PARITY_ERR;
+                            /* trigger callback */
+                            CALLBACK_HANDLER((l_ifc_handle)lnode_p->ifc, LIN_LLD_PID_ERR, 0xFF);
+                            lin_goto_idle_state(channel);
+                        }
+                    }
+                    break;
+
+                /******************************
+                *** 4.4 SLAVE: Receiving data
+                *******************************/
+                case RECV_DATA:
+                    lnode_p->ptr++;
+                    *(lnode_p->ptr) = tmp_byte;
+                    /* Check bytes received fully */
+                    if (lnode_p->cnt_byte == (lnode_p->response_buffer[0]))
+                    {
+                        /* checksum checking */
+                        if (lin_checksum(lnode_p->response_buffer, lnode_p->pid) == tmp_byte)
+                        {
+                            /*******************************************/
+                            /***  RX Buffer Full - Checksum OK       ***/
+                            /*******************************************/
+                            /* set lin status: successful_transfer */
+                            lnode_p->l_status.byte |= LIN_STA_SUCC_TRANSFER;
+                            /* disable RX interrupt */
+                            _pUART->uartcr2.byte &= ~(UARTCR2_RE_MASK | UARTCR2_RIE_MASK);
+                            lnode_p->state = PROC_CALLBACK;
+                            /* trigger callback */
+                            CALLBACK_HANDLER((l_ifc_handle)lnode_p->ifc, LIN_LLD_RX_COMPLETED, lnode_p->current_id);
+
+                            /* enable RX interrupt */
+                            _pUART->uartcr2.byte |= (UARTCR2_RE_MASK | UARTCR2_RIE_MASK);
+                            if (SLEEP_MODE != lnode_p->state)
+                            {
+                                lin_goto_idle_state(channel);
+                            }
+                        }
+                        else
+                        {
+                            /*******************************************/
+                            /***  RX Buffer Full - Checksum ERROR    ***/
+                            /*******************************************/
+                            /* set lin status: error_in_response, checksum_error */
+                            lnode_p->l_status.byte |= (LIN_STA_ERROR_RESP|LIN_STA_CHECKSUM_ERR);
+                            /* trigger callback */
+                            CALLBACK_HANDLER((l_ifc_handle)lnode_p->ifc, LIN_LLD_CHECKSUM_ERR, lnode_p->current_id);
+
+                            lin_goto_idle_state(channel);
+                        }
+                    }
+                    lnode_p->cnt_byte++;
+                    break;
+
+                /******************************
+                *** 4.5 SLAVE: Sending data
+                *******************************/
+                case SEND_DATA:
+                    /* Check for READBACK error */
+                    if (0 == (uart_flag_sr1&UARTSR1_TC_MASK))
+                    {
+                        CALLBACK_HANDLER((l_ifc_handle)lnode_p->ifc, LIN_LLD_READBACK_ERR, lnode_p->current_id);
+                        lin_goto_idle_state(channel);
+                        break;
+                    }
+                    else
+                    {
+                        if (tmp_byte != lnode_p->response_buffer[lnode_p->cnt_byte])
+                        {
+                            CALLBACK_HANDLER((l_ifc_handle)lnode_p->ifc, LIN_LLD_READBACK_ERR, lnode_p->current_id);
+                            lin_goto_idle_state(channel);
+                            break;
+                        }
+                    }
+
+                    if (lnode_p->cnt_byte <= (lnode_p->response_buffer[0]))
+                    {
+                        /* Send data bytes and checksum */
+                        lnode_p->cnt_byte++;
+                        _pUART->uartd.byte = lnode_p->response_buffer[lnode_p->cnt_byte];
+                    }
+                    else
+                    {
+                        /* TX transfer complete */
+                        lnode_p->l_status.byte |= LIN_STA_SUCC_TRANSFER;
+                        /* Disable RX interrupt */
+                        _pUART->uartcr2.byte &= ~(UARTCR2_RE_MASK|UARTCR2_RIE_MASK);
+                        lnode_p->state = PROC_CALLBACK;
+                        /* trigger CALLBACK */
+                        CALLBACK_HANDLER((l_ifc_handle)lnode_p->ifc, LIN_LLD_TX_COMPLETED, lnode_p->current_id);
+                        /* Enable RX interrupt */
+                        _pUART->uartcr2.byte |= (UARTCR2_RE_MASK|UARTCR2_RIE_MASK);
+                        lin_goto_idle_state(channel);
+                    }
+                    break;
+                /******************************
+                *** 4.8 SLAVE: Low power mode
+                *******************************/
+                case SLEEP_MODE:
+                    if ((tmp_byte == 0xF0) || (tmp_byte == 0xE0) || (tmp_byte == 0xC0) || (tmp_byte == 0x80) || (tmp_byte == 0x00))
+                    {
+                        /* Set idle timeout again */
+                        lin_goto_idle_state(channel);
+                        /* disable LIN break detect interrupt */
+                        _pUART->uartsr2.bit.lbkde = 1;
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+} /* End function lin_lld_UART_rx_isr(UART_channel_name  channel) */
+
+#endif /* End (LIN_MODE == _MASTER_MODE_) */
+
+/**
+ * @}
+ */

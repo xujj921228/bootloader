@@ -17,57 +17,15 @@
 * @brief     Hardware configuration file
 * 
 ******************************************************************************/
-#include <SKEAZN642.h>
+#ifndef    _EEPROM_H_  
+#define    _EEPROM_H_  
 
-
-
-#define  ENABLE_INTERRUPT  asm("CPSIE i");
-#define  DISABLE_INTERRUPT asm("CPSID i");
-
-#define TRUE  1
-  /*!< Definitioni for TRUE. */
-#define FALSE 0
-
-#define EEPROM_BOOT_REFRESH             0x10000020
-
-#define EEPROM_BOOT_REFRESH_LENTH        2
-/********************************
- * define  APP check  address
- * add by xujunjie
- * *****************************/
-#define  APP_check_ADDRESS      0xFFFC
-#define  boot_up_value          0x5a
-#define  APP_code_start         0x5000
-#define  APP_start_address      (APP_code_start+4)
-
-
-/**********************
- * updata  flag (eeprom) 0x5a:should updata  else:no need to updata
- * app check flag (last two byte in flash )
- * ****************************/
-typedef enum
-{
- APP_INVALUE = 0 ,
- APP_VALUE   = 1   
-}APP_check_t;
+#include "derivative.h" /* include peripheral declarations */
 
 
 #define     ENABLE                        1
 #define     DISABLE                       0
 
-typedef enum
-{
- boot_fsm_idle                          = 0 ,
- boot_fsm_requestdriver                 = 1 ,
- boot_fsm_start_eraser                  = 2 ,
- boot_fsm_erasering                     = 3 , 
- boot_fsm_enderaser                     = 4 ,
- boot_fsm_startdownload                 = 5 ,
- boot_fsm_flashdownloading              = 6 ,
- boot_fsm_reboot                        = 7 ,
- boot_fsm_sendseed                      = 8 ,
- boot_fsm_getkey                        = 9
-}Boot_Fsm_t;
 
 #define FTMRE_FSTAT_MGSTAT0_MASK  (1)						/* FTMRE FSTAT MGSTAT0 MASK */
 #define FTMRE_FSTAT_MGSTAT1_MASK  (1<<1)					/* FTMRE FSTAT MGSTAT1 MASK */
@@ -124,16 +82,9 @@ typedef enum
 
 
 
-extern void WDOG_Feed(void);
-extern uint16_t FLASH_Init(uint32_t u32BusClock);
-extern uint16_t FLASH_EraseSector(uint32_t u32NVMTargetAddress);
-extern void FLASH_LaunchCMD(uint8_t bWaitComplete);
-extern uint16_t FLASH_Program2LongWords(uint32_t u32NVMTargetAddress, uint32_t u32DwData0, uint32_t u32DwData1);
-extern uint16_t FLASH_Program(uint32_t u32NVMTargetAddress, uint8_t *pData, uint16_t u16SizeBytes);
-extern uint16_t FLASH_Program1LongWord(uint32_t u32NVMTargetAddress, uint32_t u32DwData);
-extern uint16_t EEPROM_ProgramWord(uint32_t u32NVMTargetAddress, uint16_t u16DwData);
-extern uint8_t write_data_from_EEPROM(uint32_t startAddr, uint8_t *p_data, uint16_t len,uint8_t checksumEnable);
-extern uint8_t read_data_from_EEPROM(uint32_t startAddr,uint8_t *p_data,uint16_t len, uint8_t checksumEnable); 
-extern APP_check_t boot_APP_check(void);
-extern  uint8_t boot_up_check();
 
+extern uint16 FLASH_Init(uint32 u32BusClock);
+extern uint16 EEPROM_ProgramWord(uint32 u32NVMTargetAddress, uint16 u16DwData);
+extern uint8 write_data_from_EEPROM(uint32 startAddr, uint8 *p_data, uint16 len,uint8 checksumEnable);
+extern uint8 read_data_from_EEPROM(uint32 startAddr,uint8 *p_data,uint16 len, uint8 checksumEnable); 
+#endif    /* _ADC_H_ */

@@ -1,3 +1,14 @@
+/******************************************************************************
+* Freescale Semiconductor Inc.
+* (c) Copyright 2008-2015 Freescale Semiconductor, Inc.
+* ALL RIGHTS RESERVED.
+*****************************************************************************/
+
+/**************************************************************************//**
+* @addtogroup lowlevel_group
+* @{
+******************************************************************************/
+
 /**************************************************************************//**
 *
 * @file      lin.h
@@ -8,21 +19,43 @@
 *
 *
 ******************************************************************************/
-
+/******************************************************************************
+ *
+ * History:
+ *
+ * 20090408     v1.0    First version
+ * 20111005     v1.1    Added some defines and extern functions
+ * 20140611     v1.2    Added UART support
+ *
+ *****************************************************************************/
 
 #ifndef _LIN_H
 #define _LIN_H
 
 #include "lin_cfg.h"
 #include "lin_hw_cfg.h"
-#include "lin_reg.h"
 
-//#pragma MESSAGE DISABLE C5703 /* Disable warning message with ID C5703 */
+#if (_LIN_SCI_ == 1)|(_LIN_UART_ == 1)
+    #include "lin_reg.h"
+    /* Disable warning: SP debug info */
+    #if (_MCU_ == _S12X_)
+        #pragma MESSAGE DISABLE C12056 /* Disable warning message with ID C12056 */
+    #endif /* End (_MCU_ == _S12X_) */
+#endif /* End (_LIN_SCI_ == 1)|(_LIN_UART_ == 1) */
 
+#pragma MESSAGE DISABLE C5703 /* Disable warning message with ID C5703 */
 
+#ifndef _DIAG_CLASS_SUPPORT_
+    #error "_DIAG_CLASS_SUPPORT_ is not defined in lin_cfg.h"
+#endif
+#ifndef _TL_FRAME_SUPPORT_
+    #error "_TL_FRAME_SUPPORT_ is not defined in lin_cfg.h"
+#endif
+
+#if (_LIN_GPIO_ == 0) && !defined(_MC9S08SC4_H)
     /* Calculate N_As & N_Cr max timeout */
-#define N_MAX_TIMEOUT_CNT ((l_u16)(1000*(1000/TIME_BASE_PERIOD)))
-
+    #define N_MAX_TIMEOUT_CNT ((l_u16)(1000*(1000/TIME_BASE_PERIOD)))
+#endif /* End (_LIN_GPIO_ == 0) && !defined(_MC9S08SC4_H) */
 
 /* Define data structure used for LIN Stack */
 
@@ -58,12 +91,6 @@
 * @var typedef unsigned char l_bool
 * lin bool data type (true or false)
 ******************************************************************************/
-
-typedef unsigned char		uint8_t;
-typedef unsigned short int  uint16_t;
-typedef unsigned long int   uint32_t;
-
-
 typedef signed   char l_s8;
 typedef unsigned char l_u8;
 
@@ -104,12 +131,7 @@ typedef unsigned char l_bool;
 #define SERVICE_FAULT_MEMORY_READ         0x19      /**< service fault memory read */
 #define SERIVCE_FAULT_MEMORY_CLEAR        0x14      /**< service fault memory clear */
 
-
 #define SERVICE_SECURITYACCESS            0x27      /**< service security access */
-#define SERVICE_TRIGGER_CHECK             0x31      /**< service trigger and check */
-#define SERVICE_REQUEST_DOWNLOAD          0x34      /**< service request download */
-#define SERVICE_TRANSFER_DATA             0x36      /**< service transfer data */
-#define SERVICE_EXIT_TRANSFER_DATA        0x37      /**< service exit transfer data */
 
 /* Define PCI's services */
 #define PCI_ASSIGN_NAD                    0x06      /**< PCI value assign NAD */
@@ -146,7 +168,7 @@ typedef unsigned char l_bool;
 #define PCI_WRITE_BY_IDENTIFY               0x03
 
 #define PCI_SESSION_CONTROL_BY_IDENTIFY         0x02
-#define  VERIFIED_SECTOR 40
+ 
 /**
 * @var typedef l_u8 lin_tl_pdu_data[8]
 * PDU data
@@ -196,6 +218,7 @@ typedef enum {
     LIN_LLD_INVALID_IFC       /**< Invalid interface */
 } lin_lld_mode;
 
+#if ((_LIN_SCI_ == 1)|(_LIN_UART_ == 1))
 
 #define IDLE                0x00          /**< IDLE state */
 #define SEND_BREAK          0x01          /**< Send break field state */
@@ -223,7 +246,9 @@ typedef l_u16 sci_channel_name;
 * @details
 *   UART channel
 */
+#if (_LIN_UART_ == 1)
 typedef l_u16 uart_channel_name;
+#endif /* (_LIN_UART_ == 1) */
 /**
 * @union lin_status
 * status of lin driver
@@ -235,7 +260,7 @@ typedef union {
         /* LIN 2.1 */
         l_u8 successful_transfer:1;     /**< Transfer flag LIN 2.1*/
         l_u8 error_in_response:1;       /**< Error response LIN 2.1*/
-        l_u8 bus_activity:1;              /**< Bus activity timeout LIN 2.1*/
+        l_u8 bus_activity;              /**< Bus activity timeout LIN 2.1*/
         /* J2602 */
         l_u8 framing_error:1;           /**< frame error flag J2602*/
         l_u8 checksum_error:1;          /**< checksum error flag */
@@ -245,7 +270,36 @@ typedef union {
     } bit;
 } lin_status;
 
+#if (LIN_MODE == _MASTER_MODE_)
+/* lin_node struct */
+/**
+* @struct lin_node
+* contain informations of a lin node
+*/
+typedef struct {
+#if (_LIN_SCI_ == 1)
+    tSCI* pSCI;                 /**< pointer to the SCI peripheral */
+#endif/* (_LIN_SCI_ = 1) */
+#if (_LIN_UART_ == 1)
+    tUART* pUART;                   /**< pointer to the UART peripheral */
+#endif /* (_LIN_UART_ = 1) */
+    l_bool func;                /**< LIN Function : Master=0 or Slave=1 */
+    l_u8 ifc;                   /**< LIN core interface number */
+    l_u8 state;                 /**< LIN-SCI operational state */
+    lin_status l_status;        /**< LIN status */
+    l_u8 cnt_byte;              /**< Byte counter used when either transmit and receive data */
+    l_u8 *ptr;                  /**< pointer to Data out/in */
+    l_u8 current_id;            /**< Current ID */
+    l_u8 *response_buffer;      /**< Frame data pointer */
+    l_u8 pid;                   /**< PID to send out */
+    l_u16 tbit;                  /**< Tbit */
+    l_u16 frame_timeout_cnt;     /**< Frame timeout counter */
+    l_u16 res_frame_timeout_cnt; /**< ResponseFrame timeout counter */
+    l_u16 idle_timeout_cnt;     /**< Idle timeout counter */
+} lin_node;
+#endif /* End (LIN_MODE == _MASTER_MODE_) */
 
+#endif /* End (_LIN_SCI_ == 1) */
 
 /**********************************************************************/
 /***************             Protocol               *******************/
@@ -287,6 +341,20 @@ typedef union wstatus {
 } lin_word_status_str;
 
 
+/**********************************************************************/
+/***************             Interfaces             *******************/
+/**********************************************************************/
+#if (LIN_MODE == _MASTER_MODE_)
+/**
+* @enum lin_function
+* function of lin node (master or slave)
+*/
+typedef enum {
+    _MASTER_,     /**< master node */
+    _SLAVE_       /**< slave node */
+} lin_function;
+extern l_ifc_handle lin_diag_interface;
+#endif /* End (LIN_MODE == _MASTER_MODE_) */
 
 /**********************************************************************/
 /***************             Signals                *******************/
@@ -411,6 +479,9 @@ typedef struct {
 typedef struct {
     l_u8                num_asct_uncn_pid;  /**< Number of associated unconditional frame ID*/
     const l_u8*         act_uncn_frm;       /**< Associated unconditional frame ID. */
+#if LIN_MODE == _MASTER_MODE_
+    l_u8                coll_resolver_id;   /**< Collision resolver index in the schedule table, used in event trigger frame case MASTER*/
+#endif /* End LIN_MODE == _MASTER_MODE_ */
 } lin_associate_frame_struct;
 
 /**********************************************************************/
@@ -424,20 +495,80 @@ typedef struct {
 */
 typedef l_u8 lin_tl_queue[8];
 
+#if (LIN_MODE == _MASTER_MODE_)
 
+/**
+* @enum lin_sch_tbl_type
+* Type of schedule table
+*/
+typedef enum {
+    LIN_SCH_TBL_NULL,                       /**< Run nothing */
+    LIN_SCH_TBL_NORM,                       /**< Normal schedule table*/
+    LIN_SCH_TBL_DIAG,                       /**< Diagnostic schedule table */
+    LIN_SCH_TBL_GOTO,                       /**< Goto sleep schedule table */
+    LIN_SCH_TBL_COLL                        /**< Collision schedule table */
+} lin_sch_tbl_type;
+
+/**
+* @struct lin_schedule_data
+* lin schedule structure
+*/
+typedef struct {
+    l_frame_handle      frm_id;             /**< Frame ID, in case of unconditional or event triggered frame. For sporadic frame the value will be 0 (zero). */
+    l_u8                delay_integer;      /**< Actual slot time in INTEGER for one frame.*/
+    lin_tl_queue        tl_queue_data;      /**< Data used in case of diagnostic or configuration frame*/
+} lin_schedule_data;
+
+/**
+* @struct lin_schedule_struct
+* Informations of schedule
+*/
+typedef struct {
+    l_u8                      num_slots;          /**< Number of frame slots in the schedule table.*/
+    lin_sch_tbl_type          sch_tbl_type;       /**< Schedule table type (configuration and normal)*/
+    const lin_schedule_data   *ptr_sch_data;      /**< Address of the schedule table.*/
+} lin_schedule_struct;
+
+#endif /* End (LIN_MODE == _MASTER_MODE_) */
+
+/**********************************************************************/
+/***************      Transport Layer /Diagnostic      ****************/
+/**********************************************************************/
+
+/* Diagnostic mode */
+/**
+* @enum l_diagnostic_mode
+* Diagnostic mode
+*/
+#if (XGATE_SUPPORT == 1)
+#pragma align  on
+#endif /* End (XGATE_SUPPORT == 1) */
 typedef enum {
     DIAG_NONE,              /**< diagnostic none */
     DIAG_INTER_LEAVE_MODE,  /**< diagnostic interleave mode */
     DIAG_ONLY_MODE          /**< diagnostic only mode */
 } l_diagnostic_mode;
+#if (XGATE_SUPPORT == 1)
+#pragma align  off
+#endif /* End (XGATE_SUPPORT == 1) */
 
-
+/**
+* @enum lin_service_status
+* Status of the last configuration call for LIN 2.1
+*/
+#if (XGATE_SUPPORT == 1)
+#pragma align  on
+#endif /* End (XGATE_SUPPORT == 1) */
 typedef enum {
     LD_SERVICE_BUSY,        /**< Service is ongoing */
     LD_REQUEST_FINISHED,    /**< The configuration request has been completed */
     LD_SERVICE_IDLE,        /**< The configuration  request/response combination has been completed*/
     LD_SERVICE_ERROR       /**< The configuration request or  response experienced an error */
 } lin_service_status;
+#if (XGATE_SUPPORT == 1)
+#pragma align  off
+#endif /* End (XGATE_SUPPORT == 1) */
+
 /**
 * @enum lin_last_cfg_result
 * Status of the last configuration call completed for J2602
@@ -452,6 +583,7 @@ typedef enum {
 /* TL support */
 
 /*------------------------ Transport layer multi frames -----------------------*/
+#if (_TL_FRAME_SUPPORT_ == _TL_MULTI_FRAME_)
 /* TL Descriptor used in the TL/Diagnostic  */
 
 #define SF             0x00     /**< single frame */
@@ -523,14 +655,525 @@ typedef struct {
     lin_tl_pdu_data           *tl_pdu;                              /**< PDU data */
 } lin_transport_layer_queue;
 
+#else /* single frame support */
+#endif /* End (_TL_FRAME_SUPPORT_ == _TL_MULTI_FRAME_) */
 
 
+#if (LIN_MODE == _MASTER_MODE_)
+/* Multi frame support */
+#if (_TL_FRAME_SUPPORT_ == _TL_MULTI_FRAME_)
+#define INTERLEAVE_MAX_TIMEOUT      15
+/**
+* @struct lin_tl_descriptor
+* transport layer description
+*/
+#if (XGATE_SUPPORT == 1)
+#pragma align  on
+#endif /* End (XGATE_SUPPORT == 1) */
+typedef struct {
+    /* Declaration for both Master and Slave interface */
+    lin_transport_layer_queue     *tl_tx_queue;                     /**< pointer to transmit queue on TL */
+    lin_transport_layer_queue     *tl_rx_queue;                     /**< pointer to receive queue on TL */
+
+    /* Declaration only for Master interface */
+    /* message information in transmit queue */
+    lin_message_status            tl_rx_msg_status;                 /**< cooked rx status */
+    l_u16                         tl_rx_msg_index;                  /**< index of message in queue */
+    l_u16                         tl_rx_msg_size;                   /**< Size of message in queue */
+    lin_message_status            tl_receive_msg_status;            /**< receive message status */
+
+    /* message information in receive queue */
+    lin_message_status            tl_tx_msg_status;                 /**< cooked tx status */
+    l_u16                         tl_tx_msg_index;                  /**< index of message in queue */
+    l_u16                         tl_tx_msg_size;                   /**< Size of message in queue */
+
+    lin_last_cfg_result           tl_last_cfg_result;               /**< Status of the last configuration service in LIN 2.0, J2602 */
+    l_u8                          tl_last_RSID;                     /**< RSID of the last node configuration service */
+    l_u8                          tl_ld_error_code;                 /**< Error code in case of positive response */
+
+    l_u8                          tl_no_of_pdu;                     /**< number of received pdu */
+    l_u8                          tl_frame_counter;                 /**< frame counter in received message */
+
+    lin_message_timeout_type      tl_check_timeout_type;            /**< timeout type */
+    l_u16                         tl_check_timeout;                 /**< timeout counter*/
+
+    l_u8                          *tl_ident_data;                   /**< To store address of RAM area contain response */
+
+    l_u8                          tl_interleave_timeout_counter;    /**< interleaved timeout counter */
+    const l_u8                  number_support_sid;
+    l_u8                        *tl_service_supported;            /*!< diagnostic service supported */
+    l_u8                          *tl_service_flags;                /**< diagnostic service flags */
+    /* Declaration only for Slave interface */
+    l_u8                          tl_slaveresp_cnt;                 /**< Slave Response data counter */
+} lin_tl_descriptor;
+
+/**
+* @struct lin_tl_descriptor1
+* transport layer description J2602
+*/
+typedef struct {
+    const lin_tl_pdu_data         *tl_tx_single_pdu;                /**< pointer to transmit PDU data of Single Frame on TL */
+    const lin_tl_pdu_data         *tl_rx_single_pdu;                /**< pointer to receive PDU data of Single Frame on TL */
+    lin_tl_pdu_data               *tl_current_tx_pdu_ptr;           /**< current PDU pointer*/
+    lin_tl_pdu_data               *tl_current_rx_pdu_ptr;           /**< current PDU pointer*/
+
+    /* Declaration only for Master interface */
+    l_u8                          tl_cnt_to_send;                   /**< Send counter, if=0 no data, #0 number of PDU need to be sent */
+    lin_service_status            tl_service_status;                /**< Status of the last configuration service */
+
+    lin_last_cfg_result           tl_last_cfg_result;               /**< Status of the last configuration service in LIN 2.0, J2602 */
+    l_u8                          tl_last_RSID;                     /**< RSID of the last node configuration service */
+    l_u8                          tl_ld_error_code;                 /**< Error code in case of positive response */
+    l_u8                          *tl_ident_data;                   /**< To store address of RAM area contain response */
+    /* End of declaration for only Master interface */
+    const l_u8                  number_support_sid;
+    l_u8                        *tl_service_supported;            /*!< diagnostic service supported */
+    l_u8                        *tl_service_flags;                /*!< diagnostic service flags */
+    /* Declaration only for Slave interface */
+    l_u8                          tl_slaveresp_cnt;                 /**< Slave Response data counter */
+    /* End of declaration only for Slave interface */
+} lin_tl_descriptor1;
+
+/** @enum diag_interleaved_state
+* state of diagnostic interleaved mode */
+typedef enum {
+    DIAG_NOT_START,             /**< not into slave response schedule with interleaved mode */
+    DIAG_NO_RESPONSE,           /**< master send 0x3D but slave does not response */
+    DIAG_RESPONSE               /**< response receive */
+} diag_interleaved_state;
+#else  /* Single frame support */
+/**
+* @struct lin_tl_descriptor1
+* transport layer description J2602
+*/
+typedef struct {
+    const lin_tl_pdu_data         *tl_tx_single_pdu;                /**< pointer to transmit PDU data of Single Frame on TL */
+    const lin_tl_pdu_data         *tl_rx_single_pdu;                /**< pointer to receive PDU data of Single Frame on TL */
+    lin_tl_pdu_data               *tl_current_tx_pdu_ptr;           /**< current PDU pointer*/
+    lin_tl_pdu_data               *tl_current_rx_pdu_ptr;           /**< current PDU pointer*/
+
+    /* Declaration only for Master interface */
+    l_u8                          tl_cnt_to_send;                   /**< Send counter, if=0 no data, #0 number of PDU need to be sent */
+    lin_service_status            tl_service_status;                /**< Status of the last configuration service */
+
+    lin_last_cfg_result           tl_last_cfg_result;               /**< Status of the last configuration service in LIN 2.0, J2602 */
+    l_u8                          tl_last_RSID;                     /**< RSID of the last node configuration service */
+    l_u8                          tl_ld_error_code;                 /**< Error code in case of positive response */
+    l_u8                          *tl_ident_data;                   /**< To store address of RAM area contain response */
+    /* End of declaration for only Master interface */
+    const l_u8                  number_support_sid;
+    l_u8                        *tl_service_supported;              /*!< diagnostic service supported */
+    l_u8                        *tl_service_flags;                  /*!< diagnostic service flags */
+    /* Declaration only for Slave interface */
+    l_u8                          tl_slaveresp_cnt;                 /**< Slave Response data counter */
+    /* End of declaration only for Slave interface */
+} lin_tl_descriptor;
+#if (XGATE_SUPPORT == 1)
+#pragma align  off
+#endif /* End (XGATE_SUPPORT == 1) */
+#endif /*End (_TL_FRAME_SUPPORT_ == _TL_MULTI_FRAME_)*/
+/* End of TL support */
+
+/**********************************************************************/
+/***************             Configuration          *******************/
+/**********************************************************************/
+/**
+* @struct lin_configuration
+* configuration structure
+*/
+typedef struct {
+    lin_protocol_handle           lin_protocol_version;           /**< Protocol version */
+    lin_protocol_handle           lin_language_version;           /**< Language version */
+    const l_u16                   baud_rate;                      /**< Cluster baudrate */
+    lin_function                  function;                       /**< Function (_MASTER_ or _SLAVE_) */
+    lin_node_attribute            *node_attribute;                /**< Node attribute */
+    /* LIN data pointer */
+    l_u8                          *response_buffer;               /**< Response buffer */
+    l_u8                          *successful_transfer;           /**< Transfer flag */
+    l_u8                          *error_in_response;             /**< Error response */
+    l_u8                          *goto_sleep_flg;                /**< Goto sleep flag */
+    l_u8                          *current_pid;                   /**< Current pid */
+    lin_word_status_str           *word_status;                   /**< Word status */
+    /* Protocol */
+    l_u8                          timebase;                       /**< Timebase only used for master */
+    l_u8                          *diag_signal_tbl;               /**< Diagnostic signal list */
+    l_u8                          num_of_frames;                  /**< Number of frame except diagnostic frames */
+    l_u8                          frame_start;                    /**< Start index of frame list */
+    const lin_frame_struct        *frame_tbl;                     /**< Frame list except diagnostic frames */
+    l_u8                          *frame_flg;                     /**< Frame flag */
+    l_u8                          num_of_schedules;               /**< Number of schedule table */
+    l_u8                          schedule_start;                 /**< Start index of schedule table list */
+    const lin_schedule_struct     *schedule_tbl;                  /**< Shedule table list */
+    l_u8                          *schedule_start_entry;          /**< Start entry of each schedule table */
+    l_u8                          *next_transmit_tick;            /**< Used to count the next transmit tick */
+    l_u8                          *active_schedule_id;            /**< Active schedule table id */
+    l_u8                          *previous_schedule_id;          /**< Previous schedule table id */
+    l_u8                          *diagnostic_frame_to_send;      /**< Number of diagnostic frame to send */
+    /* Multi frame support */
+#if (_TL_FRAME_SUPPORT_ == _TL_MULTI_FRAME_)
+    l_diagnostic_mode             *diagnostic_mode;               /**< Diagnostic mode */
+#else  /* Single frame support */
+    l_diagnostic_mode             diagnostic_mode;                /**< Diagnostic mode */
+#endif /* End (_TL_FRAME_SUPPORT_ == _TL_MULTI_FRAME_) */
+    l_u8                          *configuration_RAM;             /**< Configuration in RAM */
+    const l_u16                   *configuration_ROM;             /**< Configuration in ROM */
+    /* TL support*/
+    lin_tl_descriptor             *tl_desc;                       /**< TL Configuration */
+#if (_TL_FRAME_SUPPORT_ == _TL_MULTI_FRAME_)
+    lin_diagnostic_state          *tl_diag_state;                 /**< diagnostic state */
+    lin_service_status            *tl_service_status;             /**< Status of the last configuration service */
+    diag_interleaved_state        *tl_diag_interleave_state;      /**< state of diagnostic interleaved mode */
+#endif  /* End (_TL_FRAME_SUPPORT_ == _TL_MULTI_FRAME_) */
+} lin_configuration;
+/* End of data definition */
+#endif /* End (LIN_MODE == _MASTER_MODE_) */
 
 /***** Macros *****/
 #define BIT(A,B)      (((A)>>(B))&0x01)   /**< return bit has position \a B in byte \a A, A is the variable while */
 
 /* Global functions */
+/**
+* @def CALLBACK_HANDLER(iii, event_id, pid)
+* call lin_pid_response_callback_handler function in MASTER mode
+*/
+#if (LIN_MODE == _MASTER_MODE_)
+#define CALLBACK_HANDLER(iii, event_id, pid) lin_pid_response_callback_handler((iii), (event_id), (pid))
+#else
+#define CALLBACK_HANDLER(iii, event_id, pid) lin_pid_response_callback_handler((event_id), (pid))
+#endif /* End (LIN_MODE == _MASTER_MODE_) */
 
+#if LIN_MODE == _MASTER_MODE_
+/*FUNCTION*--------------------------------------------------------------*//**
+* @fn l_u8 lin_lld_init (l_ifc_handle iii)
+* @brief This function will initialize the specified interface (if available)
+*     with the predefine configuration
+*
+* @param iii <B>[IN]</B> lin interface handle
+*
+* @return #l_u8
+*     <BR>0 if successful, else return error code
+*
+* @SDD_ID LIN_SDD_216
+* @endif
+*
+* @local_var
+*   -# <B>#lin_hardware_name</B> <I>lin_hw</I>
+*   -# <B>#l_u8</B> <I>ret</I>
+*       <BR>return this variable at the end of function
+*
+* @static_global_var
+*   -# <B>#lin_virtual_ifc</B>
+*
+* @details
+*   This function will initialize the specified interface (if available)
+*   with the predefine configuration
+*
+* @see  #lin_lld_sci_init
+* @see  #lin_lld_xgate_init
+* @see  #lin_lld_slic_init
+* @see  #lin_lld_gpio_init
+*//*END*----------------------------------------------------------------------*/
+l_u8 lin_lld_init(l_ifc_handle iii);
+
+/*FUNCTION*--------------------------------------------------------------*//**
+* @fn l_u8 lin_lld_deinit (l_ifc_handle iii)
+* @brief This function disconnect the node from the cluster and
+*   free all hardware used
+*
+* @param iii <B>[IN]</B> lin interface handle
+*
+* @return #l_u8
+*     <BR>0 if successful, else return error code
+*
+* @SDD_ID LIN_SDD_217
+* @endif
+*
+* @local_var
+*   -# <B>#lin_hardware_name</B> <I>lin_hw</I>
+*   -# <B>#l_u8</B> <I>ret</I>
+*       <BR>return this variable at the end of function
+*
+* @static_global_var
+*   -# <B>#lin_virtual_ifc</B>
+*
+* @details
+*   This function disconnect the node from the cluster and
+*   free all hardware used
+*
+* @see  #lin_lld_sci_deinit
+* @see  #lin_lld_xgate_deinit
+* @see  #lin_lld_slic_deinit
+* @see  #lin_lld_gpio_deinit
+*//*END*----------------------------------------------------------------------*/
+l_u8 lin_lld_deinit(l_ifc_handle iii);
+
+/*FUNCTION*--------------------------------------------------------------*//**
+* @fn l_u8 lin_lld_get_state ( l_ifc_handle iii )
+*
+* @brief
+*   This function gets current state of an interface
+*@param iii <B>[IN]</B> lin interface handle
+*
+* @return #l_u8
+*
+* @SDD_ID N/A
+* @endif
+*
+* @local_var
+*   -#  <B>#l_u8</B> <I>ret</I>
+*
+* @static_global_var
+*   -# <B>#lin_virtual_ifc</B>
+*
+* @details
+*  This function gets current state of an interface
+*
+* @see #lin_lld_sci_get_state
+* @see #lin_lld_xgate_get_state
+* @see #lin_lld_slic_get_state
+* @see #lin_lld_gpio_get_status
+*//*END*----------------------------------------------------------------------*/
+l_u8 lin_lld_get_state(l_ifc_handle iii);
+
+/*FUNCTION*--------------------------------------------------------------*//**
+* @fn void lin_lld_tx_header (l_ifc_handle iii, l_u8 pid)
+* @brief Master transmit header
+*
+* @param iii <B>[IN]</B> lin interface handle
+* @param pid <B>[IN]</B> ID of the header to be sent
+*
+* @return #void
+*
+* @SDD_ID LIN_SDD_219
+* @endif
+*
+* @local_var
+*   -# <B>#lin_hardware_name</B> <I>lin_hw</I> Indicator of LIN HW
+*
+* @static_global_var
+*   -# <B>#lin_virtual_ifc</B>
+*
+* @details
+*   Issues the LIN header with specified ID. The function cause the LIN frame transmission,
+*   applicable for the master only
+*
+* @see  #lin_lld_sci_tx_header
+* @see  #lin_lld_xgate_tx_header
+*//*END*----------------------------------------------------------------------*/
+void lin_lld_tx_header(l_ifc_handle iii, l_u8 pid);
+
+/*FUNCTION*--------------------------------------------------------------*//**
+* @fn void lin_lld_tx_wake_up (l_ifc_handle iii)
+* @brief This function send wakeup signal
+*
+* @param iii <B>[IN]</B> lin interface handle
+*
+* @return #void
+*
+* @SDD_ID LIN_SDD_220
+* @endif
+*
+* @local_var
+*   -# <B>#lin_hardware_name</B> <I>lin_hw</I> Indicator of LIN HW
+*
+* @static_global_var
+*   -# <B>#lin_virtual_ifc</B>
+*
+* @details
+*   This function send wakeup signal
+*
+* @see #lin_lld_sci_tx_wake_up
+* @see #lin_lld_xgate_tx_wake_up
+* @see #lin_lld_slic_tx_wake_up
+* @see #lin_lld_gpio_tx_wake_up
+*//*END*----------------------------------------------------------------------*/
+void lin_lld_tx_wake_up(l_ifc_handle iii);
+
+/*FUNCTION*--------------------------------------------------------------*//**
+* @fn void lin_lld_int_enable (l_ifc_handle iii)
+*
+* @brief Enable the interrupt related the interface
+*
+* @param iii <B>[IN]</B> lin interface handle
+*
+* @return #void
+*
+* @SDD_ID LIN_SDD_221
+* @endif
+*
+* @local_var
+*   -# <B>#lin_hardware_name</B> <I>lin_hw</I> Indicator of LIN HW
+*
+* @static_global_var
+*   -# <B>#lin_virtual_ifc</B>
+*
+* @details
+*   This function send wakeup signal
+*
+* @see #lin_lld_sci_int_enable
+* @see #lin_lld_xgate_int_enable
+* @see #lin_lld_slic_int_enable
+* @see #lin_lld_gpio_int_enable
+*//*END*----------------------------------------------------------------------*/
+void lin_lld_int_enable(l_ifc_handle iii);
+
+/*FUNCTION*--------------------------------------------------------------*//**
+* @fn l_u8 lin_lld_int_disable (l_ifc_handle iii)
+*
+* @brief
+*   Disable the interrupt related the interface
+*
+* @param iii <B>[IN]</B> lin interface handle
+*
+* @return #l_u8
+*
+* @SDD_ID LIN_SDD_222
+* @endif
+*
+* @local_var
+*   -# <B>#lin_hardware_name</B> <I>lin_hw</I> Indicator of LIN HW
+*   -# <B>#l_u8</B> <I>ret</I>
+*
+* @static_global_var
+*   -# <B>#lin_virtual_ifc</B>
+*
+* @details
+*   Disable the interrupt related the interface
+*
+* @see #lin_lld_sci_int_disable
+* @see #lin_lld_xgate_int_disable
+* @see #lin_lld_slic_int_disable
+* @see #lin_lld_gpio_int_disable
+*//*END*----------------------------------------------------------------------*/
+l_u8 lin_lld_int_disable(l_ifc_handle iii);
+
+/*FUNCTION*--------------------------------------------------------------*//**
+* @fn void lin_lld_ignore_response (l_ifc_handle iii)
+*
+* @brief
+*   Let the low level driver ignore the next respond
+*
+* @param iii <B>[IN]</B> lin interface handle
+*
+* @return #void
+*
+* @SDD_ID LIN_SDD_223
+* @endif
+*
+* @local_var
+*   -# <B>#lin_hardware_name</B> <I>lin_hw</I> Indicator of LIN HW
+*
+* @static_global_var
+*   -# <B>#lin_virtual_ifc</B>
+*
+* @details
+*  Let the low level driver ignore the next respond
+*   (i.e. because the PID is not relevant)
+*
+* @see #lin_lld_sci_ignore_response
+* @see #lin_lld_xgate_ignore_response
+* @see #lin_lld_slic_ignore_response
+* @see #lin_lld_gpio_ignore_response
+*//*END*----------------------------------------------------------------------*/
+void lin_lld_ignore_response(l_ifc_handle iii);
+
+/*FUNCTION*--------------------------------------------------------------*//**
+* @fn void lin_lld_set_low_power_mode (l_ifc_handle iii)
+*
+* @brief
+*   Let the low level driver go to low power mode
+*
+* @param iii <B>[IN]</B> lin interface handle
+*
+* @return #void
+*
+* @SDD_ID LIN_SDD_224
+* @endif
+*
+* @local_var
+*   -# <B>#lin_hardware_name</B> <I>lin_hw</I> Indicator of LIN HW
+*
+* @static_global_var
+*   -# <B>#lin_virtual_ifc</B>
+*
+* @details
+*  Let the low level driver go to low power mode
+*   (In sleep mode for example)
+*
+* @see #lin_lld_sci_set_low_power_mode
+* @see #lin_lld_xgate_set_low_power_mode
+* @see #lin_lld_slic_set_low_power_mode
+* @see #lin_lld_gpio_set_low_power_mode
+*//*END*----------------------------------------------------------------------*/
+void lin_lld_set_low_power_mode(l_ifc_handle iii);
+
+/*FUNCTION*--------------------------------------------------------------*//**
+* @fn l_u8 lin_lld_set_response (l_ifc_handle iii, l_u8 response_length)
+*
+* @brief
+*   Switch the low level driver to transmit response state
+*
+* @param iii <B>[IN]</B> lin interface handle
+* @param response_length <B>[IN]</B> length of response
+*
+* @return #l_u8
+*
+* @SDD_ID LIN_SDD_225
+* @endif
+*
+* @local_var
+*   -# <B>#lin_hardware_name</B> <I>lin_hw</I> Indicator of LIN HW
+*   -# <B>#l_u8</B> <I>ret</I>
+*
+* @static_global_var
+*   -# <B>#lin_virtual_ifc</B>
+*   -# <B>#lin_ifc_configuration</B>
+*
+* @details
+*  Switch the low level driver to transmit response state
+*   (RX Request for response)
+*
+* @see #lin_lld_sci_tx_response
+* @see #lin_lld_xgate_tx_response
+* @see #lin_lld_slic_tx_response
+* @see #lin_lld_gpio_tx_response
+*//*END*----------------------------------------------------------------------*/
+l_u8 lin_lld_set_response(l_ifc_handle iii, l_u8 response_length);
+
+/*FUNCTION*--------------------------------------------------------------*//**
+* @fn l_u8 lin_lld_rx_response (l_ifc_handle iii, l_u8 response_length)
+*
+* @brief
+*   Switch the low level driver to receiving respond state
+*
+* @param iii <B>[IN]</B> lin interface handle
+* @param response_length <B>[IN]</B> length of response
+*
+* @return #l_u8
+*
+* @SDD_ID LIN_SDD_226
+* @endif
+*
+* @local_var
+*   -# <B>#lin_hardware_name</B> <I>lin_hw</I> Indicator of LIN HW
+*   -# <B>#l_u8</B> <I>ret</I>
+*
+* @static_global_var
+*   -# <B>#lin_virtual_ifc</B>
+*
+* @details
+*  Switch the low level driver to receiving respond state
+*
+* @see #lin_lld_sci_rx_response
+* @see #lin_lld_xgate_rx_response
+* @see #lin_lld_slic_rx_response
+* @see #lin_lld_gpio_rx_response
+*//*END*----------------------------------------------------------------------*/
+l_u8 lin_lld_rx_response(l_ifc_handle iii, l_u8 response_length);
+
+#endif /* End (LIN_MODE == _MASTER_MODE_) */
+
+#if (LIN_MODE == _SLAVE_MODE_)
 
 /*FUNCTION*--------------------------------------------------------------*//**
 * @fn l_u8 lin_lld_init ( void )
@@ -833,6 +1476,7 @@ l_u8 lin_lld_rx_response(l_u8 response_length);
 *//*END*----------------------------------------------------------------------*/
 void lin_lld_mcu_reset(void);
 
+#endif /* End (LIN_MODE == _SLAVE_MODE_) */
 
 /*FUNCTION*--------------------------------------------------------------*//**
 * @fn void lin_lld_timer_init ( void )
@@ -957,6 +1601,7 @@ extern l_u8                     lin_flag_handle_tbl[LIN_FLAG_BUF_SIZE];
 
 
 /***** Slave mode variables   *****/
+#if LIN_MODE == _SLAVE_MODE_
     #if (_LIN_GPIO_ == 0) && !defined(_MC9S08SC4_H) && !defined(MCU_SKEAZN84)
     /* diagnostic flag */
     extern const l_u8 lin_diag_services_supported[_DIAG_NUMBER_OF_SERVICES_];
@@ -987,7 +1632,13 @@ extern const l_u16                lin_configuration_ROM[LIN_SIZE_OF_CFG];  /* Co
 extern const lin_product_id       product_id;
 extern const lin_product_serial_num product_serial_num;
 extern l_u8                       tl_slaveresp_cnt;       /**< Slave Response data counter */
-
+/* if single frame */
+#if (_TL_FRAME_SUPPORT_ == _TL_SINGLE_FRAME_)
+extern lin_tl_pdu_data            tx_single_pdu_data;
+extern lin_tl_pdu_data            rx_single_pdu_data ;
+extern lin_tl_pdu_data            *tl_current_tx_pdu_ptr;    /* current PDU pointer*/
+extern lin_tl_pdu_data            *tl_current_rx_pdu_ptr;    /* current PDU pointer*/
+#else /* Multi frame support */
 /*transport layer support */
 extern lin_transport_layer_queue lin_tl_tx_queue;         /**< transport layer transmit queue */
 extern lin_transport_layer_queue lin_tl_rx_queue;         /**< transport layer receive queue */
@@ -1016,17 +1667,50 @@ extern l_u8 *tl_ident_data;                               /**< To store address 
 extern lin_diagnostic_state tl_diag_state;                /**< diagnostic state */
 extern lin_service_status tl_service_status;              /**< Status of the last configuration service */
 
+#endif /*End (_TL_FRAME_SUPPORT_ == _TL_SINGLE_FRAME_)*/
+
 extern l_u8                       lin_current_pid;
 extern l_u8                       lin_configured_NAD;
 extern const l_u8                 lin_initial_NAD;
 
 
 
-
-/* If XGATE not support */
+/* if XGATE Support */
+#if XGATE_SUPPORT == 1
+#pragma DATA_SEG  SHARED_DATA /* Define a specific segment to store the data */
 extern const lin_hardware_name    lin_virtual_ifc;
 extern l_u8                       lin_lld_response_buffer[10];
+#pragma DATA_SEG  DEFAULT /* Return to default data segment */
+#endif /* End (XGATE_SUPPORT == 1) */
 
+/* If XGATE not support */
+#if XGATE_SUPPORT == 0
+extern const lin_hardware_name    lin_virtual_ifc;
+extern l_u8                       lin_lld_response_buffer[10];
+#endif /* End (XGATE_SUPPORT == 0) */
+
+#endif /* End (LIN_MODE == _SLAVE_MODE_) */
+/***** Master mode variables  *****/
+
+#if LIN_MODE == _MASTER_MODE_
+
+extern l_u8                       lin_save_configuration_flg[LIN_NUM_OF_IFCS];
+
+/* if XGATE Support */
+#if XGATE_SUPPORT == 1
+#pragma DATA_SEG  SHARED_DATA /* Define a specific segment to store the data */
+extern const lin_hardware_name lin_virtual_ifc[LIN_NUM_OF_IFCS];
+extern l_u8 lin_lld_response_buffer[LIN_NUM_OF_IFCS][10];
+#pragma DATA_SEG  DEFAULT /* Return to default data segment */
+#endif /* End (XGATE_SUPPORT == 1) */
+
+/* If XGATE not support */
+#if XGATE_SUPPORT == 0
+extern const lin_hardware_name lin_virtual_ifc[LIN_NUM_OF_IFCS];
+#endif /* End (XGATE_SUPPORT == 1) */
+
+extern const lin_configuration lin_ifc_configuration[LIN_NUM_OF_IFCS];
+#endif /* End (LIN_MODE == _MASTER_MODE_) */
 
 /*****************************************************************/
 /****                extern api functions                     ****/
@@ -1035,7 +1719,14 @@ extern l_u8                       lin_lld_response_buffer[10];
 /******* common core apis *******/
 /*********************************/
 extern l_bool        l_sys_init (void);
-
+/*********************************/
+/***** APIs for Master Mode ******/
+/*********************************/
+#if LIN_MODE == _MASTER_MODE_
+extern void          l_sch_set (l_ifc_handle iii, l_schedule_handle schedule_iii, l_u8 entry);
+extern l_u8          l_sch_tick (l_ifc_handle iii);
+extern void          l_ifc_goto_sleep (l_ifc_handle iii);
+#endif /* End (LIN_MODE == _MASTER_MODE_) */
 
 /*********************************/
 /***** APIs for Slave Mode *******/
@@ -1048,7 +1739,9 @@ extern l_u16         l_ifc_read_status (l_ifc_handle iii);
 extern void          l_ifc_aux (l_ifc_handle iii);
 extern l_u16         l_sys_irq_disable (l_ifc_handle iii);
 extern void          l_sys_irq_restore (l_ifc_handle iii);
+#if LIN_MODE == _SLAVE_MODE_
 
+#if (_TL_FRAME_SUPPORT_ == _TL_MULTI_FRAME_)
 /* INITIALIZATION */
 extern void ld_init(void);
 /* RAW APIs */
@@ -1061,11 +1754,54 @@ extern void ld_send_message(l_u16 length, const l_u8* const data);
 extern void ld_receive_message(l_u16* const length, l_u8* const data);
 extern l_u8 ld_tx_status(void);
 extern l_u8 ld_rx_status(void);
+#endif /* End (_TL_FRAME_SUPPORT_ == _TL_MULTI_FRAME_) */
+#endif /* End LIN_MODE == _SLAVE_MODE_) */
 
 /* J2602 core apis */
 extern l_bool l_ifc_connect (l_ifc_handle iii);
 extern l_bool l_ifc_disconnect (l_ifc_handle iii);
 
+/****************************************/
+/******** Transport layer APIs **********/
+/****************************************/
+/*********************************/
+/***** APIs for Master Mode ******/
+/*********************************/
+#if LIN_MODE == _MASTER_MODE_
+/* Multi frame support */
+#if (_TL_FRAME_SUPPORT_ == _TL_MULTI_FRAME_)
+extern void ld_init(l_ifc_handle iii);
+extern void ld_put_raw(l_ifc_handle iii,const l_u8* const data);
+extern void ld_get_raw(l_ifc_handle iii,l_u8* const data);
+extern l_u8 ld_raw_tx_status(l_ifc_handle iii);
+extern l_u8 ld_raw_rx_status(l_ifc_handle iii);
+extern void ld_send_message(l_ifc_handle iii, l_u16 length, l_u8 NAD, const l_u8* const data);
+extern void ld_receive_message(l_ifc_handle iii, l_u16* const length, l_u8* const NAD, l_u8* const data);
+extern l_u8 ld_tx_status(l_ifc_handle iii);
+extern l_u8 ld_rx_status(l_ifc_handle iii);
+#endif /* End (_TL_FRAME_SUPPORT_ == _TL_MULTI_FRAME_) */
+
+extern void ld_assign_NAD(l_ifc_handle iii, l_u8 initial_NAD, l_u16 supplier_id, l_u16 function_id, l_u8 new_NAD);
+extern void ld_conditional_change_NAD (l_ifc_handle iii, l_u8 NAD, l_u8 id, l_u8 byte, l_u8 mask, l_u8 invert, l_u8 new_NAD);
+extern void ld_read_by_id (l_ifc_handle iii, l_u8 NAD, l_u16 supplier_id, l_u16 function_id, l_u8 id, l_u8* const data);
+
+
+/***** J2602 *****/
+#if LIN_PROTOCOL == PROTOCOL_J2602
+extern l_bool ld_is_ready (l_ifc_handle iii);
+extern l_u8 ld_check_response (l_ifc_handle iii, l_u8* const RSID, l_u8* const error_code);
+extern void ld_assign_frame_id_range (l_ifc_handle iii, l_u8 initial_NAD, l_u16 supplier_id, l_u16 message_id, l_u8 PID);
+#endif /* End (LIN_PROTOCOL == PROTOCOL_J2602) */
+/***** LIN21 *****/
+#if LIN_PROTOCOL == PROTOCOL_21
+extern l_u8 ld_is_ready (l_ifc_handle iii);
+extern void ld_check_response (l_ifc_handle iii, l_u8* const RSID, l_u8* const error_code);
+extern void ld_assign_frame_id_range (l_ifc_handle iii,l_u8 NAD, l_u8 start_index, const l_u8* const PIDs);
+#endif /* End (LIN_PROTOCOL == PROTOCOL_21) */
+
+l_u8 ld_read_by_id_callout(l_ifc_handle iii, l_u8 id, l_u8 *data);
+
+#endif /* End (LIN_MODE == _MASTER_MODE_) */
 
 
 #endif  /* _LIN_H */
