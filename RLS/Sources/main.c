@@ -146,11 +146,11 @@ int main(void)
     	WDOG_Feed();
     	if(boot_rx_ok_id != 0) //rx ok 
     	{
-    		DISABLE_INTERRUPT;
+    		//DISABLE_INTERRUPT;
             /* trigger callback */
             lin_update_rx(boot_rx_ok_id);
             boot_rx_ok_id = 0;
-            ENABLE_INTERRUPT;
+           // ENABLE_INTERRUPT;
     	}
     	
     	
