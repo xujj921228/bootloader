@@ -3,10 +3,10 @@
 #include "clock.h"
 #include "gpio.h"
 #include "eeprom.h"
-#include "lin.h"
 #include "lin_common_api.h"
 #include "lin_common_proto.h"
 #include "lin_lld_uart.h"
+
 
 /***********************************************************************************************
 * name :  main
@@ -19,12 +19,22 @@
 
 
 /************** var   ******************/
-uint8 boot_eraser_flag;
-l_u16 updata_flash_ID;
-l_u16 updata_length;
-uint8 DRIVE_flag;
-uint8 tx_ok;
-uint8 boot_reboot;
+/******
+ * DRIVE_flag
+ * 0:init
+ * 1:about driver
+ * 2.about start eraser 
+ * 3.about eraser tx ok
+ * 4.about end eraser
+ * 5.about start data
+ * 6.flash write 
+ * 7.reboot 
+ * 8.request seed 
+ * 9.send key 
+ * ***********/
+Boot_Fsm_t boot_status_flag;
+uint8 boot_rx_ok_id;
+uint8 boot_up_ret[2];
 
 
 
@@ -35,12 +45,10 @@ uint8 boot_reboot;
  * ********************/
 void boot_Var_init(void)
 {
-   boot_eraser_flag = 0;
-   updata_flash_ID = 0;
-   updata_length = 0;
-   DRIVE_flag = 0;
-   tx_ok = 0;
-   boot_reboot = 0;
+   boot_status_flag = boot_fsm_idle;
+   boot_rx_ok_id = 0;
+   boot_up_ret[0] = 0;
+   boot_up_ret[1] = 0;
 }
 
 
@@ -54,11 +62,10 @@ void boot_Var_init(void)
  *******************************************************/ 
 void Lin_Sys_Init(void)
 {
-	uint8 ret = 0 ;
 	uint8 vector_number = 0;
 	
-    ret = l_sys_init();
-	ret = l_ifc_init(LI0);
+    l_sys_init();
+	l_ifc_init(LI0);
 	
 	vector_number = INT_UART0 -16;
 	
@@ -76,11 +83,25 @@ void Lin_Sys_Init(void)
 void boot_sysinit(void)
 {
 	Clk_Init();	                           //time for MCU;
-        GPIO_Init();                           //Setting the LDO of LIN to control Power.   
+    GPIO_Init();                           //Setting the LDO of LIN to control Power.   
 	FLASH_Init(BUS_CLCOK);                 /*Initialize the Flash Memory module */
 }
 
 
+/******************************************************************************
+* protect bootloader section from 0 to 3FFF.
+******************************************************************************/
+void Flash_bootloader_protect(void)
+{
+	//Flash Protection Operation Enable
+	FTMRH_FPROT |= FTMRH_FPROT_FPOPEN_MASK;
+	//Flash Protection Higher Address Range Disable
+	FTMRH_FPROT |= FTMRH_FPROT_FPHDIS_MASK;
+	//Flash Protection Lower Address Range Disable
+	FTMRH_FPROT &= ~FTMRH_FPROT_FPLDIS_MASK;
+	//Flash Protection Lower Address Size, from 0 to 0x3FFF
+	FTMRH_FPROT |= FTMRH_FPROT_FPLS_MASK;
+}
 /************************
  * For APP up close
  * 
@@ -90,9 +111,9 @@ typedef void(*JumpToPtr)(void);
 
 void boot_jump_to_APP(void)
 {
-	//uint16_t *pNewAppEntry = APP_start_address;//APP_start_address
+	uint16 *pNewAppEntry = (uint16 *)APP_start_address;
 	JumpToPtr	pJumpTo;
-	pJumpTo = (JumpToPtr)APP_start_address;
+	pJumpTo = (JumpToPtr)(*pNewAppEntry);
 	pJumpTo();
 	for(;;) { ; }
 }
@@ -101,20 +122,20 @@ uint16_t u16Err_1 = FLASH_ERR_SUCCESS;
 
 void main(void)
 {	
-	uint8 temp[2];
 	uint32 flash_eraser_cn = 0;
-	uint16 boot_up_ret = 0xffff;
 	
 	boot_sysinit();
 	boot_Var_init();
+	//Flash_bootloader_protect();
 
 	//FLASH_EraseSector((VERIFIED_SECTOR+87)*FLASH_SECTOR_SIZE); // for debug eraser flag 
 	//case 0: normal start jump to app
-    if((boot_up_check() != boot_up_value)
+    if((boot_up_check() != 1)
        &&(boot_APP_check() == APP_VALUE))//if flag is equal to 1,jump to app.else doing updata
     {
 	   //Jump to app
        boot_jump_to_APP();
+	  // ((void (*)())APP_start_address)();
     }  
     
     
@@ -122,29 +143,40 @@ void main(void)
     Lin_Sys_Init();
     
     for(;;) 
-	{				
-    	        WDOG_Feed();
-		if((boot_eraser_flag == 1)&&(tx_ok == 1))//≤¡≥˝flash…»«¯
+	{			
+    	
+    	WDOG_Feed();
+    	if(boot_rx_ok_id != 0) //rx ok 
+    	{
+    		DISABLE_INTERRUPT;
+            /* trigger callback */
+            lin_update_rx(boot_rx_ok_id);
+            boot_rx_ok_id = 0;
+            ENABLE_INTERRUPT;
+    	}
+    	
+    	
+		if(boot_status_flag == boot_fsm_erasering)//≤¡≥˝flash…»«¯
 		{
 			if(flash_eraser_cn >= 88)
 			{
 				flash_eraser_cn = 0;
-				boot_eraser_flag = 2;	
+				boot_status_flag = boot_fsm_enderaser;	
 				do
-				{       
-                                        temp[0] =  boot_up_ret;
-                                        temp[1] =  boot_up_ret>>8;
-					write_data_from_EEPROM(0x10000020,&temp[0],2,ENABLE);
-				}while(boot_up_check() == boot_up_value);
+				{
+					boot_up_ret[0] = 0;
+					write_data_from_EEPROM(0x10000020,boot_up_ret,2,ENABLE);
+				}while(boot_up_check());
 			}
 			else
 			{
+				flash_eraser_cn++;
 				u16Err_1 = FLASH_EraseSector((VERIFIED_SECTOR+flash_eraser_cn++)*FLASH_SECTOR_SIZE);
 			}
 		}
-		if(boot_reboot == 1)//÷ÿ∆Ù√¸¡Ó
+		if(boot_status_flag == boot_fsm_reboot)
 		{
-			while(1);
+			((void (*)())0x0)();
 		}
 		 
 

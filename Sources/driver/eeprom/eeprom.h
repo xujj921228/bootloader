@@ -18,14 +18,24 @@
 * 
 ******************************************************************************/
 #include <derivative.h>
-#include "config_parameter.h"
 
+
+#define  ENABLE_INTERRUPT  asm("CPSIE i");
+#define  DISABLE_INTERRUPT asm("CPSID i");
+
+#define TRUE  1
+  /*!< Definitioni for TRUE. */
+#define FALSE 0
+
+#define EEPROM_BOOT_REFRESH             0x10000020
+
+#define EEPROM_BOOT_REFRESH_LENTH        2
 /********************************
  * define  APP check  address
  * add by xujunjie
  * *****************************/
 #define  APP_check_ADDRESS      0xFFFC
-#define  boot_up_value          0x5aa5
+#define  boot_up_value          0x5a
 #define  APP_code_start         0x5000
 #define  APP_start_address      (APP_code_start+4)
 
@@ -44,6 +54,19 @@ typedef enum
 #define     ENABLE                        1
 #define     DISABLE                       0
 
+typedef enum
+{
+ boot_fsm_idle                          = 0 ,
+ boot_fsm_requestdriver                 = 1 ,
+ boot_fsm_start_eraser                  = 2 ,
+ boot_fsm_erasering                     = 3 , 
+ boot_fsm_enderaser                     = 4 ,
+ boot_fsm_startdownload                 = 5 ,
+ boot_fsm_flashdownloading              = 6 ,
+ boot_fsm_reboot                        = 7 ,
+ boot_fsm_sendseed                      = 8 ,
+ boot_fsm_getkey                        = 9
+}Boot_Fsm_t;
 
 #define FTMRE_FSTAT_MGSTAT0_MASK  (1)						/* FTMRE FSTAT MGSTAT0 MASK */
 #define FTMRE_FSTAT_MGSTAT1_MASK  (1<<1)					/* FTMRE FSTAT MGSTAT1 MASK */
@@ -111,5 +134,5 @@ extern uint16 EEPROM_ProgramWord(uint32 u32NVMTargetAddress, uint16 u16DwData);
 extern uint8 write_data_from_EEPROM(uint32 startAddr, uint8 *p_data, uint16 len,uint8 checksumEnable);
 extern uint8 read_data_from_EEPROM(uint32 startAddr,uint8 *p_data,uint16 len, uint8 checksumEnable); 
 extern APP_check_t boot_APP_check(void);
-extern  uint16 boot_up_check(void);
+extern  uint8 boot_up_check();
 

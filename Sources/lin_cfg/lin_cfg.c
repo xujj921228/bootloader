@@ -141,7 +141,7 @@ const l_u16  lin_configuration_ROM[LIN_SIZE_OF_CFG]= {0x00, 0x11, 0x12, 0x03, 0x
 
 /***************************************** Node Attribute*****************************************/
 
-l_u8 lin_configured_NAD = 0x16;    /*<configured_NAD>*/
+l_u8 lin_configured_NAD = 0x22;    /*<configured_NAD>*/
 const l_u8 lin_initial_NAD    =0x03;    /*<initial_NAD>*/
 const lin_product_id product_id = {0x0003, 0x0003, 0x00FF };  /* {<supplier_id>,<function_id>,<variant>} */
 
@@ -201,37 +201,3 @@ const l_u8 lin_diag_services_supported[_DIAG_NUMBER_OF_SERVICES_] = {0x10,0x22,0
 
 l_u8 lin_diag_services_flag[_DIAG_NUMBER_OF_SERVICES_] = {0,0,0,0,0,0,0};
 l_u8 tl_slaveresp_cnt = 0;
-/* This function is an example of response; real implementation is application-dependent */
-/* You can use one of the following define to set PCI of response frame for */
-/* this service to the correct value */
-l_u8 ld_read_by_id_callout(l_u8 id, l_u8 *data)
-{
-    l_u8 retval = LD_NEGATIVE_RESPONSE;
-    /* Following code is an example - Real implementation is application-dependent */
-    /*
-     * the handling does essentially depend on the id of the
-     * requested item
-     */
-    /* This example implement with ID = 32 - LIN_READ_USR_DEF_MIN */
-    if (id == LIN_READ_USR_DEF_MIN)
-    {
-      /*
-       * id received is user defined 32
-       */
-      /* A positive response is ready to be sent to the user defined request */
-
-      data[0] = (l_u8) (id + 1);    /* Data user define */
-      data[1] = (l_u8) (id + 2);    /* Data user define */
-      data[2] = (l_u8) (id + 3);    /* Data user define */
-      data[3] = (l_u8) (id + 4);    /* Data user define */
-      data[4] = (l_u8) (id + 5);    /* Data user define */
-      retval = LD_POSITIVE_RESPONSE;
-    }
-    else
-    {
-      /*
-       * id received is user defined 63 - no response
-       */
-    }
-    return retval;
-}

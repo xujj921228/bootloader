@@ -15,7 +15,7 @@
 #include "lin_lld_timesrv.h"
 #include "lin_diagnostic_service.h"
 #include "lin_cfg.h"
-
+#include "eeprom.h"
 
 
 
@@ -90,8 +90,9 @@ extern const l_u16 lin_max_frame_res_timeout_val[8];
 
 extern l_u8 lin_lld_response_buffer[10];
 
-extern lin_lld_event_id boot_event_id;
-extern l_u8 boot_rec_pid;
+extern l_u8 boot_rx_ok_id;
+
+extern Boot_Fsm_t boot_status_flag;
 
 /***** LOW-LEVEL API *****/
 
@@ -362,7 +363,6 @@ void lin_goto_idle_state
     pUART->uartsr2.bit.lbkde = 1;
 } /* End function lin_goto_idle_state() */
 
-extern unsigned char tx_ok;
 void lin_lld_uart_rx_isr
 (
 )
@@ -532,14 +532,7 @@ void lin_lld_uart_rx_isr
                             /* disable RX interrupt */
                             pUART->uartcr2.byte &= ~(UARTCR2_RE_MASK | UARTCR2_RIE_MASK);
                             state = PROC_CALLBACK;
-                            /* trigger callback */
-                            lin_update_rx(current_id);
-                            /* enable RX interrupt */
-                            pUART->uartcr2.byte |= (UARTCR2_RE_MASK | UARTCR2_RIE_MASK);
-							if (SLEEP_MODE != state)
-							{
-								lin_goto_idle_state();
-							}        
+                            boot_rx_ok_id = current_id;
                         }
                         else
                         {
@@ -585,7 +578,10 @@ void lin_lld_uart_rx_isr
                     }
                     else
                     {
-                    	tx_ok = 1;//触发擦除回复ok以后才开始擦除
+                    	if(boot_status_flag == boot_fsm_start_eraser )
+                    	{
+                    		boot_status_flag = boot_fsm_erasering;
+                    	}
                         /* TX transfer complete */
                         l_status.byte |= LIN_STA_SUCC_TRANSFER;
                         /* Disable RX interrupt */
@@ -616,4 +612,14 @@ void lin_lld_uart_rx_isr
         }
     }
 } /* End function lin_lld_UART_rx_isr() */
+
+void Strart_next_rx(void)
+{
+	 /* enable RX interrupt */
+	pUART->uartcr2.byte |= (UARTCR2_RE_MASK | UARTCR2_RIE_MASK);
+	if (SLEEP_MODE != state)
+	{
+		lin_goto_idle_state();
+	}      
+}
 

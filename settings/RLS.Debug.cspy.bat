@@ -25,7 +25,7 @@ if not "%~1" == "" goto debugFile
 
 @echo on 
 
-"C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.3\common\bin\cspybat" -f "C:\Users\xujj\Desktop\IAR_bootloader\IAR_bootloader\settings\RLS.Debug.general.xcl" --backend -f "C:\Users\xujj\Desktop\IAR_bootloader\IAR_bootloader\settings\RLS.Debug.driver.xcl" 
+"D:\IAR Systems\Embedded Workbench 8.2\common\bin\cspybat" -f "F:\BAOLONG\IAR_PROJECT\IAR_bootloader\settings\RLS.Debug.general.xcl" --backend -f "F:\BAOLONG\IAR_PROJECT\IAR_bootloader\settings\RLS.Debug.driver.xcl" 
 
 @echo off 
 goto end 
@@ -34,7 +34,7 @@ goto end
 
 @echo on 
 
-"C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.3\common\bin\cspybat" -f "C:\Users\xujj\Desktop\IAR_bootloader\IAR_bootloader\settings\RLS.Debug.general.xcl" "--debug_file=%~1" --backend -f "C:\Users\xujj\Desktop\IAR_bootloader\IAR_bootloader\settings\RLS.Debug.driver.xcl" 
+"D:\IAR Systems\Embedded Workbench 8.2\common\bin\cspybat" -f "F:\BAOLONG\IAR_PROJECT\IAR_bootloader\settings\RLS.Debug.general.xcl" "--debug_file=%~1" --backend -f "F:\BAOLONG\IAR_PROJECT\IAR_bootloader\settings\RLS.Debug.driver.xcl" 
 
 @echo off 
 :end
