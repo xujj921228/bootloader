@@ -133,7 +133,6 @@ int main(void)
     {
 	   //Jump to app
        boot_jump_to_APP(APP_start_address);
-	  // ((void (*)())0x5004)();
     }  
     
     
