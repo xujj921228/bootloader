@@ -6,6 +6,7 @@ Sources/LIN_Stack/bsp/UART/lin_lld_uart.o: \
  ../Sources/LIN_Stack/bsp/UART/lin_lld_uart.h \
  ../Sources/LIN_Stack/bsp/UART/lin_reg.h \
  C:/Users/xujunjie/Desktop/bootloader/RLS/Sources/lin_cfg/lin_hw_cfg.h \
+ C:/Users/xujunjie/Desktop/bootloader/RLS/Project_Headers/derivative.h \
  C:/Users/xujunjie/Desktop/bootloader/RLS/Project_Headers/SKEAZN642.h \
  D:/CW11.0/CW\ MCU\ v11.0/MCU/ARM_GCC_Support/ewl/EWL_C/include/stdint.h \
  D:/CW11.0/CW\ MCU\ v11.0/MCU/ARM_GCC_Support/ewl/EWL_C/include/ansi_parms.h \
@@ -35,6 +36,8 @@ D:/CW11.0/CW\ MCU\ v11.0/MCU/ARM_GCC_Support/ewl/EWL_C/include/ewl_c_version.h:
 ../Sources/LIN_Stack/bsp/UART/lin_reg.h:
 
 C:/Users/xujunjie/Desktop/bootloader/RLS/Sources/lin_cfg/lin_hw_cfg.h:
+
+C:/Users/xujunjie/Desktop/bootloader/RLS/Project_Headers/derivative.h:
 
 C:/Users/xujunjie/Desktop/bootloader/RLS/Project_Headers/SKEAZN642.h:
 

@@ -17,7 +17,7 @@
 * @brief     Hardware configuration file
 * 
 ******************************************************************************/
-#include <SKEAZN642.h>
+#include <derivative.h>
 
 #define   LIN_ENABLE       GPIOA_PSOR |= 0x00008000
 #define   LIN_DISABLE      GPIOA_PCOR |= 0x00008000

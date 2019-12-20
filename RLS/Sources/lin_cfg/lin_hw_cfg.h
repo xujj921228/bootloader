@@ -19,7 +19,7 @@
 ******************************************************************************/
 #ifndef      _LIN_HW_CFG_H
 #define      _LIN_HW_CFG_H
-#include <SKEAZN642.h> 
+#include <derivative.h> 
 
 typedef enum { 
    UART0, 

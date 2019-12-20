@@ -17,8 +17,7 @@
 * @brief     Hardware configuration file
 * 
 ******************************************************************************/
-#include <SKEAZN642.h>
-
+#include <derivative.h>
 
 
 #define  ENABLE_INTERRUPT  asm("CPSIE i");

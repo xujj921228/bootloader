@@ -1,4 +1,4 @@
-#include <SKEAZN642.h>
+#include <derivative.h>
 #include <math.h> 
 #include "clock.h"
 #include "gpio.h"

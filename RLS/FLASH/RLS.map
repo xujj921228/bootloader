@@ -142,8 +142,8 @@ Discarded input sections
  .debug_aranges
                 0x00000000       0x18 ./Sources/LIN_Stack/coreapi/lin_lin21_api.o
  .debug_macinfo
-                0x00000000    0x2344e ./Sources/LIN_Stack/coreapi/lin_lin21_api.o
- .debug_line    0x00000000      0x30e ./Sources/LIN_Stack/coreapi/lin_lin21_api.o
+                0x00000000    0x23452 ./Sources/LIN_Stack/coreapi/lin_lin21_api.o
+ .debug_line    0x00000000      0x31e ./Sources/LIN_Stack/coreapi/lin_lin21_api.o
  .debug_str     0x00000000      0x12e ./Sources/LIN_Stack/coreapi/lin_lin21_api.o
  .comment       0x00000000       0x7a ./Sources/LIN_Stack/coreapi/lin_lin21_api.o
  .ARM.attributes
@@ -223,8 +223,8 @@ Discarded input sections
  .debug_aranges
                 0x00000000       0x28 ./Sources/LIN_Stack/transport/lin_lin21tl_api.o
  .debug_macinfo
-                0x00000000    0x23450 ./Sources/LIN_Stack/transport/lin_lin21tl_api.o
- .debug_line    0x00000000      0x339 ./Sources/LIN_Stack/transport/lin_lin21tl_api.o
+                0x00000000    0x23454 ./Sources/LIN_Stack/transport/lin_lin21tl_api.o
+ .debug_line    0x00000000      0x349 ./Sources/LIN_Stack/transport/lin_lin21tl_api.o
  .debug_str     0x00000000      0x177 ./Sources/LIN_Stack/transport/lin_lin21tl_api.o
  .comment       0x00000000       0x7a ./Sources/LIN_Stack/transport/lin_lin21tl_api.o
  .ARM.attributes
@@ -1180,7 +1180,7 @@ OUTPUT(RLS.elf elf32-littlearm)
  .debug_aranges
                 0x00000638       0x30 D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\librt.a(ROMCopy.o)
 
-.debug_macinfo  0x00000000   0x21b70f
+.debug_macinfo  0x00000000   0x21b76b
  .debug_macinfo
                 0x00000000    0x1a1a6 ./Project_Settings/Startup_Code/kinetis_sysinit.o
  .debug_macinfo
@@ -1188,62 +1188,62 @@ OUTPUT(RLS.elf elf32-littlearm)
  .debug_macinfo
                 0x0001e012     0x3455 ./Project_Settings/Startup_Code/__arm_end.o
  .debug_macinfo
-                0x00021467    0x23ae6 ./Sources/LIN_Stack/bsp/UART/lin_lld_uart.o
+                0x00021467    0x23aee ./Sources/LIN_Stack/bsp/UART/lin_lld_uart.o
  .debug_macinfo
-                0x00044f4d    0x23557 ./Sources/LIN_Stack/bsp/UART/lin_lld_timesrv.o
+                0x00044f55    0x2355b ./Sources/LIN_Stack/bsp/UART/lin_lld_timesrv.o
  .debug_macinfo
-                0x000684a4    0x23517 ./Sources/LIN_Stack/bsp/UART/lin_isr.o
+                0x000684b0    0x2351b ./Sources/LIN_Stack/bsp/UART/lin_isr.o
  .debug_macinfo
-                0x0008b9bb    0x23490 ./Sources/LIN_Stack/coreapi/lin_lin21_proto.o
+                0x0008b9cb    0x23494 ./Sources/LIN_Stack/coreapi/lin_lin21_proto.o
  .debug_macinfo
-                0x000aee4b    0x237a7 ./Sources/LIN_Stack/coreapi/lin_common_proto.o
+                0x000aee5f    0x237ab ./Sources/LIN_Stack/coreapi/lin_common_proto.o
  .debug_macinfo
-                0x000d25f2    0x2347a ./Sources/LIN_Stack/coreapi/lin_common_api.o
+                0x000d260a    0x2347e ./Sources/LIN_Stack/coreapi/lin_common_api.o
  .debug_macinfo
-                0x000f5a6c    0x23cbe ./Sources/LIN_Stack/diagnostic/lin_diagnostic_service.o
+                0x000f5a88    0x23cc6 ./Sources/LIN_Stack/diagnostic/lin_diagnostic_service.o
  .debug_macinfo
-                0x0011972a    0x2351b ./Sources/LIN_Stack/lowlevel/lin.o
+                0x0011974e    0x2351f ./Sources/LIN_Stack/lowlevel/lin.o
  .debug_macinfo
-                0x0013cc45    0x23d48 ./Sources/LIN_Stack/transport/lin_commontl_proto.o
+                0x0013cc6d    0x23d50 ./Sources/LIN_Stack/transport/lin_commontl_proto.o
  .debug_macinfo
-                0x0016098d    0x237a3 ./Sources/LIN_Stack/transport/lin_commontl_api.o
+                0x001609bd    0x237a7 ./Sources/LIN_Stack/transport/lin_commontl_api.o
  .debug_macinfo
-                0x00184130    0x1a1a6 ./Sources/driver/clock/clock.o
+                0x00184164    0x1a1aa ./Sources/driver/clock/clock.o
  .debug_macinfo
-                0x0019e2d6    0x1a731 ./Sources/driver/eeprom/eeprom.o
+                0x0019e30e    0x1a739 ./Sources/driver/eeprom/eeprom.o
  .debug_macinfo
-                0x001b8a07    0x1a1e2 ./Sources/driver/gpio/gpio.o
+                0x001b8a47    0x1a1ea ./Sources/driver/gpio/gpio.o
  .debug_macinfo
-                0x001d2be9    0x2343a ./Sources/lin_cfg/lin_cfg.o
+                0x001d2c31    0x2343e ./Sources/lin_cfg/lin_cfg.o
  .debug_macinfo
-                0x001f6023    0x256ec ./Sources/main.o
+                0x001f606f    0x256fc ./Sources/main.o
 
-.debug_line     0x00000000     0x4f67
+.debug_line     0x00000000     0x5057
  .debug_line    0x00000000      0x20b ./Project_Settings/Startup_Code/kinetis_sysinit.o
  .debug_line    0x0000020b      0x281 ./Project_Settings/Startup_Code/__arm_start.o
  .debug_line    0x0000048c      0x259 ./Project_Settings/Startup_Code/__arm_end.o
- .debug_line    0x000006e5      0x6bb ./Sources/LIN_Stack/bsp/UART/lin_lld_uart.o
- .debug_line    0x00000da0      0x379 ./Sources/LIN_Stack/bsp/UART/lin_lld_timesrv.o
- .debug_line    0x00001119      0x311 ./Sources/LIN_Stack/bsp/UART/lin_isr.o
- .debug_line    0x0000142a      0x37b ./Sources/LIN_Stack/coreapi/lin_lin21_proto.o
- .debug_line    0x000017a5      0x5de ./Sources/LIN_Stack/coreapi/lin_common_proto.o
- .debug_line    0x00001d83      0x3d7 ./Sources/LIN_Stack/coreapi/lin_common_api.o
- .debug_line    0x0000215a      0x5e4 ./Sources/LIN_Stack/diagnostic/lin_diagnostic_service.o
- .debug_line    0x0000273e      0x444 ./Sources/LIN_Stack/lowlevel/lin.o
- .debug_line    0x00002b82      0x669 ./Sources/LIN_Stack/transport/lin_commontl_proto.o
- .debug_line    0x000031eb      0x59d ./Sources/LIN_Stack/transport/lin_commontl_api.o
- .debug_line    0x00003788      0x1db ./Sources/driver/clock/clock.o
- .debug_line    0x00003963      0x73a ./Sources/driver/eeprom/eeprom.o
- .debug_line    0x0000409d      0x1d4 ./Sources/driver/gpio/gpio.o
- .debug_line    0x00004271      0x2c5 ./Sources/lin_cfg/lin_cfg.o
- .debug_line    0x00004536      0x54b ./Sources/main.o
- .debug_line    0x00004a81       0x8d D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(exit.o)
- .debug_line    0x00004b0e       0x93 D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(rand.o)
- .debug_line    0x00004ba1       0x90 D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(memset.o)
- .debug_line    0x00004c31       0xf6 D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(__filll_mem.o)
- .debug_line    0x00004d27       0x6c D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\librt.a(gcc_ctor_dtor.o)
- .debug_line    0x00004d93      0x117 D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\librt.a(__arm_eabi_init.o)
- .debug_line    0x00004eaa       0xbd D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\librt.a(ROMCopy.o)
+ .debug_line    0x000006e5      0x6cb ./Sources/LIN_Stack/bsp/UART/lin_lld_uart.o
+ .debug_line    0x00000db0      0x389 ./Sources/LIN_Stack/bsp/UART/lin_lld_timesrv.o
+ .debug_line    0x00001139      0x321 ./Sources/LIN_Stack/bsp/UART/lin_isr.o
+ .debug_line    0x0000145a      0x38b ./Sources/LIN_Stack/coreapi/lin_lin21_proto.o
+ .debug_line    0x000017e5      0x5ee ./Sources/LIN_Stack/coreapi/lin_common_proto.o
+ .debug_line    0x00001dd3      0x3e7 ./Sources/LIN_Stack/coreapi/lin_common_api.o
+ .debug_line    0x000021ba      0x5f4 ./Sources/LIN_Stack/diagnostic/lin_diagnostic_service.o
+ .debug_line    0x000027ae      0x454 ./Sources/LIN_Stack/lowlevel/lin.o
+ .debug_line    0x00002c02      0x679 ./Sources/LIN_Stack/transport/lin_commontl_proto.o
+ .debug_line    0x0000327b      0x5ad ./Sources/LIN_Stack/transport/lin_commontl_api.o
+ .debug_line    0x00003828      0x1eb ./Sources/driver/clock/clock.o
+ .debug_line    0x00003a13      0x74a ./Sources/driver/eeprom/eeprom.o
+ .debug_line    0x0000415d      0x1e4 ./Sources/driver/gpio/gpio.o
+ .debug_line    0x00004341      0x2d5 ./Sources/lin_cfg/lin_cfg.o
+ .debug_line    0x00004616      0x55b ./Sources/main.o
+ .debug_line    0x00004b71       0x8d D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(exit.o)
+ .debug_line    0x00004bfe       0x93 D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(rand.o)
+ .debug_line    0x00004c91       0x90 D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(memset.o)
+ .debug_line    0x00004d21       0xf6 D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\libc.a(__filll_mem.o)
+ .debug_line    0x00004e17       0x6c D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\librt.a(gcc_ctor_dtor.o)
+ .debug_line    0x00004e83      0x117 D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\librt.a(__arm_eabi_init.o)
+ .debug_line    0x00004f9a       0xbd D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m\librt.a(ROMCopy.o)
 
 .debug_str      0x00000000     0x2808
  .debug_str     0x00000000      0x23d ./Project_Settings/Startup_Code/kinetis_sysinit.o

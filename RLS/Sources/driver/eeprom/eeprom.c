@@ -17,7 +17,7 @@
 * @brief     Common LIN configuration, data structure
 *
 ******************************************************************************/
-#include <SKEAZN642.h>
+#include <derivative.h>
 #include "eeprom.h"
 #include "clock.h"
 
