@@ -49,7 +49,8 @@
 #if (_LIN_GPIO_ == 0) && !defined(_MC9S08SC4_H) && !defined(MCU_SKEAZN84)
 /*************************** FUNCTIONS *******************/
 
-
+extern uint8 boot_seed[4];
+extern Boot_Fsm_t boot_status_flag;
 void lin_tl_make_slaveres_pdu
 (
     /* [IN] service identifier */
@@ -394,6 +395,23 @@ void lin_tl_make_slaveres_pdu
             lin_tl_pdu[4] = 0xFF;
             break;
         #endif /* End (LIN_PROTOCOL == PROTOCOL_21) */
+		case SERVICE_SECURITYACCESS:
+        	if (POSITIVE == res_type)
+			 {		
+			  /* SID */
+			  if(boot_status_flag == boot_fsm_sendseed)
+        		{
+				    lin_tl_pdu[1] = 0x08;
+        			lin_tl_pdu[2] = RES_POSITIVE + sid;
+        			lin_tl_pdu[3] = 1;
+        			lin_tl_pdu[4] = boot_seed[0];
+        			lin_tl_pdu[5] = boot_seed[1];
+        			lin_tl_pdu[6] = boot_seed[2];
+        			lin_tl_pdu[7] = boot_seed[3];
+        		}
+			  lin_tl_pdu[2] = RES_POSITIVE + sid;
+			 }
+        	break;
         default:
             break;
     }/* end of switch statement */
@@ -807,6 +825,9 @@ void lin_tl_attach_service()
         switch (sid)
         {
 #if LIN_PROTOCOL == PROTOCOL_21
+            case SERVICE_SECURITYACCESS:
+        	    lin_diagservice_service_securityaccess();
+            	break;
             case SERVICE_SESSION_CONTROL:
                     	
                 lin_diagservice_session_control();
@@ -1706,6 +1727,10 @@ void lin_tl_attach_service (l_ifc_handle iii)
                     }
                     break;
 #endif /* (End LIN_PROTOCOL == LIN_PROTOCOL_J2602) */
+
+                case SERVICE_SECURITYACCESS:
+        	        lin_diagservice_service_securityaccess();
+            	    break;
                 default:
                     break;
             }

@@ -67,6 +67,33 @@ void lin_diagservice_session_state(void)
 	diagnostic_Session_pre = diagnostic_Session;
 }
 
+/************************
+ * For APP up close
+ * 
+ * xujunjie@baolong.com
+ * ********************/
+typedef void(*JumpToPtr)(void);
+
+void boot_jump_to_APP(uint16 *address)
+{
+	uint16 *pNewAppEntry = address;
+	JumpToPtr	pJumpTo;
+	pJumpTo = (JumpToPtr)(*pNewAppEntry);
+	pJumpTo();
+	for(;;) { ; }
+}
+
+uint8 boot_up_ret[2];
+uint8 boot_seed[4];
+uint8 boot_key[4];
+
+Boot_Fsm_t boot_status_flag;
+#define EEPROM_BOOT_REFRESH             0x10000020
+
+#define EEPROM_BOOT_REFRESH_LENTH        2
+
+#define  boot_up_value          0x5a
+
 l_u8 lin_diagservice_session_control(void)
 {
 	l_u8 id;
@@ -103,11 +130,25 @@ l_u8 lin_diagservice_session_control(void)
 				}
 				else
 				{
-					lin_tl_make_slaveres_pdu(SERVICE_SESSION_CONTROL, POSITIVE, DIAGSRV_SESSION_PROGRAM);
-					diagnostic_Session =  DIAGSRV_SESSION_PROGRAM;
+                      if(boot_status_flag == boot_fsm_getkey)
+                      {
+                        do
+                         {
+                               boot_up_ret[0] = boot_up_value;
+                               write_data_from_EEPROM(EEPROM_BOOT_REFRESH,boot_up_ret,EEPROM_BOOT_REFRESH_LENTH,ENABLE);
+                               boot_up_ret[0] = 0;
+                               read_data_from_EEPROM(EEPROM_BOOT_REFRESH,boot_up_ret,EEPROM_BOOT_REFRESH_LENTH,ENABLE);
+                         }while(boot_up_ret[0] != boot_up_value);
+                          boot_jump_to_APP((uint16 *)(0));
+                      }
+                      /* Make a negative slave response PDU */
+					lin_tl_make_slaveres_pdu(SERVICE_SESSION_CONTROL, NEGATIVE, SERVICE_NOT_SUPPORTED_ACTIVE_SESSION);
+					diagnostic_Session = DIAGSRV_SESSION_DEFAULT ;
+                                        
 				}
 				break;
 			case DIAGSRV_SESSION_EXTERN:
+                                boot_status_flag = boot_session_extern;
 				lin_tl_make_slaveres_pdu(SERVICE_SESSION_CONTROL, POSITIVE, DIAGSRV_SESSION_EXTERN);
 				diagnostic_Session =  DIAGSRV_SESSION_EXTERN;
 				break;
@@ -123,6 +164,90 @@ l_u8 lin_diagservice_session_control(void)
 		lin_tl_make_slaveres_pdu(SERVICE_SESSION_CONTROL, NEGATIVE, INVALID_FORMAT);
 	}
 }
+
+
+
+
+void uds_calc_key(uint8 *seed,uint8 *key)
+{
+     uint8 i;
+     uint32 mask;
+
+     uint32 wort;     
+     
+     mask = 0x7FADEBFC;
+     
+     wort = (((uint32)seed[0])<<24) + (((uint32)seed[0])<<16) + (((uint32)seed[0])<<8) + ((uint32)seed[0]);
+         
+     for(i = 0 ;i<35;i++)
+     {
+        if(wort&0x80000000)
+        {
+            wort = wort<<1;
+            wort = wort^mask;
+        }
+        else
+        {
+            wort = wort<<1; 
+        }
+        
+     } 
+     key[0] = (uint8)(wort >> 24);
+     key[1] = (uint8)(wort >> 16);
+     key[2] = (uint8)(wort >> 8);
+     key[3] = (uint8)wort;
+}
+
+
+void lin_diagservice_service_securityaccess(void)
+{
+	 l_u16 length;
+	 l_u8 data[10];
+	 uint8 i; 
+	 /* get pdu from rx queue */
+	 ld_receive_message(&length, data);
+	 
+	 if((data[1] == 1)&&( boot_status_flag == boot_session_extern))
+	 {
+		 boot_status_flag = boot_fsm_sendseed;
+		 boot_seed[0] = rand();
+		 boot_seed[1] = rand();
+		 boot_seed[2] = rand();
+		 boot_seed[3] = rand();
+		 lin_tl_make_slaveres_pdu(SERVICE_SECURITYACCESS, POSITIVE, RES_POSITIVE);
+	 }
+	 else if((data[1] == 2)&&(boot_status_flag == boot_fsm_sendseed))
+	 {
+		 uds_calc_key(boot_seed,boot_key);
+		 for(i = 0; i < 4;i++ )
+		 {
+			 if(boot_key[i] != data[2 + i])
+			 {
+				 boot_status_flag = boot_fsm_sendseed;
+				 lin_tl_make_slaveres_pdu(SERVICE_SECURITYACCESS, NEGATIVE, SUBFUNCTION_NOT_SUPPORTED);
+				 return;
+			 }
+                  }
+		 boot_status_flag = boot_fsm_getkey;
+		 lin_tl_make_slaveres_pdu(SERVICE_SECURITYACCESS, POSITIVE, RES_POSITIVE);
+	 }
+	 else
+	 {
+		 lin_tl_make_slaveres_pdu(SERVICE_SECURITYACCESS, NEGATIVE, SUBFUNCTION_NOT_SUPPORTED);
+	 }
+	
+	
+}
+
+
+
+
+
+
+
+
+
+
 
 void lin_diagservice_read_data_by_identifier(void)
 {

@@ -139,8 +139,8 @@ const l_u16  lin_configuration_ROM[LIN_SIZE_OF_CFG]= {0x00, 0x23, 0x31, 0x32, 0x
 
 /***************************************** Node Attribute*****************************************/
 
-l_u8 lin_configured_NAD = 0x16;    /*<configured_NAD>*/
-const l_u8 lin_initial_NAD    =0x16;    /*<initial_NAD>*/
+l_u8 lin_configured_NAD = 0x22;    /*<configured_NAD>*/
+const l_u8 lin_initial_NAD    =0x22;    /*<initial_NAD>*/
 const lin_product_id product_id = {0x0023, 0x0023, 0x00FF };  /* {<supplier_id>,<function_id>,<variant>} */
 
 const lin_product_serial_num product_serial_num = {0x2018, 0x0824};  /* {<supplier_id>,<function_id>,<variant>} */
@@ -195,7 +195,7 @@ lin_message_status tl_tx_msg_status;                  /* cooked tx status */
 
 /****************************Support SID Initialization ***********************/
 
-const l_u8 lin_diag_services_supported[_DIAG_NUMBER_OF_SERVICES_] = {0xB2,0xB6,0xB7,0x22,0x10,0xB3,0xB0,0x2E};
+const l_u8 lin_diag_services_supported[_DIAG_NUMBER_OF_SERVICES_] = {0xB2,0xB6,0xB7,0x22,0x10,0xB3,0xB0,0x2E,0x27};
 l_u8 lin_diag_services_flag[_DIAG_NUMBER_OF_SERVICES_] = {0,0,0,0,0,0,0,0};
 l_u8 tl_slaveresp_cnt = 0;
 /* This function is an example of response; real implementation is application-dependent */
