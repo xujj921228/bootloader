@@ -107,9 +107,9 @@ void Flash_bootloader_protect(void)
  * ********************/
 typedef void(*JumpToPtr)(void);
 
-void boot_jump_to_APP(uint16_t address)
+void boot_jump_to_APP(uint16_t *address)
 {
-	uint16_t *pNewAppEntry = (uint16_t *)address;
+	uint16_t *pNewAppEntry = address;
 	JumpToPtr	pJumpTo;
 	pJumpTo = (JumpToPtr)(*pNewAppEntry);
 	pJumpTo();
@@ -132,7 +132,7 @@ int main(void)
        &&(boot_APP_check() == APP_VALUE))//if flag is equal to 1,jump to app.else doing updata
     {
 	   //Jump to app
-       boot_jump_to_APP(APP_start_address);
+       boot_jump_to_APP((uint16_t *)APP_start_address);
     }  
     
     
@@ -167,13 +167,12 @@ int main(void)
 			}
 			else
 			{
-				flash_eraser_cn++;
 				u16Err_1 = FLASH_EraseSector((VERIFIED_SECTOR+flash_eraser_cn++)*FLASH_SECTOR_SIZE);
 			}
 		}
 		if(boot_status_flag == boot_fsm_reboot)
 		{
-			boot_jump_to_APP(0);
+			boot_jump_to_APP((uint16_t *)(0));
 		}
 		 
 
