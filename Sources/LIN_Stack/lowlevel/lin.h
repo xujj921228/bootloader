@@ -59,10 +59,10 @@
 * lin bool data type (true or false)
 ******************************************************************************/
 
-/*typedef unsigned char		uint8_t;
-typedef unsigned short int  uint16_t;
-typedef unsigned long int   uint32_t;
-*/
+//typedef unsigned char		uint8_t;
+//typedef unsigned short int  uint16_t;
+//typedef unsigned long int   uint32_t;
+
 
 typedef signed   char l_s8;
 typedef unsigned char l_u8;

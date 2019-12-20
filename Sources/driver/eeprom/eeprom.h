@@ -124,15 +124,15 @@ typedef enum
 
 
 extern void WDOG_Feed(void);
-extern uint16 FLASH_Init(uint32 u32BusClock);
+extern uint16_t FLASH_Init(uint32_t u32BusClock);
 extern uint16_t FLASH_EraseSector(uint32_t u32NVMTargetAddress);
-extern void FLASH_LaunchCMD(uint8 bWaitComplete);
-extern uint16 FLASH_Program2LongWords(uint32 u32NVMTargetAddress, uint32 u32DwData0, uint32 u32DwData1);
-extern uint16 FLASH_Program(uint32 u32NVMTargetAddress, uint8 *pData, uint16 u16SizeBytes);
+extern void FLASH_LaunchCMD(uint8_t bWaitComplete);
+extern uint16_t FLASH_Program2LongWords(uint32_t u32NVMTargetAddress, uint32_t u32DwData0, uint32_t u32DwData1);
+extern uint16_t FLASH_Program(uint32_t u32NVMTargetAddress, uint8_t *pData, uint16_t u16SizeBytes);
 extern uint16_t FLASH_Program1LongWord(uint32_t u32NVMTargetAddress, uint32_t u32DwData);
-extern uint16 EEPROM_ProgramWord(uint32 u32NVMTargetAddress, uint16 u16DwData);
-extern uint8 write_data_from_EEPROM(uint32 startAddr, uint8 *p_data, uint16 len,uint8 checksumEnable);
-extern uint8 read_data_from_EEPROM(uint32 startAddr,uint8 *p_data,uint16 len, uint8 checksumEnable); 
+extern uint16_t EEPROM_ProgramWord(uint32_t u32NVMTargetAddress, uint16_t u16DwData);
+extern uint8_t write_data_from_EEPROM(uint32_t startAddr, uint8_t *p_data, uint16_t len,uint8_t checksumEnable);
+extern uint8_t read_data_from_EEPROM(uint32_t startAddr,uint8_t *p_data,uint16_t len, uint8_t checksumEnable); 
 extern APP_check_t boot_APP_check(void);
-extern  uint8 boot_up_check();
+extern  uint8_t boot_up_check();
 

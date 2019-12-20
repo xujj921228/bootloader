@@ -33,10 +33,8 @@
  * 9.send key 
  * ***********/
 Boot_Fsm_t boot_status_flag;
-uint8 boot_rx_ok_id;
-uint8 boot_up_ret[2];
-
-
+uint8_t boot_rx_ok_id;
+uint8_t boot_up_ret[2];
 
 /************************
  * For all Var init
@@ -62,7 +60,7 @@ void boot_Var_init(void)
  *******************************************************/ 
 void Lin_Sys_Init(void)
 {
-	uint8 vector_number = 0;
+	uint8_t vector_number = 0;
 	
     l_sys_init();
 	l_ifc_init(LI0);
@@ -109,9 +107,9 @@ void Flash_bootloader_protect(void)
  * ********************/
 typedef void(*JumpToPtr)(void);
 
-void boot_jump_to_APP(void)
+void boot_jump_to_APP(uint16_t *address)
 {
-	uint16 *pNewAppEntry = (uint16 *)APP_start_address;
+	uint16_t *pNewAppEntry = address;
 	JumpToPtr	pJumpTo;
 	pJumpTo = (JumpToPtr)(*pNewAppEntry);
 	pJumpTo();
@@ -120,9 +118,9 @@ void boot_jump_to_APP(void)
 
 uint16_t u16Err_1 = FLASH_ERR_SUCCESS;
 
-void main(void)
+int main(void)
 {	
-	uint32 flash_eraser_cn = 0;
+	uint32_t flash_eraser_cn = 0;
 	
 	boot_sysinit();
 	boot_Var_init();
@@ -130,13 +128,12 @@ void main(void)
 
 	//FLASH_EraseSector((VERIFIED_SECTOR+87)*FLASH_SECTOR_SIZE); // for debug eraser flag 
 	//case 0: normal start jump to app
-    if((boot_up_check() != 1)
-       &&(boot_APP_check() == APP_VALUE))//if flag is equal to 1,jump to app.else doing updata
-    {
+    //if((boot_up_check() != 1)
+      // &&(boot_APP_check() == APP_VALUE))//if flag is equal to 1,jump to app.else doing updata
+    //{
 	   //Jump to app
-       boot_jump_to_APP();
-	  // ((void (*)())APP_start_address)();
-    }  
+     //  boot_jump_to_APP((uint16_t *)APP_start_address);
+   // }  
     
     
     //case 1: need to reload APP SDK
@@ -148,11 +145,11 @@ void main(void)
     	WDOG_Feed();
     	if(boot_rx_ok_id != 0) //rx ok 
     	{
-    		DISABLE_INTERRUPT;
+    		//DISABLE_INTERRUPT;
             /* trigger callback */
             lin_update_rx(boot_rx_ok_id);
             boot_rx_ok_id = 0;
-            ENABLE_INTERRUPT;
+           // ENABLE_INTERRUPT;
     	}
     	
     	
@@ -170,13 +167,12 @@ void main(void)
 			}
 			else
 			{
-				flash_eraser_cn++;
 				u16Err_1 = FLASH_EraseSector((VERIFIED_SECTOR+flash_eraser_cn++)*FLASH_SECTOR_SIZE);
 			}
 		}
 		if(boot_status_flag == boot_fsm_reboot)
 		{
-			((void (*)())0x0)();
+			boot_jump_to_APP((uint16_t *)(0));
 		}
 		 
 

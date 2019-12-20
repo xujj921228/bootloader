@@ -1,14 +1,14 @@
-"D:\IAR Systems\Embedded Workbench 8.2\arm\bin\armproc.dll" 
+"C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.2\arm\bin\armproc.dll" 
 
-"D:\IAR Systems\Embedded Workbench 8.2\arm\bin\armpemicro.dll" 
+"C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.2\arm\bin\armpemicro.dll" 
 
-"F:\BAOLONG\IAR_PROJECT\IAR_bootloader\Debug\Exe\RLS.out" 
+"C:\Users\xujunjie\Desktop\iar_boot\Debug\Exe\RLS.out" 
 
---plugin="D:\IAR Systems\Embedded Workbench 8.2\arm\bin\armbat.dll" 
+--plugin="C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.2\arm\bin\armbat.dll" 
 
---device_macro="D:\IAR Systems\Embedded Workbench 8.2\arm\config\debugger\NXP\KExx.dmac" 
+--device_macro="C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.2\arm\config\debugger\NXP\KExx.dmac" 
 
---flash_loader="D:\IAR Systems\Embedded Workbench 8.2\arm\config\flashloader\NXP\FlashKE0x64K.board" 
+--flash_loader="C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.2\arm\config\flashloader\NXP\FlashKE0x64K.board" 
 
 
 

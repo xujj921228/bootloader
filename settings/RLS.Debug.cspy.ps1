@@ -23,9 +23,9 @@
 
 if ($debugfile -eq "")
 {
-& "D:\IAR Systems\Embedded Workbench 8.2\common\bin\cspybat" -f "F:\BAOLONG\IAR_PROJECT\IAR_bootloader\settings\RLS.Debug.general.xcl" --backend -f "F:\BAOLONG\IAR_PROJECT\IAR_bootloader\settings\RLS.Debug.driver.xcl" 
+& "C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.2\common\bin\cspybat" -f "C:\Users\xujunjie\Desktop\iar_boot\settings\RLS.Debug.general.xcl" --backend -f "C:\Users\xujunjie\Desktop\iar_boot\settings\RLS.Debug.driver.xcl" 
 }
 else
 {
-& "D:\IAR Systems\Embedded Workbench 8.2\common\bin\cspybat" -f "F:\BAOLONG\IAR_PROJECT\IAR_bootloader\settings\RLS.Debug.general.xcl" --debug_file=$debugfile --backend -f "F:\BAOLONG\IAR_PROJECT\IAR_bootloader\settings\RLS.Debug.driver.xcl" 
+& "C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.2\common\bin\cspybat" -f "C:\Users\xujunjie\Desktop\iar_boot\settings\RLS.Debug.general.xcl" --debug_file=$debugfile --backend -f "C:\Users\xujunjie\Desktop\iar_boot\settings\RLS.Debug.driver.xcl" 
 }

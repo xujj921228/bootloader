@@ -23,16 +23,16 @@
 
 void WDOG_Feed(void)
 {
-    DISABLE_INTERRUPT;
+	DISABLE_INTERRUPT;
     WDOG_CNT = 0x02A6;
     WDOG_CNT = 0x80B4;
     ENABLE_INTERRUPT;
 }
 
-uint16 FLASH_Init(uint32 u32BusClock)
+uint16_t FLASH_Init(uint32_t u32BusClock)
 {
-	uint16 u16Err = FLASH_ERR_SUCCESS;
-	uint8 clkDIV = u32BusClock/1000000L - 1;
+	uint16_t u16Err = FLASH_ERR_SUCCESS;
+	uint8_t clkDIV = u32BusClock/1000000L - 1;
 	
 	if(!(FTMRH_FSTAT & FTMRH_FSTAT_CCIF_MASK))
 	{
@@ -128,7 +128,7 @@ uint16_t FLASH_EraseSector(uint32_t u32NVMTargetAddress)
 	return (u16Err);
 }
 
-void FLASH_LaunchCMD(uint8 bWaitComplete)
+void FLASH_LaunchCMD(uint8_t bWaitComplete)
 
 {
     MCM_PLACR |= MCM_PLACR_ESFC_MASK;          /* enable stalling flash controller when flash is busy */
@@ -154,9 +154,9 @@ void FLASH_LaunchCMD(uint8 bWaitComplete)
   * @ Pass/ Fail criteria: none
 *****************************************************************************/
 
-uint16 FLASH_Program2LongWords(uint32 u32NVMTargetAddress, uint32 u32DwData0, uint32 u32DwData1)
+uint16_t FLASH_Program2LongWords(uint32_t u32NVMTargetAddress, uint32_t u32DwData0, uint32_t u32DwData1)
 {
-	uint16 u16Err = FLASH_ERR_SUCCESS;
+	uint16_t u16Err = FLASH_ERR_SUCCESS;
 	
 	// Check address to see if it is aligned to 4 bytes
 	// Global address [1:0] must be 00.
@@ -237,16 +237,16 @@ uint16 FLASH_Program2LongWords(uint32 u32NVMTargetAddress, uint32 u32DwData0, ui
  * 
  * *********************************/
 
-uint16 FLASH_Program(uint32 u32NVMTargetAddress, uint8 *pData, uint16 u16SizeBytes)
+uint16_t FLASH_Program(uint32_t u32NVMTargetAddress, uint8_t *pData, uint16_t u16SizeBytes)
 {
-	uint16 u16Err = FLASH_ERR_SUCCESS;
-	uint16 u16w2LongWordCount = u16SizeBytes>>3;
-	uint8  u8WrLeftBytes = (u16SizeBytes & 0x07);
-	uint16 u16WrLeftLongWords = u8WrLeftBytes>>2;
-	uint32 u32WrTargetAddress = u32NVMTargetAddress;
-	uint32 u32DwData0,u32DwData1;
-	uint32 *pDwData = (uint32_t*)pData;
-	int  i;
+	uint16_t u16Err = FLASH_ERR_SUCCESS;
+	uint16_t u16w2LongWordCount = u16SizeBytes>>3;
+	uint8_t  u8WrLeftBytes = (u16SizeBytes & 0x07);
+	uint16_t u16WrLeftLongWords = u8WrLeftBytes>>2;
+	uint32_t u32WrTargetAddress = u32NVMTargetAddress;
+	uint32_t u32DwData0,u32DwData1;
+	uint32_t *pDwData = (uint32_t*)pData;
+	uint16_t  i;
 	
 	
 	// Check address to see if it is aligned to 4 bytes
@@ -384,9 +384,9 @@ uint16_t FLASH_Program1LongWord(uint32_t u32NVMTargetAddress, uint32_t u32DwData
   *
   * @ Pass/ Fail criteria: none.
 *****************************************************************************/
-uint16 EEPROM_EraseSector(uint32 u32NVMTargetAddress)
+uint16_t EEPROM_EraseSector(uint32_t u32NVMTargetAddress)
 {
-	uint16 u16Err = FLASH_ERR_SUCCESS;
+	uint16_t u16Err = FLASH_ERR_SUCCESS;
 	
 	// Check address to see if it is aligned to 4 bytes
 	// Global address [1:0] must be 00.
@@ -446,9 +446,9 @@ uint16 EEPROM_EraseSector(uint32 u32NVMTargetAddress)
   * @ Pass/ Fail criteria: none.
 *****************************************************************************/
 
-uint16 EEPROM_ProgramWord(uint32 u32NVMTargetAddress, uint16 u16DwData)
+uint16_t EEPROM_ProgramWord(uint32_t u32NVMTargetAddress, uint16_t u16DwData)
 {
-	uint16 u16Err = FLASH_ERR_SUCCESS;
+	uint16_t u16Err = FLASH_ERR_SUCCESS;
 	
 	// Check address to see if it is aligned to 4 bytes
 	// Global address [1:0] must be 00.
@@ -516,13 +516,13 @@ uint16 EEPROM_ProgramWord(uint32 u32NVMTargetAddress, uint16 u16DwData)
   * @ Pass/ Fail criteria: none.
 *****************************************************************************/
 
-uint8 write_data_from_EEPROM(uint32 startAddr, uint8 *p_data, uint16 len,uint8 checksumEnable)
+uint8_t write_data_from_EEPROM(uint32_t startAddr, uint8_t *p_data, uint16_t len,uint8_t checksumEnable)
 {
-	   uint8 checksum = 0;
-	   uint8 sectorBackup[2] = {0};
-	   uint16  sectorBackup_word = 0;
-	   uint32 startSectorAddr,i;
-	   uint8  offsetAddr;
+	   uint8_t checksum = 0;
+	   uint8_t sectorBackup[2] = {0};
+	   uint16_t  sectorBackup_word = 0;
+	   uint32_t startSectorAddr,i;
+	   uint8_t  offsetAddr;
 	   	  	   
 	   
 	   if(0 == p_data || 0 == len)
@@ -648,9 +648,9 @@ uint8 write_data_from_EEPROM(uint32 startAddr, uint8 *p_data, uint16 len,uint8 c
  *        RETURN : TRUE or FALSE.
  *        OTHERS : NONE.
  ****************************************************************************************************/
- uint8 read_data_from_EEPROM(uint32 startAddr,uint8 *p_data,uint16 len, uint8 checksumEnable) 
+ uint8_t read_data_from_EEPROM(uint32_t startAddr,uint8_t *p_data,uint16_t len, uint8_t checksumEnable) 
  {
-   uint8 checksum=0;
+   uint8_t checksum=0;
    
    if(checksumEnable == ENABLE)
    {
@@ -672,7 +672,7 @@ uint8 write_data_from_EEPROM(uint32 startAddr, uint8 *p_data, uint16 len,uint8 c
        if(!(FTMRH_FSTAT & FTMRH_FSTAT_CCIF_MASK)) {               // Is reading from EEPROM possible? 
            return FALSE;               // If no then error 
        }
-       *p_data++ = *(volatile uint8 *)startAddr++;
+       *p_data++ = *(volatile uint8_t *)startAddr++;
        checksum += *(p_data-1); 
        len--;
        if(len==1)
@@ -682,12 +682,12 @@ uint8 write_data_from_EEPROM(uint32 startAddr, uint8 *p_data, uint16 len,uint8 c
          }
          if(checksumEnable == ENABLE)
          {
-           checksum += *(volatile uint8 *)startAddr++;
+           checksum += *(volatile uint8_t *)startAddr++;
            if(checksum==0) return TRUE;
            else return FALSE; 
          }else  
          {
-           *p_data = *(volatile uint8 *)startAddr;
+           *p_data = *(volatile uint8_t *)startAddr;
          }
        }
      }

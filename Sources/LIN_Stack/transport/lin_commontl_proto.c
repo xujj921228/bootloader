@@ -23,7 +23,7 @@
 
 extern Boot_Fsm_t boot_status_flag;
 extern l_u16 boot_flashdata_cn;
-extern uint8 boot_seed[4];
+extern uint8_t boot_seed[4];
 
 void lin_tl_make_slaveres_pdu
 (

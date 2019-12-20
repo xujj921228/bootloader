@@ -21,13 +21,13 @@
 l_u8 diagnostic_Session,diagnostic_Session_pre,diagnostic_Session_flg;
 l_u16 diagnostic_Session_timer;
 
-extern uint8 boot_up_ret[2];
+extern uint8_t boot_up_ret[2];
 
 extern Boot_Fsm_t boot_status_flag;
-uint32 updata_flash_ID = 0;
-uint16 updata_length = 0;
-uint8 boot_seed[4];
-uint8 boot_key[4];
+uint32_t updata_flash_ID = 0;
+uint16_t updata_length = 0;
+uint8_t boot_seed[4];
+uint8_t boot_key[4];
 l_u8 APP_check_value[4]={0xa5,0x5a,0xa4,0x4a};
 l_u8 boot_write_flash[100];
 l_u8 service_flash_read[100]={0};
@@ -43,9 +43,9 @@ l_u16 boot_flashdata_last_cn ;
  * ********************/
 APP_check_t boot_APP_check(void)
 {
-	uint8 i;
+	uint8_t i;
 	APP_check_t ret = APP_VALUE;
-	uint8 temp[4] ={ 0 };
+	uint8_t temp[4] ={ 0 };
 	
 	for(i = 0;i < 4; i++)
 	{
@@ -64,7 +64,7 @@ APP_check_t boot_APP_check(void)
  * 
  * xujunjie@baolong.com
  * ********************/
-uint8 boot_up_check()
+uint8_t boot_up_check()
 {
 	read_data_from_EEPROM(EEPROM_BOOT_REFRESH,boot_up_ret,EEPROM_BOOT_REFRESH_LENTH,ENABLE);
 		
@@ -249,12 +249,12 @@ void lin_diagservice_write_data_by_identifier(void)
 
 
 
-void uds_calc_key(uint8 *seed,uint8 *key)
+void uds_calc_key(uint8_t *seed,uint8_t *key)
 {
-     uint8 i;
-     uint32 mask;
+     uint8_t i;
+     uint32_t mask;
 
-     uint32 wort;     
+     uint32_t wort;     
      
      mask = 0x7FADEBFC;
      
@@ -284,7 +284,7 @@ void lin_diagservice_service_securityaccess(void)
 {
 	 l_u16 length;
 	 l_u8 data[10];
-	 uint8 i; 
+	 uint8_t i; 
 	 /* get pdu from rx queue */
 	 ld_receive_message(&length, data);
 	 
@@ -356,10 +356,10 @@ void lin_diagservice_request_download(void)
 
 void lin_diagservice_transfer_data(void)
 {
-	uint32 i;
+	uint32_t i;
     static l_u16 length;
     l_u8 data[50];
-    uint16 sum = 0;
+    uint16_t sum = 0;
     
     if( boot_status_flag == boot_fsm_requestdriver ) //驱动数据传输
     {

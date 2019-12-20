@@ -26,7 +26,7 @@ extern uint32_t __vector_table[];
 int __low_level_init(void)
 {
   SCB_VTOR = (uint32_t)__vector_table; /* Set the interrupt vector table position */
-  WDOG_CS1 = 0xA4;//A4 WDOG_CS1_EN_MASK |WDOG_CS1_INT_MASK|WDOG_CS1_UPDATE_MASK| WDOG_CS1_STOP_MASK | WDOG_CS1_WAIT_MASK | WDOG_CS1_DBG_MASK; // enable counter running               
+  WDOG_CS1 = 0x23;//A4 WDOG_CS1_EN_MASK |WDOG_CS1_INT_MASK|WDOG_CS1_UPDATE_MASK| WDOG_CS1_STOP_MASK | WDOG_CS1_WAIT_MASK | WDOG_CS1_DBG_MASK; // enable counter running               
   WDOG_CS2 = 0x01; // setting 1-kHz clock source
   WDOG_TOVALH = 0x0F;
   WDOG_TOVALL = 0xA0;
