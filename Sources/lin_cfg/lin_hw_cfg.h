@@ -56,7 +56,7 @@ typedef enum {
 #define _UART1_   0 
 #define _UART2_   0 
 /* MCU bus frequency */
-#define MCU_BUS_FREQ       19500000
+#define MCU_BUS_FREQ       20000000
 
 #define TIME_BASE_PERIOD   500
 

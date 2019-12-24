@@ -30,7 +30,7 @@ void main(void)
 	unsigned char ret = 0 ;
 	unsigned char vector_number = 0;
 	
-	Clk_Init();	
+	//Clk_Init();	
 	FTM0_Init();
 	ADC_Init();
 	GPIO_Init();

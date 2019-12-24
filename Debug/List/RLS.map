@@ -1,47 +1,47 @@
 ###############################################################################
 #
-# IAR ELF Linker V8.32.1.169/W32 for ARM                  20/Dec/2019  11:27:06
+# IAR ELF Linker V8.32.1.169/W32 for ARM                  24/Dec/2019  10:59:20
 # Copyright 2007-2018 IAR Systems AB.
 #
-#    Output file  =  C:\Users\xujunjie\Desktop\IAR_WX13481\Debug\Exe\RLS.out
-#    Map file     =  C:\Users\xujunjie\Desktop\IAR_WX13481\Debug\List\RLS.map
+#    Output file  =  C:\Users\ae-bk-067\Desktop\IAR_WX13481\Debug\Exe\RLS.out
+#    Map file     =  C:\Users\ae-bk-067\Desktop\IAR_WX13481\Debug\List\RLS.map
 #    Command line =  
-#        -f C:\Users\xujunjie\AppData\Local\Temp\EW8C1.tmp
-#        (C:\Users\xujunjie\Desktop\IAR_WX13481\Debug\Obj\adc.o
-#        C:\Users\xujunjie\Desktop\IAR_WX13481\Debug\Obj\clock.o
-#        C:\Users\xujunjie\Desktop\IAR_WX13481\Debug\Obj\config_parameter.o
-#        C:\Users\xujunjie\Desktop\IAR_WX13481\Debug\Obj\cstartup_M_KEAZN64.o
-#        C:\Users\xujunjie\Desktop\IAR_WX13481\Debug\Obj\eeprom.o
-#        C:\Users\xujunjie\Desktop\IAR_WX13481\Debug\Obj\ftm.o
-#        C:\Users\xujunjie\Desktop\IAR_WX13481\Debug\Obj\gpio.o
-#        C:\Users\xujunjie\Desktop\IAR_WX13481\Debug\Obj\lin.o
-#        C:\Users\xujunjie\Desktop\IAR_WX13481\Debug\Obj\lin_app.o
-#        C:\Users\xujunjie\Desktop\IAR_WX13481\Debug\Obj\lin_cfg.o
-#        C:\Users\xujunjie\Desktop\IAR_WX13481\Debug\Obj\lin_common_api.o
-#        C:\Users\xujunjie\Desktop\IAR_WX13481\Debug\Obj\lin_common_proto.o
-#        C:\Users\xujunjie\Desktop\IAR_WX13481\Debug\Obj\lin_commontl_api.o
-#        C:\Users\xujunjie\Desktop\IAR_WX13481\Debug\Obj\lin_commontl_proto.o
-#        C:\Users\xujunjie\Desktop\IAR_WX13481\Debug\Obj\lin_diagnostic_service.o
-#        C:\Users\xujunjie\Desktop\IAR_WX13481\Debug\Obj\lin_isr.o
-#        C:\Users\xujunjie\Desktop\IAR_WX13481\Debug\Obj\lin_j2602_api.o
-#        C:\Users\xujunjie\Desktop\IAR_WX13481\Debug\Obj\lin_j2602_proto.o
-#        C:\Users\xujunjie\Desktop\IAR_WX13481\Debug\Obj\lin_j2602tl_api.o
-#        C:\Users\xujunjie\Desktop\IAR_WX13481\Debug\Obj\lin_lin21_api.o
-#        C:\Users\xujunjie\Desktop\IAR_WX13481\Debug\Obj\lin_lin21_proto.o
-#        C:\Users\xujunjie\Desktop\IAR_WX13481\Debug\Obj\lin_lin21tl_api.o
-#        C:\Users\xujunjie\Desktop\IAR_WX13481\Debug\Obj\lin_lld_timesrv.o
-#        C:\Users\xujunjie\Desktop\IAR_WX13481\Debug\Obj\lin_lld_uart.o
-#        C:\Users\xujunjie\Desktop\IAR_WX13481\Debug\Obj\low_level_init.o
-#        C:\Users\xujunjie\Desktop\IAR_WX13481\Debug\Obj\main.o
-#        C:\Users\xujunjie\Desktop\IAR_WX13481\Debug\Obj\pmc.o
-#        C:\Users\xujunjie\Desktop\IAR_WX13481\Debug\Obj\rls_app.o
-#        C:\Users\xujunjie\Desktop\IAR_WX13481\Debug\Obj\rtc.o
-#        C:\Users\xujunjie\Desktop\IAR_WX13481\Debug\Obj\spi.o
-#        C:\Users\xujunjie\Desktop\IAR_WX13481\Debug\Obj\watchdog.o
+#        -f C:\Users\AE-BK-~1\AppData\Local\Temp\EW3049.tmp
+#        (C:\Users\ae-bk-067\Desktop\IAR_WX13481\Debug\Obj\adc.o
+#        C:\Users\ae-bk-067\Desktop\IAR_WX13481\Debug\Obj\clock.o
+#        C:\Users\ae-bk-067\Desktop\IAR_WX13481\Debug\Obj\config_parameter.o
+#        C:\Users\ae-bk-067\Desktop\IAR_WX13481\Debug\Obj\cstartup_M_KEAZN64.o
+#        C:\Users\ae-bk-067\Desktop\IAR_WX13481\Debug\Obj\eeprom.o
+#        C:\Users\ae-bk-067\Desktop\IAR_WX13481\Debug\Obj\ftm.o
+#        C:\Users\ae-bk-067\Desktop\IAR_WX13481\Debug\Obj\gpio.o
+#        C:\Users\ae-bk-067\Desktop\IAR_WX13481\Debug\Obj\lin.o
+#        C:\Users\ae-bk-067\Desktop\IAR_WX13481\Debug\Obj\lin_app.o
+#        C:\Users\ae-bk-067\Desktop\IAR_WX13481\Debug\Obj\lin_cfg.o
+#        C:\Users\ae-bk-067\Desktop\IAR_WX13481\Debug\Obj\lin_common_api.o
+#        C:\Users\ae-bk-067\Desktop\IAR_WX13481\Debug\Obj\lin_common_proto.o
+#        C:\Users\ae-bk-067\Desktop\IAR_WX13481\Debug\Obj\lin_commontl_api.o
+#        C:\Users\ae-bk-067\Desktop\IAR_WX13481\Debug\Obj\lin_commontl_proto.o
+#        C:\Users\ae-bk-067\Desktop\IAR_WX13481\Debug\Obj\lin_diagnostic_service.o
+#        C:\Users\ae-bk-067\Desktop\IAR_WX13481\Debug\Obj\lin_isr.o
+#        C:\Users\ae-bk-067\Desktop\IAR_WX13481\Debug\Obj\lin_j2602_api.o
+#        C:\Users\ae-bk-067\Desktop\IAR_WX13481\Debug\Obj\lin_j2602_proto.o
+#        C:\Users\ae-bk-067\Desktop\IAR_WX13481\Debug\Obj\lin_j2602tl_api.o
+#        C:\Users\ae-bk-067\Desktop\IAR_WX13481\Debug\Obj\lin_lin21_api.o
+#        C:\Users\ae-bk-067\Desktop\IAR_WX13481\Debug\Obj\lin_lin21_proto.o
+#        C:\Users\ae-bk-067\Desktop\IAR_WX13481\Debug\Obj\lin_lin21tl_api.o
+#        C:\Users\ae-bk-067\Desktop\IAR_WX13481\Debug\Obj\lin_lld_timesrv.o
+#        C:\Users\ae-bk-067\Desktop\IAR_WX13481\Debug\Obj\lin_lld_uart.o
+#        C:\Users\ae-bk-067\Desktop\IAR_WX13481\Debug\Obj\low_level_init.o
+#        C:\Users\ae-bk-067\Desktop\IAR_WX13481\Debug\Obj\main.o
+#        C:\Users\ae-bk-067\Desktop\IAR_WX13481\Debug\Obj\pmc.o
+#        C:\Users\ae-bk-067\Desktop\IAR_WX13481\Debug\Obj\rls_app.o
+#        C:\Users\ae-bk-067\Desktop\IAR_WX13481\Debug\Obj\rtc.o
+#        C:\Users\ae-bk-067\Desktop\IAR_WX13481\Debug\Obj\spi.o
+#        C:\Users\ae-bk-067\Desktop\IAR_WX13481\Debug\Obj\watchdog.o
 #        --no_out_extension -o
-#        C:\Users\xujunjie\Desktop\IAR_WX13481\Debug\Exe\RLS.out --redirect
+#        C:\Users\ae-bk-067\Desktop\IAR_WX13481\Debug\Exe\RLS.out --redirect
 #        _Printf=_PrintfFullNoMb --redirect _Scanf=_ScanfFullNoMb --map
-#        C:\Users\xujunjie\Desktop\IAR_WX13481\Debug\List\RLS.map --config
+#        C:\Users\ae-bk-067\Desktop\IAR_WX13481\Debug\List\RLS.map --config
 #        "C:\Program Files (x86)\IAR Systems\Embedded Workbench
 #        8.2\arm\config\linker\NXP\KEAZN64xxx2.icf" --semihosting --entry
 #        __iar_program_start --vfe --text_out locale)
@@ -91,40 +91,40 @@ No sections matched the following patterns:
   .intvec            ro code       0x5000    0xb4  cstartup_M_KEAZN64.o [1]
                                  - 0x50b4    0xb4
 
-"P2":                                      0x5dfc
-  .text              ro code       0x50b4  0x5738  adc.o [1]
-  .text              ro code       0xa7ec    0xe0  I32DivModFast.o [4]
-  .text              ro code       0xa8cc    0x20  IxxToDbl.o [3]
-  .text              ro code       0xa8ec   0x1a8  DblAddSub.o [3]
-  .text              ro code       0xaa94    0x2e  DblToI32.o [3]
-  .text              ro code       0xaac2     0x2  cstartup_M_KEAZN64.o [1]
-  .text              ro code       0xaac4   0x100  rand.o [2]
-  .text              ro code       0xabc4     0x2  IntDivZer.o [4]
-  .rodata            const         0xabc6     0x1  adc.o [1]
-  .rodata            const         0xabc7     0x1  adc.o [1]
-  .rodata            const         0xabc8    0x4c  adc.o [1]
-  .rodata            const         0xac14    0x3c  adc.o [1]
-  .text              ro code       0xac50    0x3c  zero_init3.o [4]
-  .text              ro code       0xac8c    0x30  copy_init3.o [4]
-  .text              ro code       0xacbc    0x28  data_init.o [4]
-  .iar.init_table    const         0xace4    0x24  - Linker created -
-  .text              ro code       0xad08    0x1e  cmain.o [4]
-  .text              ro code       0xad26     0x8  exit.o [2]
-  .rodata            const         0xad2e     0x1  adc.o [1]
-  .rodata            const         0xad2f     0x1  adc.o [1]
-  .text              ro code       0xad30     0xa  cexit.o [4]
-  .rodata            const         0xad3a     0x1  adc.o [1]
-  .text              ro code       0xad3c    0x14  exit.o [5]
-  .rodata            const         0xad50    0x14  adc.o [1]
-  .rodata            const         0xad64    0x10  adc.o [1]
-  .rodata            const         0xad74     0xc  adc.o [1]
-  .text              ro code       0xad80     0xc  cstartup_M.o [4]
-  .rodata            const         0xad8c     0x8  adc.o [1]
-  .rodata            const         0xad94     0x8  adc.o [1]
-  .rodata            const         0xad9c     0x0  zero_init3.o [4]
-  .rodata            const         0xad9c     0x0  copy_init3.o [4]
-  Initializer bytes  const         0xad9c   0x114  <for P3 s0>
-                                 - 0xaeb0  0x5dfc
+"P2":                                      0x5d64
+  .text              ro code       0x50b4  0x56a0  adc.o [1]
+  .text              ro code       0xa754    0xe0  I32DivModFast.o [4]
+  .text              ro code       0xa834    0x20  IxxToDbl.o [3]
+  .text              ro code       0xa854   0x1a8  DblAddSub.o [3]
+  .text              ro code       0xa9fc    0x2e  DblToI32.o [3]
+  .text              ro code       0xaa2a     0x2  cstartup_M_KEAZN64.o [1]
+  .text              ro code       0xaa2c   0x100  rand.o [2]
+  .text              ro code       0xab2c     0x2  IntDivZer.o [4]
+  .rodata            const         0xab2e     0x1  adc.o [1]
+  .rodata            const         0xab2f     0x1  adc.o [1]
+  .rodata            const         0xab30    0x4c  adc.o [1]
+  .rodata            const         0xab7c    0x3c  adc.o [1]
+  .text              ro code       0xabb8    0x3c  zero_init3.o [4]
+  .text              ro code       0xabf4    0x30  copy_init3.o [4]
+  .text              ro code       0xac24    0x28  data_init.o [4]
+  .iar.init_table    const         0xac4c    0x24  - Linker created -
+  .text              ro code       0xac70    0x1e  cmain.o [4]
+  .text              ro code       0xac8e     0x8  exit.o [2]
+  .rodata            const         0xac96     0x1  adc.o [1]
+  .rodata            const         0xac97     0x1  adc.o [1]
+  .text              ro code       0xac98     0xa  cexit.o [4]
+  .rodata            const         0xaca2     0x1  adc.o [1]
+  .text              ro code       0xaca4    0x14  exit.o [5]
+  .rodata            const         0xacb8    0x14  adc.o [1]
+  .rodata            const         0xaccc    0x10  adc.o [1]
+  .rodata            const         0xacdc     0xc  adc.o [1]
+  .text              ro code       0xace8     0xc  cstartup_M.o [4]
+  .rodata            const         0xacf4     0x8  adc.o [1]
+  .rodata            const         0xacfc     0x8  adc.o [1]
+  .rodata            const         0xad04     0x0  zero_init3.o [4]
+  .rodata            const         0xad04     0x0  copy_init3.o [4]
+  Initializer bytes  const         0xad04   0x114  <for P3 s0>
+                                 - 0xae18  0x5d64
 
 "P3", part 1 of 3:                          0x114
   P3 s0                       0x2000'0000   0x114  <Init block>
@@ -145,128 +145,64 @@ No sections matched the following patterns:
     .data            inited   0x2000'0110     0x1  adc.o [1]
                             - 0x2000'0114   0x114
 
-"P3", part 2 of 3:                          0x238
+"P3", part 2 of 3:                          0x278
   .bss               zero     0x2000'0114    0x84  rand.o [2]
   .bss               zero     0x2000'0198    0x50  adc.o [1]
-  .bss               zero     0x2000'01e8    0x18  adc.o [1]
-  .bss               zero     0x2000'0200    0x18  adc.o [1]
-  .bss               zero     0x2000'0218    0x14  adc.o [1]
-  .bss               zero     0x2000'022c    0x10  adc.o [1]
-  .bss               zero     0x2000'023c    0x10  adc.o [1]
-  .bss               zero     0x2000'024c     0xc  adc.o [1]
-  .bss               zero     0x2000'0258     0xc  adc.o [1]
-  .bss               zero     0x2000'0264     0x8  adc.o [1]
-  .bss               zero     0x2000'026c     0x8  adc.o [1]
-  .bss               zero     0x2000'0274     0x8  adc.o [1]
-  .bss               zero     0x2000'027c     0x8  adc.o [1]
-  .bss               zero     0x2000'0284     0x4  adc.o [1]
-  .bss               zero     0x2000'0288     0x4  adc.o [1]
-  .bss               zero     0x2000'028c     0x4  adc.o [1]
-  .bss               zero     0x2000'0290     0x4  adc.o [1]
-  .bss               zero     0x2000'0294     0x4  adc.o [1]
-  .bss               zero     0x2000'0298     0x4  adc.o [1]
-  .bss               zero     0x2000'029c     0x4  adc.o [1]
-  .bss               zero     0x2000'02a0     0x4  adc.o [1]
-  .bss               zero     0x2000'02a4     0x4  adc.o [1]
-  .bss               zero     0x2000'02a8     0x4  adc.o [1]
-  .bss               zero     0x2000'02ac     0x4  adc.o [1]
-  .bss               zero     0x2000'02b0     0x2  adc.o [1]
-  .bss               zero     0x2000'02b2     0x2  adc.o [1]
-  .bss               zero     0x2000'02b4     0x2  adc.o [1]
-  .bss               zero     0x2000'02b6     0x2  adc.o [1]
-  .bss               zero     0x2000'02b8     0x2  adc.o [1]
-  .bss               zero     0x2000'02ba     0x2  adc.o [1]
-  .bss               zero     0x2000'02bc     0x2  adc.o [1]
-  .bss               zero     0x2000'02be     0x2  adc.o [1]
-  .bss               zero     0x2000'02c0     0x2  adc.o [1]
-  .bss               zero     0x2000'02c2     0x2  adc.o [1]
-  .bss               zero     0x2000'02c4     0x2  adc.o [1]
-  .bss               zero     0x2000'02c6     0x2  adc.o [1]
-  .bss               zero     0x2000'02c8     0x2  adc.o [1]
-  .bss               zero     0x2000'02ca     0x2  adc.o [1]
-  .bss               zero     0x2000'02cc     0x2  adc.o [1]
-  .bss               zero     0x2000'02ce     0x2  adc.o [1]
-  .bss               zero     0x2000'02d0     0x2  adc.o [1]
-  .bss               zero     0x2000'02d2     0x2  adc.o [1]
-  .bss               zero     0x2000'02d4     0x2  adc.o [1]
-  .bss               zero     0x2000'02d6     0x2  adc.o [1]
-  .bss               zero     0x2000'02d8     0x2  adc.o [1]
-  .bss               zero     0x2000'02da     0x2  adc.o [1]
-  .bss               zero     0x2000'02dc     0x2  adc.o [1]
-  .bss               zero     0x2000'02de     0x2  adc.o [1]
-  .bss               zero     0x2000'02e0     0x2  adc.o [1]
-  .bss               zero     0x2000'02e2     0x2  adc.o [1]
-  .bss               zero     0x2000'02e4     0x2  adc.o [1]
-  .bss               zero     0x2000'02e6     0x2  adc.o [1]
-  .bss               zero     0x2000'02e8     0x2  adc.o [1]
-  .bss               zero     0x2000'02ea     0x2  adc.o [1]
-  .bss               zero     0x2000'02ec     0x2  adc.o [1]
-  .bss               zero     0x2000'02ee     0x2  adc.o [1]
+  .bss               zero     0x2000'01e8    0x30  adc.o [1]
+  .bss               zero     0x2000'0218    0x30  adc.o [1]
+  .bss               zero     0x2000'0248    0x18  adc.o [1]
+  .bss               zero     0x2000'0260    0x18  adc.o [1]
+  .bss               zero     0x2000'0278    0x14  adc.o [1]
+  .bss               zero     0x2000'028c     0xc  adc.o [1]
+  .bss               zero     0x2000'0298     0xc  adc.o [1]
+  .bss               zero     0x2000'02a4     0x8  adc.o [1]
+  .bss               zero     0x2000'02ac     0x8  adc.o [1]
+  .bss               zero     0x2000'02b4     0x8  adc.o [1]
+  .bss               zero     0x2000'02bc     0x8  adc.o [1]
+  .bss               zero     0x2000'02c4     0x4  adc.o [1]
+  .bss               zero     0x2000'02c8     0x4  adc.o [1]
+  .bss               zero     0x2000'02cc     0x4  adc.o [1]
+  .bss               zero     0x2000'02d0     0x4  adc.o [1]
+  .bss               zero     0x2000'02d4     0x4  adc.o [1]
+  .bss               zero     0x2000'02d8     0x4  adc.o [1]
+  .bss               zero     0x2000'02dc     0x4  adc.o [1]
+  .bss               zero     0x2000'02e0     0x4  adc.o [1]
+  .bss               zero     0x2000'02e4     0x4  adc.o [1]
+  .bss               zero     0x2000'02e8     0x4  adc.o [1]
+  .bss               zero     0x2000'02ec     0x4  adc.o [1]
   .bss               zero     0x2000'02f0     0x2  adc.o [1]
-  .bss               zero     0x2000'02f2     0x1  adc.o [1]
-  .bss               zero     0x2000'02f3     0x1  adc.o [1]
-  .bss               zero     0x2000'02f4     0x1  adc.o [1]
-  .bss               zero     0x2000'02f5     0x1  adc.o [1]
-  .bss               zero     0x2000'02f6     0x1  adc.o [1]
-  .bss               zero     0x2000'02f7     0x1  adc.o [1]
-  .bss               zero     0x2000'02f8     0x1  adc.o [1]
-  .bss               zero     0x2000'02f9     0x1  adc.o [1]
-  .bss               zero     0x2000'02fa     0x1  adc.o [1]
-  .bss               zero     0x2000'02fb     0x1  adc.o [1]
-  .bss               zero     0x2000'02fc     0x1  adc.o [1]
-  .bss               zero     0x2000'02fd     0x1  adc.o [1]
-  .bss               zero     0x2000'02fe     0x1  adc.o [1]
-  .bss               zero     0x2000'02ff     0x1  adc.o [1]
-  .bss               zero     0x2000'0300     0x1  adc.o [1]
-  .bss               zero     0x2000'0301     0x1  adc.o [1]
-  .bss               zero     0x2000'0302     0x1  adc.o [1]
-  .bss               zero     0x2000'0303     0x1  adc.o [1]
-  .bss               zero     0x2000'0304     0x1  adc.o [1]
-  .bss               zero     0x2000'0305     0x1  adc.o [1]
-  .bss               zero     0x2000'0306     0x1  adc.o [1]
-  .bss               zero     0x2000'0307     0x1  adc.o [1]
-  .bss               zero     0x2000'0308     0x1  adc.o [1]
-  .bss               zero     0x2000'0309     0x1  adc.o [1]
-  .bss               zero     0x2000'030a     0x1  adc.o [1]
-  .bss               zero     0x2000'030b     0x1  adc.o [1]
-  .bss               zero     0x2000'030c     0x1  adc.o [1]
-  .bss               zero     0x2000'030d     0x1  adc.o [1]
-  .bss               zero     0x2000'030e     0x1  adc.o [1]
-  .bss               zero     0x2000'030f     0x1  adc.o [1]
-  .bss               zero     0x2000'0310     0x1  adc.o [1]
-  .bss               zero     0x2000'0311     0x1  adc.o [1]
-  .bss               zero     0x2000'0312     0x1  adc.o [1]
-  .bss               zero     0x2000'0313     0x1  adc.o [1]
-  .bss               zero     0x2000'0314     0x1  adc.o [1]
-  .bss               zero     0x2000'0315     0x1  adc.o [1]
-  .bss               zero     0x2000'0316     0x1  adc.o [1]
-  .bss               zero     0x2000'0317     0x1  adc.o [1]
-  .bss               zero     0x2000'0318     0x1  adc.o [1]
-  .bss               zero     0x2000'0319     0x1  adc.o [1]
-  .bss               zero     0x2000'031a     0x1  adc.o [1]
-  .bss               zero     0x2000'031b     0x1  adc.o [1]
-  .bss               zero     0x2000'031c     0x1  adc.o [1]
-  .bss               zero     0x2000'031d     0x1  adc.o [1]
-  .bss               zero     0x2000'031e     0x1  adc.o [1]
-  .bss               zero     0x2000'031f     0x1  adc.o [1]
-  .bss               zero     0x2000'0320     0x1  adc.o [1]
-  .bss               zero     0x2000'0321     0x1  adc.o [1]
-  .bss               zero     0x2000'0322     0x1  adc.o [1]
-  .bss               zero     0x2000'0323     0x1  adc.o [1]
-  .bss               zero     0x2000'0324     0x1  adc.o [1]
-  .bss               zero     0x2000'0325     0x1  adc.o [1]
-  .bss               zero     0x2000'0326     0x1  adc.o [1]
-  .bss               zero     0x2000'0327     0x1  adc.o [1]
-  .bss               zero     0x2000'0328     0x1  adc.o [1]
-  .bss               zero     0x2000'0329     0x1  adc.o [1]
-  .bss               zero     0x2000'032a     0x1  adc.o [1]
-  .bss               zero     0x2000'032b     0x1  adc.o [1]
-  .bss               zero     0x2000'032c     0x1  adc.o [1]
-  .bss               zero     0x2000'032d     0x1  adc.o [1]
-  .bss               zero     0x2000'032e     0x1  adc.o [1]
-  .bss               zero     0x2000'032f     0x1  adc.o [1]
-  .bss               zero     0x2000'0330     0x1  adc.o [1]
-  .bss               zero     0x2000'0331     0x1  adc.o [1]
+  .bss               zero     0x2000'02f2     0x2  adc.o [1]
+  .bss               zero     0x2000'02f4     0x2  adc.o [1]
+  .bss               zero     0x2000'02f6     0x2  adc.o [1]
+  .bss               zero     0x2000'02f8     0x2  adc.o [1]
+  .bss               zero     0x2000'02fa     0x2  adc.o [1]
+  .bss               zero     0x2000'02fc     0x2  adc.o [1]
+  .bss               zero     0x2000'02fe     0x2  adc.o [1]
+  .bss               zero     0x2000'0300     0x2  adc.o [1]
+  .bss               zero     0x2000'0302     0x2  adc.o [1]
+  .bss               zero     0x2000'0304     0x2  adc.o [1]
+  .bss               zero     0x2000'0306     0x2  adc.o [1]
+  .bss               zero     0x2000'0308     0x2  adc.o [1]
+  .bss               zero     0x2000'030a     0x2  adc.o [1]
+  .bss               zero     0x2000'030c     0x2  adc.o [1]
+  .bss               zero     0x2000'030e     0x2  adc.o [1]
+  .bss               zero     0x2000'0310     0x2  adc.o [1]
+  .bss               zero     0x2000'0312     0x2  adc.o [1]
+  .bss               zero     0x2000'0314     0x2  adc.o [1]
+  .bss               zero     0x2000'0316     0x2  adc.o [1]
+  .bss               zero     0x2000'0318     0x2  adc.o [1]
+  .bss               zero     0x2000'031a     0x2  adc.o [1]
+  .bss               zero     0x2000'031c     0x2  adc.o [1]
+  .bss               zero     0x2000'031e     0x2  adc.o [1]
+  .bss               zero     0x2000'0320     0x2  adc.o [1]
+  .bss               zero     0x2000'0322     0x2  adc.o [1]
+  .bss               zero     0x2000'0324     0x2  adc.o [1]
+  .bss               zero     0x2000'0326     0x2  adc.o [1]
+  .bss               zero     0x2000'0328     0x2  adc.o [1]
+  .bss               zero     0x2000'032a     0x2  adc.o [1]
+  .bss               zero     0x2000'032c     0x2  adc.o [1]
+  .bss               zero     0x2000'032e     0x2  adc.o [1]
+  .bss               zero     0x2000'0330     0x2  adc.o [1]
   .bss               zero     0x2000'0332     0x1  adc.o [1]
   .bss               zero     0x2000'0333     0x1  adc.o [1]
   .bss               zero     0x2000'0334     0x1  adc.o [1]
@@ -291,21 +227,85 @@ No sections matched the following patterns:
   .bss               zero     0x2000'0347     0x1  adc.o [1]
   .bss               zero     0x2000'0348     0x1  adc.o [1]
   .bss               zero     0x2000'0349     0x1  adc.o [1]
-                            - 0x2000'034a   0x236
+  .bss               zero     0x2000'034a     0x1  adc.o [1]
+  .bss               zero     0x2000'034b     0x1  adc.o [1]
+  .bss               zero     0x2000'034c     0x1  adc.o [1]
+  .bss               zero     0x2000'034d     0x1  adc.o [1]
+  .bss               zero     0x2000'034e     0x1  adc.o [1]
+  .bss               zero     0x2000'034f     0x1  adc.o [1]
+  .bss               zero     0x2000'0350     0x1  adc.o [1]
+  .bss               zero     0x2000'0351     0x1  adc.o [1]
+  .bss               zero     0x2000'0352     0x1  adc.o [1]
+  .bss               zero     0x2000'0353     0x1  adc.o [1]
+  .bss               zero     0x2000'0354     0x1  adc.o [1]
+  .bss               zero     0x2000'0355     0x1  adc.o [1]
+  .bss               zero     0x2000'0356     0x1  adc.o [1]
+  .bss               zero     0x2000'0357     0x1  adc.o [1]
+  .bss               zero     0x2000'0358     0x1  adc.o [1]
+  .bss               zero     0x2000'0359     0x1  adc.o [1]
+  .bss               zero     0x2000'035a     0x1  adc.o [1]
+  .bss               zero     0x2000'035b     0x1  adc.o [1]
+  .bss               zero     0x2000'035c     0x1  adc.o [1]
+  .bss               zero     0x2000'035d     0x1  adc.o [1]
+  .bss               zero     0x2000'035e     0x1  adc.o [1]
+  .bss               zero     0x2000'035f     0x1  adc.o [1]
+  .bss               zero     0x2000'0360     0x1  adc.o [1]
+  .bss               zero     0x2000'0361     0x1  adc.o [1]
+  .bss               zero     0x2000'0362     0x1  adc.o [1]
+  .bss               zero     0x2000'0363     0x1  adc.o [1]
+  .bss               zero     0x2000'0364     0x1  adc.o [1]
+  .bss               zero     0x2000'0365     0x1  adc.o [1]
+  .bss               zero     0x2000'0366     0x1  adc.o [1]
+  .bss               zero     0x2000'0367     0x1  adc.o [1]
+  .bss               zero     0x2000'0368     0x1  adc.o [1]
+  .bss               zero     0x2000'0369     0x1  adc.o [1]
+  .bss               zero     0x2000'036a     0x1  adc.o [1]
+  .bss               zero     0x2000'036b     0x1  adc.o [1]
+  .bss               zero     0x2000'036c     0x1  adc.o [1]
+  .bss               zero     0x2000'036d     0x1  adc.o [1]
+  .bss               zero     0x2000'036e     0x1  adc.o [1]
+  .bss               zero     0x2000'036f     0x1  adc.o [1]
+  .bss               zero     0x2000'0370     0x1  adc.o [1]
+  .bss               zero     0x2000'0371     0x1  adc.o [1]
+  .bss               zero     0x2000'0372     0x1  adc.o [1]
+  .bss               zero     0x2000'0373     0x1  adc.o [1]
+  .bss               zero     0x2000'0374     0x1  adc.o [1]
+  .bss               zero     0x2000'0375     0x1  adc.o [1]
+  .bss               zero     0x2000'0376     0x1  adc.o [1]
+  .bss               zero     0x2000'0377     0x1  adc.o [1]
+  .bss               zero     0x2000'0378     0x1  adc.o [1]
+  .bss               zero     0x2000'0379     0x1  adc.o [1]
+  .bss               zero     0x2000'037a     0x1  adc.o [1]
+  .bss               zero     0x2000'037b     0x1  adc.o [1]
+  .bss               zero     0x2000'037c     0x1  adc.o [1]
+  .bss               zero     0x2000'037d     0x1  adc.o [1]
+  .bss               zero     0x2000'037e     0x1  adc.o [1]
+  .bss               zero     0x2000'037f     0x1  adc.o [1]
+  .bss               zero     0x2000'0380     0x1  adc.o [1]
+  .bss               zero     0x2000'0381     0x1  adc.o [1]
+  .bss               zero     0x2000'0382     0x1  adc.o [1]
+  .bss               zero     0x2000'0383     0x1  adc.o [1]
+  .bss               zero     0x2000'0384     0x1  adc.o [1]
+  .bss               zero     0x2000'0385     0x1  adc.o [1]
+  .bss               zero     0x2000'0386     0x1  adc.o [1]
+  .bss               zero     0x2000'0387     0x1  adc.o [1]
+  .bss               zero     0x2000'0388     0x1  adc.o [1]
+  .bss               zero     0x2000'0389     0x1  adc.o [1]
+                            - 0x2000'038a   0x276
 
 "P3", part 3 of 3:                          0x200
-  CSTACK                      0x2000'0350   0x200  <Block>
-    CSTACK           uninit   0x2000'0350   0x200  <Block tail>
-                            - 0x2000'0550   0x200
+  CSTACK                      0x2000'0390   0x200  <Block>
+    CSTACK           uninit   0x2000'0390   0x200  <Block tail>
+                            - 0x2000'0590   0x200
 
 Unused ranges:
 
          From           To         Size
          ----           --         ----
         0x410       0x4fff       0x4bf0
-       0xaeb0  0x1fff'ffff  0x1fff'5150
-  0x2000'034c  0x2000'034f          0x4
-  0x2000'0550        0x3ff  0xdfff'feb0
+       0xae18  0x1fff'ffff  0x1fff'51e8
+  0x2000'038c  0x2000'038f          0x4
+  0x2000'0590        0x3ff  0xdfff'fe70
 
 
 *******************************************************************************
@@ -315,12 +315,12 @@ Unused ranges:
           Address      Size
           -------      ----
 Zero (__iar_zero_init3)
-    1 destination range, total size 0x236:
-          0x2000'0114  0x236
+    1 destination range, total size 0x276:
+          0x2000'0114  0x276
 
 Copy (__iar_copy_init3)
     1 source range, total size 0x114 (101% of destination):
-               0xad9c  0x114
+               0xad04  0x114
     1 destination range, total size 0x111:
           0x2000'0000  0x111
 
@@ -336,11 +336,11 @@ command line/config:
     -----------------------------------------------
     Total:
 
-C:\Users\xujunjie\Desktop\IAR_WX13481\Debug\Obj: [1]
-    adc.o                  22 328      470      699
+C:\Users\ae-bk-067\Desktop\IAR_WX13481\Debug\Obj: [1]
+    adc.o                  22 176      470      763
     cstartup_M_KEAZN64.o      182
     -----------------------------------------------
-    Total:                 22 510      470      699
+    Total:                 22 358      470      763
 
 dl6M_tln.a: [2]
     exit.o                      8
@@ -375,7 +375,7 @@ shb_l.a: [5]
     Gaps                        1
     Linker created                      39      512
 ---------------------------------------------------
-    Grand Total:           23 723      517    1 351
+    Grand Total:           23 571      517    1 415
 
 
 *******************************************************************************
@@ -384,373 +384,372 @@ shb_l.a: [5]
 
 Entry                       Address   Size  Type      Object
 -----                       -------   ----  ----      ------
-.iar.init_table$$Base        0xace4          --   Gb  - Linker created -
-.iar.init_table$$Limit       0xad08          --   Gb  - Linker created -
-?main                        0xad09         Code  Gb  cmain.o [4]
+.iar.init_table$$Base        0xac4c          --   Gb  - Linker created -
+.iar.init_table$$Limit       0xac70          --   Gb  - Linker created -
+?main                        0xac71         Code  Gb  cmain.o [4]
 ADC_Init                     0x50b5   0x26  Code  Gb  adc.o [1]
-App_Rls_Error           0x2000'027c    0x8  Data  Gb  adc.o [1]
-Auto_Roof_Process            0x9d79   0x8a  Code  Gb  adc.o [1]
+App_Rls_Error           0x2000'02bc    0x8  Data  Gb  adc.o [1]
+Auto_Roof_Process            0x9ce1   0x8a  Code  Gb  adc.o [1]
 Brightness_Infrared_Percentage
-                        0x2000'0339    0x1  Data  Gb  adc.o [1]
+                        0x2000'0379    0x1  Data  Gb  adc.o [1]
 Brightness_Light_Percentage
-                        0x2000'0338    0x1  Data  Gb  adc.o [1]
-CSTACK$$Base            0x2000'0350          --   Gb  - Linker created -
-CSTACK$$Limit           0x2000'0550          --   Gb  - Linker created -
-Clk_Init                     0x5123   0x4c  Code  Gb  adc.o [1]
+                        0x2000'0378    0x1  Data  Gb  adc.o [1]
+CSTACK$$Base            0x2000'0390          --   Gb  - Linker created -
+CSTACK$$Limit           0x2000'0590          --   Gb  - Linker created -
 DC_WIN_BUFF             0x2000'0198   0x50  Data  Gb  adc.o [1]
-Delay_Ms                     0x5199   0x2c  Code  Gb  adc.o [1]
-Delay_Nus                    0x51c5   0x18  Code  Gb  adc.o [1]
-EEPROM_EraseSector           0x54ad   0x68  Code  Gb  adc.o [1]
-EEPROM_ProgramWord           0x5525   0x78  Code  Gb  adc.o [1]
-Enter_Sleep_Flag        0x2000'02fd    0x1  Data  Gb  adc.o [1]
-FLASH_Init                   0x53e9   0x6e  Code  Gb  adc.o [1]
-FLASH_LaunchCMD              0x5465   0x22  Code  Gb  adc.o [1]
-FTM0_IRQHandler              0x58f5   0xb2  Code  Gb  adc.o [1]
-FTM0_Init                    0x58a7   0x4a  Code  Gb  adc.o [1]
-FTM1_IRQHandler              0x7653   0x36  Code  Gb  adc.o [1]
-GPIO_Init                    0x59b5  0x172  Code  Gb  adc.o [1]
-G_100msFlag             0x2000'02f8    0x1  Data  Gb  adc.o [1]
-G_100ms_counter         0x2000'02f4    0x1  Data  Gb  adc.o [1]
-G_10msFlag              0x2000'02f6    0x1  Data  Gb  adc.o [1]
-G_10ms_counter          0x2000'02f2    0x1  Data  Gb  adc.o [1]
-G_4sFlag                0x2000'02fa    0x1  Data  Gb  adc.o [1]
-G_4s_counter            0x2000'02b0    0x2  Data  Gb  adc.o [1]
-G_500msFlag             0x2000'02f9    0x1  Data  Gb  adc.o [1]
-G_500ms_counter         0x2000'02f5    0x1  Data  Gb  adc.o [1]
-G_50msFlag              0x2000'02f7    0x1  Data  Gb  adc.o [1]
-G_50ms_counter          0x2000'02f3    0x1  Data  Gb  adc.o [1]
-Globle_parameter_Init        0x51dd  0x1ee  Code  Gb  adc.o [1]
+Delay_Ms                     0x5135   0x2c  Code  Gb  adc.o [1]
+Delay_Nus                    0x5161   0x18  Code  Gb  adc.o [1]
+EEPROM_EraseSector           0x5445   0x68  Code  Gb  adc.o [1]
+EEPROM_ProgramWord           0x54bd   0x78  Code  Gb  adc.o [1]
+Enter_Sleep_Flag        0x2000'033d    0x1  Data  Gb  adc.o [1]
+FLASH_Init                   0x5385   0x6e  Code  Gb  adc.o [1]
+FLASH_LaunchCMD              0x5401   0x22  Code  Gb  adc.o [1]
+FTM0_IRQHandler              0x588d   0xb2  Code  Gb  adc.o [1]
+FTM0_Init                    0x583f   0x4a  Code  Gb  adc.o [1]
+FTM1_IRQHandler              0x75eb   0x36  Code  Gb  adc.o [1]
+GPIO_Init                    0x594d  0x172  Code  Gb  adc.o [1]
+G_100msFlag             0x2000'0338    0x1  Data  Gb  adc.o [1]
+G_100ms_counter         0x2000'0334    0x1  Data  Gb  adc.o [1]
+G_10msFlag              0x2000'0336    0x1  Data  Gb  adc.o [1]
+G_10ms_counter          0x2000'0332    0x1  Data  Gb  adc.o [1]
+G_4sFlag                0x2000'033a    0x1  Data  Gb  adc.o [1]
+G_4s_counter            0x2000'02f0    0x2  Data  Gb  adc.o [1]
+G_500msFlag             0x2000'0339    0x1  Data  Gb  adc.o [1]
+G_500ms_counter         0x2000'0335    0x1  Data  Gb  adc.o [1]
+G_50msFlag              0x2000'0337    0x1  Data  Gb  adc.o [1]
+G_50ms_counter          0x2000'0333    0x1  Data  Gb  adc.o [1]
+Globle_parameter_Init        0x5179  0x1ee  Code  Gb  adc.o [1]
 LI0_response_error_signal
-                             0xabc6    0x1  Data  Gb  adc.o [1]
-Light_On_Flag           0x2000'02ee    0x2  Data  Gb  adc.o [1]
+                             0xab2e    0x1  Data  Gb  adc.o [1]
+Light_On_Flag           0x2000'032e    0x2  Data  Gb  adc.o [1]
 Light_Stastegy_Parameter
-                             0xad8c    0x8  Data  Gb  adc.o [1]
-Light_cnt               0x2000'02f0    0x2  Data  Gb  adc.o [1]
-Lin_BCM_01_Frame        0x2000'0274    0x8  Data  Gb  adc.o [1]
-Lin_BCM_02_Frame        0x2000'0349    0x1  Data  Gb  adc.o [1]
-Lin_Busy_Flag           0x2000'02fc    0x1  Data  Gb  adc.o [1]
-Lin_Busy_Process             0x5c7d   0x14  Code  Gb  adc.o [1]
-Lin_RLS_Wakeup_BCM           0x602d   0x14  Code  Gb  adc.o [1]
-Lin_RLS_data                 0x5eb9  0x174  Code  Gb  adc.o [1]
-MLX75308_A_Adc          0x2000'031b    0x1  Data  Gb  adc.o [1]
-MLX75308_B_Adc          0x2000'031c    0x1  Data  Gb  adc.o [1]
-MLX75308_Init                0x80fd  0x10a  Code  Gb  adc.o [1]
-MLX75308_Meansure            0xa757   0x54  Code  Gb  adc.o [1]
-MLX75308_RxFrame        0x2000'0200   0x18  Data  Gb  adc.o [1]
-MLX75308_SetPara             0xa37d  0x214  Code  Gb  adc.o [1]
-Mcu_wakeup_state        0x2000'0344    0x1  Data  Gb  adc.o [1]
+                             0xacf4    0x8  Data  Gb  adc.o [1]
+Light_cnt               0x2000'0330    0x2  Data  Gb  adc.o [1]
+Lin_BCM_01_Frame        0x2000'02b4    0x8  Data  Gb  adc.o [1]
+Lin_BCM_02_Frame        0x2000'0389    0x1  Data  Gb  adc.o [1]
+Lin_Busy_Flag           0x2000'033c    0x1  Data  Gb  adc.o [1]
+Lin_Busy_Process             0x5c15   0x14  Code  Gb  adc.o [1]
+Lin_RLS_Wakeup_BCM           0x5fc5   0x14  Code  Gb  adc.o [1]
+Lin_RLS_data                 0x5e51  0x174  Code  Gb  adc.o [1]
+MLX75308_A_Adc          0x2000'035b    0x1  Data  Gb  adc.o [1]
+MLX75308_B_Adc          0x2000'035c    0x1  Data  Gb  adc.o [1]
+MLX75308_Init                0x8065  0x108  Code  Gb  adc.o [1]
+MLX75308_Meansure            0xa6bf   0x54  Code  Gb  adc.o [1]
+MLX75308_RxFrame        0x2000'0260   0x18  Data  Gb  adc.o [1]
+MLX75308_SetPara             0xa2e5  0x214  Code  Gb  adc.o [1]
+Mcu_wakeup_state        0x2000'0384    0x1  Data  Gb  adc.o [1]
 Mlx75308_Config_Parameter
-                             0xad50   0x14  Data  Gb  adc.o [1]
-Mnrval                  0x2000'0218   0x14  Data  Gb  adc.o [1]
-PD_Meas_Comp_Ref        0x2000'02a4    0x4  Data  Gb  adc.o [1]
-PD_Meas_Comp_Ref_Pre    0x2000'02a8    0x4  Data  Gb  adc.o [1]
-PD_WIN_AVG              0x2000'01e8   0x18  Data  Gb  adc.o [1]
-PMC_Init                     0x7f55   0x2e  Code  Gb  adc.o [1]
+                             0xacb8   0x14  Data  Gb  adc.o [1]
+Mnrval                  0x2000'0278   0x14  Data  Gb  adc.o [1]
+PD_Meas_Comp_Ref        0x2000'02e4    0x4  Data  Gb  adc.o [1]
+PD_Meas_Comp_Ref_Pre    0x2000'02e8    0x4  Data  Gb  adc.o [1]
+PD_WIN_AVG              0x2000'0248   0x18  Data  Gb  adc.o [1]
+PMC_Init                     0x7ed1   0x2e  Code  Gb  adc.o [1]
 RLS_Analysis_Master_Data
-                             0x5cfd  0x198  Code  Gb  adc.o [1]
-RLS_AutoLightControl         0x849d  0x138  Code  Gb  adc.o [1]
-RLS_Auto_Light_Task          0x8695   0xbc  Code  Gb  adc.o [1]
-RLS_Auto_Rain_Task           0x9871   0x16  Code  Gb  adc.o [1]
+                             0x5c95  0x198  Code  Gb  adc.o [1]
+RLS_AutoLightControl         0x8405  0x138  Code  Gb  adc.o [1]
+RLS_Auto_Light_Task          0x85fd   0xbc  Code  Gb  adc.o [1]
+RLS_Auto_Rain_Task           0x97d9   0x16  Code  Gb  adc.o [1]
 RLS_Battery_Measurement
-                             0x9cdb   0x1c  Code  Gb  adc.o [1]
-RLS_Battery_State            0x9cf7   0x64  Code  Gb  adc.o [1]
+                             0x9c43   0x1c  Code  Gb  adc.o [1]
+RLS_Battery_State            0x9c5f   0x64  Code  Gb  adc.o [1]
 RLS_Get_Rain_ExpectStage
-                             0x8b2d  0x1d2  Code  Gb  adc.o [1]
-RLS_Get_Rain_State           0x8835  0x2be  Code  Gb  adc.o [1]
+                             0x8a95  0x1d2  Code  Gb  adc.o [1]
+RLS_Get_Rain_State           0x879d  0x2be  Code  Gb  adc.o [1]
 RLS_Invalid_DataProcess
-                             0x8e31  0x162  Code  Gb  adc.o [1]
+                             0x8d99  0x162  Code  Gb  adc.o [1]
 RLS_Light_Module_Fault_Process
-                             0x85e5   0x92  Code  Gb  adc.o [1]
+                             0x854d   0x92  Code  Gb  adc.o [1]
 RLS_Mask_False_Operation
-                             0x8d09  0x124  Code  Gb  adc.o [1]
-RLS_Rain_Get_Measure         0x8231  0x244  Code  Gb  adc.o [1]
+                             0x8c71  0x124  Code  Gb  adc.o [1]
+RLS_Rain_Get_Measure         0x8199  0x244  Code  Gb  adc.o [1]
 RLS_Rain_Module_Fault_Process
-                             0x8761   0x86  Code  Gb  adc.o [1]
-RLS_Rain_State_Mchaine       0x8fd5  0x7f4  Code  Gb  adc.o [1]
-RLS_RunMode             0x2000'032e    0x1  Data  Gb  adc.o [1]
-RLS_SelfAdaptTask            0x9887  0x302  Code  Gb  adc.o [1]
+                             0x86c9   0x86  Code  Gb  adc.o [1]
+RLS_Rain_State_Mchaine       0x8f3d  0x7f4  Code  Gb  adc.o [1]
+RLS_RunMode             0x2000'036e    0x1  Data  Gb  adc.o [1]
+RLS_SelfAdaptTask            0x97ef  0x302  Code  Gb  adc.o [1]
 RLS_Wipe_Auto_On_Function
-                             0x9bad   0xb6  Code  Gb  adc.o [1]
-RLS_Wipe_Park_Process        0x97d1   0x72  Code  Gb  adc.o [1]
+                             0x9b15   0xb6  Code  Gb  adc.o [1]
+RLS_Wipe_Park_Process        0x9739   0x72  Code  Gb  adc.o [1]
 RLS_Wipe_Sensitivity_Up_Function
-                             0x9c75   0x66  Code  Gb  adc.o [1]
-RTC_DisableInt               0x9f13    0xc  Code  Gb  adc.o [1]
-RTC_EnableInt                0x9f07    0xc  Code  Gb  adc.o [1]
-RTC_IRQHandler               0x9f6b    0xc  Code  Gb  adc.o [1]
-RTC_Init                     0x9f29   0x42  Code  Gb  adc.o [1]
-Rain_Sensitivity        0x2000'0313    0x1  Data  Gb  adc.o [1]
+                             0x9bdd   0x66  Code  Gb  adc.o [1]
+RTC_DisableInt               0x9e7b    0xc  Code  Gb  adc.o [1]
+RTC_EnableInt                0x9e6f    0xc  Code  Gb  adc.o [1]
+RTC_IRQHandler               0x9ed3    0xc  Code  Gb  adc.o [1]
+RTC_Init                     0x9e91   0x42  Code  Gb  adc.o [1]
+Rain_Sensitivity        0x2000'0353    0x1  Data  Gb  adc.o [1]
 Rain_Stastegy_Parameter
-                             0xabc8   0x4c  Data  Gb  adc.o [1]
-Recover_Process              0x9ecd   0x3a  Code  Gb  adc.o [1]
-Region$$Table$$Base          0xace4          --   Gb  - Linker created -
-Region$$Table$$Limit         0xad08          --   Gb  - Linker created -
-SPI_Rd_Mchan                 0xa591  0x1c6  Code  Gb  adc.o [1]
-SPI_Rd_Reg                   0xa2c5   0xaa  Code  Gb  adc.o [1]
-SPI_Wr_Cmd                   0x9fa5  0x10e  Code  Gb  adc.o [1]
-SPI_Wr_Reg                   0xa0e9  0x1d0  Code  Gb  adc.o [1]
-Search_Table                 0x7fcd  0x12e  Code  Gb  adc.o [1]
-Sleep_Process                0x9e1d   0xa4  Code  Gb  adc.o [1]
+                             0xab30   0x4c  Data  Gb  adc.o [1]
+Recover_Process              0x9e35   0x3a  Code  Gb  adc.o [1]
+Region$$Table$$Base          0xac4c          --   Gb  - Linker created -
+Region$$Table$$Limit         0xac70          --   Gb  - Linker created -
+SPI_Rd_Mchan                 0xa4f9  0x1c6  Code  Gb  adc.o [1]
+SPI_Rd_Reg                   0xa22d   0xaa  Code  Gb  adc.o [1]
+SPI_Wr_Cmd                   0x9f0d  0x10e  Code  Gb  adc.o [1]
+SPI_Wr_Reg                   0xa051  0x1d0  Code  Gb  adc.o [1]
+Search_Table                 0x7f35  0x12e  Code  Gb  adc.o [1]
+Sleep_Process                0x9d85   0xa4  Code  Gb  adc.o [1]
 Tab_AWG_FW              0x2000'0000   0x40  Data  Gb  adc.o [1]
 Tab_AWG_IR              0x2000'0040   0x40  Data  Gb  adc.o [1]
 Tab_Brightness_FW       0x2000'0080   0x20  Data  Gb  adc.o [1]
 Tab_Brightness_IR       0x2000'00a0   0x20  Data  Gb  adc.o [1]
-UART0_SCI0_IRQHandler        0x7647    0xc  Code  Gb  adc.o [1]
-WDG_IRQHandler               0xa7bd    0xc  Code  Gb  adc.o [1]
-WDOG_Feed                    0xa7ad   0x10  Code  Gb  adc.o [1]
+UART0_SCI0_IRQHandler        0x75df    0xc  Code  Gb  adc.o [1]
+WDG_IRQHandler               0xa725    0xc  Code  Gb  adc.o [1]
+WDOG_Feed                    0xa715   0x10  Code  Gb  adc.o [1]
 _Rand_idx               0x2000'0194    0x4  Data  Lc  rand.o [2]
 _Rand_rv                0x2000'0114   0x80  Data  Lc  rand.o [2]
 _Randinit               0x2000'0100    0x1  Data  Gb  rand.o [2]
 _Randseed               0x2000'0104    0x4  Data  Gb  rand.o [2]
-__aeabi_d2uiz                0xaa95         Code  Gb  DblToI32.o [3]
-__aeabi_dadd                 0xa8ed         Code  Gb  DblAddSub.o [3]
-__aeabi_idiv                 0xa819         Code  Gb  I32DivModFast.o [4]
-__aeabi_idiv0                0xabc5         Code  Gb  IntDivZer.o [4]
-__aeabi_idivmod              0xa819         Code  Gb  I32DivModFast.o [4]
-__aeabi_ui2d                 0xa8cd         Code  Gb  IxxToDbl.o [3]
-__aeabi_uidiv                0xa81f         Code  Gb  I32DivModFast.o [4]
-__aeabi_uidivmod             0xa81f         Code  Gb  I32DivModFast.o [4]
-__cmain                      0xad09         Code  Gb  cmain.o [4]
-__exit                       0xad3d   0x14  Code  Gb  exit.o [5]
-__iar_copy_init3             0xac8d   0x30  Code  Gb  copy_init3.o [4]
-__iar_d2uiz                  0xaa99         Code  Gb  DblToI32.o [3]
-__iar_data_init3             0xacbd   0x28  Code  Gb  data_init.o [4]
-__iar_program_start          0xad81         Code  Gb  cstartup_M.o [4]
-__iar_zero_init3             0xac51   0x3c  Code  Gb  zero_init3.o [4]
-__low_level_init             0x7da1   0x22  Code  Gb  adc.o [1]
+__aeabi_d2uiz                0xa9fd         Code  Gb  DblToI32.o [3]
+__aeabi_dadd                 0xa855         Code  Gb  DblAddSub.o [3]
+__aeabi_idiv                 0xa781         Code  Gb  I32DivModFast.o [4]
+__aeabi_idiv0                0xab2d         Code  Gb  IntDivZer.o [4]
+__aeabi_idivmod              0xa781         Code  Gb  I32DivModFast.o [4]
+__aeabi_ui2d                 0xa835         Code  Gb  IxxToDbl.o [3]
+__aeabi_uidiv                0xa787         Code  Gb  I32DivModFast.o [4]
+__aeabi_uidivmod             0xa787         Code  Gb  I32DivModFast.o [4]
+__cmain                      0xac71         Code  Gb  cmain.o [4]
+__exit                       0xaca5   0x14  Code  Gb  exit.o [5]
+__iar_copy_init3             0xabf5   0x30  Code  Gb  copy_init3.o [4]
+__iar_d2uiz                  0xaa01         Code  Gb  DblToI32.o [3]
+__iar_data_init3             0xac25   0x28  Code  Gb  data_init.o [4]
+__iar_program_start          0xace9         Code  Gb  cstartup_M.o [4]
+__iar_zero_init3             0xabb9   0x3c  Code  Gb  zero_init3.o [4]
+__low_level_init             0x7d31    0xa  Code  Gb  adc.o [1]
 __vector_table               0x5000         Data  Gb  cstartup_M_KEAZN64.o [1]
-_call_main                   0xad15         Code  Gb  cmain.o [4]
-_exit                        0xad31         Code  Gb  cexit.o [4]
-_main                        0xad23         Code  Gb  cmain.o [4]
-boot_jump_to_APP             0x7045    0x8  Code  Gb  adc.o [1]
-boot_key                0x2000'0288    0x4  Data  Gb  adc.o [1]
-boot_seed               0x2000'0284    0x4  Data  Gb  adc.o [1]
-boot_status_flag        0x2000'030f    0x1  Data  Gb  adc.o [1]
-boot_up_ret             0x2000'02bc    0x2  Data  Gb  adc.o [1]
-diagnostic_Session      0x2000'030c    0x1  Data  Gb  adc.o [1]
-diagnostic_Session_flg  0x2000'030e    0x1  Data  Gb  adc.o [1]
-diagnostic_Session_pre  0x2000'030d    0x1  Data  Gb  adc.o [1]
+_call_main                   0xac7d         Code  Gb  cmain.o [4]
+_exit                        0xac99         Code  Gb  cexit.o [4]
+_main                        0xac8b         Code  Gb  cmain.o [4]
+boot_jump_to_APP             0x6fdd    0x8  Code  Gb  adc.o [1]
+boot_key                0x2000'02c8    0x4  Data  Gb  adc.o [1]
+boot_seed               0x2000'02c4    0x4  Data  Gb  adc.o [1]
+boot_status_flag        0x2000'034f    0x1  Data  Gb  adc.o [1]
+boot_up_ret             0x2000'02fc    0x2  Data  Gb  adc.o [1]
+diagnostic_Session      0x2000'034c    0x1  Data  Gb  adc.o [1]
+diagnostic_Session_flg  0x2000'034e    0x1  Data  Gb  adc.o [1]
+diagnostic_Session_pre  0x2000'034d    0x1  Data  Gb  adc.o [1]
 diagnostic_Session_timer
-                        0x2000'02ba    0x2  Data  Gb  adc.o [1]
-exit                         0xad27    0x8  Code  Gb  exit.o [2]
-frame_index             0x2000'030b    0x1  Data  Gb  adc.o [1]
-frame_signal_error      0x2000'030a    0x1  Data  Gb  adc.o [1]
+                        0x2000'02fa    0x2  Data  Gb  adc.o [1]
+exit                         0xac8f    0x8  Code  Gb  exit.o [2]
+frame_index             0x2000'034b    0x1  Data  Gb  adc.o [1]
+frame_signal_error      0x2000'034a    0x1  Data  Gb  adc.o [1]
 get_adc                      0x50db   0x16  Code  Gb  adc.o [1]
 get_adc_times                0x50f1   0x32  Code  Gb  adc.o [1]
-l_ifc_init                   0x607f    0x8  Code  Gb  adc.o [1]
-l_sys_init                   0x6075    0xa  Code  Gb  adc.o [1]
-ld_get_raw                   0x6501    0xc  Code  Gb  adc.o [1]
-ld_read_by_id_callout        0x6045   0x30  Code  Gb  adc.o [1]
-ld_receive_message           0x6539  0x13c  Code  Gb  adc.o [1]
+l_ifc_init                   0x6017    0x8  Code  Gb  adc.o [1]
+l_sys_init                   0x600d    0xa  Code  Gb  adc.o [1]
+ld_get_raw                   0x6499    0xc  Code  Gb  adc.o [1]
+ld_read_by_id_callout        0x5fdd   0x30  Code  Gb  adc.o [1]
+ld_receive_message           0x64d1  0x13c  Code  Gb  adc.o [1]
 lin_bus_activity_timeout
-                             0x6369    0xe  Code  Gb  adc.o [1]
-lin_checksum                 0x5c27   0x3e  Code  Gb  adc.o [1]
+                             0x6301    0xe  Code  Gb  adc.o [1]
+lin_checksum                 0x5bbf   0x3e  Code  Gb  adc.o [1]
 lin_condittional_change_nad
-                             0x75d5   0x60  Code  Gb  adc.o [1]
+                             0x756d   0x60  Code  Gb  adc.o [1]
 lin_configuration_RAM   0x2000'00f8    0x8  Data  Gb  adc.o [1]
 lin_configured_NAD      0x2000'010c    0x1  Data  Gb  adc.o [1]
-lin_diag_services_flag  0x2000'0258    0xc  Data  Gb  adc.o [1]
+lin_diag_services_flag  0x2000'0298    0xc  Data  Gb  adc.o [1]
 lin_diag_services_supported
-                             0xad74    0xc  Data  Gb  adc.o [1]
+                             0xacdc    0xc  Data  Gb  adc.o [1]
 lin_diagservice_assign_frame_id_range
-                             0x74f1   0x9c  Code  Gb  adc.o [1]
+                             0x7489   0x9c  Code  Gb  adc.o [1]
 lin_diagservice_read_by_identifier
-                             0x758d   0x48  Code  Gb  adc.o [1]
+                             0x7525   0x48  Code  Gb  adc.o [1]
 lin_diagservice_read_data_by_identifier
-                             0x721d   0xc0  Code  Gb  adc.o [1]
+                             0x71b5   0xc0  Code  Gb  adc.o [1]
 lin_diagservice_service_securityaccess
-                             0x716d   0xa8  Code  Gb  adc.o [1]
+                             0x7105   0xa8  Code  Gb  adc.o [1]
 lin_diagservice_session_control
-                             0x704d   0xd2  Code  Gb  adc.o [1]
+                             0x6fe5   0xd2  Code  Gb  adc.o [1]
 lin_diagservice_session_state
-                             0x6ffd   0x36  Code  Gb  adc.o [1]
+                             0x6f95   0x36  Code  Gb  adc.o [1]
 lin_diagservice_write_data_by_identifier
-                             0x72f9  0x1f0  Code  Gb  adc.o [1]
+                             0x7291  0x1f0  Code  Gb  adc.o [1]
 lin_diagsrv_functional_service
-                             0x7639    0xe  Code  Gb  adc.o [1]
-lin_error_in_response   0x2000'02ff    0x1  Data  Gb  adc.o [1]
-lin_flag_handle_tbl     0x2000'0264    0x8  Data  Gb  adc.o [1]
-lin_frame_flag_tbl      0x2000'026c    0x8  Data  Gb  adc.o [1]
-lin_frame_tbl                0xac14   0x3c  Data  Gb  adc.o [1]
-lin_get_frame_index          0x6415   0x2a  Code  Gb  adc.o [1]
-lin_goto_idle_state          0x79b9   0x26  Code  Gb  adc.o [1]
-lin_goto_sleep_flg      0x2000'0300    0x1  Data  Gb  adc.o [1]
-lin_handle_error             0x62dd   0x76  Code  Gb  adc.o [1]
-lin_initial_NAD              0xad2f    0x1  Data  Gb  adc.o [1]
+                             0x75d1    0xe  Code  Gb  adc.o [1]
+lin_error_in_response   0x2000'033f    0x1  Data  Gb  adc.o [1]
+lin_flag_handle_tbl     0x2000'02a4    0x8  Data  Gb  adc.o [1]
+lin_frame_flag_tbl      0x2000'02ac    0x8  Data  Gb  adc.o [1]
+lin_frame_tbl                0xab7c   0x3c  Data  Gb  adc.o [1]
+lin_get_frame_index          0x63ad   0x2a  Code  Gb  adc.o [1]
+lin_goto_idle_state          0x7951   0x26  Code  Gb  adc.o [1]
+lin_goto_sleep_flg      0x2000'0340    0x1  Data  Gb  adc.o [1]
+lin_handle_error             0x6275   0x76  Code  Gb  adc.o [1]
+lin_initial_NAD              0xac97    0x1  Data  Gb  adc.o [1]
 lin_lld_ignore_response
-                             0x5b45    0x8  Code  Gb  adc.o [1]
-lin_lld_init                 0x5b39    0xc  Code  Gb  adc.o [1]
+                             0x5add    0x8  Code  Gb  adc.o [1]
+lin_lld_init                 0x5ad1    0xc  Code  Gb  adc.o [1]
 lin_lld_response_buffer
-                        0x2000'024c    0xc  Data  Gb  adc.o [1]
-lin_lld_rx_response          0x5ba9    0xc  Code  Gb  adc.o [1]
+                        0x2000'028c    0xc  Data  Gb  adc.o [1]
+lin_lld_rx_response          0x5b41    0xc  Code  Gb  adc.o [1]
 lin_lld_set_low_power_mode
-                             0x5b4d    0x8  Code  Gb  adc.o [1]
-lin_lld_set_response         0x5b55   0x20  Code  Gb  adc.o [1]
-lin_lld_timer_K_init         0x7735   0x48  Code  Gb  adc.o [1]
-lin_lld_timer_init           0x5c65    0x8  Code  Gb  adc.o [1]
-lin_lld_timer_isr            0x7781    0x8  Code  Gb  adc.o [1]
+                             0x5ae5    0x8  Code  Gb  adc.o [1]
+lin_lld_set_response         0x5aed   0x20  Code  Gb  adc.o [1]
+lin_lld_timer_K_init         0x76cd   0x48  Code  Gb  adc.o [1]
+lin_lld_timer_init           0x5bfd    0x8  Code  Gb  adc.o [1]
+lin_lld_timer_isr            0x7719    0x8  Code  Gb  adc.o [1]
 lin_lld_uart_ignore_response
-                             0x780d    0x8  Code  Gb  adc.o [1]
-lin_lld_uart_init            0x7789   0x76  Code  Gb  adc.o [1]
-lin_lld_uart_rx_isr          0x7a2d  0x366  Code  Gb  adc.o [1]
+                             0x77a5    0x8  Code  Gb  adc.o [1]
+lin_lld_uart_init            0x7721   0x76  Code  Gb  adc.o [1]
+lin_lld_uart_rx_isr          0x79c5  0x366  Code  Gb  adc.o [1]
 lin_lld_uart_rx_response
-                             0x7821   0x1a  Code  Gb  adc.o [1]
+                             0x77b9   0x1a  Code  Gb  adc.o [1]
 lin_lld_uart_set_low_power_mode
-                             0x7815    0x8  Code  Gb  adc.o [1]
-lin_lld_uart_timeout         0x78b9   0xfc  Code  Gb  adc.o [1]
+                             0x77ad    0x8  Code  Gb  adc.o [1]
+lin_lld_uart_timeout         0x7851   0xfc  Code  Gb  adc.o [1]
 lin_lld_uart_tx_response
-                             0x7851   0x30  Code  Gb  adc.o [1]
+                             0x77e9   0x30  Code  Gb  adc.o [1]
 lin_make_res_diag_frame
-                             0x640d    0x8  Code  Gb  adc.o [1]
+                             0x63a5    0x8  Code  Gb  adc.o [1]
 lin_make_res_evnt_frame
-                             0x770d   0x1e  Code  Gb  adc.o [1]
+                             0x76a5   0x1e  Code  Gb  adc.o [1]
 lin_max_frame_res_timeout_val
-                             0xad64   0x10  Data  Gb  adc.o [1]
+                             0xaccc   0x10  Data  Gb  adc.o [1]
 lin_pFrameBuf           0x2000'00c0   0x18  Data  Gb  adc.o [1]
 lin_pid_response_callback_handler
-                             0x60b1   0x54  Code  Gb  adc.o [1]
-lin_process_parity           0x5bb5   0x72  Code  Gb  adc.o [1]
-lin_process_pid              0x6105   0xc4  Code  Gb  adc.o [1]
-lin_process_uncd_frame       0x644d   0x88  Code  Gb  adc.o [1]
+                             0x6049   0x54  Code  Gb  adc.o [1]
+lin_process_parity           0x5b4d   0x72  Code  Gb  adc.o [1]
+lin_process_pid              0x609d   0xc4  Code  Gb  adc.o [1]
+lin_process_uncd_frame       0x63e5   0x88  Code  Gb  adc.o [1]
 lin_save_configuration_flg
-                        0x2000'0301    0x1  Data  Gb  adc.o [1]
+                        0x2000'0341    0x1  Data  Gb  adc.o [1]
 lin_successful_transfer
-                        0x2000'02fe    0x1  Data  Gb  adc.o [1]
-lin_tl_attach_service        0x6db9  0x126  Code  Gb  adc.o [1]
-lin_tl_get_pdu               0x6abd   0x30  Code  Gb  adc.o [1]
-lin_tl_handler               0x6cad   0xe6  Code  Gb  adc.o [1]
+                        0x2000'033e    0x1  Data  Gb  adc.o [1]
+lin_tl_attach_service        0x6d51  0x126  Code  Gb  adc.o [1]
+lin_tl_get_pdu               0x6a55   0x30  Code  Gb  adc.o [1]
+lin_tl_handler               0x6c45   0xe6  Code  Gb  adc.o [1]
 lin_tl_make_slaveres_pdu
-                             0x667d  0x432  Code  Gb  adc.o [1]
+                             0x6615  0x432  Code  Gb  adc.o [1]
 lin_tl_rx_queue         0x2000'00e8   0x10  Data  Gb  adc.o [1]
 lin_tl_tx_queue         0x2000'00d8   0x10  Data  Gb  adc.o [1]
-lin_update_err_signal        0x76d5   0x32  Code  Gb  adc.o [1]
-lin_update_rx                0x61dd   0x72  Code  Gb  adc.o [1]
+lin_update_err_signal        0x766d   0x32  Code  Gb  adc.o [1]
+lin_update_rx                0x6175   0x72  Code  Gb  adc.o [1]
 lin_update_rx_diag_frame
-                             0x63f1   0x1c  Code  Gb  adc.o [1]
-lin_update_tx                0x625d   0x7c  Code  Gb  adc.o [1]
-lin_update_tx_flags          0x6377   0x74  Code  Gb  adc.o [1]
+                             0x6389   0x1c  Code  Gb  adc.o [1]
+lin_update_tx                0x61f5   0x7c  Code  Gb  adc.o [1]
+lin_update_tx_flags          0x630f   0x74  Code  Gb  adc.o [1]
 lin_update_word_status_lin21
-                             0x7691   0x3a  Code  Gb  adc.o [1]
-lin_word_status         0x2000'02b2    0x2  Data  Gb  adc.o [1]
-main                         0x7ded  0x168  Code  Gb  adc.o [1]
-message_cnt                  0x5c9d   0x30  Code  Gb  adc.o [1]
-product_id                   0xad94    0x8  Data  Gb  adc.o [1]
-rand                         0xaac5   0xec  Code  Gb  rand.o [2]
-read_data_from_EEPROM        0x5811   0x96  Code  Gb  adc.o [1]
-response_error               0xad3a    0x1  Data  Gb  adc.o [1]
+                             0x7629   0x3a  Code  Gb  adc.o [1]
+lin_word_status         0x2000'02f2    0x2  Data  Gb  adc.o [1]
+main                         0x7d6d  0x164  Code  Gb  adc.o [1]
+message_cnt                  0x5c35   0x30  Code  Gb  adc.o [1]
+product_id                   0xacfc    0x8  Data  Gb  adc.o [1]
+rand                         0xaa2d   0xec  Code  Gb  rand.o [2]
+read_data_from_EEPROM        0x57a9   0x96  Code  Gb  adc.o [1]
+response_error               0xaca2    0x1  Data  Gb  adc.o [1]
 response_error_bit_offset
-                             0xad2e    0x1  Data  Gb  adc.o [1]
+                             0xac96    0x1  Data  Gb  adc.o [1]
 response_error_byte_offset
-                             0xabc7    0x1  Data  Gb  adc.o [1]
-tl_check_timeout        0x2000'02b8    0x2  Data  Gb  adc.o [1]
-tl_check_timeout_type   0x2000'0304    0x1  Data  Gb  adc.o [1]
-tl_diag_state           0x2000'0305    0x1  Data  Gb  adc.o [1]
-tl_frame_counter        0x2000'0303    0x1  Data  Gb  adc.o [1]
-tl_get_raw                   0x6f71   0x8c  Code  Gb  adc.o [1]
-tl_no_of_pdu            0x2000'0302    0x1  Data  Gb  adc.o [1]
-tl_put_raw                   0x6efd   0x74  Code  Gb  adc.o [1]
-tl_receive_msg_status   0x2000'0306    0x1  Data  Gb  adc.o [1]
-tl_rx_msg_status        0x2000'0307    0x1  Data  Gb  adc.o [1]
-tl_rx_queue_data        0x2000'023c   0x10  Data  Gb  adc.o [1]
+                             0xab2f    0x1  Data  Gb  adc.o [1]
+tl_check_timeout        0x2000'02f8    0x2  Data  Gb  adc.o [1]
+tl_check_timeout_type   0x2000'0344    0x1  Data  Gb  adc.o [1]
+tl_diag_state           0x2000'0345    0x1  Data  Gb  adc.o [1]
+tl_frame_counter        0x2000'0343    0x1  Data  Gb  adc.o [1]
+tl_get_raw                   0x6f09   0x8c  Code  Gb  adc.o [1]
+tl_no_of_pdu            0x2000'0342    0x1  Data  Gb  adc.o [1]
+tl_put_raw                   0x6e95   0x74  Code  Gb  adc.o [1]
+tl_receive_msg_status   0x2000'0346    0x1  Data  Gb  adc.o [1]
+tl_rx_msg_status        0x2000'0347    0x1  Data  Gb  adc.o [1]
+tl_rx_queue_data        0x2000'0218   0x30  Data  Gb  adc.o [1]
 tl_service_status       0x2000'010d    0x1  Data  Gb  adc.o [1]
-tl_slaveresp_cnt        0x2000'0309    0x1  Data  Gb  adc.o [1]
-tl_tx_msg_index         0x2000'02b4    0x2  Data  Gb  adc.o [1]
-tl_tx_msg_size          0x2000'02b6    0x2  Data  Gb  adc.o [1]
-tl_tx_msg_status        0x2000'0308    0x1  Data  Gb  adc.o [1]
-tl_tx_queue_data        0x2000'022c   0x10  Data  Gb  adc.o [1]
-u16_Battery_Volt        0x2000'02ec    0x2  Data  Gb  adc.o [1]
-u16_Brightness_FW       0x2000'02c8    0x2  Data  Gb  adc.o [1]
-u16_DC_Comp_Value       0x2000'02ac    0x4  Data  Gb  adc.o [1]
-u16_DC_PD_dt            0x2000'0298    0x4  Data  Gb  adc.o [1]
-u16_DC_checkValue       0x2000'02e6    0x2  Data  Gb  adc.o [1]
-u16_Delta_DC_aft_A      0x2000'02ce    0x2  Data  Gb  adc.o [1]
-u16_Delta_DC_aft_B      0x2000'02d2    0x2  Data  Gb  adc.o [1]
-u16_Delta_DC_bre_A      0x2000'02cc    0x2  Data  Gb  adc.o [1]
-u16_Delta_DC_bre_B      0x2000'02d0    0x2  Data  Gb  adc.o [1]
-u16_Dt_PD               0x2000'02a0    0x4  Data  Gb  adc.o [1]
-u16_PDA_Wmax            0x2000'02de    0x2  Data  Gb  adc.o [1]
-u16_PDB_Wmax            0x2000'02e0    0x2  Data  Gb  adc.o [1]
-u16_Pd_Measure_Value    0x2000'02ca    0x2  Data  Gb  adc.o [1]
-u16_Ref_Adc_A           0x2000'02e8    0x2  Data  Gb  adc.o [1]
-u16_Ref_Adc_B           0x2000'02ea    0x2  Data  Gb  adc.o [1]
-u16_SPD_Vehicle         0x2000'02c6    0x2  Data  Gb  adc.o [1]
-u16_Save_DC_aft_A       0x2000'02d6    0x2  Data  Gb  adc.o [1]
-u16_Save_DC_aft_B       0x2000'02da    0x2  Data  Gb  adc.o [1]
-u16_Save_DC_bre_A       0x2000'02d4    0x2  Data  Gb  adc.o [1]
-u16_Save_DC_bre_B       0x2000'02d8    0x2  Data  Gb  adc.o [1]
-u8_Automatic_On_Cnt     0x2000'0333    0x1  Data  Gb  adc.o [1]
-u8_Battery_status       0x2000'0337    0x1  Data  Gb  adc.o [1]
-u8_Brightness_IR        0x2000'0314    0x1  Data  Gb  adc.o [1]
-u8_Brightness_IR_Right  0x2000'0315    0x1  Data  Gb  adc.o [1]
+tl_slaveresp_cnt        0x2000'0349    0x1  Data  Gb  adc.o [1]
+tl_tx_msg_index         0x2000'02f4    0x2  Data  Gb  adc.o [1]
+tl_tx_msg_size          0x2000'02f6    0x2  Data  Gb  adc.o [1]
+tl_tx_msg_status        0x2000'0348    0x1  Data  Gb  adc.o [1]
+tl_tx_queue_data        0x2000'01e8   0x30  Data  Gb  adc.o [1]
+u16_Battery_Volt        0x2000'032c    0x2  Data  Gb  adc.o [1]
+u16_Brightness_FW       0x2000'0308    0x2  Data  Gb  adc.o [1]
+u16_DC_Comp_Value       0x2000'02ec    0x4  Data  Gb  adc.o [1]
+u16_DC_PD_dt            0x2000'02d8    0x4  Data  Gb  adc.o [1]
+u16_DC_checkValue       0x2000'0326    0x2  Data  Gb  adc.o [1]
+u16_Delta_DC_aft_A      0x2000'030e    0x2  Data  Gb  adc.o [1]
+u16_Delta_DC_aft_B      0x2000'0312    0x2  Data  Gb  adc.o [1]
+u16_Delta_DC_bre_A      0x2000'030c    0x2  Data  Gb  adc.o [1]
+u16_Delta_DC_bre_B      0x2000'0310    0x2  Data  Gb  adc.o [1]
+u16_Dt_PD               0x2000'02e0    0x4  Data  Gb  adc.o [1]
+u16_PDA_Wmax            0x2000'031e    0x2  Data  Gb  adc.o [1]
+u16_PDB_Wmax            0x2000'0320    0x2  Data  Gb  adc.o [1]
+u16_Pd_Measure_Value    0x2000'030a    0x2  Data  Gb  adc.o [1]
+u16_Ref_Adc_A           0x2000'0328    0x2  Data  Gb  adc.o [1]
+u16_Ref_Adc_B           0x2000'032a    0x2  Data  Gb  adc.o [1]
+u16_SPD_Vehicle         0x2000'0306    0x2  Data  Gb  adc.o [1]
+u16_Save_DC_aft_A       0x2000'0316    0x2  Data  Gb  adc.o [1]
+u16_Save_DC_aft_B       0x2000'031a    0x2  Data  Gb  adc.o [1]
+u16_Save_DC_bre_A       0x2000'0314    0x2  Data  Gb  adc.o [1]
+u16_Save_DC_bre_B       0x2000'0318    0x2  Data  Gb  adc.o [1]
+u8_Automatic_On_Cnt     0x2000'0373    0x1  Data  Gb  adc.o [1]
+u8_Battery_status       0x2000'0377    0x1  Data  Gb  adc.o [1]
+u8_Brightness_IR        0x2000'0354    0x1  Data  Gb  adc.o [1]
+u8_Brightness_IR_Right  0x2000'0355    0x1  Data  Gb  adc.o [1]
 u8_ClearEnternIntSpeedCnt
-                        0x2000'0321    0x1  Data  Gb  adc.o [1]
-u8_Cmd_Execution        0x2000'0316    0x1  Data  Gb  adc.o [1]
-u8_EnterLowSpeedCnt     0x2000'0329    0x1  Data  Gb  adc.o [1]
-u8_ExitLowSpeedCnt      0x2000'0324    0x1  Data  Gb  adc.o [1]
-u8_HighHoldCnt          0x2000'0327    0x1  Data  Gb  adc.o [1]
-u8_HighSpeedHoldCnt     0x2000'0328    0x1  Data  Gb  adc.o [1]
-u8_IntDelayTimer        0x2000'0326    0x1  Data  Gb  adc.o [1]
-u8_IntSpeedCnt          0x2000'0325    0x1  Data  Gb  adc.o [1]
-u8_IntSpeedEnterCnt     0x2000'0322    0x1  Data  Gb  adc.o [1]
-u8_LightOnTimer         0x2000'0330    0x1  Data  Gb  adc.o [1]
-u8_LowSpeedCnt          0x2000'0323    0x1  Data  Gb  adc.o [1]
-u8_MeasureSureTime      0x2000'031f    0x1  Data  Gb  adc.o [1]
-u8_MsgCounter           0x2000'02fb    0x1  Data  Gb  adc.o [1]
-u8_PD_State             0x2000'02dc    0x2  Data  Gb  adc.o [1]
-u8_RLS_StopMsureFlg     0x2000'0320    0x1  Data  Gb  adc.o [1]
-u8_RainIntensity        0x2000'02e2    0x2  Data  Gb  adc.o [1]
-u8_RainIntensityPre     0x2000'02e4    0x2  Data  Gb  adc.o [1]
-u8_RainIntensity_Max    0x2000'031d    0x1  Data  Gb  adc.o [1]
-u8_RainIntensity_Win    0x2000'029c    0x4  Data  Gb  adc.o [1]
-u8_Rain_Delta           0x2000'032f    0x1  Data  Gb  adc.o [1]
-u8_Rain_Invalid_Cnt     0x2000'031e    0x1  Data  Gb  adc.o [1]
-u8_Rain_Sensitivity     0x2000'0312    0x1  Data  Gb  adc.o [1]
-u8_Rain_SensitivityPre  0x2000'0336    0x1  Data  Gb  adc.o [1]
-u8_Rain_Valid           0x2000'032a    0x1  Data  Gb  adc.o [1]
-u8_Rain_Value           0x2000'032b    0x1  Data  Gb  adc.o [1]
-u8_SensitivityUpCnt     0x2000'0334    0x1  Data  Gb  adc.o [1]
-u8_SensitivityUpFlg     0x2000'0335    0x1  Data  Gb  adc.o [1]
+                        0x2000'0361    0x1  Data  Gb  adc.o [1]
+u8_Cmd_Execution        0x2000'0356    0x1  Data  Gb  adc.o [1]
+u8_EnterLowSpeedCnt     0x2000'0369    0x1  Data  Gb  adc.o [1]
+u8_ExitLowSpeedCnt      0x2000'0364    0x1  Data  Gb  adc.o [1]
+u8_HighHoldCnt          0x2000'0367    0x1  Data  Gb  adc.o [1]
+u8_HighSpeedHoldCnt     0x2000'0368    0x1  Data  Gb  adc.o [1]
+u8_IntDelayTimer        0x2000'0366    0x1  Data  Gb  adc.o [1]
+u8_IntSpeedCnt          0x2000'0365    0x1  Data  Gb  adc.o [1]
+u8_IntSpeedEnterCnt     0x2000'0362    0x1  Data  Gb  adc.o [1]
+u8_LightOnTimer         0x2000'0370    0x1  Data  Gb  adc.o [1]
+u8_LowSpeedCnt          0x2000'0363    0x1  Data  Gb  adc.o [1]
+u8_MeasureSureTime      0x2000'035f    0x1  Data  Gb  adc.o [1]
+u8_MsgCounter           0x2000'033b    0x1  Data  Gb  adc.o [1]
+u8_PD_State             0x2000'031c    0x2  Data  Gb  adc.o [1]
+u8_RLS_StopMsureFlg     0x2000'0360    0x1  Data  Gb  adc.o [1]
+u8_RainIntensity        0x2000'0322    0x2  Data  Gb  adc.o [1]
+u8_RainIntensityPre     0x2000'0324    0x2  Data  Gb  adc.o [1]
+u8_RainIntensity_Max    0x2000'035d    0x1  Data  Gb  adc.o [1]
+u8_RainIntensity_Win    0x2000'02dc    0x4  Data  Gb  adc.o [1]
+u8_Rain_Delta           0x2000'036f    0x1  Data  Gb  adc.o [1]
+u8_Rain_Invalid_Cnt     0x2000'035e    0x1  Data  Gb  adc.o [1]
+u8_Rain_Sensitivity     0x2000'0352    0x1  Data  Gb  adc.o [1]
+u8_Rain_SensitivityPre  0x2000'0376    0x1  Data  Gb  adc.o [1]
+u8_Rain_Valid           0x2000'036a    0x1  Data  Gb  adc.o [1]
+u8_Rain_Value           0x2000'036b    0x1  Data  Gb  adc.o [1]
+u8_SensitivityUpCnt     0x2000'0374    0x1  Data  Gb  adc.o [1]
+u8_SensitivityUpFlg     0x2000'0375    0x1  Data  Gb  adc.o [1]
 u8_Wipe_Automatic_On_Flg
-                        0x2000'0331    0x1  Data  Gb  adc.o [1]
+                        0x2000'0371    0x1  Data  Gb  adc.o [1]
 u8_Wipe_Automatic_On_Pre
-                        0x2000'0332    0x1  Data  Gb  adc.o [1]
-u8_WiperSpeed           0x2000'032d    0x1  Data  Gb  adc.o [1]
-u8_WiperSpeed_Expert    0x2000'032c    0x1  Data  Gb  adc.o [1]
-u8_Wiper_State          0x2000'0317    0x1  Data  Gb  adc.o [1]
-u8_Wiper_StatePre       0x2000'0318    0x1  Data  Gb  adc.o [1]
-u8_Wiper_StatePre_Int   0x2000'0319    0x1  Data  Gb  adc.o [1]
+                        0x2000'0372    0x1  Data  Gb  adc.o [1]
+u8_WiperSpeed           0x2000'036d    0x1  Data  Gb  adc.o [1]
+u8_WiperSpeed_Expert    0x2000'036c    0x1  Data  Gb  adc.o [1]
+u8_Wiper_State          0x2000'0357    0x1  Data  Gb  adc.o [1]
+u8_Wiper_StatePre       0x2000'0358    0x1  Data  Gb  adc.o [1]
+u8_Wiper_StatePre_Int   0x2000'0359    0x1  Data  Gb  adc.o [1]
 u8_Wiper_StatePre_Int_Cnt
-                        0x2000'031a    0x1  Data  Gb  adc.o [1]
+                        0x2000'035a    0x1  Data  Gb  adc.o [1]
 u8_auto_roof_rain_measure_sleep_flg
-                        0x2000'0347    0x1  Data  Gb  adc.o [1]
-u8_high_voltage_cnt     0x2000'033b    0x1  Data  Gb  adc.o [1]
-u8_light_on_invent_req  0x2000'033d    0x1  Data  Gb  adc.o [1]
-u8_light_on_req         0x2000'033c    0x1  Data  Gb  adc.o [1]
-u8_lin_cmd_sleep        0x2000'0346    0x1  Data  Gb  adc.o [1]
-u8_low_voltage_cnt      0x2000'033a    0x1  Data  Gb  adc.o [1]
-u8_polling_mode_enter   0x2000'0340    0x1  Data  Gb  adc.o [1]
+                        0x2000'0387    0x1  Data  Gb  adc.o [1]
+u8_high_voltage_cnt     0x2000'037b    0x1  Data  Gb  adc.o [1]
+u8_light_on_invent_req  0x2000'037d    0x1  Data  Gb  adc.o [1]
+u8_light_on_req         0x2000'037c    0x1  Data  Gb  adc.o [1]
+u8_lin_cmd_sleep        0x2000'0386    0x1  Data  Gb  adc.o [1]
+u8_low_voltage_cnt      0x2000'037a    0x1  Data  Gb  adc.o [1]
+u8_polling_mode_enter   0x2000'0380    0x1  Data  Gb  adc.o [1]
 u8_rain_state_polling_flg
-                        0x2000'0345    0x1  Data  Gb  adc.o [1]
+                        0x2000'0385    0x1  Data  Gb  adc.o [1]
 u8_twilight_on_invent_req
-                        0x2000'033f    0x1  Data  Gb  adc.o [1]
-u8_twilight_on_req      0x2000'033e    0x1  Data  Gb  adc.o [1]
+                        0x2000'037f    0x1  Data  Gb  adc.o [1]
+u8_twilight_on_req      0x2000'037e    0x1  Data  Gb  adc.o [1]
 u8_wakeup_bcm_cnt_sleep_flg
-                        0x2000'0348    0x1  Data  Gb  adc.o [1]
-u8_wakeup_bcm_timer     0x2000'0342    0x1  Data  Gb  adc.o [1]
-u8_wakeup_cnt           0x2000'0343    0x1  Data  Gb  adc.o [1]
-u8_wakeup_timer         0x2000'0341    0x1  Data  Gb  adc.o [1]
-uds_calc_key                 0x7125   0x44  Code  Gb  adc.o [1]
-write_data_from_EEPROM       0x5611  0x1fc  Code  Gb  adc.o [1]
+                        0x2000'0388    0x1  Data  Gb  adc.o [1]
+u8_wakeup_bcm_timer     0x2000'0382    0x1  Data  Gb  adc.o [1]
+u8_wakeup_cnt           0x2000'0383    0x1  Data  Gb  adc.o [1]
+u8_wakeup_timer         0x2000'0381    0x1  Data  Gb  adc.o [1]
+uds_calc_key                 0x70bd   0x44  Code  Gb  adc.o [1]
+write_data_from_EEPROM       0x55a9  0x1fc  Code  Gb  adc.o [1]
 
 
-[1] = C:\Users\xujunjie\Desktop\IAR_WX13481\Debug\Obj
+[1] = C:\Users\ae-bk-067\Desktop\IAR_WX13481\Debug\Obj
 [2] = dl6M_tln.a
 [3] = m6M_tl.a
 [4] = rt6M_tl.a
 [5] = shb_l.a
 
-  23 723 bytes of readonly  code memory
+  23 571 bytes of readonly  code memory
      517 bytes of readonly  data memory
-   1 351 bytes of readwrite data memory
+   1 415 bytes of readwrite data memory
 
 Errors: none
 Warnings: none
