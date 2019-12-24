@@ -128,12 +128,12 @@ int main(void)
 
 	//FLASH_EraseSector((VERIFIED_SECTOR+87)*FLASH_SECTOR_SIZE); // for debug eraser flag 
 	//case 0: normal start jump to app
-    //if((boot_up_check() != 1)
-      // &&(boot_APP_check() == APP_VALUE))//if flag is equal to 1,jump to app.else doing updata
-    //{
+    if((boot_up_check() != 1)
+       &&(boot_APP_check() == APP_VALUE))//if flag is equal to 1,jump to app.else doing updata
+    {
 	   //Jump to app
-     //  boot_jump_to_APP((uint16_t *)APP_start_address);
-   // }  
+       boot_jump_to_APP((uint16_t *)APP_start_address);
+    }  
     
     
     //case 1: need to reload APP SDK

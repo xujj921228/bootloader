@@ -1,35 +1,35 @@
 ###############################################################################
 #
-# IAR ELF Linker V8.32.1.169/W32 for ARM                  20/Dec/2019  11:49:52
+# IAR ELF Linker V8.32.1.169/W32 for ARM                  20/Dec/2019  16:01:28
 # Copyright 2007-2018 IAR Systems AB.
 #
-#    Output file  =  C:\Users\xujunjie\Desktop\iar_boot\Release\Exe\RLS.out
-#    Map file     =  C:\Users\xujunjie\Desktop\iar_boot\Release\List\RLS.map
+#    Output file  =  C:\Users\ae-bk-067\Desktop\iar_boot\Release\Exe\RLS.out
+#    Map file     =  C:\Users\ae-bk-067\Desktop\iar_boot\Release\List\RLS.map
 #    Command line =  
-#        -f C:\Users\xujunjie\AppData\Local\Temp\EWE0E7.tmp
-#        (C:\Users\xujunjie\Desktop\iar_boot\Release\Obj\clock.o
-#        C:\Users\xujunjie\Desktop\iar_boot\Release\Obj\cstartup_M_KEAZN64.o
-#        C:\Users\xujunjie\Desktop\iar_boot\Release\Obj\eeprom.o
-#        C:\Users\xujunjie\Desktop\iar_boot\Release\Obj\gpio.o
-#        C:\Users\xujunjie\Desktop\iar_boot\Release\Obj\lin.o
-#        C:\Users\xujunjie\Desktop\iar_boot\Release\Obj\lin_cfg.o
-#        C:\Users\xujunjie\Desktop\iar_boot\Release\Obj\lin_common_api.o
-#        C:\Users\xujunjie\Desktop\iar_boot\Release\Obj\lin_common_proto.o
-#        C:\Users\xujunjie\Desktop\iar_boot\Release\Obj\lin_commontl_api.o
-#        C:\Users\xujunjie\Desktop\iar_boot\Release\Obj\lin_commontl_proto.o
-#        C:\Users\xujunjie\Desktop\iar_boot\Release\Obj\lin_diagnostic_service.o
-#        C:\Users\xujunjie\Desktop\iar_boot\Release\Obj\lin_isr.o
-#        C:\Users\xujunjie\Desktop\iar_boot\Release\Obj\lin_lin21_api.o
-#        C:\Users\xujunjie\Desktop\iar_boot\Release\Obj\lin_lin21_proto.o
-#        C:\Users\xujunjie\Desktop\iar_boot\Release\Obj\lin_lin21tl_api.o
-#        C:\Users\xujunjie\Desktop\iar_boot\Release\Obj\lin_lld_timesrv.o
-#        C:\Users\xujunjie\Desktop\iar_boot\Release\Obj\lin_lld_uart.o
-#        C:\Users\xujunjie\Desktop\iar_boot\Release\Obj\low_level_init.o
-#        C:\Users\xujunjie\Desktop\iar_boot\Release\Obj\main.o
+#        -f C:\Users\AE-BK-~1\AppData\Local\Temp\EW709C.tmp
+#        (C:\Users\ae-bk-067\Desktop\iar_boot\Release\Obj\clock.o
+#        C:\Users\ae-bk-067\Desktop\iar_boot\Release\Obj\cstartup_M_KEAZN64.o
+#        C:\Users\ae-bk-067\Desktop\iar_boot\Release\Obj\eeprom.o
+#        C:\Users\ae-bk-067\Desktop\iar_boot\Release\Obj\gpio.o
+#        C:\Users\ae-bk-067\Desktop\iar_boot\Release\Obj\lin.o
+#        C:\Users\ae-bk-067\Desktop\iar_boot\Release\Obj\lin_cfg.o
+#        C:\Users\ae-bk-067\Desktop\iar_boot\Release\Obj\lin_common_api.o
+#        C:\Users\ae-bk-067\Desktop\iar_boot\Release\Obj\lin_common_proto.o
+#        C:\Users\ae-bk-067\Desktop\iar_boot\Release\Obj\lin_commontl_api.o
+#        C:\Users\ae-bk-067\Desktop\iar_boot\Release\Obj\lin_commontl_proto.o
+#        C:\Users\ae-bk-067\Desktop\iar_boot\Release\Obj\lin_diagnostic_service.o
+#        C:\Users\ae-bk-067\Desktop\iar_boot\Release\Obj\lin_isr.o
+#        C:\Users\ae-bk-067\Desktop\iar_boot\Release\Obj\lin_lin21_api.o
+#        C:\Users\ae-bk-067\Desktop\iar_boot\Release\Obj\lin_lin21_proto.o
+#        C:\Users\ae-bk-067\Desktop\iar_boot\Release\Obj\lin_lin21tl_api.o
+#        C:\Users\ae-bk-067\Desktop\iar_boot\Release\Obj\lin_lld_timesrv.o
+#        C:\Users\ae-bk-067\Desktop\iar_boot\Release\Obj\lin_lld_uart.o
+#        C:\Users\ae-bk-067\Desktop\iar_boot\Release\Obj\low_level_init.o
+#        C:\Users\ae-bk-067\Desktop\iar_boot\Release\Obj\main.o
 #        --no_out_extension -o
-#        C:\Users\xujunjie\Desktop\iar_boot\Release\Exe\RLS.out --redirect
+#        C:\Users\ae-bk-067\Desktop\iar_boot\Release\Exe\RLS.out --redirect
 #        _Printf=_PrintfFullNoMb --redirect _Scanf=_ScanfFullNoMb --map
-#        C:\Users\xujunjie\Desktop\iar_boot\Release\List\RLS.map --config
+#        C:\Users\ae-bk-067\Desktop\iar_boot\Release\List\RLS.map --config
 #        "C:\Program Files (x86)\IAR Systems\Embedded Workbench
 #        8.2\arm\config\linker\NXP\KEAZN64xxx2.icf" --entry __iar_program_start
 #        --inline --vfe --text_out locale)
@@ -80,94 +80,123 @@ No sections matched the following patterns:
   .intvec            ro code          0x0    0xb4  cstartup_M_KEAZN64.o [1]
                                    - 0xb4    0xb4
 
-"P2", part 1 of 2:                           0x60
+"P2", part 1 of 2:                           0x54
   .rodata            const           0xb4     0x0  zero_init3.o [4]
   .rodata            const           0xb4     0x0  copy_init3.o [4]
-  Initializer bytes  const           0xb4    0x60  <for P3 s0>
-                                  - 0x114    0x60
+  Initializer bytes  const           0xb4    0x54  <for P3 s0>
+                                  - 0x108    0x54
 
-"P2", part 2 of 2:                         0x2164
-  .text              ro code        0x410   0x5ca  lin_commontl_proto.o [1]
-  .text              ro code        0x9da     0x2  cstartup_M_KEAZN64.o [1]
-  .text              ro code        0x9dc    0x4e  ABImemcpy.o [4]
-  .text              ro code        0xa2a    0xe0  I32DivModFast.o [4]
-  .text              ro code        0xb0c   0x49c  lin_diagnostic_service.o [1]
-  .text              ro code        0xfa8   0x5bc  eeprom.o [1]
-  .text              ro code       0x1564   0x118  lin_commontl_api.o [1]
-  .text              ro code       0x167c   0x100  rand.o [2]
-  .text              ro code       0x177c   0x40c  lin_lld_uart.o [1]
-  .text              ro code       0x1b88    0xc8  lin.o [1]
-  .text              ro code       0x1c50   0x308  lin_common_proto.o [1]
-  .text              ro code       0x1f58    0x5c  lin_lld_timesrv.o [1]
-  .text              ro code       0x1fb4    0xa4  lin_lin21_proto.o [1]
-  .text              ro code       0x2058   0x1a8  DblAddSub.o [3]
-  .text              ro code       0x2200    0xd0  main.o [1]
-  .text              ro code       0x22d0    0x12  lin_common_api.o [1]
-  .text              ro code       0x22e4    0x44  clock.o [1]
-  .text              ro code       0x2328    0x28  gpio.o [1]
-  .rodata            const         0x2350    0x48  lin_cfg.o [1]
-  .text              ro code       0x2398    0x40  lin_isr.o [1]
-  .text              ro code       0x23d8    0x20  IxxToDbl.o [3]
-  .text              ro code       0x23f8    0x2e  DblToI32.o [3]
-  .text              ro code       0x2426    0x3c  zero_init3.o [4]
-  .text              ro code       0x2462    0x30  copy_init3.o [4]
-  .text              ro code       0x2494    0x28  low_level_init.o [1]
-  .text              ro code       0x24bc    0x28  data_init.o [4]
-  .iar.init_table    const         0x24e4    0x24  - Linker created -
-  .rodata            const         0x2508    0x20  lin_cfg.o [1]
-  .text              ro code       0x2528    0x1e  cmain.o [4]
-  .text              ro code       0x2546     0x8  exit.o [2]
-  .text              ro code       0x2550     0xa  cexit.o [4]
-  .text              ro code       0x255c     0xc  XXexit.o [4]
-  .text              ro code       0x2568     0xc  cstartup_M.o [4]
-                                 - 0x2574  0x2164
+"P2", part 2 of 2:                         0x27b0
+  .text              ro code        0x410   0x718  eeprom.o [1]
+  .text              ro code        0xb28    0xe0  I32DivModFast.o [4]
+  .text              ro code        0xc08   0x618  lin_commontl_proto.o [1]
+  .text              ro code       0x1220   0x600  lin_diagnostic_service.o [1]
+  .text              ro code       0x1820   0x154  lin_commontl_api.o [1]
+  .text              ro code       0x1974   0x100  rand.o [2]
+  .text              ro code       0x1a74   0x598  lin_lld_uart.o [1]
+  .text              ro code       0x200c   0x104  lin.o [1]
+  .text              ro code       0x2110   0x3f8  lin_common_proto.o [1]
+  .text              ro code       0x2508    0x68  lin_lld_timesrv.o [1]
+  .text              ro code       0x2570    0xb8  lin_lin21_proto.o [1]
+  .text              ro code       0x2628   0x1a8  DblAddSub.o [3]
+  .text              ro code       0x27d0   0x10c  main.o [1]
+  .text              ro code       0x28dc    0x12  lin_common_api.o [1]
+  .text              ro code       0x28ee     0x2  cstartup_M_KEAZN64.o [1]
+  .text              ro code       0x28f0    0x68  clock.o [1]
+  .text              ro code       0x2958    0x2c  gpio.o [1]
+  .text              ro code       0x2984    0x4c  lin_isr.o [1]
+  .text              ro code       0x29d0    0x20  IxxToDbl.o [3]
+  .text              ro code       0x29f0    0x2e  DblToI32.o [3]
+  .rodata            const         0x2a1e     0x1  lin_cfg.o [1]
+  .rodata            const         0x2a1f     0x1  lin_cfg.o [1]
+  .rodata            const         0x2a20    0x48  lin_cfg.o [1]
+  .text              ro code       0x2a68    0x3c  low_level_init.o [1]
+  .text              ro code       0x2aa4    0x3c  zero_init3.o [4]
+  .text              ro code       0x2ae0    0x30  copy_init3.o [4]
+  .text              ro code       0x2b10    0x28  data_init.o [4]
+  .iar.init_table    const         0x2b38    0x24  - Linker created -
+  .text              ro code       0x2b5c    0x1e  cmain.o [4]
+  .text              ro code       0x2b7a     0x8  exit.o [2]
+  .rodata            const         0x2b82     0x1  lin_cfg.o [1]
+  .rodata            const         0x2b83     0x1  lin_cfg.o [1]
+  .text              ro code       0x2b84     0xa  cexit.o [4]
+  .text              ro code       0x2b90     0xc  XXexit.o [4]
+  .rodata            const         0x2b9c    0x10  lin_cfg.o [1]
+  .text              ro code       0x2bac     0xc  cstartup_M.o [4]
+  .rodata            const         0x2bb8     0x8  lin_cfg.o [1]
+                                 - 0x2bc0  0x27b0
 
-"P3", part 1 of 3:                           0x60
-  P3 s0                       0x2000'0000    0x60  <Init block>
+"P3", part 1 of 3:                           0x54
+  P3 s0                       0x2000'0000    0x54  <Init block>
     .data            inited   0x2000'0000    0x14  lin_cfg.o [1]
-    .data            inited   0x2000'0014    0x14  lin_lld_uart.o [1]
-    .data            inited   0x2000'0028    0x10  lin_cfg.o [1]
-    .data            inited   0x2000'0038    0x10  lin_cfg.o [1]
-    .data            inited   0x2000'0048     0x8  lin_cfg.o [1]
-    .data            inited   0x2000'0050     0x8  rand.o [2]
-    .data            inited   0x2000'0058     0x4  lin_diagnostic_service.o [1]
-    .data            inited   0x2000'005c     0x1  lin_cfg.o [1]
-    .data            inited   0x2000'005d     0x1  lin_cfg.o [1]
-                            - 0x2000'0060    0x60
+    .data            inited   0x2000'0014    0x10  lin_cfg.o [1]
+    .data            inited   0x2000'0024    0x10  lin_cfg.o [1]
+    .data            inited   0x2000'0034     0x8  lin_cfg.o [1]
+    .data            inited   0x2000'003c     0x8  rand.o [2]
+    .data            inited   0x2000'0044     0x4  lin_diagnostic_service.o [1]
+    .data            inited   0x2000'0048     0x4  lin_lld_uart.o [1]
+    .data            inited   0x2000'004c     0x1  lin_cfg.o [1]
+    .data            inited   0x2000'004d     0x1  lin_cfg.o [1]
+    .data            inited   0x2000'004e     0x1  lin_lld_uart.o [1]
+    .data            inited   0x2000'004f     0x1  lin_lld_uart.o [1]
+    .data            inited   0x2000'0050     0x1  lin_lld_uart.o [1]
+                            - 0x2000'0054    0x54
 
-"P3", part 2 of 3:                          0x20c
-  .bss               zero     0x2000'0060    0xce  lin_diagnostic_service.o [1]
-  .bss               zero     0x2000'012e     0x6  main.o [1]
-  .bss               zero     0x2000'0134    0x84  rand.o [2]
-  .bss               zero     0x2000'01b8    0x30  lin_cfg.o [1]
-  .bss               zero     0x2000'01e8    0x30  lin_cfg.o [1]
-  .bss               zero     0x2000'0218     0xc  lin_cfg.o [1]
-  .bss               zero     0x2000'0224     0xc  lin_diagnostic_service.o [1]
-  .bss               zero     0x2000'0230     0x8  lin_cfg.o [1]
-  .bss               zero     0x2000'0238     0x8  lin_cfg.o [1]
-  .bss               zero     0x2000'0240     0x8  lin_cfg.o [1]
-  .bss               zero     0x2000'0248     0x8  lin_diagnostic_service.o [1]
-  .bss               zero     0x2000'0250     0x2  lin_cfg.o [1]
-  .bss               zero     0x2000'0252     0x2  lin_cfg.o [1]
-  .bss               zero     0x2000'0254     0x2  lin_cfg.o [1]
-  .bss               zero     0x2000'0256     0x2  lin_cfg.o [1]
-  .bss               zero     0x2000'0258     0x2  lin_common_proto.o [1]
-  .bss               zero     0x2000'025a     0x2  lin_diagnostic_service.o [1]
-  .bss               zero     0x2000'025c     0x2  lin_diagnostic_service.o [1]
+"P3", part 2 of 3:                          0x21c
+  .bss               zero     0x2000'0054    0x84  rand.o [2]
+  .bss               zero     0x2000'00d8    0x64  lin_diagnostic_service.o [1]
+  .bss               zero     0x2000'013c    0x64  lin_diagnostic_service.o [1]
+  .bss               zero     0x2000'01a0    0x30  lin_cfg.o [1]
+  .bss               zero     0x2000'01d0    0x30  lin_cfg.o [1]
+  .bss               zero     0x2000'0200     0xc  lin_cfg.o [1]
+  .bss               zero     0x2000'020c     0x8  lin_cfg.o [1]
+  .bss               zero     0x2000'0214     0x8  lin_cfg.o [1]
+  .bss               zero     0x2000'021c     0x8  lin_cfg.o [1]
+  .bss               zero     0x2000'0224     0x4  lin_diagnostic_service.o [1]
+  .bss               zero     0x2000'0228     0x4  lin_diagnostic_service.o [1]
+  .bss               zero     0x2000'022c     0x4  lin_diagnostic_service.o [1]
+  .bss               zero     0x2000'0230     0x4  lin_lld_uart.o [1]
+  .bss               zero     0x2000'0234     0x4  lin_lld_uart.o [1]
+  .bss               zero     0x2000'0238     0x2  lin_cfg.o [1]
+  .bss               zero     0x2000'023a     0x2  lin_cfg.o [1]
+  .bss               zero     0x2000'023c     0x2  lin_cfg.o [1]
+  .bss               zero     0x2000'023e     0x2  lin_cfg.o [1]
+  .bss               zero     0x2000'0240     0x2  lin_diagnostic_service.o [1]
+  .bss               zero     0x2000'0242     0x2  lin_diagnostic_service.o [1]
+  .bss               zero     0x2000'0244     0x2  lin_diagnostic_service.o [1]
+  .bss               zero     0x2000'0246     0x2  lin_diagnostic_service.o [1]
+  .bss               zero     0x2000'0248     0x2  lin_diagnostic_service.o [1]
+  .bss               zero     0x2000'024a     0x2  lin_lld_uart.o [1]
+  .bss               zero     0x2000'024c     0x2  lin_lld_uart.o [1]
+  .bss               zero     0x2000'024e     0x2  lin_lld_uart.o [1]
+  .bss               zero     0x2000'0250     0x2  lin_lld_uart.o [1]
+  .bss               zero     0x2000'0252     0x2  main.o [1]
+  .bss               zero     0x2000'0254     0x2  main.o [1]
+  .bss               zero     0x2000'0256     0x1  lin_cfg.o [1]
+  .bss               zero     0x2000'0257     0x1  lin_cfg.o [1]
+  .bss               zero     0x2000'0258     0x1  lin_cfg.o [1]
+  .bss               zero     0x2000'0259     0x1  lin_cfg.o [1]
+  .bss               zero     0x2000'025a     0x1  lin_cfg.o [1]
+  .bss               zero     0x2000'025b     0x1  lin_cfg.o [1]
+  .bss               zero     0x2000'025c     0x1  lin_cfg.o [1]
+  .bss               zero     0x2000'025d     0x1  lin_cfg.o [1]
   .bss               zero     0x2000'025e     0x1  lin_cfg.o [1]
   .bss               zero     0x2000'025f     0x1  lin_cfg.o [1]
   .bss               zero     0x2000'0260     0x1  lin_cfg.o [1]
   .bss               zero     0x2000'0261     0x1  lin_cfg.o [1]
-  .bss               zero     0x2000'0262     0x1  lin_cfg.o [1]
-  .bss               zero     0x2000'0263     0x1  lin_cfg.o [1]
-  .bss               zero     0x2000'0264     0x1  lin_cfg.o [1]
-  .bss               zero     0x2000'0265     0x1  lin_cfg.o [1]
-  .bss               zero     0x2000'0266     0x1  lin_cfg.o [1]
-  .bss               zero     0x2000'0267     0x1  lin_cfg.o [1]
-  .bss               zero     0x2000'0268     0x1  lin_cfg.o [1]
-  .bss               zero     0x2000'0269     0x1  lin_cfg.o [1]
-  .bss               zero     0x2000'026a     0x1  lin_diagnostic_service.o [1]
-                            - 0x2000'026b   0x20b
+  .bss               zero     0x2000'0262     0x1  lin_common_proto.o [1]
+  .bss               zero     0x2000'0263     0x1  lin_common_proto.o [1]
+  .bss               zero     0x2000'0264     0x1  lin_diagnostic_service.o [1]
+  .bss               zero     0x2000'0265     0x1  lin_diagnostic_service.o [1]
+  .bss               zero     0x2000'0266     0x1  lin_diagnostic_service.o [1]
+  .bss               zero     0x2000'0267     0x1  lin_diagnostic_service.o [1]
+  .bss               zero     0x2000'0268     0x1  lin_diagnostic_service.o [1]
+  .bss               zero     0x2000'0269     0x1  lin_lld_uart.o [1]
+  .bss               zero     0x2000'026a     0x1  lin_lld_uart.o [1]
+  .bss               zero     0x2000'026b     0x1  lin_lld_uart.o [1]
+  .bss               zero     0x2000'026c     0x1  main.o [1]
+  .bss               zero     0x2000'026d     0x1  main.o [1]
+                            - 0x2000'026e   0x21a
 
 "P3", part 3 of 3:                          0x200
   CSTACK                      0x2000'0270   0x200  <Block>
@@ -178,10 +207,9 @@ Unused ranges:
 
          From           To    Size
          ----           --    ----
-        0x114        0x3ff   0x2ec
-       0x2574       0xffff  0xda8c
+        0x108        0x3ff   0x2f8
+       0x2bc0       0xffff  0xd440
   0x1fff'fc00  0x1fff'ffff   0x400
-  0x2000'026c  0x2000'026f     0x4
   0x2000'0470  0x2000'0bff   0x790
 
 
@@ -192,14 +220,14 @@ Unused ranges:
           Address      Size
           -------      ----
 Zero (__iar_zero_init3)
-    1 destination range, total size 0x20b:
-          0x2000'0060  0x20b
+    1 destination range, total size 0x21a:
+          0x2000'0054  0x21a
 
 Copy (__iar_copy_init3)
-    1 source range, total size 0x60 (102% of destination):
-                 0xb4   0x60
-    1 destination range, total size 0x5e:
-          0x2000'0000   0x5e
+    1 source range, total size 0x54 (103% of destination):
+                 0xb4   0x54
+    1 destination range, total size 0x51:
+          0x2000'0000   0x51
 
 
 
@@ -213,26 +241,26 @@ command line/config:
     ---------------------------------------------------
     Total:
 
-C:\Users\xujunjie\Desktop\iar_boot\Release\Obj: [1]
-    clock.o                        68
+C:\Users\ae-bk-067\Desktop\iar_boot\Release\Obj: [1]
+    clock.o                       104
     cstartup_M_KEAZN64.o          182
-    eeprom.o                    1 468
-    gpio.o                         40
-    lin.o                         200
-    lin_cfg.o                              166      214
+    eeprom.o                    1 816
+    gpio.o                         44
+    lin.o                         260
+    lin_cfg.o                              162      214
     lin_common_api.o               18
-    lin_common_proto.o            776                 2
-    lin_commontl_api.o            280
-    lin_commontl_proto.o        1 482
-    lin_diagnostic_service.o    1 180        4      235
-    lin_isr.o                      64
-    lin_lin21_proto.o             164
-    lin_lld_timesrv.o              92
-    lin_lld_uart.o              1 036       20       20
-    low_level_init.o               40
-    main.o                        208                 6
+    lin_common_proto.o          1 016                 2
+    lin_commontl_api.o            340
+    lin_commontl_proto.o        1 560
+    lin_diagnostic_service.o    1 536        4      231
+    lin_isr.o                      76
+    lin_lin21_proto.o             184
+    lin_lld_timesrv.o             104
+    lin_lld_uart.o              1 432        7       26
+    low_level_init.o               60
+    main.o                        268                 6
     ---------------------------------------------------
-    Total:                      7 298      190      477
+    Total:                      9 000      173      479
 
 dl6M_tln.a: [2]
     exit.o                          8
@@ -248,7 +276,6 @@ m6M_tl.a: [3]
     Total:                        502
 
 rt6M_tl.a: [4]
-    ABImemcpy.o                    78
     I32DivModFast.o               224
     XXexit.o                       12
     cexit.o                        10
@@ -258,12 +285,12 @@ rt6M_tl.a: [4]
     data_init.o                    40
     zero_init3.o                   60
     ---------------------------------------------------
-    Total:                        514
+    Total:                        436
 
-    Gaps                           10
-    Linker created                          38      512
+    Gaps                            2
+    Linker created                          39      512
 -------------------------------------------------------
-    Grand Total:                8 588      236    1 129
+    Grand Total:               10 204      220    1 131
 
 
 *******************************************************************************
@@ -272,214 +299,221 @@ rt6M_tl.a: [4]
 
 Entry                       Address   Size  Type      Object
 -----                       -------   ----  ----      ------
-.iar.init_table$$Base        0x24e4          --   Gb  - Linker created -
-.iar.init_table$$Limit       0x2508          --   Gb  - Linker created -
-?main                        0x2529         Code  Gb  cmain.o [4]
-APP_check_value         0x2000'0058    0x4  Data  Gb  lin_diagnostic_service.o [1]
+.iar.init_table$$Base        0x2b38          --   Gb  - Linker created -
+.iar.init_table$$Limit       0x2b5c          --   Gb  - Linker created -
+?main                        0x2b5d         Code  Gb  cmain.o [4]
+APP_check_value         0x2000'0044    0x4  Data  Gb  lin_diagnostic_service.o [1]
 CSTACK$$Base            0x2000'0270          --   Gb  - Linker created -
 CSTACK$$Limit           0x2000'0470          --   Gb  - Linker created -
-Clk_Init                     0x22e5   0x44  Code  Gb  clock.o [1]
-EEPROM_EraseSector           0x1255   0x68  Code  Gb  eeprom.o [1]
-EEPROM_ProgramWord           0x12c9   0x74  Code  Gb  eeprom.o [1]
-FLASH_EraseSector            0x100f   0x72  Code  Gb  eeprom.o [1]
-FLASH_Init                    0xfb9   0x56  Code  Gb  eeprom.o [1]
-FLASH_Program                0x111d   0x8a  Code  Gb  eeprom.o [1]
-FLASH_Program1LongWord       0x11bd   0x84  Code  Gb  eeprom.o [1]
+Clk_Init                     0x28f1   0x68  Code  Gb  clock.o [1]
+EEPROM_EraseSector            0x781   0x68  Code  Gb  eeprom.o [1]
+EEPROM_ProgramWord            0x7ed   0x78  Code  Gb  eeprom.o [1]
+FLASH_EraseSector             0x48f   0x74  Code  Gb  eeprom.o [1]
+FLASH_Init                    0x421   0x6e  Code  Gb  eeprom.o [1]
+FLASH_LaunchCMD               0x503   0x22  Code  Gb  eeprom.o [1]
+FLASH_Program                 0x5e5   0xd2  Code  Gb  eeprom.o [1]
+FLASH_Program1LongWord        0x6d9   0x92  Code  Gb  eeprom.o [1]
 FLASH_Program2LongWords
-                             0x1081   0x9c  Code  Gb  eeprom.o [1]
-FTM1_IRQHandler              0x23a1   0x30  Code  Gb  lin_isr.o [1]
-GPIO_Init                    0x2329   0x28  Code  Gb  gpio.o [1]
+                              0x525   0xb2  Code  Gb  eeprom.o [1]
+FTM1_IRQHandler              0x298d   0x36  Code  Gb  lin_isr.o [1]
+GPIO_Init                    0x2959   0x2c  Code  Gb  gpio.o [1]
 LI0_response_error_signal
-                             0x2508    0x1  Data  Gb  lin_cfg.o [1]
-Lin_Sys_Init                 0x220b   0x22  Code  Gb  main.o [1]
-Region$$Table$$Base          0x24e4          --   Gb  - Linker created -
-Region$$Table$$Limit         0x2508          --   Gb  - Linker created -
-Strart_next_rx               0x1b35   0x2c  Code  Gb  lin_lld_uart.o [1]
-UART0_SCI0_IRQHandler        0x2399    0x8  Code  Gb  lin_isr.o [1]
-WDOG_Feed                     0xfa9   0x10  Code  Gb  eeprom.o [1]
-_Rand_idx               0x2000'01b4    0x4  Data  Lc  rand.o [2]
-_Rand_rv                0x2000'0134   0x80  Data  Lc  rand.o [2]
-_Randinit               0x2000'0050    0x1  Data  Gb  rand.o [2]
-_Randseed               0x2000'0054    0x4  Data  Gb  rand.o [2]
-__aeabi_d2uiz                0x23f9         Code  Gb  DblToI32.o [3]
-__aeabi_dadd                 0x2059         Code  Gb  DblAddSub.o [3]
-__aeabi_idiv                  0xa57         Code  Gb  I32DivModFast.o [4]
-__aeabi_idivmod               0xa57         Code  Gb  I32DivModFast.o [4]
-__aeabi_memcpy                0xa11         Code  Gb  ABImemcpy.o [4]
-__aeabi_memcpy4               0x9dd         Code  Gb  ABImemcpy.o [4]
-__aeabi_memcpy8               0x9dd         Code  Gb  ABImemcpy.o [4]
-__aeabi_ui2d                 0x23d9         Code  Gb  IxxToDbl.o [3]
-__aeabi_uidiv                 0xa5d         Code  Gb  I32DivModFast.o [4]
-__aeabi_uidivmod              0xa5d         Code  Gb  I32DivModFast.o [4]
-__cmain                      0x2529         Code  Gb  cmain.o [4]
-__exit                       0x255d         Code  Gb  XXexit.o [4]
-__iar_Memcpy                  0xa1d         Code  Gb  ABImemcpy.o [4]
-__iar_copy_init3             0x2463   0x30  Code  Gb  copy_init3.o [4]
-__iar_d2uiz                  0x23fd         Code  Gb  DblToI32.o [3]
-__iar_data_init3             0x24bd   0x28  Code  Gb  data_init.o [4]
-__iar_program_start          0x2569         Code  Gb  cstartup_M.o [4]
-__iar_zero_init3             0x2427   0x3c  Code  Gb  zero_init3.o [4]
-__low_level_init             0x2495   0x28  Code  Gb  low_level_init.o [1]
+                             0x2a1e    0x1  Data  Gb  lin_cfg.o [1]
+Lin_Sys_Init                 0x27e3   0x48  Code  Gb  main.o [1]
+Region$$Table$$Base          0x2b38          --   Gb  - Linker created -
+Region$$Table$$Limit         0x2b5c          --   Gb  - Linker created -
+Strart_next_rx               0x1fb1   0x1e  Code  Gb  lin_lld_uart.o [1]
+UART0_SCI0_IRQHandler        0x2985    0x8  Code  Gb  lin_isr.o [1]
+WDOG_Feed                     0x411   0x10  Code  Gb  eeprom.o [1]
+_Rand_idx               0x2000'00d4    0x4  Data  Lc  rand.o [2]
+_Rand_rv                0x2000'0054   0x80  Data  Lc  rand.o [2]
+_Randinit               0x2000'003c    0x1  Data  Gb  rand.o [2]
+_Randseed               0x2000'0040    0x4  Data  Gb  rand.o [2]
+__aeabi_d2uiz                0x29f1         Code  Gb  DblToI32.o [3]
+__aeabi_dadd                 0x2629         Code  Gb  DblAddSub.o [3]
+__aeabi_idiv                  0xb55         Code  Gb  I32DivModFast.o [4]
+__aeabi_idivmod               0xb55         Code  Gb  I32DivModFast.o [4]
+__aeabi_ui2d                 0x29d1         Code  Gb  IxxToDbl.o [3]
+__aeabi_uidiv                 0xb5b         Code  Gb  I32DivModFast.o [4]
+__aeabi_uidivmod              0xb5b         Code  Gb  I32DivModFast.o [4]
+__cmain                      0x2b5d         Code  Gb  cmain.o [4]
+__exit                       0x2b91         Code  Gb  XXexit.o [4]
+__iar_copy_init3             0x2ae1   0x30  Code  Gb  copy_init3.o [4]
+__iar_d2uiz                  0x29f5         Code  Gb  DblToI32.o [3]
+__iar_data_init3             0x2b11   0x28  Code  Gb  data_init.o [4]
+__iar_program_start          0x2bad         Code  Gb  cstartup_M.o [4]
+__iar_zero_init3             0x2aa5   0x3c  Code  Gb  zero_init3.o [4]
+__low_level_init             0x2a69   0x3c  Code  Gb  low_level_init.o [1]
 __vector_table                  0x0         Data  Gb  cstartup_M_KEAZN64.o [1]
-_call_main                   0x2535         Code  Gb  cmain.o [4]
-_exit                        0x2551         Code  Gb  cexit.o [4]
-_main                        0x2543         Code  Gb  cmain.o [4]
-boot_APP_check                0xb0d   0x34  Code  Gb  lin_diagnostic_service.o [1]
-boot_Var_init                0x2201    0xa  Code  Gb  main.o [1]
-boot_flashdata_cn       0x2000'0226    0x2  Data  Gb  lin_diagnostic_service.o [1]
-boot_flashdata_last_cn  0x2000'0228    0x2  Data  Gb  lin_diagnostic_service.o [1]
-boot_key                0x2000'024c    0x4  Data  Gb  lin_diagnostic_service.o [1]
-boot_rx_ok_id           0x2000'0131    0x1  Data  Gb  main.o [1]
-boot_seed               0x2000'0248    0x4  Data  Gb  lin_diagnostic_service.o [1]
-boot_status_flag        0x2000'0130    0x1  Data  Gb  main.o [1]
-boot_up_check                 0xb41   0x4c  Code  Gb  lin_diagnostic_service.o [1]
-boot_up_ret             0x2000'012e    0x2  Data  Gb  main.o [1]
-boot_write_flash        0x2000'0064   0x64  Data  Gb  lin_diagnostic_service.o [1]
-cnt_byte                0x2000'0016    0x1  Data  Lc  lin_lld_uart.o [1]
-current_id              0x2000'0017    0x1  Data  Lc  lin_lld_uart.o [1]
-data_cn1                0x2000'0060    0x1  Data  Gb  lin_diagnostic_service.o [1]
-data_cn2                0x2000'0061    0x1  Data  Gb  lin_diagnostic_service.o [1]
-diagnostic_Session      0x2000'025a    0x1  Data  Gb  lin_diagnostic_service.o [1]
-diagnostic_Session_flg  0x2000'026a    0x1  Data  Gb  lin_diagnostic_service.o [1]
-diagnostic_Session_pre  0x2000'025b    0x1  Data  Gb  lin_diagnostic_service.o [1]
+_call_main                   0x2b69         Code  Gb  cmain.o [4]
+_exit                        0x2b85         Code  Gb  cexit.o [4]
+_main                        0x2b77         Code  Gb  cmain.o [4]
+boot_APP_check               0x1221   0x44  Code  Gb  lin_diagnostic_service.o [1]
+boot_Var_init                0x27d1   0x12  Code  Gb  main.o [1]
+boot_flashdata_cn       0x2000'0244    0x2  Data  Gb  lin_diagnostic_service.o [1]
+boot_flashdata_last_cn  0x2000'0246    0x2  Data  Gb  lin_diagnostic_service.o [1]
+boot_jump_to_APP             0x283d    0x8  Code  Gb  main.o [1]
+boot_key                0x2000'022c    0x4  Data  Gb  lin_diagnostic_service.o [1]
+boot_rx_ok_id           0x2000'026d    0x1  Data  Gb  main.o [1]
+boot_seed               0x2000'0228    0x4  Data  Gb  lin_diagnostic_service.o [1]
+boot_status_flag        0x2000'026c    0x1  Data  Gb  main.o [1]
+boot_sysinit                 0x282b   0x12  Code  Gb  main.o [1]
+boot_up_check                0x1265   0x60  Code  Gb  lin_diagnostic_service.o [1]
+boot_up_ret             0x2000'0252    0x2  Data  Gb  main.o [1]
+boot_write_flash        0x2000'00d8   0x64  Data  Gb  lin_diagnostic_service.o [1]
+cnt_byte                0x2000'026a    0x1  Data  Lc  lin_lld_uart.o [1]
+current_id              0x2000'026b    0x1  Data  Lc  lin_lld_uart.o [1]
+data_cn1                0x2000'0267    0x1  Data  Gb  lin_diagnostic_service.o [1]
+data_cn2                0x2000'0268    0x1  Data  Gb  lin_diagnostic_service.o [1]
+diagnostic_Session      0x2000'0264    0x1  Data  Gb  lin_diagnostic_service.o [1]
+diagnostic_Session_flg  0x2000'0266    0x1  Data  Gb  lin_diagnostic_service.o [1]
+diagnostic_Session_pre  0x2000'0265    0x1  Data  Gb  lin_diagnostic_service.o [1]
 diagnostic_Session_timer
-                        0x2000'025c    0x2  Data  Gb  lin_diagnostic_service.o [1]
-exit                         0x2547    0x8  Code  Gb  exit.o [2]
-frame_index             0x2000'0259    0x1  Data  Gb  lin_common_proto.o [1]
-frame_signal_error      0x2000'0258    0x1  Data  Gb  lin_common_proto.o [1]
-frame_timeout_cnt       0x2000'001a    0x2  Data  Lc  lin_lld_uart.o [1]
-idle_timeout_cnt        0x2000'001e    0x2  Data  Lc  lin_lld_uart.o [1]
-l_ifc_init                   0x22db    0x8  Code  Gb  lin_common_api.o [1]
-l_status                0x2000'0015    0x1  Data  Lc  lin_lld_uart.o [1]
-l_sys_init                   0x22d1    0xa  Code  Gb  lin_common_api.o [1]
-ld_receive_message           0x1565  0x10a  Code  Gb  lin_commontl_api.o [1]
+                        0x2000'0240    0x2  Data  Gb  lin_diagnostic_service.o [1]
+exit                         0x2b7b    0x8  Code  Gb  exit.o [2]
+frame_index             0x2000'0263    0x1  Data  Gb  lin_common_proto.o [1]
+frame_signal_error      0x2000'0262    0x1  Data  Gb  lin_common_proto.o [1]
+frame_timeout_cnt       0x2000'024c    0x2  Data  Lc  lin_lld_uart.o [1]
+idle_timeout_cnt        0x2000'0250    0x2  Data  Lc  lin_lld_uart.o [1]
+ifc                     0x2000'004e    0x1  Data  Lc  lin_lld_uart.o [1]
+l_ifc_init                   0x28e7    0x8  Code  Gb  lin_common_api.o [1]
+l_status                0x2000'0269    0x1  Data  Lc  lin_lld_uart.o [1]
+l_sys_init                   0x28dd    0xa  Code  Gb  lin_common_api.o [1]
+ld_get_raw                   0x1821    0xc  Code  Gb  lin_commontl_api.o [1]
+ld_receive_message           0x1831  0x13c  Code  Gb  lin_commontl_api.o [1]
 lin_bus_activity_timeout
-                             0x1e07    0xc  Code  Gb  lin_common_proto.o [1]
-lin_checksum                 0x1c15   0x30  Code  Gb  lin.o [1]
-lin_configuration_RAM   0x2000'0048    0x8  Data  Gb  lin_cfg.o [1]
-lin_configured_NAD      0x2000'005c    0x1  Data  Gb  lin_cfg.o [1]
-lin_diag_services_flag  0x2000'0240    0x8  Data  Gb  lin_cfg.o [1]
+                             0x2351    0xe  Code  Gb  lin_common_proto.o [1]
+lin_checksum                 0x20c7   0x3e  Code  Gb  lin.o [1]
+lin_configuration_RAM   0x2000'0034    0x8  Data  Gb  lin_cfg.o [1]
+lin_configured_NAD      0x2000'004c    0x1  Data  Gb  lin_cfg.o [1]
+lin_diag_services_flag  0x2000'021c    0x8  Data  Gb  lin_cfg.o [1]
 lin_diag_services_supported
-                             0x2520    0x8  Data  Gb  lin_cfg.o [1]
+                             0x2bb8    0x8  Data  Gb  lin_cfg.o [1]
 lin_diagservice_exit_transfer
-                              0xf59   0x32  Code  Gb  lin_diagnostic_service.o [1]
+                             0x179d   0x52  Code  Gb  lin_diagnostic_service.o [1]
 lin_diagservice_read_data_by_identifier
-                              0xc4b   0x3e  Code  Gb  lin_diagnostic_service.o [1]
+                             0x139f   0x4e  Code  Gb  lin_diagnostic_service.o [1]
 lin_diagservice_request_download
-                              0xd55   0x7c  Code  Gb  lin_diagnostic_service.o [1]
+                             0x14e5   0x84  Code  Gb  lin_diagnostic_service.o [1]
 lin_diagservice_service_securityaccess
-                              0xcc1   0x8e  Code  Gb  lin_diagnostic_service.o [1]
+                             0x1431   0xa2  Code  Gb  lin_diagnostic_service.o [1]
 lin_diagservice_service_trigger_check
-                              0xeef   0x6a  Code  Gb  lin_diagnostic_service.o [1]
+                             0x16fd   0xa0  Code  Gb  lin_diagnostic_service.o [1]
 lin_diagservice_session_control
-                              0xb8d   0xbe  Code  Gb  lin_diagnostic_service.o [1]
+                             0x12c5   0xda  Code  Gb  lin_diagnostic_service.o [1]
 lin_diagservice_transfer_data
-                              0xde5  0x10a  Code  Gb  lin_diagnostic_service.o [1]
+                             0x1575  0x17a  Code  Gb  lin_diagnostic_service.o [1]
 lin_diagservice_transfer_data::length
-                        0x2000'012c    0x2  Data  Lc  lin_diagnostic_service.o [1]
-lin_error_in_response   0x2000'025f    0x1  Data  Gb  lin_cfg.o [1]
-lin_flag_handle_tbl     0x2000'0230    0x8  Data  Gb  lin_cfg.o [1]
-lin_frame_flag_tbl      0x2000'0238    0x8  Data  Gb  lin_cfg.o [1]
-lin_frame_tbl                0x2350   0x48  Data  Gb  lin_cfg.o [1]
-lin_get_frame_index          0x1e61   0x38  Code  Gb  lin_common_proto.o [1]
-lin_goto_idle_state          0x18dd    0x2  Code  Gb  lin_lld_uart.o [1]
-lin_goto_sleep_flg      0x2000'0260    0x1  Data  Gb  lin_cfg.o [1]
-lin_handle_error             0x1da7   0x60  Code  Gb  lin_common_proto.o [1]
+                        0x2000'0248    0x2  Data  Lc  lin_diagnostic_service.o [1]
+lin_error_in_response   0x2000'0257    0x1  Data  Gb  lin_cfg.o [1]
+lin_flag_handle_tbl     0x2000'020c    0x8  Data  Gb  lin_cfg.o [1]
+lin_frame_flag_tbl      0x2000'0214    0x8  Data  Gb  lin_cfg.o [1]
+lin_frame_tbl                0x2a20   0x48  Data  Gb  lin_cfg.o [1]
+lin_get_frame_index          0x23fd   0x2a  Code  Gb  lin_common_proto.o [1]
+lin_goto_idle_state          0x1c53   0x26  Code  Gb  lin_lld_uart.o [1]
+lin_goto_sleep_flg      0x2000'0258    0x1  Data  Gb  lin_cfg.o [1]
+lin_handle_error             0x22c7   0x76  Code  Gb  lin_common_proto.o [1]
 lin_lld_ignore_response
-                             0x1b95    0x8  Code  Gb  lin.o [1]
-lin_lld_init                 0x1b89    0xc  Code  Gb  lin.o [1]
+                             0x2019    0x8  Code  Gb  lin.o [1]
+lin_lld_init                 0x200d    0xc  Code  Gb  lin.o [1]
 lin_lld_response_buffer
-                        0x2000'0218    0xc  Data  Gb  lin_cfg.o [1]
-lin_lld_rx_response          0x1bbd    0xa  Code  Gb  lin.o [1]
+                        0x2000'0200    0xc  Data  Gb  lin_cfg.o [1]
+lin_lld_rx_response          0x2049    0xc  Code  Gb  lin.o [1]
 lin_lld_set_low_power_mode
-                             0x1b9d    0x8  Code  Gb  lin.o [1]
-lin_lld_set_response         0x1ba5   0x18  Code  Gb  lin.o [1]
-lin_lld_timer_K_init         0x1f59   0x44  Code  Gb  lin_lld_timesrv.o [1]
-lin_lld_timer_init           0x1c45    0x8  Code  Gb  lin.o [1]
-lin_lld_timer_isr            0x1fad    0x8  Code  Gb  lin_lld_timesrv.o [1]
+                             0x2021    0x8  Code  Gb  lin.o [1]
+lin_lld_set_response         0x2029   0x20  Code  Gb  lin.o [1]
+lin_lld_timer_K_init         0x2509   0x48  Code  Gb  lin_lld_timesrv.o [1]
+lin_lld_timer_init           0x2105    0x8  Code  Gb  lin.o [1]
+lin_lld_timer_isr            0x2569    0x8  Code  Gb  lin_lld_timesrv.o [1]
 lin_lld_uart_ignore_response
-                             0x17d9    0x2  Code  Gb  lin_lld_uart.o [1]
-lin_lld_uart_init            0x177d   0x5c  Code  Gb  lin_lld_uart.o [1]
-lin_lld_uart_rx_isr          0x1931  0x200  Code  Gb  lin_lld_uart.o [1]
+                             0x1aeb    0x8  Code  Gb  lin_lld_uart.o [1]
+lin_lld_uart_init            0x1a75   0x76  Code  Gb  lin_lld_uart.o [1]
+lin_lld_uart_rx_isr          0x1cc5  0x2de  Code  Gb  lin_lld_uart.o [1]
 lin_lld_uart_rx_response
-                             0x17e3   0x12  Code  Gb  lin_lld_uart.o [1]
+                             0x1afb   0x1a  Code  Gb  lin_lld_uart.o [1]
 lin_lld_uart_set_low_power_mode
-                             0x17db    0x8  Code  Gb  lin_lld_uart.o [1]
-lin_lld_uart_timeout         0x1819   0xc0  Code  Gb  lin_lld_uart.o [1]
+                             0x1af3    0x8  Code  Gb  lin_lld_uart.o [1]
+lin_lld_uart_timeout         0x1b59   0xfa  Code  Gb  lin_lld_uart.o [1]
 lin_lld_uart_tx_response
-                             0x17f5   0x24  Code  Gb  lin_lld_uart.o [1]
+                             0x1b15   0x30  Code  Gb  lin_lld_uart.o [1]
+lin_make_res_diag_frame
+                             0x23f5    0x8  Code  Gb  lin_common_proto.o [1]
 lin_make_res_evnt_frame
-                             0x2013   0x18  Code  Gb  lin_lin21_proto.o [1]
+                             0x25dd   0x1e  Code  Gb  lin_lin21_proto.o [1]
 lin_max_frame_res_timeout_val
-                             0x250c   0x10  Data  Gb  lin_cfg.o [1]
+                             0x2b9c   0x10  Data  Gb  lin_cfg.o [1]
 lin_pFrameBuf           0x2000'0000   0x14  Data  Gb  lin_cfg.o [1]
-lin_process_parity           0x1bc7   0x4e  Code  Gb  lin.o [1]
-lin_process_pdu               0x56d  0x138  Code  Lc  lin_commontl_proto.o [1]
-lin_process_pid              0x1c51   0x8c  Code  Gb  lin_common_proto.o [1]
-lin_process_uncd_frame       0x1ea5   0x68  Code  Gb  lin_common_proto.o [1]
+lin_process_parity           0x2055   0x72  Code  Gb  lin.o [1]
+lin_process_pdu               0xd85  0x194  Code  Lc  lin_commontl_proto.o [1]
+lin_process_pid              0x2111   0xc4  Code  Gb  lin_common_proto.o [1]
+lin_process_uncd_frame       0x242d   0x88  Code  Gb  lin_common_proto.o [1]
 lin_save_configuration_flg
-                        0x2000'0261    0x1  Data  Gb  lin_cfg.o [1]
+                        0x2000'0259    0x1  Data  Gb  lin_cfg.o [1]
 lin_successful_transfer
-                        0x2000'025e    0x1  Data  Gb  lin_cfg.o [1]
-lin_tl_attach_service         0x769  0x134  Code  Gb  lin_commontl_proto.o [1]
-lin_tl_get_pdu                0x553   0x1a  Code  Gb  lin_commontl_proto.o [1]
-lin_tl_handler                0x6a9   0x90  Code  Gb  lin_commontl_proto.o [1]
+                        0x2000'0256    0x1  Data  Gb  lin_cfg.o [1]
+lin_tl_attach_service        0x1015   0xec  Code  Gb  lin_commontl_proto.o [1]
+lin_tl_get_pdu                0xd4f   0x30  Code  Gb  lin_commontl_proto.o [1]
+lin_tl_handler                0xf2d   0xbc  Code  Gb  lin_commontl_proto.o [1]
 lin_tl_make_slaveres_pdu
-                              0x411  0x142  Code  Gb  lin_commontl_proto.o [1]
-lin_tl_rx_queue         0x2000'0038   0x10  Data  Gb  lin_cfg.o [1]
-lin_tl_tx_queue         0x2000'0028   0x10  Data  Gb  lin_cfg.o [1]
-lin_update_err_signal        0x1fe5   0x2e  Code  Gb  lin_lin21_proto.o [1]
-lin_update_rx                0x1cdd   0x64  Code  Gb  lin_common_proto.o [1]
-lin_update_tx                0x1d41   0x66  Code  Gb  lin_common_proto.o [1]
-lin_update_tx_flags          0x1e13   0x42  Code  Gb  lin_common_proto.o [1]
+                              0xc09  0x146  Code  Gb  lin_commontl_proto.o [1]
+lin_tl_rx_queue         0x2000'0024   0x10  Data  Gb  lin_cfg.o [1]
+lin_tl_tx_queue         0x2000'0014   0x10  Data  Gb  lin_cfg.o [1]
+lin_update_err_signal        0x25ab   0x32  Code  Gb  lin_lin21_proto.o [1]
+lin_update_rx                0x21d5   0x76  Code  Gb  lin_common_proto.o [1]
+lin_update_rx_diag_frame
+                             0x23d3   0x1c  Code  Gb  lin_common_proto.o [1]
+lin_update_tx                0x224b   0x7c  Code  Gb  lin_common_proto.o [1]
+lin_update_tx_flags          0x235f   0x74  Code  Gb  lin_common_proto.o [1]
 lin_update_word_status_lin21
-                             0x1fb5   0x30  Code  Gb  lin_lin21_proto.o [1]
-lin_word_status         0x2000'0250    0x2  Data  Gb  lin_cfg.o [1]
-main                         0x222d   0x8a  Code  Gb  main.o [1]
-pid                     0x2000'0018    0x1  Data  Lc  lin_lld_uart.o [1]
-ptr                     0x2000'0020    0x4  Data  Lc  lin_lld_uart.o [1]
-rand                         0x167d   0xec  Code  Gb  rand.o [2]
-read_data_from_EEPROM        0x14e1   0x74  Code  Gb  eeprom.o [1]
-res_frame_timeout_cnt   0x2000'001c    0x2  Data  Lc  lin_lld_uart.o [1]
-response_buffer         0x2000'0024    0x4  Data  Lc  lin_lld_uart.o [1]
-response_error               0x251c    0x1  Data  Gb  lin_cfg.o [1]
+                             0x2571   0x3a  Code  Gb  lin_lin21_proto.o [1]
+lin_word_status         0x2000'0238    0x2  Data  Gb  lin_cfg.o [1]
+main                         0x2845   0x76  Code  Gb  main.o [1]
+pUART                   0x2000'0048    0x4  Data  Lc  lin_lld_uart.o [1]
+pid                     0x2000'0050    0x1  Data  Lc  lin_lld_uart.o [1]
+ptr                     0x2000'0230    0x4  Data  Lc  lin_lld_uart.o [1]
+rand                         0x1975   0xec  Code  Gb  rand.o [2]
+read_data_from_EEPROM         0xa81   0x96  Code  Gb  eeprom.o [1]
+res_frame_timeout_cnt   0x2000'024e    0x2  Data  Lc  lin_lld_uart.o [1]
+response_buffer         0x2000'0234    0x4  Data  Lc  lin_lld_uart.o [1]
+response_error               0x2b83    0x1  Data  Gb  lin_cfg.o [1]
 response_error_bit_offset
-                             0x250a    0x1  Data  Gb  lin_cfg.o [1]
+                             0x2b82    0x1  Data  Gb  lin_cfg.o [1]
 response_error_byte_offset
-                             0x2509    0x1  Data  Gb  lin_cfg.o [1]
-service_flash_read      0x2000'00c8   0x64  Data  Gb  lin_diagnostic_service.o [1]
-state                   0x2000'0014    0x1  Data  Lc  lin_lld_uart.o [1]
-tl_check_timeout        0x2000'0256    0x2  Data  Gb  lin_cfg.o [1]
-tl_check_timeout_type   0x2000'0264    0x1  Data  Gb  lin_cfg.o [1]
-tl_diag_state           0x2000'0265    0x1  Data  Gb  lin_cfg.o [1]
-tl_frame_counter        0x2000'0263    0x1  Data  Gb  lin_cfg.o [1]
-tl_get_raw                    0x96b   0x70  Code  Gb  lin_commontl_proto.o [1]
-tl_no_of_pdu            0x2000'0262    0x1  Data  Gb  lin_cfg.o [1]
-tl_put_raw                    0x8d5   0x96  Code  Gb  lin_commontl_proto.o [1]
-tl_receive_msg_status   0x2000'0266    0x1  Data  Gb  lin_cfg.o [1]
-tl_rx_msg_status        0x2000'0267    0x1  Data  Gb  lin_cfg.o [1]
-tl_rx_queue_data        0x2000'01e8   0x30  Data  Gb  lin_cfg.o [1]
-tl_service_status       0x2000'005d    0x1  Data  Gb  lin_cfg.o [1]
-tl_slaveresp_cnt        0x2000'0269    0x1  Data  Gb  lin_cfg.o [1]
-tl_tx_msg_index         0x2000'0252    0x2  Data  Gb  lin_cfg.o [1]
-tl_tx_msg_size          0x2000'0254    0x2  Data  Gb  lin_cfg.o [1]
-tl_tx_msg_status        0x2000'0268    0x1  Data  Gb  lin_cfg.o [1]
-tl_tx_queue_data        0x2000'01b8   0x30  Data  Gb  lin_cfg.o [1]
-u16Err_1                0x2000'0132    0x2  Data  Gb  main.o [1]
-uds_calc_key                  0xc89   0x38  Code  Gb  lin_diagnostic_service.o [1]
-updata_flash_ID         0x2000'022c    0x4  Data  Gb  lin_diagnostic_service.o [1]
-updata_length           0x2000'0224    0x2  Data  Gb  lin_diagnostic_service.o [1]
-write_data_from_EEPROM       0x1341  0x192  Code  Gb  eeprom.o [1]
+                             0x2a1f    0x1  Data  Gb  lin_cfg.o [1]
+service_flash_read      0x2000'013c   0x64  Data  Gb  lin_diagnostic_service.o [1]
+state                   0x2000'004f    0x1  Data  Lc  lin_lld_uart.o [1]
+tbit                    0x2000'024a    0x2  Data  Lc  lin_lld_uart.o [1]
+tl_check_timeout        0x2000'023e    0x2  Data  Gb  lin_cfg.o [1]
+tl_check_timeout_type   0x2000'025c    0x1  Data  Gb  lin_cfg.o [1]
+tl_diag_state           0x2000'025d    0x1  Data  Gb  lin_cfg.o [1]
+tl_frame_counter        0x2000'025b    0x1  Data  Gb  lin_cfg.o [1]
+tl_get_raw                   0x1195   0x8c  Code  Gb  lin_commontl_proto.o [1]
+tl_no_of_pdu            0x2000'025a    0x1  Data  Gb  lin_cfg.o [1]
+tl_put_raw                   0x1121   0x74  Code  Gb  lin_commontl_proto.o [1]
+tl_receive_msg_status   0x2000'025e    0x1  Data  Gb  lin_cfg.o [1]
+tl_rx_msg_status        0x2000'025f    0x1  Data  Gb  lin_cfg.o [1]
+tl_rx_queue_data        0x2000'01d0   0x30  Data  Gb  lin_cfg.o [1]
+tl_service_status       0x2000'004d    0x1  Data  Gb  lin_cfg.o [1]
+tl_slaveresp_cnt        0x2000'0261    0x1  Data  Gb  lin_cfg.o [1]
+tl_tx_msg_index         0x2000'023a    0x2  Data  Gb  lin_cfg.o [1]
+tl_tx_msg_size          0x2000'023c    0x2  Data  Gb  lin_cfg.o [1]
+tl_tx_msg_status        0x2000'0260    0x1  Data  Gb  lin_cfg.o [1]
+tl_tx_queue_data        0x2000'01a0   0x30  Data  Gb  lin_cfg.o [1]
+u16Err_1                0x2000'0254    0x2  Data  Gb  main.o [1]
+uds_calc_key                 0x13ed   0x44  Code  Gb  lin_diagnostic_service.o [1]
+updata_flash_ID         0x2000'0224    0x4  Data  Gb  lin_diagnostic_service.o [1]
+updata_length           0x2000'0242    0x2  Data  Gb  lin_diagnostic_service.o [1]
+write_data_from_EEPROM        0x879  0x1fc  Code  Gb  eeprom.o [1]
 
 
-[1] = C:\Users\xujunjie\Desktop\iar_boot\Release\Obj
+[1] = C:\Users\ae-bk-067\Desktop\iar_boot\Release\Obj
 [2] = dl6M_tln.a
 [3] = m6M_tl.a
 [4] = rt6M_tl.a
 
-  8 588 bytes of readonly  code memory
-    236 bytes of readonly  data memory
-  1 129 bytes of readwrite data memory
+  10 204 bytes of readonly  code memory
+     220 bytes of readonly  data memory
+   1 131 bytes of readwrite data memory
 
 Errors: none
 Warnings: none

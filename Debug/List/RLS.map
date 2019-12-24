@@ -1,34 +1,35 @@
 ###############################################################################
 #
-# IAR ELF Linker V8.32.1.169/W32 for ARM                  20/Dec/2019  11:50:36
+# IAR ELF Linker V8.32.1.169/W32 for ARM                  24/Dec/2019  11:39:39
 # Copyright 2007-2018 IAR Systems AB.
 #
-#    Output file  =  C:\Users\xujunjie\Desktop\iar_boot\Debug\Exe\RLS.out
-#    Map file     =  C:\Users\xujunjie\Desktop\iar_boot\Debug\List\RLS.map
+#    Output file  =  C:\Users\ae-bk-067\Desktop\iar_boot\Debug\Exe\RLS.out
+#    Map file     =  C:\Users\ae-bk-067\Desktop\iar_boot\Debug\List\RLS.map
 #    Command line =  
-#        -f C:\Users\xujunjie\AppData\Local\Temp\EW8C8C.tmp
-#        (C:\Users\xujunjie\Desktop\iar_boot\Debug\Obj\clock.o
-#        C:\Users\xujunjie\Desktop\iar_boot\Debug\Obj\cstartup_M_KEAZN64.o
-#        C:\Users\xujunjie\Desktop\iar_boot\Debug\Obj\eeprom.o
-#        C:\Users\xujunjie\Desktop\iar_boot\Debug\Obj\gpio.o
-#        C:\Users\xujunjie\Desktop\iar_boot\Debug\Obj\lin.o
-#        C:\Users\xujunjie\Desktop\iar_boot\Debug\Obj\lin_cfg.o
-#        C:\Users\xujunjie\Desktop\iar_boot\Debug\Obj\lin_common_api.o
-#        C:\Users\xujunjie\Desktop\iar_boot\Debug\Obj\lin_common_proto.o
-#        C:\Users\xujunjie\Desktop\iar_boot\Debug\Obj\lin_commontl_api.o
-#        C:\Users\xujunjie\Desktop\iar_boot\Debug\Obj\lin_commontl_proto.o
-#        C:\Users\xujunjie\Desktop\iar_boot\Debug\Obj\lin_diagnostic_service.o
-#        C:\Users\xujunjie\Desktop\iar_boot\Debug\Obj\lin_isr.o
-#        C:\Users\xujunjie\Desktop\iar_boot\Debug\Obj\lin_lin21_api.o
-#        C:\Users\xujunjie\Desktop\iar_boot\Debug\Obj\lin_lin21_proto.o
-#        C:\Users\xujunjie\Desktop\iar_boot\Debug\Obj\lin_lin21tl_api.o
-#        C:\Users\xujunjie\Desktop\iar_boot\Debug\Obj\lin_lld_timesrv.o
-#        C:\Users\xujunjie\Desktop\iar_boot\Debug\Obj\lin_lld_uart.o
-#        C:\Users\xujunjie\Desktop\iar_boot\Debug\Obj\low_level_init.o
-#        C:\Users\xujunjie\Desktop\iar_boot\Debug\Obj\main.o --no_out_extension
-#        -o C:\Users\xujunjie\Desktop\iar_boot\Debug\Exe\RLS.out --redirect
+#        -f C:\Users\AE-BK-~1\AppData\Local\Temp\EW1A9F.tmp
+#        (C:\Users\ae-bk-067\Desktop\iar_boot\Debug\Obj\clock.o
+#        C:\Users\ae-bk-067\Desktop\iar_boot\Debug\Obj\cstartup_M_KEAZN64.o
+#        C:\Users\ae-bk-067\Desktop\iar_boot\Debug\Obj\eeprom.o
+#        C:\Users\ae-bk-067\Desktop\iar_boot\Debug\Obj\gpio.o
+#        C:\Users\ae-bk-067\Desktop\iar_boot\Debug\Obj\lin.o
+#        C:\Users\ae-bk-067\Desktop\iar_boot\Debug\Obj\lin_cfg.o
+#        C:\Users\ae-bk-067\Desktop\iar_boot\Debug\Obj\lin_common_api.o
+#        C:\Users\ae-bk-067\Desktop\iar_boot\Debug\Obj\lin_common_proto.o
+#        C:\Users\ae-bk-067\Desktop\iar_boot\Debug\Obj\lin_commontl_api.o
+#        C:\Users\ae-bk-067\Desktop\iar_boot\Debug\Obj\lin_commontl_proto.o
+#        C:\Users\ae-bk-067\Desktop\iar_boot\Debug\Obj\lin_diagnostic_service.o
+#        C:\Users\ae-bk-067\Desktop\iar_boot\Debug\Obj\lin_isr.o
+#        C:\Users\ae-bk-067\Desktop\iar_boot\Debug\Obj\lin_lin21_api.o
+#        C:\Users\ae-bk-067\Desktop\iar_boot\Debug\Obj\lin_lin21_proto.o
+#        C:\Users\ae-bk-067\Desktop\iar_boot\Debug\Obj\lin_lin21tl_api.o
+#        C:\Users\ae-bk-067\Desktop\iar_boot\Debug\Obj\lin_lld_timesrv.o
+#        C:\Users\ae-bk-067\Desktop\iar_boot\Debug\Obj\lin_lld_uart.o
+#        C:\Users\ae-bk-067\Desktop\iar_boot\Debug\Obj\low_level_init.o
+#        C:\Users\ae-bk-067\Desktop\iar_boot\Debug\Obj\main.o
+#        --no_out_extension -o
+#        C:\Users\ae-bk-067\Desktop\iar_boot\Debug\Exe\RLS.out --redirect
 #        _Printf=_PrintfFullNoMb --redirect _Scanf=_ScanfFullNoMb --map
-#        C:\Users\xujunjie\Desktop\iar_boot\Debug\List\RLS.map --config
+#        C:\Users\ae-bk-067\Desktop\iar_boot\Debug\List\RLS.map --config
 #        "C:\Program Files (x86)\IAR Systems\Embedded Workbench
 #        8.2\arm\config\linker\NXP\KEAZN64xxx2.icf" --semihosting --entry
 #        __iar_program_start --vfe --text_out locale)
@@ -57,9 +58,8 @@ was not specified.
 *** PLACEMENT SUMMARY
 ***
 
-"A0":  place at 0x0 { ro section .intvec };
-"P2":  place in [from 0x0 to 0x3ff] |
-                [from 0x410 to 0xffff] { ro };
+"A0":  place at 0x5000 { ro section .intvec };
+"P2":  place in [from 0x410 to 0x3ff] { ro };
 define block CSTACK with size = 512, alignment = 8 { };
 define block HEAP with size = 512, alignment = 8 { };
 "P3":  place in [from 0x1fff'fc00 to 0x1fff'ffff] |
@@ -76,41 +76,38 @@ No sections matched the following patterns:
   Section            Kind         Address    Size  Object
   -------            ----         -------    ----  ------
 "A0":                                        0xb4
-  .intvec            ro code          0x0    0xb4  cstartup_M_KEAZN64.o [1]
-                                   - 0xb4    0xb4
+  .intvec            ro code       0x5000    0xb4  cstartup_M_KEAZN64.o [1]
+                                 - 0x50b4    0xb4
 
-"P2", part 1 of 2:                           0x54
-  .rodata            const           0xb4     0x0  zero_init3.o [4]
-  .rodata            const           0xb4     0x0  copy_init3.o [4]
-  Initializer bytes  const           0xb4    0x54  <for P3 s0>
-                                  - 0x108    0x54
-
-"P2", part 2 of 2:                         0x2998
-  .text              ro code        0x410  0x2450  clock.o [1]
-  .text              ro code       0x2860    0xe0  I32DivModFast.o [4]
-  .text              ro code       0x2940   0x100  rand.o [2]
-  .text              ro code       0x2a40    0x20  IxxToDbl.o [3]
-  .text              ro code       0x2a60   0x1a8  DblAddSub.o [3]
-  .text              ro code       0x2c08    0x2e  DblToI32.o [3]
-  .text              ro code       0x2c36     0x2  cstartup_M_KEAZN64.o [1]
-  .text              ro code       0x2c38     0x2  IntDivZer.o [4]
-  .rodata            const         0x2c3a     0x1  clock.o [1]
-  .rodata            const         0x2c3b     0x1  clock.o [1]
-  .rodata            const         0x2c3c    0x48  clock.o [1]
-  .text              ro code       0x2c84    0x3c  zero_init3.o [4]
-  .text              ro code       0x2cc0    0x30  copy_init3.o [4]
-  .text              ro code       0x2cf0    0x28  data_init.o [4]
-  .iar.init_table    const         0x2d18    0x24  - Linker created -
-  .text              ro code       0x2d3c    0x1e  cmain.o [4]
-  .text              ro code       0x2d5a     0x8  exit.o [2]
-  .rodata            const         0x2d62     0x1  clock.o [1]
-  .rodata            const         0x2d63     0x1  clock.o [1]
-  .text              ro code       0x2d64     0xa  cexit.o [4]
-  .text              ro code       0x2d70    0x14  exit.o [5]
-  .rodata            const         0x2d84    0x10  clock.o [1]
-  .text              ro code       0x2d94     0xc  cstartup_M.o [4]
-  .rodata            const         0x2da0     0x8  clock.o [1]
-                                 - 0x2da8  0x2998
+"P2":                                      0x2830
+  .text              ro code       0x50b4  0x2294  clock.o [1]
+  .text              ro code       0x7348    0xe0  I32DivModFast.o [4]
+  .text              ro code       0x7428   0x100  rand.o [2]
+  .text              ro code       0x7528    0x20  IxxToDbl.o [3]
+  .text              ro code       0x7548   0x1a8  DblAddSub.o [3]
+  .text              ro code       0x76f0    0x2e  DblToI32.o [3]
+  .text              ro code       0x771e     0x2  cstartup_M_KEAZN64.o [1]
+  .text              ro code       0x7720     0x2  IntDivZer.o [4]
+  .rodata            const         0x7722     0x1  clock.o [1]
+  .rodata            const         0x7723     0x1  clock.o [1]
+  .rodata            const         0x7724    0x48  clock.o [1]
+  .text              ro code       0x776c    0x3c  zero_init3.o [4]
+  .text              ro code       0x77a8    0x30  copy_init3.o [4]
+  .text              ro code       0x77d8    0x28  data_init.o [4]
+  .iar.init_table    const         0x7800    0x24  - Linker created -
+  .text              ro code       0x7824    0x1e  cmain.o [4]
+  .text              ro code       0x7842     0x8  exit.o [2]
+  .rodata            const         0x784a     0x1  clock.o [1]
+  .rodata            const         0x784b     0x1  clock.o [1]
+  .text              ro code       0x784c     0xa  cexit.o [4]
+  .text              ro code       0x7858    0x14  exit.o [5]
+  .rodata            const         0x786c    0x10  clock.o [1]
+  .text              ro code       0x787c     0xc  cstartup_M.o [4]
+  .rodata            const         0x7888     0x8  clock.o [1]
+  .rodata            const         0x7890     0x0  zero_init3.o [4]
+  .rodata            const         0x7890     0x0  copy_init3.o [4]
+  Initializer bytes  const         0x7890    0x54  <for P3 s0>
+                                 - 0x78e4  0x2830
 
 "P3", part 1 of 3:                           0x54
   P3 s0                       0x2000'0000    0x54  <Init block>
@@ -191,12 +188,11 @@ No sections matched the following patterns:
 
 Unused ranges:
 
-         From           To    Size
-         ----           --    ----
-        0x108        0x3ff   0x2f8
-       0x2da8       0xffff  0xd258
-  0x1fff'fc00  0x1fff'ffff   0x400
-  0x2000'0470  0x2000'0bff   0x790
+         From           To         Size
+         ----           --         ----
+        0x410       0x4fff       0x4bf0
+       0x78e4  0x1fff'ffff  0x1fff'871c
+  0x2000'0470        0x3ff  0xdfff'ff90
 
 
 *******************************************************************************
@@ -211,7 +207,7 @@ Zero (__iar_zero_init3)
 
 Copy (__iar_copy_init3)
     1 source range, total size 0x54 (103% of destination):
-                 0xb4   0x54
+               0x7890   0x54
     1 destination range, total size 0x51:
           0x2000'0000   0x51
 
@@ -227,11 +223,11 @@ command line/config:
     -----------------------------------------------
     Total:
 
-C:\Users\xujunjie\Desktop\iar_boot\Debug\Obj: [1]
-    clock.o                 9 296      173      479
+C:\Users\ae-bk-067\Desktop\iar_boot\Debug\Obj: [1]
+    clock.o                 8 852      173      479
     cstartup_M_KEAZN64.o      182
     -----------------------------------------------
-    Total:                  9 478      173      479
+    Total:                  9 034      173      479
 
 dl6M_tln.a: [2]
     exit.o                      8
@@ -266,7 +262,7 @@ shb_l.a: [5]
     Gaps                        2
     Linker created                      39      512
 ---------------------------------------------------
-    Grand Total:           10 692      220    1 131
+    Grand Total:           10 248      220    1 131
 
 
 *******************************************************************************
@@ -275,67 +271,67 @@ shb_l.a: [5]
 
 Entry                       Address   Size  Type      Object
 -----                       -------   ----  ----      ------
-.iar.init_table$$Base        0x2d18          --   Gb  - Linker created -
-.iar.init_table$$Limit       0x2d3c          --   Gb  - Linker created -
-?main                        0x2d3d         Code  Gb  cmain.o [4]
+.iar.init_table$$Base        0x7800          --   Gb  - Linker created -
+.iar.init_table$$Limit       0x7824          --   Gb  - Linker created -
+?main                        0x7825         Code  Gb  cmain.o [4]
 APP_check_value         0x2000'0044    0x4  Data  Gb  clock.o [1]
 CSTACK$$Base            0x2000'0270          --   Gb  - Linker created -
 CSTACK$$Limit           0x2000'0470          --   Gb  - Linker created -
-Clk_Init                      0x411   0x4c  Code  Gb  clock.o [1]
-EEPROM_EraseSector            0x829   0x6a  Code  Gb  clock.o [1]
-EEPROM_ProgramWord            0x899   0x80  Code  Gb  clock.o [1]
-FLASH_EraseSector             0x4e1   0x76  Code  Gb  clock.o [1]
-FLASH_Init                    0x46d   0x74  Code  Gb  clock.o [1]
-FLASH_LaunchCMD               0x557   0x24  Code  Gb  clock.o [1]
-FLASH_Program                 0x661  0x10c  Code  Gb  clock.o [1]
-FLASH_Program1LongWord        0x791   0x94  Code  Gb  clock.o [1]
+Clk_Init                     0x50b5   0x4c  Code  Gb  clock.o [1]
+EEPROM_EraseSector           0x548d   0x68  Code  Gb  clock.o [1]
+EEPROM_ProgramWord           0x54f9   0x78  Code  Gb  clock.o [1]
+FLASH_EraseSector            0x517f   0x74  Code  Gb  clock.o [1]
+FLASH_Init                   0x5111   0x6e  Code  Gb  clock.o [1]
+FLASH_LaunchCMD              0x51f3   0x22  Code  Gb  clock.o [1]
+FLASH_Program                0x52f1   0xd2  Code  Gb  clock.o [1]
+FLASH_Program1LongWord       0x53f1   0x92  Code  Gb  clock.o [1]
 FLASH_Program2LongWords
-                              0x57b   0xb2  Code  Gb  clock.o [1]
-FTM1_IRQHandler              0x1fbd   0x36  Code  Gb  clock.o [1]
-GPIO_Init                     0xc09   0x20  Code  Gb  clock.o [1]
+                             0x5215   0xb2  Code  Gb  clock.o [1]
+FTM1_IRQHandler              0x6ad5   0x36  Code  Gb  clock.o [1]
+GPIO_Init                    0x5823   0x20  Code  Gb  clock.o [1]
 LI0_response_error_signal
-                             0x2c3a    0x1  Data  Gb  clock.o [1]
-Lin_Sys_Init                 0x2705   0x4c  Code  Gb  clock.o [1]
-Region$$Table$$Base          0x2d18          --   Gb  - Linker created -
-Region$$Table$$Limit         0x2d3c          --   Gb  - Linker created -
-Strart_next_rx               0x26a5   0x1e  Code  Gb  clock.o [1]
-UART0_SCI0_IRQHandler        0x1fb5    0x8  Code  Gb  clock.o [1]
-WDOG_Feed                     0x45d   0x10  Code  Gb  clock.o [1]
+                             0x7722    0x1  Data  Gb  clock.o [1]
+Lin_Sys_Init                 0x71f5   0x48  Code  Gb  clock.o [1]
+Region$$Table$$Base          0x7800          --   Gb  - Linker created -
+Region$$Table$$Limit         0x7824          --   Gb  - Linker created -
+Strart_next_rx               0x7195   0x1e  Code  Gb  clock.o [1]
+UART0_SCI0_IRQHandler        0x6acd    0x8  Code  Gb  clock.o [1]
+WDOG_Feed                    0x5101   0x10  Code  Gb  clock.o [1]
 _Rand_idx               0x2000'00d4    0x4  Data  Lc  rand.o [2]
 _Rand_rv                0x2000'0054   0x80  Data  Lc  rand.o [2]
 _Randinit               0x2000'003c    0x1  Data  Gb  rand.o [2]
 _Randseed               0x2000'0040    0x4  Data  Gb  rand.o [2]
-__aeabi_d2uiz                0x2c09         Code  Gb  DblToI32.o [3]
-__aeabi_dadd                 0x2a61         Code  Gb  DblAddSub.o [3]
-__aeabi_idiv                 0x288d         Code  Gb  I32DivModFast.o [4]
-__aeabi_idiv0                0x2c39         Code  Gb  IntDivZer.o [4]
-__aeabi_idivmod              0x288d         Code  Gb  I32DivModFast.o [4]
-__aeabi_ui2d                 0x2a41         Code  Gb  IxxToDbl.o [3]
-__aeabi_uidiv                0x2893         Code  Gb  I32DivModFast.o [4]
-__aeabi_uidivmod             0x2893         Code  Gb  I32DivModFast.o [4]
-__cmain                      0x2d3d         Code  Gb  cmain.o [4]
-__exit                       0x2d71   0x14  Code  Gb  exit.o [5]
-__iar_copy_init3             0x2cc1   0x30  Code  Gb  copy_init3.o [4]
-__iar_d2uiz                  0x2c0d         Code  Gb  DblToI32.o [3]
-__iar_data_init3             0x2cf1   0x28  Code  Gb  data_init.o [4]
-__iar_program_start          0x2d95         Code  Gb  cstartup_M.o [4]
-__iar_zero_init3             0x2c85   0x3c  Code  Gb  zero_init3.o [4]
-__low_level_init             0x26c9   0x22  Code  Gb  clock.o [1]
-__vector_table                  0x0         Data  Gb  cstartup_M_KEAZN64.o [1]
-_call_main                   0x2d49         Code  Gb  cmain.o [4]
-_exit                        0x2d65         Code  Gb  cexit.o [4]
-_main                        0x2d57         Code  Gb  cmain.o [4]
-boot_APP_check               0x1997   0x44  Code  Gb  clock.o [1]
-boot_Var_init                0x26eb   0x12  Code  Gb  clock.o [1]
+__aeabi_d2uiz                0x76f1         Code  Gb  DblToI32.o [3]
+__aeabi_dadd                 0x7549         Code  Gb  DblAddSub.o [3]
+__aeabi_idiv                 0x7375         Code  Gb  I32DivModFast.o [4]
+__aeabi_idiv0                0x7721         Code  Gb  IntDivZer.o [4]
+__aeabi_idivmod              0x7375         Code  Gb  I32DivModFast.o [4]
+__aeabi_ui2d                 0x7529         Code  Gb  IxxToDbl.o [3]
+__aeabi_uidiv                0x737b         Code  Gb  I32DivModFast.o [4]
+__aeabi_uidivmod             0x737b         Code  Gb  I32DivModFast.o [4]
+__cmain                      0x7825         Code  Gb  cmain.o [4]
+__exit                       0x7859   0x14  Code  Gb  exit.o [5]
+__iar_copy_init3             0x77a9   0x30  Code  Gb  copy_init3.o [4]
+__iar_d2uiz                  0x76f5         Code  Gb  DblToI32.o [3]
+__iar_data_init3             0x77d9   0x28  Code  Gb  data_init.o [4]
+__iar_program_start          0x787d         Code  Gb  cstartup_M.o [4]
+__iar_zero_init3             0x776d   0x3c  Code  Gb  zero_init3.o [4]
+__low_level_init             0x71b3   0x22  Code  Gb  clock.o [1]
+__vector_table               0x5000         Data  Gb  cstartup_M_KEAZN64.o [1]
+_call_main                   0x7831         Code  Gb  cmain.o [4]
+_exit                        0x784d         Code  Gb  cexit.o [4]
+_main                        0x783f         Code  Gb  cmain.o [4]
+boot_APP_check               0x64dd   0x44  Code  Gb  clock.o [1]
+boot_Var_init                0x71d9   0x12  Code  Gb  clock.o [1]
 boot_flashdata_cn       0x2000'0244    0x2  Data  Gb  clock.o [1]
 boot_flashdata_last_cn  0x2000'0246    0x2  Data  Gb  clock.o [1]
-boot_jump_to_APP             0x2785    0xc  Code  Gb  clock.o [1]
+boot_jump_to_APP             0x7271    0x8  Code  Gb  clock.o [1]
 boot_key                0x2000'022c    0x4  Data  Gb  clock.o [1]
 boot_rx_ok_id           0x2000'026d    0x1  Data  Gb  clock.o [1]
 boot_seed               0x2000'0228    0x4  Data  Gb  clock.o [1]
 boot_status_flag        0x2000'026c    0x1  Data  Gb  clock.o [1]
-boot_sysinit                 0x2751   0x12  Code  Gb  clock.o [1]
-boot_up_check                0x19e1   0x60  Code  Gb  clock.o [1]
+boot_sysinit                 0x723d   0x12  Code  Gb  clock.o [1]
+boot_up_check                0x6525   0x60  Code  Gb  clock.o [1]
 boot_up_ret             0x2000'0252    0x2  Data  Gb  clock.o [1]
 boot_write_flash        0x2000'00d8   0x64  Data  Gb  clock.o [1]
 data_cn1                0x2000'0267    0x1  Data  Gb  clock.o [1]
@@ -345,114 +341,114 @@ diagnostic_Session_flg  0x2000'0266    0x1  Data  Gb  clock.o [1]
 diagnostic_Session_pre  0x2000'0265    0x1  Data  Gb  clock.o [1]
 diagnostic_Session_timer
                         0x2000'0240    0x2  Data  Gb  clock.o [1]
-exit                         0x2d5b    0x8  Code  Gb  exit.o [2]
+exit                         0x7843    0x8  Code  Gb  exit.o [2]
 frame_index             0x2000'0263    0x1  Data  Gb  clock.o [1]
 frame_signal_error      0x2000'0262    0x1  Data  Gb  clock.o [1]
-l_ifc_init                    0xd4d    0xa  Code  Gb  clock.o [1]
-l_sys_init                    0xd43    0xa  Code  Gb  clock.o [1]
-ld_get_raw                   0x1175   0x10  Code  Gb  clock.o [1]
-ld_receive_message           0x11ad  0x166  Code  Gb  clock.o [1]
+l_ifc_init                   0x595f    0x8  Code  Gb  clock.o [1]
+l_sys_init                   0x5955    0xa  Code  Gb  clock.o [1]
+ld_get_raw                   0x5d59    0xc  Code  Gb  clock.o [1]
+ld_receive_message           0x5d91  0x13c  Code  Gb  clock.o [1]
 lin_bus_activity_timeout
-                              0xfd1   0x12  Code  Gb  clock.o [1]
-lin_checksum                  0xcf9   0x42  Code  Gb  clock.o [1]
+                             0x5bc1    0xe  Code  Gb  clock.o [1]
+lin_checksum                 0x590f   0x3e  Code  Gb  clock.o [1]
 lin_configuration_RAM   0x2000'0034    0x8  Data  Gb  clock.o [1]
 lin_configured_NAD      0x2000'004c    0x1  Data  Gb  clock.o [1]
 lin_diag_services_flag  0x2000'021c    0x8  Data  Gb  clock.o [1]
 lin_diag_services_supported
-                             0x2da0    0x8  Data  Gb  clock.o [1]
+                             0x7888    0x8  Data  Gb  clock.o [1]
 lin_diagservice_exit_transfer
-                             0x1f5d   0x52  Code  Gb  clock.o [1]
+                             0x6a6d   0x52  Code  Gb  clock.o [1]
 lin_diagservice_read_data_by_identifier
-                             0x1b37   0x4e  Code  Gb  clock.o [1]
+                             0x666f   0x4e  Code  Gb  clock.o [1]
 lin_diagservice_request_download
-                             0x1c85   0x84  Code  Gb  clock.o [1]
+                             0x67b5   0x84  Code  Gb  clock.o [1]
 lin_diagservice_service_securityaccess
-                             0x1bcb   0xa8  Code  Gb  clock.o [1]
+                             0x6701   0xa2  Code  Gb  clock.o [1]
 lin_diagservice_service_trigger_check
-                             0x1eb5   0xa0  Code  Gb  clock.o [1]
+                             0x69cd   0xa0  Code  Gb  clock.o [1]
 lin_diagservice_session_control
-                             0x1a51   0xe6  Code  Gb  clock.o [1]
+                             0x6595   0xda  Code  Gb  clock.o [1]
 lin_diagservice_transfer_data
-                             0x1d15  0x192  Code  Gb  clock.o [1]
+                             0x6845  0x17a  Code  Gb  clock.o [1]
 lin_diagservice_transfer_data::length
                         0x2000'0248    0x2  Data  Lc  clock.o [1]
 lin_error_in_response   0x2000'0257    0x1  Data  Gb  clock.o [1]
 lin_flag_handle_tbl     0x2000'020c    0x8  Data  Gb  clock.o [1]
 lin_frame_flag_tbl      0x2000'0214    0x8  Data  Gb  clock.o [1]
-lin_frame_tbl                0x2c3c   0x48  Data  Gb  clock.o [1]
-lin_get_frame_index          0x1081   0x2c  Code  Gb  clock.o [1]
-lin_goto_idle_state          0x2321   0x26  Code  Gb  clock.o [1]
+lin_frame_tbl                0x7724   0x48  Data  Gb  clock.o [1]
+lin_get_frame_index          0x5c6d   0x2a  Code  Gb  clock.o [1]
+lin_goto_idle_state          0x6e35   0x26  Code  Gb  clock.o [1]
 lin_goto_sleep_flg      0x2000'0258    0x1  Data  Gb  clock.o [1]
-lin_handle_error              0xf45   0x78  Code  Gb  clock.o [1]
+lin_handle_error             0x5b35   0x76  Code  Gb  clock.o [1]
 lin_lld_ignore_response
-                              0xc39    0x8  Code  Gb  clock.o [1]
-lin_lld_init                  0xc2d    0xc  Code  Gb  clock.o [1]
+                             0x5859    0x8  Code  Gb  clock.o [1]
+lin_lld_init                 0x584d    0xc  Code  Gb  clock.o [1]
 lin_lld_response_buffer
                         0x2000'0200    0xc  Data  Gb  clock.o [1]
-lin_lld_rx_response           0xc71   0x10  Code  Gb  clock.o [1]
+lin_lld_rx_response          0x5891    0xc  Code  Gb  clock.o [1]
 lin_lld_set_low_power_mode
-                              0xc41    0x8  Code  Gb  clock.o [1]
-lin_lld_set_response          0xc49   0x22  Code  Gb  clock.o [1]
-lin_lld_timer_K_init         0x20a1   0x48  Code  Gb  clock.o [1]
-lin_lld_timer_init            0xd3b    0x8  Code  Gb  clock.o [1]
-lin_lld_timer_isr            0x20e9    0x8  Code  Gb  clock.o [1]
+                             0x5861    0x8  Code  Gb  clock.o [1]
+lin_lld_set_response         0x5869   0x20  Code  Gb  clock.o [1]
+lin_lld_timer_K_init         0x6bb5   0x48  Code  Gb  clock.o [1]
+lin_lld_timer_init           0x594d    0x8  Code  Gb  clock.o [1]
+lin_lld_timer_isr            0x6bfd    0x8  Code  Gb  clock.o [1]
 lin_lld_uart_ignore_response
-                             0x2175    0x8  Code  Gb  clock.o [1]
-lin_lld_uart_init            0x20f1   0x7a  Code  Gb  clock.o [1]
-lin_lld_uart_rx_isr          0x2395  0x302  Code  Gb  clock.o [1]
+                             0x6c81    0x8  Code  Gb  clock.o [1]
+lin_lld_uart_init            0x6c05   0x76  Code  Gb  clock.o [1]
+lin_lld_uart_rx_isr          0x6ea9  0x2de  Code  Gb  clock.o [1]
 lin_lld_uart_rx_response
-                             0x2189   0x1a  Code  Gb  clock.o [1]
+                             0x6c9d   0x1a  Code  Gb  clock.o [1]
 lin_lld_uart_set_low_power_mode
-                             0x217d    0x8  Code  Gb  clock.o [1]
-lin_lld_uart_timeout         0x2221   0xfa  Code  Gb  clock.o [1]
+                             0x6c89    0x8  Code  Gb  clock.o [1]
+lin_lld_uart_timeout         0x6d35   0xfa  Code  Gb  clock.o [1]
 lin_lld_uart_tx_response
-                             0x21b9   0x30  Code  Gb  clock.o [1]
+                             0x6cc9   0x30  Code  Gb  clock.o [1]
 lin_make_res_diag_frame
-                             0x1079    0x8  Code  Gb  clock.o [1]
+                             0x5c65    0x8  Code  Gb  clock.o [1]
 lin_make_res_evnt_frame
-                             0x207d   0x1e  Code  Gb  clock.o [1]
+                             0x6b91   0x1e  Code  Gb  clock.o [1]
 lin_max_frame_res_timeout_val
-                             0x2d84   0x10  Data  Gb  clock.o [1]
+                             0x786c   0x10  Data  Gb  clock.o [1]
 lin_pFrameBuf           0x2000'0000   0x14  Data  Gb  clock.o [1]
-lin_process_parity            0xc81   0x78  Code  Gb  clock.o [1]
-lin_process_pid               0xd5d   0xde  Code  Gb  clock.o [1]
-lin_process_uncd_frame       0x10b9   0x8c  Code  Gb  clock.o [1]
+lin_process_parity           0x589d   0x72  Code  Gb  clock.o [1]
+lin_process_pid              0x5967   0xc4  Code  Gb  clock.o [1]
+lin_process_uncd_frame       0x5ca5   0x88  Code  Gb  clock.o [1]
 lin_save_configuration_flg
                         0x2000'0259    0x1  Data  Gb  clock.o [1]
 lin_successful_transfer
                         0x2000'0256    0x1  Data  Gb  clock.o [1]
-lin_tl_attach_service        0x1775  0x106  Code  Gb  clock.o [1]
-lin_tl_get_pdu               0x1483   0x30  Code  Gb  clock.o [1]
-lin_tl_handler               0x1689   0xc6  Code  Gb  clock.o [1]
+lin_tl_attach_service        0x62e5   0xec  Code  Gb  clock.o [1]
+lin_tl_get_pdu               0x601b   0x30  Code  Gb  clock.o [1]
+lin_tl_handler               0x61fd   0xbc  Code  Gb  clock.o [1]
 lin_tl_make_slaveres_pdu
-                             0x131d  0x166  Code  Gb  clock.o [1]
+                             0x5ed5  0x146  Code  Gb  clock.o [1]
 lin_tl_rx_queue         0x2000'0024   0x10  Data  Gb  clock.o [1]
 lin_tl_tx_queue         0x2000'0014   0x10  Data  Gb  clock.o [1]
-lin_update_err_signal        0x2041   0x34  Code  Gb  clock.o [1]
-lin_update_rx                 0xe49   0x76  Code  Gb  clock.o [1]
+lin_update_err_signal        0x6b53   0x32  Code  Gb  clock.o [1]
+lin_update_rx                0x5a39   0x76  Code  Gb  clock.o [1]
 lin_update_rx_diag_frame
-                             0x105d   0x1c  Code  Gb  clock.o [1]
-lin_update_tx                 0xec5   0x7e  Code  Gb  clock.o [1]
-lin_update_tx_flags           0xfe3   0x76  Code  Gb  clock.o [1]
+                             0x5c43   0x1c  Code  Gb  clock.o [1]
+lin_update_tx                0x5ab5   0x7c  Code  Gb  clock.o [1]
+lin_update_tx_flags          0x5bcf   0x74  Code  Gb  clock.o [1]
 lin_update_word_status_lin21
-                             0x2001   0x3c  Code  Gb  clock.o [1]
+                             0x6b19   0x3a  Code  Gb  clock.o [1]
 lin_word_status         0x2000'0238    0x2  Data  Gb  clock.o [1]
-main                         0x2791   0x8c  Code  Gb  clock.o [1]
-rand                         0x2941   0xec  Code  Gb  rand.o [2]
-read_data_from_EEPROM         0xb69   0x9c  Code  Gb  clock.o [1]
-response_error               0x2d63    0x1  Data  Gb  clock.o [1]
+main                         0x7279   0x8c  Code  Gb  clock.o [1]
+rand                         0x7429   0xec  Code  Gb  rand.o [2]
+read_data_from_EEPROM        0x578d   0x96  Code  Gb  clock.o [1]
+response_error               0x784b    0x1  Data  Gb  clock.o [1]
 response_error_bit_offset
-                             0x2d62    0x1  Data  Gb  clock.o [1]
+                             0x784a    0x1  Data  Gb  clock.o [1]
 response_error_byte_offset
-                             0x2c3b    0x1  Data  Gb  clock.o [1]
+                             0x7723    0x1  Data  Gb  clock.o [1]
 service_flash_read      0x2000'013c   0x64  Data  Gb  clock.o [1]
 tl_check_timeout        0x2000'023e    0x2  Data  Gb  clock.o [1]
 tl_check_timeout_type   0x2000'025c    0x1  Data  Gb  clock.o [1]
 tl_diag_state           0x2000'025d    0x1  Data  Gb  clock.o [1]
 tl_frame_counter        0x2000'025b    0x1  Data  Gb  clock.o [1]
-tl_get_raw                   0x1905   0x92  Code  Gb  clock.o [1]
+tl_get_raw                   0x6451   0x8c  Code  Gb  clock.o [1]
 tl_no_of_pdu            0x2000'025a    0x1  Data  Gb  clock.o [1]
-tl_put_raw                   0x188d   0x78  Code  Gb  clock.o [1]
+tl_put_raw                   0x63dd   0x74  Code  Gb  clock.o [1]
 tl_receive_msg_status   0x2000'025e    0x1  Data  Gb  clock.o [1]
 tl_rx_msg_status        0x2000'025f    0x1  Data  Gb  clock.o [1]
 tl_rx_queue_data        0x2000'01d0   0x30  Data  Gb  clock.o [1]
@@ -463,19 +459,19 @@ tl_tx_msg_size          0x2000'023c    0x2  Data  Gb  clock.o [1]
 tl_tx_msg_status        0x2000'0260    0x1  Data  Gb  clock.o [1]
 tl_tx_queue_data        0x2000'01a0   0x30  Data  Gb  clock.o [1]
 u16Err_1                0x2000'0254    0x2  Data  Gb  clock.o [1]
-uds_calc_key                 0x1b85   0x46  Code  Gb  clock.o [1]
+uds_calc_key                 0x66bd   0x44  Code  Gb  clock.o [1]
 updata_flash_ID         0x2000'0224    0x4  Data  Gb  clock.o [1]
 updata_length           0x2000'0242    0x2  Data  Gb  clock.o [1]
-write_data_from_EEPROM        0x939  0x230  Code  Gb  clock.o [1]
+write_data_from_EEPROM       0x558d  0x1fc  Code  Gb  clock.o [1]
 
 
-[1] = C:\Users\xujunjie\Desktop\iar_boot\Debug\Obj
+[1] = C:\Users\ae-bk-067\Desktop\iar_boot\Debug\Obj
 [2] = dl6M_tln.a
 [3] = m6M_tl.a
 [4] = rt6M_tl.a
 [5] = shb_l.a
 
-  10 692 bytes of readonly  code memory
+  10 248 bytes of readonly  code memory
      220 bytes of readonly  data memory
    1 131 bytes of readwrite data memory
 

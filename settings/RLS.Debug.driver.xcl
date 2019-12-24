@@ -8,8 +8,6 @@
 
 "C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.2\arm\CONFIG\debugger\NXP\KEAZN64xxx2.ddf" 
 
-"--drv_verify_download" 
-
 "--semihosting" 
 
 "--device=KEAZN64xxx2" 

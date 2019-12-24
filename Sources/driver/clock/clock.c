@@ -27,6 +27,7 @@ void Clk_Init(void)
 	ICS_C1|=ICS_C1_IRCLKEN_MASK; 		/* Enable the internal reference clock*/ 
 	//ICS_C3= 0x50;						/* Reference clock frequency = 39.0625 KHz*/		
 	/* System clock initialization */
+
 	if ( *((uint8_t*) 0x03FFU) != 0xFFU) {
 		ICS_C3 = *((uint8_t*) 0x03FFU);
 		ICS_C4 = (ICS_C4 & 0xFEU) | ((*((uint8_t*) 0x03FEU)) & 0x01U);
