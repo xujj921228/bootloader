@@ -5,7 +5,7 @@
  */
  
 #include "kinetis_sysinit.h"
-#include <SKEAZN642.h>
+#include "derivative.h"
 
 /**
  **===========================================================================

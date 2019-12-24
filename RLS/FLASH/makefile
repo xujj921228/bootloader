@@ -52,16 +52,22 @@ endif
 
 # Add inputs and outputs from these tool invocations to the build variables 
 EXECUTABLES += \
+RLS.elf \
 
 EXECUTABLES_QUOTED += \
+"RLS.elf" \
 
 EXECUTABLES_OS_FORMAT += \
+RLS.elf \
 
 SECONDARY_FLASH += \
+RLS.hex \
 
 SECONDARY_FLASH_QUOTED += \
+"RLS.hex" \
 
 SECONDARY_FLASH_OS_FORMAT += \
+RLS.hex \
 
 
 # All Target
