@@ -1,0 +1,1989 @@
+*** EVALUATION ***
+PROGRAM "C:\Users\ae-bk-067\Desktop\120031-01-000PR-V1.3.5\bin\Project.abs"
+
+*********************************************************************************************
+TARGET SECTION
+---------------------------------------------------------------------------------------------
+Processor   : Freescale HC12
+Memory Model: SMALL
+File Format : ELF\DWARF 2.0
+Linker      : SmartLinker V-5.0.40 Build 10203, Jul 23 2010
+
+*********************************************************************************************
+FILE SECTION
+---------------------------------------------------------------------------------------------
+mc9s12gn32.c.o                          Model: SMALL,         Lang: ANSI-C
+main.c.o                                Model: SMALL,         Lang: ANSI-C
+Start12.c.o                             Model: SMALL,         Lang: ANSI-C
+rtshc12.c.o (ansisi.lib)                Model: SMALL,         Lang: ANSI-C
+lin_app.c.o                             Model: SMALL,         Lang: ANSI-C
+sci.c.o                                 Model: SMALL,         Lang: ANSI-C
+TIM.c.o                                 Model: SMALL,         Lang: ANSI-C
+clock.c.o                               Model: SMALL,         Lang: ANSI-C
+GPIO.c.o                                Model: SMALL,         Lang: ANSI-C
+lin.c.o                                 Model: SMALL,         Lang: ANSI-C
+adc.c.o                                 Model: SMALL,         Lang: ANSI-C
+spi.c.o                                 Model: SMALL,         Lang: ANSI-C
+HCS12EEPROM.c.o                         Model: SMALL,         Lang: ANSI-C
+rls_app.c.o                             Model: SMALL,         Lang: ANSI-C
+api.c.o                                 Model: SMALL,         Lang: ANSI-C
+config_parameter.c.o                    Model: SMALL,         Lang: ANSI-C
+global_parameter.c.o                    Model: SMALL,         Lang: ANSI-C
+
+*********************************************************************************************
+STARTUP SECTION
+---------------------------------------------------------------------------------------------
+Entry point: 0xC029 (_Startup)
+_startupData is allocated at 0xC031 and uses 6 Bytes
+extern struct _tagStartup {
+  unsigned nofZeroOut     1
+  _Range   pZeroOut       0x3A00     399
+  _Copy    *toCopyDownBeg 0xF499
+} _startupData;
+
+*********************************************************************************************
+SECTION-ALLOCATION SECTION
+Section Name                    Size  Type     From       To       Segment
+---------------------------------------------------------------------------------------------
+.init                             49     R     0xC000     0xC030   ROM_C000
+.startData                        10     R     0xC031     0xC03A   ROM_C000
+.rodata                          302     R     0xC03B     0xC168   ROM_C000
+.text                          12700     R     0xC169     0xF304   ROM_C000
+.copy                              2     R     0xF499     0xF49A   ROM_C000
+.stack                           512   R/W     0x3800     0x39FF   RAM
+.abs_section_8                     1   N/I        0x8        0x8   .absSeg0
+.abs_section_9                     1   N/I        0x9        0x9   .absSeg1
+.abs_section_b                     1   N/I        0xB        0xB   .absSeg2
+.abs_section_c                     1   N/I        0xC        0xC   .absSeg3
+.abs_section_11                    1   N/I       0x11       0x11   .absSeg4
+.abs_section_13                    1   N/I       0x13       0x13   .absSeg5
+.abs_section_15                    1   N/I       0x15       0x15   .absSeg6
+.abs_section_1c                    1   N/I       0x1C       0x1C   .absSeg7
+.abs_section_1e                    1   N/I       0x1E       0x1E   .absSeg8
+.abs_section_20                    1   N/I       0x20       0x20   .absSeg9
+.abs_section_21                    1   N/I       0x21       0x21   .absSeg10
+.abs_section_22                    1   N/I       0x22       0x22   .absSeg11
+.abs_section_23                    1   N/I       0x23       0x23   .absSeg12
+.abs_section_26                    1   N/I       0x26       0x26   .absSeg13
+.abs_section_27                    1   N/I       0x27       0x27   .absSeg14
+.abs_section_28                    1   N/I       0x28       0x28   .absSeg15
+.abs_section_29                    1   N/I       0x29       0x29   .absSeg16
+.abs_section_2a                    1   N/I       0x2A       0x2A   .absSeg17
+.abs_section_2b                    1   N/I       0x2B       0x2B   .absSeg18
+.abs_section_2c                    1   N/I       0x2C       0x2C   .absSeg19
+.abs_section_2d                    1   N/I       0x2D       0x2D   .absSeg20
+.abs_section_2e                    1   N/I       0x2E       0x2E   .absSeg21
+.abs_section_2f                    1   N/I       0x2F       0x2F   .absSeg22
+.abs_section_34                    1   N/I       0x34       0x34   .absSeg23
+.abs_section_35                    1   N/I       0x35       0x35   .absSeg24
+.abs_section_36                    1   N/I       0x36       0x36   .absSeg25
+.abs_section_37                    1   N/I       0x37       0x37   .absSeg26
+.abs_section_38                    1   N/I       0x38       0x38   .absSeg27
+.abs_section_39                    1   N/I       0x39       0x39   .absSeg28
+.abs_section_3a                    1   N/I       0x3A       0x3A   .absSeg29
+.abs_section_3b                    1   N/I       0x3B       0x3B   .absSeg30
+.abs_section_3c                    1   N/I       0x3C       0x3C   .absSeg31
+.abs_section_3f                    1   N/I       0x3F       0x3F   .absSeg32
+.abs_section_40                    1   N/I       0x40       0x40   .absSeg33
+.abs_section_41                    1   N/I       0x41       0x41   .absSeg34
+.abs_section_46                    1   N/I       0x46       0x46   .absSeg35
+.abs_section_47                    1   N/I       0x47       0x47   .absSeg36
+.abs_section_48                    1   N/I       0x48       0x48   .absSeg37
+.abs_section_49                    1   N/I       0x49       0x49   .absSeg38
+.abs_section_4a                    1   N/I       0x4A       0x4A   .absSeg39
+.abs_section_4b                    1   N/I       0x4B       0x4B   .absSeg40
+.abs_section_4c                    1   N/I       0x4C       0x4C   .absSeg41
+.abs_section_4d                    1   N/I       0x4D       0x4D   .absSeg42
+.abs_section_4e                    1   N/I       0x4E       0x4E   .absSeg43
+.abs_section_4f                    1   N/I       0x4F       0x4F   .absSeg44
+.abs_section_6c                    1   N/I       0x6C       0x6C   .absSeg45
+.abs_section_6e                    1   N/I       0x6E       0x6E   .absSeg46
+.abs_section_76                    1   N/I       0x76       0x76   .absSeg47
+.abs_section_a0                    1   N/I       0xA0       0xA0   .absSeg48
+.abs_section_a1                    1   N/I       0xA1       0xA1   .absSeg49
+.abs_section_a2                    1   N/I       0xA2       0xA2   .absSeg50
+.abs_section_a3                    1   N/I       0xA3       0xA3   .absSeg51
+.abs_section_a4                    1   N/I       0xA4       0xA4   .absSeg52
+.abs_section_a5                    1   N/I       0xA5       0xA5   .absSeg53
+.abs_section_a6                    1   N/I       0xA6       0xA6   .absSeg54
+.abs_section_a8                    1   N/I       0xA8       0xA8   .absSeg55
+.abs_section_a9                    1   N/I       0xA9       0xA9   .absSeg56
+.abs_section_ca                    1   N/I       0xCA       0xCA   .absSeg57
+.abs_section_cb                    1   N/I       0xCB       0xCB   .absSeg58
+.abs_section_cc                    1   N/I       0xCC       0xCC   .absSeg59
+.abs_section_cd                    1   N/I       0xCD       0xCD   .absSeg60
+.abs_section_ce                    1   N/I       0xCE       0xCE   .absSeg61
+.abs_section_cf                    1   N/I       0xCF       0xCF   .absSeg62
+.abs_section_d8                    1   N/I       0xD8       0xD8   .absSeg63
+.abs_section_d9                    1   N/I       0xD9       0xD9   .absSeg64
+.abs_section_da                    1   N/I       0xDA       0xDA   .absSeg65
+.abs_section_db                    1   N/I       0xDB       0xDB   .absSeg66
+.abs_section_100                   1   N/I      0x100      0x100   .absSeg67
+.abs_section_101                   1   N/I      0x101      0x101   .absSeg68
+.abs_section_102                   1   N/I      0x102      0x102   .absSeg69
+.abs_section_104                   1   N/I      0x104      0x104   .absSeg70
+.abs_section_105                   1   N/I      0x105      0x105   .absSeg71
+.abs_section_106                   1   N/I      0x106      0x106   .absSeg72
+.abs_section_107                   1   N/I      0x107      0x107   .absSeg73
+.abs_section_108                   1   N/I      0x108      0x108   .absSeg74
+.abs_section_109                   1   N/I      0x109      0x109   .absSeg75
+.abs_section_110                   1   N/I      0x110      0x110   .absSeg76
+.abs_section_120                   1   N/I      0x120      0x120   .absSeg77
+.abs_section_240                   1   N/I      0x240      0x240   .absSeg78
+.abs_section_241                   1   N/I      0x241      0x241   .absSeg79
+.abs_section_242                   1   N/I      0x242      0x242   .absSeg80
+.abs_section_244                   1   N/I      0x244      0x244   .absSeg81
+.abs_section_245                   1   N/I      0x245      0x245   .absSeg82
+.abs_section_248                   1   N/I      0x248      0x248   .absSeg83
+.abs_section_249                   1   N/I      0x249      0x249   .absSeg84
+.abs_section_24a                   1   N/I      0x24A      0x24A   .absSeg85
+.abs_section_24c                   1   N/I      0x24C      0x24C   .absSeg86
+.abs_section_24d                   1   N/I      0x24D      0x24D   .absSeg87
+.abs_section_24e                   1   N/I      0x24E      0x24E   .absSeg88
+.abs_section_24f                   1   N/I      0x24F      0x24F   .absSeg89
+.abs_section_250                   1   N/I      0x250      0x250   .absSeg90
+.abs_section_251                   1   N/I      0x251      0x251   .absSeg91
+.abs_section_252                   1   N/I      0x252      0x252   .absSeg92
+.abs_section_254                   1   N/I      0x254      0x254   .absSeg93
+.abs_section_255                   1   N/I      0x255      0x255   .absSeg94
+.abs_section_256                   1   N/I      0x256      0x256   .absSeg95
+.abs_section_257                   1   N/I      0x257      0x257   .absSeg96
+.abs_section_258                   1   N/I      0x258      0x258   .absSeg97
+.abs_section_259                   1   N/I      0x259      0x259   .absSeg98
+.abs_section_25a                   1   N/I      0x25A      0x25A   .absSeg99
+.abs_section_25c                   1   N/I      0x25C      0x25C   .absSeg100
+.abs_section_25d                   1   N/I      0x25D      0x25D   .absSeg101
+.abs_section_25e                   1   N/I      0x25E      0x25E   .absSeg102
+.abs_section_25f                   1   N/I      0x25F      0x25F   .absSeg103
+.abs_section_260                   1   N/I      0x260      0x260   .absSeg104
+.abs_section_261                   1   N/I      0x261      0x261   .absSeg105
+.abs_section_268                   1   N/I      0x268      0x268   .absSeg106
+.abs_section_269                   1   N/I      0x269      0x269   .absSeg107
+.abs_section_26a                   1   N/I      0x26A      0x26A   .absSeg108
+.abs_section_26c                   1   N/I      0x26C      0x26C   .absSeg109
+.abs_section_26d                   1   N/I      0x26D      0x26D   .absSeg110
+.abs_section_26e                   1   N/I      0x26E      0x26E   .absSeg111
+.abs_section_26f                   1   N/I      0x26F      0x26F   .absSeg112
+.abs_section_2f1                   1   N/I      0x2F1      0x2F1   .absSeg113
+.abs_section_2f2                   1   N/I      0x2F2      0x2F2   .absSeg114
+.abs_section_2f3                   1   N/I      0x2F3      0x2F3   .absSeg115
+.abs_section_2fa                   1   N/I      0x2FA      0x2FA   .absSeg116
+.abs_section_2fb                   1   N/I      0x2FB      0x2FB   .absSeg117
+.abs_section_1a                    2   N/I       0x1A       0x1B   .absSeg118
+.abs_section_24                    2   N/I       0x24       0x25   .absSeg119
+.abs_section_44                    2   N/I       0x44       0x45   .absSeg120
+.abs_section_50                    2   N/I       0x50       0x51   .absSeg121
+.abs_section_52                    2   N/I       0x52       0x53   .absSeg122
+.abs_section_54                    2   N/I       0x54       0x55   .absSeg123
+.abs_section_56                    2   N/I       0x56       0x57   .absSeg124
+.abs_section_58                    2   N/I       0x58       0x59   .absSeg125
+.abs_section_5a                    2   N/I       0x5A       0x5B   .absSeg126
+.abs_section_70                    2   N/I       0x70       0x71   .absSeg127
+.abs_section_72                    2   N/I       0x72       0x73   .absSeg128
+.abs_section_74                    2   N/I       0x74       0x75   .absSeg129
+.abs_section_78                    2   N/I       0x78       0x79   .absSeg130
+.abs_section_7a                    2   N/I       0x7A       0x7B   .absSeg131
+.abs_section_7c                    2   N/I       0x7C       0x7D   .absSeg132
+.abs_section_7e                    2   N/I       0x7E       0x7F   .absSeg133
+.abs_section_80                    2   N/I       0x80       0x81   .absSeg134
+.abs_section_82                    2   N/I       0x82       0x83   .absSeg135
+.abs_section_84                    2   N/I       0x84       0x85   .absSeg136
+.abs_section_86                    2   N/I       0x86       0x87   .absSeg137
+.abs_section_88                    2   N/I       0x88       0x89   .absSeg138
+.abs_section_8a                    2   N/I       0x8A       0x8B   .absSeg139
+.abs_section_8c                    2   N/I       0x8C       0x8D   .absSeg140
+.abs_section_8e                    2   N/I       0x8E       0x8F   .absSeg141
+.abs_section_ac                    2   N/I       0xAC       0xAD   .absSeg142
+.abs_section_ae                    2   N/I       0xAE       0xAF   .absSeg143
+.abs_section_b0                    2   N/I       0xB0       0xB1   .absSeg144
+.abs_section_b4                    2   N/I       0xB4       0xB5   .absSeg145
+.abs_section_b6                    2   N/I       0xB6       0xB7   .absSeg146
+.abs_section_b8                    2   N/I       0xB8       0xB9   .absSeg147
+.abs_section_bc                    2   N/I       0xBC       0xBD   .absSeg148
+.abs_section_be                    2   N/I       0xBE       0xBF   .absSeg149
+.abs_section_c0                    2   N/I       0xC0       0xC1   .absSeg150
+.abs_section_c8                    2   N/I       0xC8       0xC9   .absSeg151
+.abs_section_dc                    2   N/I       0xDC       0xDD   .absSeg152
+.abs_section_10a                   2   N/I      0x10A      0x10B   .absSeg153
+.abs_section_270                   2   N/I      0x270      0x271   .absSeg154
+.abs_section_272                   2   N/I      0x272      0x273   .absSeg155
+.abs_section_274                   2   N/I      0x274      0x275   .absSeg156
+.abs_section_278                   2   N/I      0x278      0x279   .absSeg157
+.abs_section_27a                   2   N/I      0x27A      0x27B   .absSeg158
+.abs_section_27c                   2   N/I      0x27C      0x27D   .absSeg159
+.abs_section_27e                   2   N/I      0x27E      0x27F   .absSeg160
+.abs_section_2f4                   2   N/I      0x2F4      0x2F5   .absSeg161
+.abs_section_2f8                   2   N/I      0x2F8      0x2F9   .absSeg162
+.abs_section_ffd6                  2     R     0xFFD6     0xFFD7   .absSeg163
+.abs_section_ffe6                  2     R     0xFFE6     0xFFE7   .absSeg164
+.abs_section_ffee                  2     R     0xFFEE     0xFFEF   .absSeg165
+.abs_section_ff88                  2     R     0xFF88     0xFF89   .absSeg166
+.bss                              17   R/W     0x3A00     0x3A10   RAM
+RUNTIME                          404     R     0xF305     0xF498   ROM_C000
+.common                          382   R/W     0x3A11     0x3B8E   RAM
+.vectSeg167_vect                   2     R     0xFFFE     0xFFFF   .vectSeg167
+
+Summary of section sizes per section type:
+READ_ONLY (R):        34A5 (dec:    13477)
+READ_WRITE (R/W):      38F (dec:      911)
+NO_INIT (N/I):          D0 (dec:      208)
+
+*********************************************************************************************
+VECTOR-ALLOCATION SECTION
+    Address     InitValue   InitFunction
+---------------------------------------------------------------------------------------------
+     0xFFFE        0xC029   _Startup
+
+*********************************************************************************************
+OBJECT-ALLOCATION SECTION
+     Name               Module                 Addr   hSize   dSize     Ref    Section   RLIB
+---------------------------------------------------------------------------------------------
+MODULE:                 -- mc9s12gn32.c.o --
+- PROCEDURES:
+- VARIABLES:
+     _PORTE                                       8       1       1       0   .abs_section_8
+     _DDRE                                        9       1       1       0   .abs_section_9
+     _MODE                                        B       1       1       0   .abs_section_b
+     _PUCR                                        C       1       1       0   .abs_section_c
+     _DIRECT                                     11       1       1       0   .abs_section_11
+     _MMCCTL1                                    13       1       1       0   .abs_section_13
+     _PPAGE                                      15       1       1       0   .abs_section_15
+     _ECLKCTL                                    1C       1       1       0   .abs_section_1c
+     _IRQCR                                      1E       1       1       0   .abs_section_1e
+     _DBGC1                                      20       1       1       0   .abs_section_20
+     _DBGSR                                      21       1       1       0   .abs_section_21
+     _DBGTCR                                     22       1       1       0   .abs_section_22
+     _DBGC2                                      23       1       1       0   .abs_section_23
+     _DBGCNT                                     26       1       1       0   .abs_section_26
+     _DBGSCRX                                    27       1       1       0   .abs_section_27
+     _DBGXCTL                                    28       1       1       0   .abs_section_28
+     _DBGXAH                                     29       1       1       0   .abs_section_29
+     _DBGXAM                                     2A       1       1       0   .abs_section_2a
+     _DBGXAL                                     2B       1       1       0   .abs_section_2b
+     _DBGADH                                     2C       1       1       0   .abs_section_2c
+     _DBGADL                                     2D       1       1       0   .abs_section_2d
+     _DBGADHM                                    2E       1       1       0   .abs_section_2e
+     _DBGADLM                                    2F       1       1       0   .abs_section_2f
+     _CPMUSYNR                                   34       1       1       1   .abs_section_34
+     _CPMUREFDIV                                 35       1       1       1   .abs_section_35
+     _CPMUPOSTDIV                                36       1       1       1   .abs_section_36
+     _CPMUFLG                                    37       1       1       1   .abs_section_37
+     _CPMUINT                                    38       1       1       0   .abs_section_38
+     _CPMUCLKS                                   39       1       1       2   .abs_section_39
+     _CPMUPLL                                    3A       1       1       0   .abs_section_3a
+     _CPMURTI                                    3B       1       1       0   .abs_section_3b
+     _CPMUCOP                                    3C       1       1       1   .abs_section_3c
+     _CPMUARMCOP                                 3F       1       1       0   .abs_section_3f
+     _TIOS                                       40       1       1       2   .abs_section_40
+     _CFORC                                      41       1       1       0   .abs_section_41
+     _TSCR1                                      46       1       1       4   .abs_section_46
+     _TTOV                                       47       1       1       0   .abs_section_47
+     _TCTL1                                      48       1       1       2   .abs_section_48
+     _TCTL2                                      49       1       1       2   .abs_section_49
+     _TCTL3                                      4A       1       1       0   .abs_section_4a
+     _TCTL4                                      4B       1       1       0   .abs_section_4b
+     _TIE                                        4C       1       1       2   .abs_section_4c
+     _TSCR2                                      4D       1       1       1   .abs_section_4d
+     _TFLG1                                      4E       1       1       2   .abs_section_4e
+     _TFLG2                                      4F       1       1       0   .abs_section_4f
+     _OCPD                                       6C       1       1       2   .abs_section_6c
+     _PTPSR                                      6E       1       1       0   .abs_section_6e
+     _ATDSTAT0                                   76       1       1       1   .abs_section_76
+     _PWME                                       A0       1       1       0   .abs_section_a0
+     _PWMPOL                                     A1       1       1       0   .abs_section_a1
+     _PWMCLK                                     A2       1       1       0   .abs_section_a2
+     _PWMPRCLK                                   A3       1       1       0   .abs_section_a3
+     _PWMCAE                                     A4       1       1       0   .abs_section_a4
+     _PWMCTL                                     A5       1       1       0   .abs_section_a5
+     _PWMCLKAB                                   A6       1       1       0   .abs_section_a6
+     _PWMSCLA                                    A8       1       1       0   .abs_section_a8
+     _PWMSCLB                                    A9       1       1       0   .abs_section_a9
+     _SCI0ACR2                                   CA       1       1       2   .abs_section_ca
+     _SCI0CR2                                    CB       1       1       6   .abs_section_cb
+     _SCI0SR1                                    CC       1       1       4   .abs_section_cc
+     _SCI0SR2                                    CD       1       1       8   .abs_section_cd
+     _SCI0DRH                                    CE       1       1       0   .abs_section_ce
+     _SCI0DRL                                    CF       1       1       4   .abs_section_cf
+     _SPI0CR1                                    D8       1       1       0   .abs_section_d8
+     _SPI0CR2                                    D9       1       1       0   .abs_section_d9
+     _SPI0BR                                     DA       1       1       0   .abs_section_da
+     _SPI0SR                                     DB       1       1       0   .abs_section_db
+     _FCLKDIV                                   100       1       1       3   .abs_section_100
+     _FSEC                                      101       1       1       0   .abs_section_101
+     _FCCOBIX                                   102       1       1       3   .abs_section_102
+     _FCNFG                                     104       1       1       0   .abs_section_104
+     _FERCNFG                                   105       1       1       0   .abs_section_105
+     _FSTAT                                     106       1       1       9   .abs_section_106
+     _FERSTAT                                   107       1       1       0   .abs_section_107
+     _FPROT                                     108       1       1       0   .abs_section_108
+     _DFPROT                                    109       1       1       0   .abs_section_109
+     _FOPT                                      110       1       1       0   .abs_section_110
+     _IVBR                                      120       1       1       0   .abs_section_120
+     _PTT                                       240       1       1      17   .abs_section_240
+     _PTIT                                      241       1       1       0   .abs_section_241
+     _DDRT                                      242       1       1       3   .abs_section_242
+     _PERT                                      244       1       1       3   .abs_section_244
+     _PPST                                      245       1       1       0   .abs_section_245
+     _PTS                                       248       1       1      38   .abs_section_248
+     _PTIS                                      249       1       1       0   .abs_section_249
+     _DDRS                                      24A       1       1       4   .abs_section_24a
+     _PERS                                      24C       1       1       4   .abs_section_24c
+     _PPSS                                      24D       1       1       0   .abs_section_24d
+     _WOMS                                      24E       1       1       0   .abs_section_24e
+     _PRR0                                      24F       1       1       0   .abs_section_24f
+     _PTM                                       250       1       1       0   .abs_section_250
+     _PTIM                                      251       1       1       0   .abs_section_251
+     _DDRM                                      252       1       1       2   .abs_section_252
+     _PERM                                      254       1       1       0   .abs_section_254
+     _PPSM                                      255       1       1       0   .abs_section_255
+     _WOMM                                      256       1       1       0   .abs_section_256
+     _PKGCR                                     257       1       1       0   .abs_section_257
+     _PTP                                       258       1       1       0   .abs_section_258
+     _PTIP                                      259       1       1       0   .abs_section_259
+     _DDRP                                      25A       1       1       0   .abs_section_25a
+     _PERP                                      25C       1       1       0   .abs_section_25c
+     _PPSP                                      25D       1       1       0   .abs_section_25d
+     _PIEP                                      25E       1       1       0   .abs_section_25e
+     _PIFP                                      25F       1       1       0   .abs_section_25f
+     _ACMPC                                     260       1       1       0   .abs_section_260
+     _ACMPS                                     261       1       1       0   .abs_section_261
+     _PTJ                                       268       1       1       0   .abs_section_268
+     _PTIJ                                      269       1       1       0   .abs_section_269
+     _DDRJ                                      26A       1       1       0   .abs_section_26a
+     _PERJ                                      26C       1       1       0   .abs_section_26c
+     _PPSJ                                      26D       1       1       0   .abs_section_26d
+     _PIEJ                                      26E       1       1       0   .abs_section_26e
+     _PIFJ                                      26F       1       1       0   .abs_section_26f
+     _CPMULVCTL                                 2F1       1       1       0   .abs_section_2f1
+     _CPMUAPICTL                                2F2       1       1       8   .abs_section_2f2
+     _CPMUACLKTR                                2F3       1       1       1   .abs_section_2f3
+     _CPMUOSC                                   2FA       1       1       1   .abs_section_2fa
+     _CPMUPROT                                  2FB       1       1       2   .abs_section_2fb
+     _PARTID                                     1A       2       2       0   .abs_section_1a
+     _DBGTB                                      24       2       2       0   .abs_section_24
+     _TCNT                                       44       2       2       3   .abs_section_44
+     _TC0                                        50       2       2       2   .abs_section_50
+     _TC1                                        52       2       2       0   .abs_section_52
+     _TC2                                        54       2       2       0   .abs_section_54
+     _TC3                                        56       2       2       0   .abs_section_56
+     _TC4                                        58       2       2       2   .abs_section_58
+     _TC5                                        5A       2       2       0   .abs_section_5a
+     _ATDCTL01                                   70       2       2       2   .abs_section_70
+     _ATDCTL23                                   72       2       2       2   .abs_section_72
+     _ATDCTL45                                   74       2       2       2   .abs_section_74
+     _ATDCMPE                                    78       2       2       0   .abs_section_78
+     _ATDSTAT2                                   7A       2       2       0   .abs_section_7a
+     _ATDDIEN                                    7C       2       2       0   .abs_section_7c
+     _ATDCMPHT                                   7E       2       2       0   .abs_section_7e
+     _ATDDR0                                     80       2       2       1   .abs_section_80
+     _ATDDR1                                     82       2       2       0   .abs_section_82
+     _ATDDR2                                     84       2       2       0   .abs_section_84
+     _ATDDR3                                     86       2       2       0   .abs_section_86
+     _ATDDR4                                     88       2       2       0   .abs_section_88
+     _ATDDR5                                     8A       2       2       0   .abs_section_8a
+     _ATDDR6                                     8C       2       2       0   .abs_section_8c
+     _ATDDR7                                     8E       2       2       0   .abs_section_8e
+     _PWMCNT01                                   AC       2       2       0   .abs_section_ac
+     _PWMCNT23                                   AE       2       2       0   .abs_section_ae
+     _PWMCNT45                                   B0       2       2       0   .abs_section_b0
+     _PWMPER01                                   B4       2       2       0   .abs_section_b4
+     _PWMPER23                                   B6       2       2       0   .abs_section_b6
+     _PWMPER45                                   B8       2       2       0   .abs_section_b8
+     _PWMDTY01                                   BC       2       2       0   .abs_section_bc
+     _PWMDTY23                                   BE       2       2       0   .abs_section_be
+     _PWMDTY45                                   C0       2       2       0   .abs_section_c0
+     _SCI0BD                                     C8       2       2      15   .abs_section_c8
+     _SPI0DR                                     DC       2       2       0   .abs_section_dc
+     _FCCOB                                     10A       2       2       4   .abs_section_10a
+     _PT01AD                                    270       2       2       1   .abs_section_270
+     _PTI01AD                                   272       2       2       0   .abs_section_272
+     _DDR01AD                                   274       2       2       2   .abs_section_274
+     _PER01AD                                   278       2       2       2   .abs_section_278
+     _PPS01AD                                   27A       2       2       0   .abs_section_27a
+     _PIE01AD                                   27C       2       2       0   .abs_section_27c
+     _PIF01AD                                   27E       2       2       0   .abs_section_27e
+     _CPMUAPIR                                  2F4       2       2       1   .abs_section_2f4
+     _CPMUIRCTRIM                               2F8       2       2       0   .abs_section_2f8
+MODULE:                 -- main.c.o --
+- PROCEDURES:
+     main                                      C169      A2     162       1   .text       
+- VARIABLES:
+MODULE:                 -- Start12.c.o --
+- PROCEDURES:
+     Init                                      C000      29      41       1   .init       
+     _Startup                                  C029       8       8       0   .init       
+- VARIABLES:
+     _startupData                              C031       6       6       3   .startData  
+- LABELS:
+     __SEG_END_SSTACK                          3A00       0       0       1               
+MODULE:                 -- rtshc12.c.o (ansisi.lib) --
+- PROCEDURES:
+     _BSHL                                     F305       8       8       1   RUNTIME     
+     _BSHRU                                    F30D       8       8       6   RUNTIME     
+     _ISHL                                     F315       B      11       2   RUNTIME     
+     _ISHRU                                    F320       B      11       2   RUNTIME     
+     _LSHL                                     F32B      11      17       5   RUNTIME     
+     _LSHRU                                    F33C      11      17       3   RUNTIME     
+     _LCMP                                     F34D      19      25       2   RUNTIME     
+     _LCMP_P                                   F366      15      21       2   RUNTIME     
+     _LMULU16x32                               F37B       F      15       1   RUNTIME     
+     _lDivMod                                  F38A      BE     190       1   RUNTIME     
+     _LDIVU                                    F448       E      14       6   RUNTIME     
+     _COPY                                     F456       8       8       2   RUNTIME     
+     _CASE_DIRECT_BYTE                         F45E       5       5       2   RUNTIME     
+     _CASE_CHECKED                             F463       B      11       3   RUNTIME     
+     _CASE_CHECKED_BYTE                        F46E      14      20       1   RUNTIME     
+     _CASE_SEARCH_8                            F482      17      23      11   RUNTIME     
+- VARIABLES:
+MODULE:                 -- lin_app.c.o --
+- PROCEDURES:
+     Lin_Prameter_Init                         C20B      2E      46       1   .text       
+     LinConfig                                 C239      2C      44       1   .text       
+     Seed_To_Key                               C265      51      81       1   .text       
+     Analysis_Master_Data                      C2B6      82     130       1   .text       
+     Analysis_BCM_Config                       C338      74     116       1   .text       
+     Lin_TransStatus                           C3AC     34A     842      51   .text       
+     Diagnostic_Process                        C6F6     813    2067     257   .text       
+     Diagnostic_RESP_Process                   CF09      79     121       1   .text       
+     Lin_RLS_data                              CF82      E5     229       5   .text       
+- VARIABLES:
+     msg_send                                  3A11       9       9      18   .common     
+     Diagnostic_Response                       3A1A       9       9      15   .common     
+     msg_config                                3A23       9       9       3   .common     
+     rx                                        3A2C       E      14      84   .common     
+     Lin_RLS_Frame                             3A3A       8       8      83   .common     
+     Lin_BCM_Frame                             3A42       8       8      22   .common     
+     Lin_CFG_Frame                             3A4A       3       3      12   .common     
+     Lin_Window_Frame                          3A4D       5       5      15   .common     
+     Diagnostic_R                              3A52       C      12     102   .common     
+     u8_Sci_Reg_Status                         3A5E       1       1      19   .common     
+     u8_Lin_identifier                         3A5F       1       1       5   .common     
+     u8_LinErrorCnt                            3A60       1       1       6   .common     
+     u8_Cmd_Execution                          3A61       1       1       4   .common     
+     u8_Lin_Data_Check                         3A62       1       1       2   .common     
+     u8_Rain_Sensitivity                       3A63       1       1       5   .common     
+     u8_SPD_Vehicle                            3A64       1       1       5   .common     
+     Diagnostic_6s_cnt                         3A65       1       1       6   .common     
+     Diagnostic_Extended_En                    3A66       1       1       5   .common     
+     Diagnostic_KEY_Locked                     3A67       1       1       5   .common     
+     Diagnostic_2s_cnt                         3A68       1       1       2   .common     
+     Diagnostic_60s_cnt                        3A69       1       1       3   .common     
+     Diagnostic_Key_Wrong_Num                  3A6A       1       1       5   .common     
+     Gain_Prm                                  3A6B       1       1       3   .common     
+     Gain_Val                                  3A6C       1       1       3   .common     
+     Gain_Val_Pre                              3A6D       1       1       2   .common     
+     Brightness_Light_Percentage               3A6E       4       4       6   .common     
+     Brightness_Infrared_Percentage            3A72       4       4       6   .common     
+     Scuttle_Control                           3A76       4       4       4   .common     
+     Diagnostic_Seed                           3A7A       4       4      14   .common     
+     Diagnostic_Key                            3A7E       4       4       5   .common     
+MODULE:                 -- sci.c.o --
+- PROCEDURES:
+     SCI_Init                                  D067      24      36       1   .text       
+     SCI1_RX                                   D08B      6B     107       1   .text       
+- VARIABLES:
+     _Vector_20                                FFD6       2       2       0   .abs_section_ffd6
+MODULE:                 -- TIM.c.o --
+- PROCEDURES:
+     TIM_Init                                  D0F6      3D      61       2   .text       
+     TIM4_ISR                                  D133      4D      77       1   .text       
+     TIM0_ISR                                  D180      9C     156       1   .text       
+- VARIABLES:
+     G_10ms_counter                            3A00       1       1       3   .bss        
+     G_20ms_counter                            3A01       1       1       3   .bss        
+     G_50ms_counter                            3A02       1       1       3   .bss        
+     G_100ms_counter                           3A03       1       1       3   .bss        
+     G_500ms_counter                           3A04       1       1       3   .bss        
+     G_600ms_counter                           3A05       1       1       5   .bss        
+     G_150ms_counter                           3A06       1       1       3   .bss        
+     G_10msFlag                                3A07       1       1       3   .bss        
+     G_20msFlag                                3A08       1       1       3   .bss        
+     G_50msFlag                                3A09       1       1       3   .bss        
+     G_100msFlag                               3A0A       1       1       3   .bss        
+     G_500msFlag                               3A0B       1       1       3   .bss        
+     G_600msFlag                               3A0C       1       1       5   .bss        
+     G_150msFlag                               3A0D       1       1       1   .bss        
+     G_4sFlag                                  3A0E       1       1       7   .bss        
+     G_4s_counter                              3A0F       2       2       7   .bss        
+     _Vector_12                                FFE6       2       2       0   .abs_section_ffe6
+     _Vector_8                                 FFEE       2       2       0   .abs_section_ffee
+MODULE:                 -- clock.c.o --
+- PROCEDURES:
+     MCU_CLOCK_Init                            D21C      16      22       1   .text       
+     COP_Init                                  D232       4       4       1   .text       
+     Delay_Ms                                  D236      1F      31       5   .text       
+     Delay_Nus                                 D255      11      17       2   .text       
+- VARIABLES:
+MODULE:                 -- GPIO.c.o --
+- PROCEDURES:
+     GPIO_Init                                 D266      69     105       1   .text       
+- VARIABLES:
+MODULE:                 -- lin.c.o --
+- PROCEDURES:
+     LinSendChar                               D2CF      5B      91       2   .text       
+     LinCalcParity                             D32A      3D      61       1   .text       
+     LinCalcChecksum                           D367      2F      47       2   .text       
+     EnhancedLinCalcChecksum                   D396      36      54       2   .text       
+     LinSndMsg                                 D3CC      54      84       3   .text       
+     Lin_chkparity                             D420      10      16       1   .text       
+     Lin_send_break                            D430       7       7       1   .text       
+- VARIABLES:
+MODULE:                 -- adc.c.o --
+- PROCEDURES:
+     ADC_Init                                  D437      14      20       1   .text       
+     get_adc                                   D44B      12      18       1   .text       
+     get_adc_times                             D45D      32      50       1   .text       
+- VARIABLES:
+MODULE:                 -- spi.c.o --
+- PROCEDURES:
+     SPI_Wr_Cmd                                D48F      B0     176       7   .text       
+     SPI_Wr_Reg                                D53F     187     391      18   .text       
+     SPI_Rd_Reg                                D6C6      9A     154       9   .text       
+     MLX75308_SetPara                          D760     162     354      52   .text       
+     SPI_Rd_Mchan                              D8C2     119     281       1   .text       
+     MLX75308_Meansure                         D9DB      34      52       2   .text       
+- VARIABLES:
+MODULE:                 -- HCS12EEPROM.c.o --
+- PROCEDURES:
+     HCS12_EE_Init                             DA0F      15      21       1   .text       
+     HCS12_EE_Cmd                              DA24      60      96       2   .text       
+     HCS12_EE_Write_2Word                      DA84      21      33       5   .text       
+     HCS12_EE_Read_2Word                       DAA5      1C      28       4   .text       
+     EE_Erase_Section                          DAC1      13      19       1   .text       
+     EE_Byte_Read                              DAD4      11      17       2   .text       
+- VARIABLES:
+MODULE:                 -- rls_app.c.o --
+- PROCEDURES:
+     Search_Table                              DAE5     142     322       7   .text       
+     MLX75308_Init                             DC27     10F     271       1   .text       
+     RLS_Rain_Get_Measure                      DD36     1EC     492      10   .text       
+     RLS_Light_Module_Fault_Process            DF22      5B      91       1   .text       
+     RLS_AutoLightControl                      DF7D     1BC     444       9   .text       
+     RLS_Auto_Light_Task                       E139      CA     202       1   .text       
+     RLS_Rain_Module_Fault_Process             E203      5D      93       1   .text       
+     RLS_Get_Rain_State                        E260     20C     524       3   .text       
+     RLS_Get_Rain_ExpectStage                  E46C     105     261       1   .text       
+     RLS_Mask_False_Operation                  E571      BF     191       1   .text       
+     RLS_Invalid_DataProcess                   E630      BC     188       1   .text       
+     RLS_Period_Mode                           E6EC      3F      63       1   .text       
+     RLS_Rain_State_Mchaine                    E72B     600    1536      80   .text       
+     RLS_Wipe_Park_Process                     ED2B      3C      60       1   .text       
+     RLS_Auto_Rain_Task                        ED67       E      14       2   .text       
+     RLS_SelfAdaptTask                         ED75     1AF     431      20   .text       
+     RLS_Wipe_Auto_On_Function                 EF24      6E     110       1   .text       
+     RLS_Wipe_Sensitivity_Up_Function          EF92      5D      93       1   .text       
+     RLS_Battery_Measurement                   EFEF      2A      42       1   .text       
+     RLS_Battery_State                         F019      53      83       1   .text       
+     RLS_Lin_Diag_Fucntion                     F06C      14      20       1   .text       
+     Sleep_Process                             F080      8A     138       3   .text       
+     Recover_Process                           F10A      3A      58       3   .text       
+     RLS_Roof_Task                             F144      A7     167       1   .text       
+- VARIABLES:
+     Tab_AWG_FW                                C03B      40      64       1   .rodata     
+     Tab_Brightness_FW                         C07B      20      32       1   .rodata     
+     Tab_AWG_IR                                C09B      40      64       1   .rodata     
+     Tab_Brightness_IR                         C0DB      20      32       1   .rodata     
+     u8_receive_data_flg                       3A82       1       1       4   .common     
+     u8_rain_detect_flg                        3A83       1       1       5   .common     
+     API_6h_Cnt                                3A84       2       2       6   .common     
+     u8_send_break_cnt                         3A86       1       1       1   .common     
+     u8_rls_wake_up_bcm_flg                    3A87       1       1       1   .common     
+     u8_receive_break_flag                     3A88       1       1       2   .common     
+     u8_lin_cmd_sleep_flg                      3A89       1       1       4   .common     
+     u16_Pd_Measure_Value                      3A8A       2       2      13   .common     
+     u8_Wiper_State                            3A8C       1       1      21   .common     
+     u8_Wiper_StatePre                         3A8D       1       1       5   .common     
+     u8_Wiper_StatePre_Int                     3A8E       1       1       3   .common     
+     u8_Wiper_StatePre_Int_Cnt                 3A8F       1       1       3   .common     
+     MLX75308_A_Adc                            3A90       1       1      12   .common     
+     MLX75308_B_Adc                            3A91       1       1      12   .common     
+     u16_Delta_DC_bre_A                        3A92       2       2       3   .common     
+     u16_Delta_DC_aft_A                        3A94       2       2       2   .common     
+     u16_Delta_DC_bre_B                        3A96       2       2       3   .common     
+     u16_Delta_DC_aft_B                        3A98       2       2       2   .common     
+     u16_Save_DC_bre_A                         3A9A       2       2       4   .common     
+     u16_Save_DC_aft_A                         3A9C       2       2       3   .common     
+     u16_Save_DC_bre_B                         3A9E       2       2       4   .common     
+     u16_Save_DC_aft_B                         3AA0       2       2       3   .common     
+     PD_WIN_AVG                                3AA2      18      24      28   .common     
+     DC_WIN_BUFF                               3ABA      50      80      18   .common     
+     u16_DC_PD_dt                              3B0A       4       4       2   .common     
+     u8_RainIntensity_Win                      3B0E       3       3       9   .common     
+     u8_PD_State                               3B11       2       2       8   .common     
+     u16_Dt_PD                                 3B13       4       4       4   .common     
+     u16_PDA_Wmax                              3B17       2       2       4   .common     
+     u16_PDB_Wmax                              3B19       2       2       4   .common     
+     PD_Meas_Comp_Ref                          3B1B       4       4       4   .common     
+     PD_Meas_Comp_Ref_Pre                      3B1F       4       4       2   .common     
+     u16_DC_Comp_Value                         3B23       4       4       4   .common     
+     u8_RainIntensity                          3B27       2       2       9   .common     
+     u8_RainIntensityPre                       3B29       2       2       2   .common     
+     u8_RainIntensity_Max                      3B2B       1       1       4   .common     
+     u8_Rain_Invalid_Cnt                       3B2C       1       1       3   .common     
+     u8_MeasureSureTime                        3B2D       1       1       4   .common     
+     u8_RLS_StopMsureFlg                       3B2E       1       1       5   .common     
+     u8_ClearEnternIntSpeedCnt                 3B2F       1       1       5   .common     
+     u8_IntSpeedEnterCnt                       3B30       1       1      14   .common     
+     u8_LowSpeedCnt                            3B31       1       1       6   .common     
+     u8_ExitLowSpeedCnt                        3B32       1       1      13   .common     
+     u8_IntSpeedCnt                            3B33       1       1       5   .common     
+     u8_IntDelayTimer                          3B34       1       1      16   .common     
+     u8_HighHoldCnt                            3B35       1       1       8   .common     
+     u8_HighSpeedHoldCnt                       3B36       1       1       4   .common     
+     u8_low_enter_high_timer                   3B37       1       1       7   .common     
+     u8_cnt_choose                             3B38       1       1       3   .common     
+     u8_cnt_choose_pre                         3B39       1       1       6   .common     
+     u8_Int_Time                               3B3A       1       1       3   .common     
+     u8_Int_Time_pre                           3B3B       1       1       5   .common     
+     u8_EnterLowSpeedCnt                       3B3C       1       1       4   .common     
+     u8_Rain_Valid                             3B3D       1       1       5   .common     
+     u8_Rain_Value                             3B3E       1       1       7   .common     
+     u8_WiperSpeed_Expert                      3B3F       1       1      15   .common     
+     u16_DC_checkValue                         3B40       2       2       2   .common     
+     u16_Ref_Adc_A                             3B42       2       2       1   .common     
+     u16_Ref_Adc_B                             3B44       2       2       1   .common     
+     RLS_RunMode                               3B46       1       1       6   .common     
+     u8_Rain_Delta                             3B47       1       1       4   .common     
+     u8_LightOnTimer                           3B48       1       1       3   .common     
+     u8_Wipe_Automatic_On_Flg                  3B49       1       1       3   .common     
+     u8_Wipe_Automatic_On_Pre                  3B4A       1       1       3   .common     
+     u8_Automatic_On_Cnt                       3B4B       1       1       3   .common     
+     u8_SensitivityUpCnt                       3B4C       1       1       3   .common     
+     u8_SensitivityUpFlg                       3B4D       1       1       3   .common     
+     u8_Rain_SensitivityPre                    3B4E       1       1       3   .common     
+     u16_Battery_Volt                          3B4F       2       2       3   .common     
+     u8_low_voltage_cnt                        3B51       1       1       5   .common     
+     u8_high_voltage_cnt                       3B52       1       1       5   .common     
+     u8_Lin_Diag_Enable                        3B53       1       1       5   .common     
+     u8_Lin_Diag_Enable_Cnt                    3B54       1       1       4   .common     
+     u16_Brightness_FW                         3B55       2       2       6   .common     
+     u8_Brightness_IR                          3B57       1       1       6   .common     
+     Light_on_cnt                              3B58       2       2      11   .common     
+     Light_off_cnt                             3B5A       2       2      10   .common     
+     MLX75308_RxFrame                          3B5C      17      23      17   .common     
+     Mnrval                                    3B73      14      20      61   .common     
+     App_Rls_Error                             3B87       6       6      30   .common     
+MODULE:                 -- api.c.o --
+- PROCEDURES:
+     API_init                                  F1EB      20      32       1   .text       
+     API_Disable                               F20B       5       5       2   .text       
+     api                                       F210      15      21       1   .text       
+- VARIABLES:
+     _Vector_59                                FF88       2       2       0   .abs_section_ff88
+     API_10s_Flag                              3B8D       1       1       4   .common     
+     API_wake_up_Flag                          3B8E       1       1       2   .common     
+MODULE:                 -- config_parameter.c.o --
+- PROCEDURES:
+- VARIABLES:
+     Software_Versions                         C0FB       3       3       3   .rodata     
+     Hardware_Versions                         C0FE       3       3       3   .rodata     
+     Part_Versions                             C101       3       3       3   .rodata     
+     Mlx75308_Config_Parameter                 C104      12      18      18   .rodata     
+     Rain_Stastegy_Parameter                   C116      4A      74      85   .rodata     
+     Light_Stastegy_Parameter                  C160       9       9      14   .rodata     
+MODULE:                 -- global_parameter.c.o --
+- PROCEDURES:
+     global_parameter_init                     F225      E0     224       1   .text       
+- VARIABLES:
+
+*********************************************************************************************
+MODULE STATISTIC
+  Name                                      Data   Code  Const
+---------------------------------------------------------------------------------------------
+  mc9s12gn32.c.o                             208      0      0
+  main.c.o                                     0    162      0
+  Start12.c.o                                  0     49      0
+  rtshc12.c.o (ansisi.lib)                     0    404      0
+  lin_app.c.o                                113   3676      0
+  sci.c.o                                      0    143      2
+  TIM.c.o                                     17    294      4
+  clock.c.o                                    0     74      0
+  GPIO.c.o                                     0    105      0
+  lin.c.o                                      0    360      0
+  adc.c.o                                      0     88      0
+  spi.c.o                                      0   1408      0
+  HCS12EEPROM.c.o                              0    214      0
+  rls_app.c.o                                267   5894    192
+  api.c.o                                      2     58      2
+  config_parameter.c.o                         0      0    110
+  global_parameter.c.o                         0    224      0
+  other                                      512     12      2
+
+*********************************************************************************************
+SECTION USE IN OBJECT-ALLOCATION SECTION
+---------------------------------------------------------------------------------------------
+SECTION: ".text"
+  main Lin_Prameter_Init LinConfig Seed_To_Key Analysis_Master_Data 
+  Analysis_BCM_Config Lin_TransStatus Diagnostic_Process 
+  Diagnostic_RESP_Process Lin_RLS_data SCI_Init SCI1_RX TIM_Init TIM4_ISR 
+  TIM0_ISR MCU_CLOCK_Init COP_Init Delay_Ms Delay_Nus GPIO_Init LinSendChar 
+  LinCalcParity LinCalcChecksum EnhancedLinCalcChecksum LinSndMsg Lin_chkparity 
+  Lin_send_break ADC_Init get_adc get_adc_times SPI_Wr_Cmd SPI_Wr_Reg 
+  SPI_Rd_Reg MLX75308_SetPara SPI_Rd_Mchan MLX75308_Meansure HCS12_EE_Init 
+  HCS12_EE_Cmd HCS12_EE_Write_2Word HCS12_EE_Read_2Word EE_Erase_Section 
+  EE_Byte_Read Search_Table MLX75308_Init RLS_Rain_Get_Measure 
+  RLS_Light_Module_Fault_Process RLS_AutoLightControl RLS_Auto_Light_Task 
+  RLS_Rain_Module_Fault_Process RLS_Get_Rain_State RLS_Get_Rain_ExpectStage 
+  RLS_Mask_False_Operation RLS_Invalid_DataProcess RLS_Period_Mode 
+  RLS_Rain_State_Mchaine RLS_Wipe_Park_Process RLS_Auto_Rain_Task 
+  RLS_SelfAdaptTask RLS_Wipe_Auto_On_Function RLS_Wipe_Sensitivity_Up_Function 
+  RLS_Battery_Measurement RLS_Battery_State RLS_Lin_Diag_Fucntion Sleep_Process 
+  Recover_Process RLS_Roof_Task API_init API_Disable api global_parameter_init 
+SECTION: ".bss"
+  G_10ms_counter G_20ms_counter G_50ms_counter G_100ms_counter G_500ms_counter 
+  G_600ms_counter G_150ms_counter G_10msFlag G_20msFlag G_50msFlag G_100msFlag 
+  G_500msFlag G_600msFlag G_150msFlag G_4sFlag G_4s_counter 
+SECTION: ".init"
+  Init _Startup 
+SECTION: ".rodata"
+  Tab_AWG_FW Tab_Brightness_FW Tab_AWG_IR Tab_Brightness_IR Software_Versions 
+  Hardware_Versions Part_Versions Mlx75308_Config_Parameter 
+  Rain_Stastegy_Parameter Light_Stastegy_Parameter 
+SECTION: ".abs_section_8"
+  _PORTE 
+SECTION: ".abs_section_9"
+  _DDRE 
+SECTION: ".abs_section_b"
+  _MODE 
+SECTION: ".abs_section_c"
+  _PUCR 
+SECTION: ".abs_section_11"
+  _DIRECT 
+SECTION: ".abs_section_13"
+  _MMCCTL1 
+SECTION: ".abs_section_15"
+  _PPAGE 
+SECTION: ".abs_section_1c"
+  _ECLKCTL 
+SECTION: ".abs_section_1e"
+  _IRQCR 
+SECTION: ".abs_section_20"
+  _DBGC1 
+SECTION: ".abs_section_21"
+  _DBGSR 
+SECTION: ".abs_section_22"
+  _DBGTCR 
+SECTION: ".abs_section_23"
+  _DBGC2 
+SECTION: ".abs_section_26"
+  _DBGCNT 
+SECTION: ".abs_section_27"
+  _DBGSCRX 
+SECTION: ".abs_section_28"
+  _DBGXCTL 
+SECTION: ".abs_section_29"
+  _DBGXAH 
+SECTION: ".abs_section_2a"
+  _DBGXAM 
+SECTION: ".abs_section_2b"
+  _DBGXAL 
+SECTION: ".abs_section_2c"
+  _DBGADH 
+SECTION: ".abs_section_2d"
+  _DBGADL 
+SECTION: ".abs_section_2e"
+  _DBGADHM 
+SECTION: ".abs_section_2f"
+  _DBGADLM 
+SECTION: ".abs_section_34"
+  _CPMUSYNR 
+SECTION: ".abs_section_35"
+  _CPMUREFDIV 
+SECTION: ".abs_section_36"
+  _CPMUPOSTDIV 
+SECTION: ".abs_section_37"
+  _CPMUFLG 
+SECTION: ".abs_section_38"
+  _CPMUINT 
+SECTION: ".abs_section_39"
+  _CPMUCLKS 
+SECTION: ".abs_section_3a"
+  _CPMUPLL 
+SECTION: ".abs_section_3b"
+  _CPMURTI 
+SECTION: ".abs_section_3c"
+  _CPMUCOP 
+SECTION: ".abs_section_3f"
+  _CPMUARMCOP 
+SECTION: ".abs_section_40"
+  _TIOS 
+SECTION: ".abs_section_41"
+  _CFORC 
+SECTION: ".abs_section_46"
+  _TSCR1 
+SECTION: ".abs_section_47"
+  _TTOV 
+SECTION: ".abs_section_48"
+  _TCTL1 
+SECTION: ".abs_section_49"
+  _TCTL2 
+SECTION: ".abs_section_4a"
+  _TCTL3 
+SECTION: ".abs_section_4b"
+  _TCTL4 
+SECTION: ".abs_section_4c"
+  _TIE 
+SECTION: ".abs_section_4d"
+  _TSCR2 
+SECTION: ".abs_section_4e"
+  _TFLG1 
+SECTION: ".abs_section_4f"
+  _TFLG2 
+SECTION: ".abs_section_6c"
+  _OCPD 
+SECTION: ".abs_section_6e"
+  _PTPSR 
+SECTION: ".abs_section_76"
+  _ATDSTAT0 
+SECTION: ".abs_section_a0"
+  _PWME 
+SECTION: ".abs_section_a1"
+  _PWMPOL 
+SECTION: ".abs_section_a2"
+  _PWMCLK 
+SECTION: ".abs_section_a3"
+  _PWMPRCLK 
+SECTION: ".abs_section_a4"
+  _PWMCAE 
+SECTION: ".abs_section_a5"
+  _PWMCTL 
+SECTION: ".abs_section_a6"
+  _PWMCLKAB 
+SECTION: ".abs_section_a8"
+  _PWMSCLA 
+SECTION: ".abs_section_a9"
+  _PWMSCLB 
+SECTION: ".abs_section_ca"
+  _SCI0ACR2 
+SECTION: ".abs_section_cb"
+  _SCI0CR2 
+SECTION: ".abs_section_cc"
+  _SCI0SR1 
+SECTION: ".abs_section_cd"
+  _SCI0SR2 
+SECTION: ".abs_section_ce"
+  _SCI0DRH 
+SECTION: ".abs_section_cf"
+  _SCI0DRL 
+SECTION: ".abs_section_d8"
+  _SPI0CR1 
+SECTION: ".abs_section_d9"
+  _SPI0CR2 
+SECTION: ".abs_section_da"
+  _SPI0BR 
+SECTION: ".abs_section_db"
+  _SPI0SR 
+SECTION: ".abs_section_100"
+  _FCLKDIV 
+SECTION: ".abs_section_101"
+  _FSEC 
+SECTION: ".abs_section_102"
+  _FCCOBIX 
+SECTION: ".abs_section_104"
+  _FCNFG 
+SECTION: ".abs_section_105"
+  _FERCNFG 
+SECTION: ".abs_section_106"
+  _FSTAT 
+SECTION: ".abs_section_107"
+  _FERSTAT 
+SECTION: ".abs_section_108"
+  _FPROT 
+SECTION: ".abs_section_109"
+  _DFPROT 
+SECTION: ".abs_section_110"
+  _FOPT 
+SECTION: ".abs_section_120"
+  _IVBR 
+SECTION: ".abs_section_240"
+  _PTT 
+SECTION: ".abs_section_241"
+  _PTIT 
+SECTION: ".abs_section_242"
+  _DDRT 
+SECTION: ".abs_section_244"
+  _PERT 
+SECTION: ".abs_section_245"
+  _PPST 
+SECTION: ".abs_section_248"
+  _PTS 
+SECTION: ".abs_section_249"
+  _PTIS 
+SECTION: ".abs_section_24a"
+  _DDRS 
+SECTION: ".abs_section_24c"
+  _PERS 
+SECTION: ".abs_section_24d"
+  _PPSS 
+SECTION: ".abs_section_24e"
+  _WOMS 
+SECTION: ".abs_section_24f"
+  _PRR0 
+SECTION: ".abs_section_250"
+  _PTM 
+SECTION: ".abs_section_251"
+  _PTIM 
+SECTION: ".abs_section_252"
+  _DDRM 
+SECTION: ".abs_section_254"
+  _PERM 
+SECTION: ".abs_section_255"
+  _PPSM 
+SECTION: ".abs_section_256"
+  _WOMM 
+SECTION: ".abs_section_257"
+  _PKGCR 
+SECTION: ".abs_section_258"
+  _PTP 
+SECTION: ".abs_section_259"
+  _PTIP 
+SECTION: ".abs_section_25a"
+  _DDRP 
+SECTION: ".abs_section_25c"
+  _PERP 
+SECTION: ".abs_section_25d"
+  _PPSP 
+SECTION: ".abs_section_25e"
+  _PIEP 
+SECTION: ".abs_section_25f"
+  _PIFP 
+SECTION: ".abs_section_260"
+  _ACMPC 
+SECTION: ".abs_section_261"
+  _ACMPS 
+SECTION: ".abs_section_268"
+  _PTJ 
+SECTION: ".abs_section_269"
+  _PTIJ 
+SECTION: ".abs_section_26a"
+  _DDRJ 
+SECTION: ".abs_section_26c"
+  _PERJ 
+SECTION: ".abs_section_26d"
+  _PPSJ 
+SECTION: ".abs_section_26e"
+  _PIEJ 
+SECTION: ".abs_section_26f"
+  _PIFJ 
+SECTION: ".abs_section_2f1"
+  _CPMULVCTL 
+SECTION: ".abs_section_2f2"
+  _CPMUAPICTL 
+SECTION: ".abs_section_2f3"
+  _CPMUACLKTR 
+SECTION: ".abs_section_2fa"
+  _CPMUOSC 
+SECTION: ".abs_section_2fb"
+  _CPMUPROT 
+SECTION: ".abs_section_1a"
+  _PARTID 
+SECTION: ".abs_section_24"
+  _DBGTB 
+SECTION: ".abs_section_44"
+  _TCNT 
+SECTION: ".abs_section_50"
+  _TC0 
+SECTION: ".abs_section_52"
+  _TC1 
+SECTION: ".abs_section_54"
+  _TC2 
+SECTION: ".abs_section_56"
+  _TC3 
+SECTION: ".abs_section_58"
+  _TC4 
+SECTION: ".abs_section_5a"
+  _TC5 
+SECTION: ".abs_section_70"
+  _ATDCTL01 
+SECTION: ".abs_section_72"
+  _ATDCTL23 
+SECTION: ".abs_section_74"
+  _ATDCTL45 
+SECTION: ".abs_section_78"
+  _ATDCMPE 
+SECTION: ".abs_section_7a"
+  _ATDSTAT2 
+SECTION: ".abs_section_7c"
+  _ATDDIEN 
+SECTION: ".abs_section_7e"
+  _ATDCMPHT 
+SECTION: ".abs_section_80"
+  _ATDDR0 
+SECTION: ".abs_section_82"
+  _ATDDR1 
+SECTION: ".abs_section_84"
+  _ATDDR2 
+SECTION: ".abs_section_86"
+  _ATDDR3 
+SECTION: ".abs_section_88"
+  _ATDDR4 
+SECTION: ".abs_section_8a"
+  _ATDDR5 
+SECTION: ".abs_section_8c"
+  _ATDDR6 
+SECTION: ".abs_section_8e"
+  _ATDDR7 
+SECTION: ".abs_section_ac"
+  _PWMCNT01 
+SECTION: ".abs_section_ae"
+  _PWMCNT23 
+SECTION: ".abs_section_b0"
+  _PWMCNT45 
+SECTION: ".abs_section_b4"
+  _PWMPER01 
+SECTION: ".abs_section_b6"
+  _PWMPER23 
+SECTION: ".abs_section_b8"
+  _PWMPER45 
+SECTION: ".abs_section_bc"
+  _PWMDTY01 
+SECTION: ".abs_section_be"
+  _PWMDTY23 
+SECTION: ".abs_section_c0"
+  _PWMDTY45 
+SECTION: ".abs_section_c8"
+  _SCI0BD 
+SECTION: ".abs_section_dc"
+  _SPI0DR 
+SECTION: ".abs_section_10a"
+  _FCCOB 
+SECTION: ".abs_section_270"
+  _PT01AD 
+SECTION: ".abs_section_272"
+  _PTI01AD 
+SECTION: ".abs_section_274"
+  _DDR01AD 
+SECTION: ".abs_section_278"
+  _PER01AD 
+SECTION: ".abs_section_27a"
+  _PPS01AD 
+SECTION: ".abs_section_27c"
+  _PIE01AD 
+SECTION: ".abs_section_27e"
+  _PIF01AD 
+SECTION: ".abs_section_2f4"
+  _CPMUAPIR 
+SECTION: ".abs_section_2f8"
+  _CPMUIRCTRIM 
+SECTION: "RUNTIME"
+  _BSHL _BSHRU _ISHL _ISHRU _LSHL _LSHRU _LCMP _LCMP_P _LMULU16x32 _lDivMod 
+  _LDIVU _COPY _CASE_DIRECT_BYTE _CASE_CHECKED _CASE_CHECKED_BYTE 
+  _CASE_SEARCH_8 
+SECTION: ".common"
+  msg_send Diagnostic_Response msg_config rx Lin_RLS_Frame Lin_BCM_Frame 
+  Lin_CFG_Frame Lin_Window_Frame Diagnostic_R u8_Sci_Reg_Status 
+  u8_Lin_identifier u8_LinErrorCnt u8_Cmd_Execution u8_Lin_Data_Check 
+  u8_Rain_Sensitivity u8_SPD_Vehicle Diagnostic_6s_cnt Diagnostic_Extended_En 
+  Diagnostic_KEY_Locked Diagnostic_2s_cnt Diagnostic_60s_cnt 
+  Diagnostic_Key_Wrong_Num Gain_Prm Gain_Val Gain_Val_Pre 
+  Brightness_Light_Percentage Brightness_Infrared_Percentage Scuttle_Control 
+  Diagnostic_Seed Diagnostic_Key u8_receive_data_flg u8_rain_detect_flg 
+  API_6h_Cnt u8_send_break_cnt u8_rls_wake_up_bcm_flg u8_receive_break_flag 
+  u8_lin_cmd_sleep_flg u16_Pd_Measure_Value u8_Wiper_State u8_Wiper_StatePre 
+  u8_Wiper_StatePre_Int u8_Wiper_StatePre_Int_Cnt MLX75308_A_Adc MLX75308_B_Adc 
+  u16_Delta_DC_bre_A u16_Delta_DC_aft_A u16_Delta_DC_bre_B u16_Delta_DC_aft_B 
+  u16_Save_DC_bre_A u16_Save_DC_aft_A u16_Save_DC_bre_B u16_Save_DC_aft_B 
+  PD_WIN_AVG DC_WIN_BUFF u16_DC_PD_dt u8_RainIntensity_Win u8_PD_State 
+  u16_Dt_PD u16_PDA_Wmax u16_PDB_Wmax PD_Meas_Comp_Ref PD_Meas_Comp_Ref_Pre 
+  u16_DC_Comp_Value u8_RainIntensity u8_RainIntensityPre u8_RainIntensity_Max 
+  u8_Rain_Invalid_Cnt u8_MeasureSureTime u8_RLS_StopMsureFlg 
+  u8_ClearEnternIntSpeedCnt u8_IntSpeedEnterCnt u8_LowSpeedCnt 
+  u8_ExitLowSpeedCnt u8_IntSpeedCnt u8_IntDelayTimer u8_HighHoldCnt 
+  u8_HighSpeedHoldCnt u8_low_enter_high_timer u8_cnt_choose u8_cnt_choose_pre 
+  u8_Int_Time u8_Int_Time_pre u8_EnterLowSpeedCnt u8_Rain_Valid u8_Rain_Value 
+  u8_WiperSpeed_Expert u16_DC_checkValue u16_Ref_Adc_A u16_Ref_Adc_B 
+  RLS_RunMode u8_Rain_Delta u8_LightOnTimer u8_Wipe_Automatic_On_Flg 
+  u8_Wipe_Automatic_On_Pre u8_Automatic_On_Cnt u8_SensitivityUpCnt 
+  u8_SensitivityUpFlg u8_Rain_SensitivityPre u16_Battery_Volt 
+  u8_low_voltage_cnt u8_high_voltage_cnt u8_Lin_Diag_Enable 
+  u8_Lin_Diag_Enable_Cnt u16_Brightness_FW u8_Brightness_IR Light_on_cnt 
+  Light_off_cnt MLX75308_RxFrame Mnrval App_Rls_Error API_10s_Flag 
+  API_wake_up_Flag 
+SECTION: ".abs_section_ffd6"
+  _Vector_20 
+SECTION: ".abs_section_ffe6"
+  _Vector_12 
+SECTION: ".abs_section_ffee"
+  _Vector_8 
+SECTION: ".abs_section_ff88"
+  _Vector_59 
+
+*********************************************************************************************
+OBJECT LIST SORTED BY ADDRESS
+     Name                                      Addr   hSize   dSize     Ref    Section   RLIB
+---------------------------------------------------------------------------------------------
+     _PORTE                                       8       1       1       0   .abs_section_8
+     _DDRE                                        9       1       1       0   .abs_section_9
+     _MODE                                        B       1       1       0   .abs_section_b
+     _PUCR                                        C       1       1       0   .abs_section_c
+     _DIRECT                                     11       1       1       0   .abs_section_11
+     _MMCCTL1                                    13       1       1       0   .abs_section_13
+     _PPAGE                                      15       1       1       0   .abs_section_15
+     _PARTID                                     1A       2       2       0   .abs_section_1a
+     _ECLKCTL                                    1C       1       1       0   .abs_section_1c
+     _IRQCR                                      1E       1       1       0   .abs_section_1e
+     _DBGC1                                      20       1       1       0   .abs_section_20
+     _DBGSR                                      21       1       1       0   .abs_section_21
+     _DBGTCR                                     22       1       1       0   .abs_section_22
+     _DBGC2                                      23       1       1       0   .abs_section_23
+     _DBGTB                                      24       2       2       0   .abs_section_24
+     _DBGCNT                                     26       1       1       0   .abs_section_26
+     _DBGSCRX                                    27       1       1       0   .abs_section_27
+     _DBGXCTL                                    28       1       1       0   .abs_section_28
+     _DBGXAH                                     29       1       1       0   .abs_section_29
+     _DBGXAM                                     2A       1       1       0   .abs_section_2a
+     _DBGXAL                                     2B       1       1       0   .abs_section_2b
+     _DBGADH                                     2C       1       1       0   .abs_section_2c
+     _DBGADL                                     2D       1       1       0   .abs_section_2d
+     _DBGADHM                                    2E       1       1       0   .abs_section_2e
+     _DBGADLM                                    2F       1       1       0   .abs_section_2f
+     _CPMUSYNR                                   34       1       1       1   .abs_section_34
+     _CPMUREFDIV                                 35       1       1       1   .abs_section_35
+     _CPMUPOSTDIV                                36       1       1       1   .abs_section_36
+     _CPMUFLG                                    37       1       1       1   .abs_section_37
+     _CPMUINT                                    38       1       1       0   .abs_section_38
+     _CPMUCLKS                                   39       1       1       2   .abs_section_39
+     _CPMUPLL                                    3A       1       1       0   .abs_section_3a
+     _CPMURTI                                    3B       1       1       0   .abs_section_3b
+     _CPMUCOP                                    3C       1       1       1   .abs_section_3c
+     _CPMUARMCOP                                 3F       1       1       0   .abs_section_3f
+     _TIOS                                       40       1       1       2   .abs_section_40
+     _CFORC                                      41       1       1       0   .abs_section_41
+     _TCNT                                       44       2       2       3   .abs_section_44
+     _TSCR1                                      46       1       1       4   .abs_section_46
+     _TTOV                                       47       1       1       0   .abs_section_47
+     _TCTL1                                      48       1       1       2   .abs_section_48
+     _TCTL2                                      49       1       1       2   .abs_section_49
+     _TCTL3                                      4A       1       1       0   .abs_section_4a
+     _TCTL4                                      4B       1       1       0   .abs_section_4b
+     _TIE                                        4C       1       1       2   .abs_section_4c
+     _TSCR2                                      4D       1       1       1   .abs_section_4d
+     _TFLG1                                      4E       1       1       2   .abs_section_4e
+     _TFLG2                                      4F       1       1       0   .abs_section_4f
+     _TC0                                        50       2       2       2   .abs_section_50
+     _TC1                                        52       2       2       0   .abs_section_52
+     _TC2                                        54       2       2       0   .abs_section_54
+     _TC3                                        56       2       2       0   .abs_section_56
+     _TC4                                        58       2       2       2   .abs_section_58
+     _TC5                                        5A       2       2       0   .abs_section_5a
+     _OCPD                                       6C       1       1       2   .abs_section_6c
+     _PTPSR                                      6E       1       1       0   .abs_section_6e
+     _ATDCTL01                                   70       2       2       2   .abs_section_70
+     _ATDCTL23                                   72       2       2       2   .abs_section_72
+     _ATDCTL45                                   74       2       2       2   .abs_section_74
+     _ATDSTAT0                                   76       1       1       1   .abs_section_76
+     _ATDCMPE                                    78       2       2       0   .abs_section_78
+     _ATDSTAT2                                   7A       2       2       0   .abs_section_7a
+     _ATDDIEN                                    7C       2       2       0   .abs_section_7c
+     _ATDCMPHT                                   7E       2       2       0   .abs_section_7e
+     _ATDDR0                                     80       2       2       1   .abs_section_80
+     _ATDDR1                                     82       2       2       0   .abs_section_82
+     _ATDDR2                                     84       2       2       0   .abs_section_84
+     _ATDDR3                                     86       2       2       0   .abs_section_86
+     _ATDDR4                                     88       2       2       0   .abs_section_88
+     _ATDDR5                                     8A       2       2       0   .abs_section_8a
+     _ATDDR6                                     8C       2       2       0   .abs_section_8c
+     _ATDDR7                                     8E       2       2       0   .abs_section_8e
+     _PWME                                       A0       1       1       0   .abs_section_a0
+     _PWMPOL                                     A1       1       1       0   .abs_section_a1
+     _PWMCLK                                     A2       1       1       0   .abs_section_a2
+     _PWMPRCLK                                   A3       1       1       0   .abs_section_a3
+     _PWMCAE                                     A4       1       1       0   .abs_section_a4
+     _PWMCTL                                     A5       1       1       0   .abs_section_a5
+     _PWMCLKAB                                   A6       1       1       0   .abs_section_a6
+     _PWMSCLA                                    A8       1       1       0   .abs_section_a8
+     _PWMSCLB                                    A9       1       1       0   .abs_section_a9
+     _PWMCNT01                                   AC       2       2       0   .abs_section_ac
+     _PWMCNT23                                   AE       2       2       0   .abs_section_ae
+     _PWMCNT45                                   B0       2       2       0   .abs_section_b0
+     _PWMPER01                                   B4       2       2       0   .abs_section_b4
+     _PWMPER23                                   B6       2       2       0   .abs_section_b6
+     _PWMPER45                                   B8       2       2       0   .abs_section_b8
+     _PWMDTY01                                   BC       2       2       0   .abs_section_bc
+     _PWMDTY23                                   BE       2       2       0   .abs_section_be
+     _PWMDTY45                                   C0       2       2       0   .abs_section_c0
+     _SCI0BD                                     C8       2       2      15   .abs_section_c8
+     _SCI0ACR2                                   CA       1       1       2   .abs_section_ca
+     _SCI0CR2                                    CB       1       1       6   .abs_section_cb
+     _SCI0SR1                                    CC       1       1       4   .abs_section_cc
+     _SCI0SR2                                    CD       1       1       8   .abs_section_cd
+     _SCI0DRH                                    CE       1       1       0   .abs_section_ce
+     _SCI0DRL                                    CF       1       1       4   .abs_section_cf
+     _SPI0CR1                                    D8       1       1       0   .abs_section_d8
+     _SPI0CR2                                    D9       1       1       0   .abs_section_d9
+     _SPI0BR                                     DA       1       1       0   .abs_section_da
+     _SPI0SR                                     DB       1       1       0   .abs_section_db
+     _SPI0DR                                     DC       2       2       0   .abs_section_dc
+     _FCLKDIV                                   100       1       1       3   .abs_section_100
+     _FSEC                                      101       1       1       0   .abs_section_101
+     _FCCOBIX                                   102       1       1       3   .abs_section_102
+     _FCNFG                                     104       1       1       0   .abs_section_104
+     _FERCNFG                                   105       1       1       0   .abs_section_105
+     _FSTAT                                     106       1       1       9   .abs_section_106
+     _FERSTAT                                   107       1       1       0   .abs_section_107
+     _FPROT                                     108       1       1       0   .abs_section_108
+     _DFPROT                                    109       1       1       0   .abs_section_109
+     _FCCOB                                     10A       2       2       4   .abs_section_10a
+     _FOPT                                      110       1       1       0   .abs_section_110
+     _IVBR                                      120       1       1       0   .abs_section_120
+     _PTT                                       240       1       1      17   .abs_section_240
+     _PTIT                                      241       1       1       0   .abs_section_241
+     _DDRT                                      242       1       1       3   .abs_section_242
+     _PERT                                      244       1       1       3   .abs_section_244
+     _PPST                                      245       1       1       0   .abs_section_245
+     _PTS                                       248       1       1      38   .abs_section_248
+     _PTIS                                      249       1       1       0   .abs_section_249
+     _DDRS                                      24A       1       1       4   .abs_section_24a
+     _PERS                                      24C       1       1       4   .abs_section_24c
+     _PPSS                                      24D       1       1       0   .abs_section_24d
+     _WOMS                                      24E       1       1       0   .abs_section_24e
+     _PRR0                                      24F       1       1       0   .abs_section_24f
+     _PTM                                       250       1       1       0   .abs_section_250
+     _PTIM                                      251       1       1       0   .abs_section_251
+     _DDRM                                      252       1       1       2   .abs_section_252
+     _PERM                                      254       1       1       0   .abs_section_254
+     _PPSM                                      255       1       1       0   .abs_section_255
+     _WOMM                                      256       1       1       0   .abs_section_256
+     _PKGCR                                     257       1       1       0   .abs_section_257
+     _PTP                                       258       1       1       0   .abs_section_258
+     _PTIP                                      259       1       1       0   .abs_section_259
+     _DDRP                                      25A       1       1       0   .abs_section_25a
+     _PERP                                      25C       1       1       0   .abs_section_25c
+     _PPSP                                      25D       1       1       0   .abs_section_25d
+     _PIEP                                      25E       1       1       0   .abs_section_25e
+     _PIFP                                      25F       1       1       0   .abs_section_25f
+     _ACMPC                                     260       1       1       0   .abs_section_260
+     _ACMPS                                     261       1       1       0   .abs_section_261
+     _PTJ                                       268       1       1       0   .abs_section_268
+     _PTIJ                                      269       1       1       0   .abs_section_269
+     _DDRJ                                      26A       1       1       0   .abs_section_26a
+     _PERJ                                      26C       1       1       0   .abs_section_26c
+     _PPSJ                                      26D       1       1       0   .abs_section_26d
+     _PIEJ                                      26E       1       1       0   .abs_section_26e
+     _PIFJ                                      26F       1       1       0   .abs_section_26f
+     _PT01AD                                    270       2       2       1   .abs_section_270
+     _PTI01AD                                   272       2       2       0   .abs_section_272
+     _DDR01AD                                   274       2       2       2   .abs_section_274
+     _PER01AD                                   278       2       2       2   .abs_section_278
+     _PPS01AD                                   27A       2       2       0   .abs_section_27a
+     _PIE01AD                                   27C       2       2       0   .abs_section_27c
+     _PIF01AD                                   27E       2       2       0   .abs_section_27e
+     _CPMULVCTL                                 2F1       1       1       0   .abs_section_2f1
+     _CPMUAPICTL                                2F2       1       1       8   .abs_section_2f2
+     _CPMUACLKTR                                2F3       1       1       1   .abs_section_2f3
+     _CPMUAPIR                                  2F4       2       2       1   .abs_section_2f4
+     _CPMUIRCTRIM                               2F8       2       2       0   .abs_section_2f8
+     _CPMUOSC                                   2FA       1       1       1   .abs_section_2fa
+     _CPMUPROT                                  2FB       1       1       2   .abs_section_2fb
+     G_10ms_counter                            3A00       1       1       3   .bss        
+     G_20ms_counter                            3A01       1       1       3   .bss        
+     G_50ms_counter                            3A02       1       1       3   .bss        
+     G_100ms_counter                           3A03       1       1       3   .bss        
+     G_500ms_counter                           3A04       1       1       3   .bss        
+     G_600ms_counter                           3A05       1       1       5   .bss        
+     G_150ms_counter                           3A06       1       1       3   .bss        
+     G_10msFlag                                3A07       1       1       3   .bss        
+     G_20msFlag                                3A08       1       1       3   .bss        
+     G_50msFlag                                3A09       1       1       3   .bss        
+     G_100msFlag                               3A0A       1       1       3   .bss        
+     G_500msFlag                               3A0B       1       1       3   .bss        
+     G_600msFlag                               3A0C       1       1       5   .bss        
+     G_150msFlag                               3A0D       1       1       1   .bss        
+     G_4sFlag                                  3A0E       1       1       7   .bss        
+     G_4s_counter                              3A0F       2       2       7   .bss        
+     msg_send                                  3A11       9       9      18   .common     
+     Diagnostic_Response                       3A1A       9       9      15   .common     
+     msg_config                                3A23       9       9       3   .common     
+     rx                                        3A2C       E      14      84   .common     
+     Lin_RLS_Frame                             3A3A       8       8      83   .common     
+     Lin_BCM_Frame                             3A42       8       8      22   .common     
+     Lin_CFG_Frame                             3A4A       3       3      12   .common     
+     Lin_Window_Frame                          3A4D       5       5      15   .common     
+     Diagnostic_R                              3A52       C      12     102   .common     
+     u8_Sci_Reg_Status                         3A5E       1       1      19   .common     
+     u8_Lin_identifier                         3A5F       1       1       5   .common     
+     u8_LinErrorCnt                            3A60       1       1       6   .common     
+     u8_Cmd_Execution                          3A61       1       1       4   .common     
+     u8_Lin_Data_Check                         3A62       1       1       2   .common     
+     u8_Rain_Sensitivity                       3A63       1       1       5   .common     
+     u8_SPD_Vehicle                            3A64       1       1       5   .common     
+     Diagnostic_6s_cnt                         3A65       1       1       6   .common     
+     Diagnostic_Extended_En                    3A66       1       1       5   .common     
+     Diagnostic_KEY_Locked                     3A67       1       1       5   .common     
+     Diagnostic_2s_cnt                         3A68       1       1       2   .common     
+     Diagnostic_60s_cnt                        3A69       1       1       3   .common     
+     Diagnostic_Key_Wrong_Num                  3A6A       1       1       5   .common     
+     Gain_Prm                                  3A6B       1       1       3   .common     
+     Gain_Val                                  3A6C       1       1       3   .common     
+     Gain_Val_Pre                              3A6D       1       1       2   .common     
+     Brightness_Light_Percentage               3A6E       4       4       6   .common     
+     Brightness_Infrared_Percentage            3A72       4       4       6   .common     
+     Scuttle_Control                           3A76       4       4       4   .common     
+     Diagnostic_Seed                           3A7A       4       4      14   .common     
+     Diagnostic_Key                            3A7E       4       4       5   .common     
+     u8_receive_data_flg                       3A82       1       1       4   .common     
+     u8_rain_detect_flg                        3A83       1       1       5   .common     
+     API_6h_Cnt                                3A84       2       2       6   .common     
+     u8_send_break_cnt                         3A86       1       1       1   .common     
+     u8_rls_wake_up_bcm_flg                    3A87       1       1       1   .common     
+     u8_receive_break_flag                     3A88       1       1       2   .common     
+     u8_lin_cmd_sleep_flg                      3A89       1       1       4   .common     
+     u16_Pd_Measure_Value                      3A8A       2       2      13   .common     
+     u8_Wiper_State                            3A8C       1       1      21   .common     
+     u8_Wiper_StatePre                         3A8D       1       1       5   .common     
+     u8_Wiper_StatePre_Int                     3A8E       1       1       3   .common     
+     u8_Wiper_StatePre_Int_Cnt                 3A8F       1       1       3   .common     
+     MLX75308_A_Adc                            3A90       1       1      12   .common     
+     MLX75308_B_Adc                            3A91       1       1      12   .common     
+     u16_Delta_DC_bre_A                        3A92       2       2       3   .common     
+     u16_Delta_DC_aft_A                        3A94       2       2       2   .common     
+     u16_Delta_DC_bre_B                        3A96       2       2       3   .common     
+     u16_Delta_DC_aft_B                        3A98       2       2       2   .common     
+     u16_Save_DC_bre_A                         3A9A       2       2       4   .common     
+     u16_Save_DC_aft_A                         3A9C       2       2       3   .common     
+     u16_Save_DC_bre_B                         3A9E       2       2       4   .common     
+     u16_Save_DC_aft_B                         3AA0       2       2       3   .common     
+     PD_WIN_AVG                                3AA2      18      24      28   .common     
+     DC_WIN_BUFF                               3ABA      50      80      18   .common     
+     u16_DC_PD_dt                              3B0A       4       4       2   .common     
+     u8_RainIntensity_Win                      3B0E       3       3       9   .common     
+     u8_PD_State                               3B11       2       2       8   .common     
+     u16_Dt_PD                                 3B13       4       4       4   .common     
+     u16_PDA_Wmax                              3B17       2       2       4   .common     
+     u16_PDB_Wmax                              3B19       2       2       4   .common     
+     PD_Meas_Comp_Ref                          3B1B       4       4       4   .common     
+     PD_Meas_Comp_Ref_Pre                      3B1F       4       4       2   .common     
+     u16_DC_Comp_Value                         3B23       4       4       4   .common     
+     u8_RainIntensity                          3B27       2       2       9   .common     
+     u8_RainIntensityPre                       3B29       2       2       2   .common     
+     u8_RainIntensity_Max                      3B2B       1       1       4   .common     
+     u8_Rain_Invalid_Cnt                       3B2C       1       1       3   .common     
+     u8_MeasureSureTime                        3B2D       1       1       4   .common     
+     u8_RLS_StopMsureFlg                       3B2E       1       1       5   .common     
+     u8_ClearEnternIntSpeedCnt                 3B2F       1       1       5   .common     
+     u8_IntSpeedEnterCnt                       3B30       1       1      14   .common     
+     u8_LowSpeedCnt                            3B31       1       1       6   .common     
+     u8_ExitLowSpeedCnt                        3B32       1       1      13   .common     
+     u8_IntSpeedCnt                            3B33       1       1       5   .common     
+     u8_IntDelayTimer                          3B34       1       1      16   .common     
+     u8_HighHoldCnt                            3B35       1       1       8   .common     
+     u8_HighSpeedHoldCnt                       3B36       1       1       4   .common     
+     u8_low_enter_high_timer                   3B37       1       1       7   .common     
+     u8_cnt_choose                             3B38       1       1       3   .common     
+     u8_cnt_choose_pre                         3B39       1       1       6   .common     
+     u8_Int_Time                               3B3A       1       1       3   .common     
+     u8_Int_Time_pre                           3B3B       1       1       5   .common     
+     u8_EnterLowSpeedCnt                       3B3C       1       1       4   .common     
+     u8_Rain_Valid                             3B3D       1       1       5   .common     
+     u8_Rain_Value                             3B3E       1       1       7   .common     
+     u8_WiperSpeed_Expert                      3B3F       1       1      15   .common     
+     u16_DC_checkValue                         3B40       2       2       2   .common     
+     u16_Ref_Adc_A                             3B42       2       2       1   .common     
+     u16_Ref_Adc_B                             3B44       2       2       1   .common     
+     RLS_RunMode                               3B46       1       1       6   .common     
+     u8_Rain_Delta                             3B47       1       1       4   .common     
+     u8_LightOnTimer                           3B48       1       1       3   .common     
+     u8_Wipe_Automatic_On_Flg                  3B49       1       1       3   .common     
+     u8_Wipe_Automatic_On_Pre                  3B4A       1       1       3   .common     
+     u8_Automatic_On_Cnt                       3B4B       1       1       3   .common     
+     u8_SensitivityUpCnt                       3B4C       1       1       3   .common     
+     u8_SensitivityUpFlg                       3B4D       1       1       3   .common     
+     u8_Rain_SensitivityPre                    3B4E       1       1       3   .common     
+     u16_Battery_Volt                          3B4F       2       2       3   .common     
+     u8_low_voltage_cnt                        3B51       1       1       5   .common     
+     u8_high_voltage_cnt                       3B52       1       1       5   .common     
+     u8_Lin_Diag_Enable                        3B53       1       1       5   .common     
+     u8_Lin_Diag_Enable_Cnt                    3B54       1       1       4   .common     
+     u16_Brightness_FW                         3B55       2       2       6   .common     
+     u8_Brightness_IR                          3B57       1       1       6   .common     
+     Light_on_cnt                              3B58       2       2      11   .common     
+     Light_off_cnt                             3B5A       2       2      10   .common     
+     MLX75308_RxFrame                          3B5C      17      23      17   .common     
+     Mnrval                                    3B73      14      20      61   .common     
+     App_Rls_Error                             3B87       6       6      30   .common     
+     API_10s_Flag                              3B8D       1       1       4   .common     
+     API_wake_up_Flag                          3B8E       1       1       2   .common     
+     Init                                      C000      29      41       1   .init       
+     _Startup                                  C029       8       8       0   .init       
+     Tab_AWG_FW                                C03B      40      64       1   .rodata     
+     Tab_Brightness_FW                         C07B      20      32       1   .rodata     
+     Tab_AWG_IR                                C09B      40      64       1   .rodata     
+     Tab_Brightness_IR                         C0DB      20      32       1   .rodata     
+     Software_Versions                         C0FB       3       3       3   .rodata     
+     Hardware_Versions                         C0FE       3       3       3   .rodata     
+     Part_Versions                             C101       3       3       3   .rodata     
+     Mlx75308_Config_Parameter                 C104      12      18      18   .rodata     
+     Rain_Stastegy_Parameter                   C116      4A      74      85   .rodata     
+     Light_Stastegy_Parameter                  C160       9       9      14   .rodata     
+     main                                      C169      A2     162       1   .text       
+     Lin_Prameter_Init                         C20B      2E      46       1   .text       
+     LinConfig                                 C239      2C      44       1   .text       
+     Seed_To_Key                               C265      51      81       1   .text       
+     Analysis_Master_Data                      C2B6      82     130       1   .text       
+     Analysis_BCM_Config                       C338      74     116       1   .text       
+     Lin_TransStatus                           C3AC     34A     842      51   .text       
+     Diagnostic_Process                        C6F6     813    2067     257   .text       
+     Diagnostic_RESP_Process                   CF09      79     121       1   .text       
+     Lin_RLS_data                              CF82      E5     229       5   .text       
+     SCI_Init                                  D067      24      36       1   .text       
+     SCI1_RX                                   D08B      6B     107       1   .text       
+     TIM_Init                                  D0F6      3D      61       2   .text       
+     TIM4_ISR                                  D133      4D      77       1   .text       
+     TIM0_ISR                                  D180      9C     156       1   .text       
+     MCU_CLOCK_Init                            D21C      16      22       1   .text       
+     COP_Init                                  D232       4       4       1   .text       
+     Delay_Ms                                  D236      1F      31       5   .text       
+     Delay_Nus                                 D255      11      17       2   .text       
+     GPIO_Init                                 D266      69     105       1   .text       
+     LinSendChar                               D2CF      5B      91       2   .text       
+     LinCalcParity                             D32A      3D      61       1   .text       
+     LinCalcChecksum                           D367      2F      47       2   .text       
+     EnhancedLinCalcChecksum                   D396      36      54       2   .text       
+     LinSndMsg                                 D3CC      54      84       3   .text       
+     Lin_chkparity                             D420      10      16       1   .text       
+     Lin_send_break                            D430       7       7       1   .text       
+     ADC_Init                                  D437      14      20       1   .text       
+     get_adc                                   D44B      12      18       1   .text       
+     get_adc_times                             D45D      32      50       1   .text       
+     SPI_Wr_Cmd                                D48F      B0     176       7   .text       
+     SPI_Wr_Reg                                D53F     187     391      18   .text       
+     SPI_Rd_Reg                                D6C6      9A     154       9   .text       
+     MLX75308_SetPara                          D760     162     354      52   .text       
+     SPI_Rd_Mchan                              D8C2     119     281       1   .text       
+     MLX75308_Meansure                         D9DB      34      52       2   .text       
+     HCS12_EE_Init                             DA0F      15      21       1   .text       
+     HCS12_EE_Cmd                              DA24      60      96       2   .text       
+     HCS12_EE_Write_2Word                      DA84      21      33       5   .text       
+     HCS12_EE_Read_2Word                       DAA5      1C      28       4   .text       
+     EE_Erase_Section                          DAC1      13      19       1   .text       
+     EE_Byte_Read                              DAD4      11      17       2   .text       
+     Search_Table                              DAE5     142     322       7   .text       
+     MLX75308_Init                             DC27     10F     271       1   .text       
+     RLS_Rain_Get_Measure                      DD36     1EC     492      10   .text       
+     RLS_Light_Module_Fault_Process            DF22      5B      91       1   .text       
+     RLS_AutoLightControl                      DF7D     1BC     444       9   .text       
+     RLS_Auto_Light_Task                       E139      CA     202       1   .text       
+     RLS_Rain_Module_Fault_Process             E203      5D      93       1   .text       
+     RLS_Get_Rain_State                        E260     20C     524       3   .text       
+     RLS_Get_Rain_ExpectStage                  E46C     105     261       1   .text       
+     RLS_Mask_False_Operation                  E571      BF     191       1   .text       
+     RLS_Invalid_DataProcess                   E630      BC     188       1   .text       
+     RLS_Period_Mode                           E6EC      3F      63       1   .text       
+     RLS_Rain_State_Mchaine                    E72B     600    1536      80   .text       
+     RLS_Wipe_Park_Process                     ED2B      3C      60       1   .text       
+     RLS_Auto_Rain_Task                        ED67       E      14       2   .text       
+     RLS_SelfAdaptTask                         ED75     1AF     431      20   .text       
+     RLS_Wipe_Auto_On_Function                 EF24      6E     110       1   .text       
+     RLS_Wipe_Sensitivity_Up_Function          EF92      5D      93       1   .text       
+     RLS_Battery_Measurement                   EFEF      2A      42       1   .text       
+     RLS_Battery_State                         F019      53      83       1   .text       
+     RLS_Lin_Diag_Fucntion                     F06C      14      20       1   .text       
+     Sleep_Process                             F080      8A     138       3   .text       
+     Recover_Process                           F10A      3A      58       3   .text       
+     RLS_Roof_Task                             F144      A7     167       1   .text       
+     API_init                                  F1EB      20      32       1   .text       
+     API_Disable                               F20B       5       5       2   .text       
+     api                                       F210      15      21       1   .text       
+     global_parameter_init                     F225      E0     224       1   .text       
+     _BSHL                                     F305       8       8       1   RUNTIME     
+     _BSHRU                                    F30D       8       8       6   RUNTIME     
+     _ISHL                                     F315       B      11       2   RUNTIME     
+     _ISHRU                                    F320       B      11       2   RUNTIME     
+     _LSHL                                     F32B      11      17       5   RUNTIME     
+     _LSHRU                                    F33C      11      17       3   RUNTIME     
+     _LCMP                                     F34D      19      25       2   RUNTIME     
+     _LCMP_P                                   F366      15      21       2   RUNTIME     
+     _LMULU16x32                               F37B       F      15       1   RUNTIME     
+     _lDivMod                                  F38A      BE     190       1   RUNTIME     
+     _LDIVU                                    F448       E      14       6   RUNTIME     
+     _COPY                                     F456       8       8       2   RUNTIME     
+     _CASE_DIRECT_BYTE                         F45E       5       5       2   RUNTIME     
+     _CASE_CHECKED                             F463       B      11       3   RUNTIME     
+     _CASE_CHECKED_BYTE                        F46E      14      20       1   RUNTIME     
+     _CASE_SEARCH_8                            F482      17      23      11   RUNTIME     
+     _Vector_59                                FF88       2       2       0   .abs_section_ff88
+     _Vector_20                                FFD6       2       2       0   .abs_section_ffd6
+     _Vector_12                                FFE6       2       2       0   .abs_section_ffe6
+     _Vector_8                                 FFEE       2       2       0   .abs_section_ffee
+
+*********************************************************************************************
+UNUSED-OBJECTS SECTION
+---------------------------------------------------------------------------------------------
+NOT USED PROCEDURES
+rtshc12.c.o (ansisi.lib):
+  _BSHRS _BDIVMODU _BDIVMODS _ISHRS _LSHRS _LADD _LSUB _LAND _LOR _LXOR 
+  _LCMP_PP _LNEG _LCOM _LINC _LDEC _LMUL _LMULS16x32 _NEG_P _LDIVS _LMODU 
+  _LMODS _ILSEXT _CASE_DIRECT _CASE_SEARCH _CASE_SEARCH_BYTE 
+  _CASE_SEARCH_8_BYTE _FCALL _FPCMP 
+NOT USED VARIABLES
+rtshc12.c.o (ansisi.lib):
+  _PowOfTwo_8 _PowOfTwo_16 _PowOfTwo_32 errno 
+lin_app.c.o:
+  msg_get Lin_RLS_TEST_Frame 
+rls_app.c.o:
+  u8_Rain_SensitivityLowValue MLX75308_A_Gain MLX75308_B_Gain u16_PD_Win_Max 
+  u8_Juge_Rain_Cnt u16_DC_comp_value Light_On_Flag Light_cnt u8_IntSpeedFlgCnt 
+  u8_IntSpeedFlg 
+
+*********************************************************************************************
+COPYDOWN SECTION
+---------------------------------------------------------------------------------------------
+------- ROM-ADDRESS: 0xF499 ---- SIZE       2 ---
+Filling bytes inserted
+ 0000
+
+*********************************************************************************************
+OBJECT-DEPENDENCIES SECTION
+---------------------------------------------------------------------------------------------
+Init                      USES _startupData 
+_Startup                  USES __SEG_END_SSTACK Init main 
+main                      USES MCU_CLOCK_Init TIM_Init GPIO_Init HCS12_EE_Init 
+                                global_parameter_init Lin_Prameter_Init MLX75308_Init SCI_Init 
+                                ADC_Init _PTT Lin_RLS_Frame RLS_Roof_Task G_4sFlag 
+                                Sleep_Process Recover_Process u8_lin_cmd_sleep_flg 
+                                RLS_RunMode G_10msFlag G_20msFlag G_50msFlag 
+                                RLS_Battery_State RLS_Lin_Diag_Fucntion G_100msFlag 
+                                RLS_Auto_Light_Task RLS_Auto_Rain_Task Lin_RLS_data G_500msFlag 
+                                RLS_SelfAdaptTask 
+Lin_Prameter_Init         USES rx Diagnostic_R Diagnostic_Key_Wrong_Num 
+                                Diagnostic_KEY_Locked Diagnostic_Extended_En Diagnostic_6s_cnt 
+                                Diagnostic_60s_cnt u8_LinErrorCnt 
+LinConfig                 USES _PTT _SCI0SR2 _SCI0BD _SCI0ACR2 _SCI0CR2 
+Analysis_Master_Data      USES rx Lin_BCM_Frame u8_SPD_Vehicle 
+                                _CASE_CHECKED_BYTE u8_Rain_Sensitivity u8_Rain_Delta 
+Analysis_BCM_Config       USES rx Lin_CFG_Frame Gain_Prm Gain_Val Gain_Val_Pre 
+                                HCS12_EE_Write_2Word 
+Lin_TransStatus           USES rx _CASE_DIRECT_BYTE Lin_TransStatus _SCI0SR1 
+                                u8_Sci_Reg_Status _SCI0DRL u8_receive_break_flag Lin_chkparity 
+                                u8_Lin_identifier _CASE_SEARCH_8 Diagnostic_R msg_send LinSndMsg 
+                                Lin_RLS_Frame u8_Cmd_Execution u8_LinErrorCnt Lin_CFG_Frame 
+                                msg_config Diagnostic_RESP_Process Analysis_Master_Data 
+                                RLS_Wipe_Park_Process Analysis_BCM_Config Lin_Window_Frame 
+                                LinCalcChecksum u8_Lin_Data_Check u8_lin_cmd_sleep_flg 
+                                Diagnostic_Process Diagnostic_6s_cnt Diagnostic_Extended_En 
+                                EnhancedLinCalcChecksum _COPY 
+Diagnostic_Process        USES Diagnostic_R rx Diagnostic_Process 
+                                _CASE_CHECKED _CASE_SEARCH_8 Diagnostic_KEY_Locked 
+                                Diagnostic_Seed Diagnostic_Key Diagnostic_Key_Wrong_Num 
+                                Diagnostic_60s_cnt Brightness_Infrared_Percentage 
+                                HCS12_EE_Write_2Word Brightness_Light_Percentage Scuttle_Control 
+                                Software_Versions Hardware_Versions Part_Versions Mnrval _TCNT 
+                                Seed_To_Key 
+Diagnostic_RESP_Process   USES Diagnostic_R Diagnostic_6s_cnt 
+                                Diagnostic_Response _COPY LinSndMsg rx 
+Lin_RLS_data              USES RLS_Wipe_Auto_On_Function 
+                                RLS_Wipe_Sensitivity_Up_Function Mnrval Lin_RLS_Frame Lin_RLS_data msg_send 
+SCI_Init                  USES _SCI0SR2 _SCI0BD _SCI0ACR2 _SCI0CR2 
+SCI1_RX                   USES _PTT _CPMUAPICTL API_Disable API_wake_up_Flag 
+                                API_6h_Cnt API_10s_Flag G_600msFlag G_600ms_counter 
+                                u8_receive_data_flg G_4sFlag G_4s_counter _SCI0SR2 _SCI0BD 
+                                Lin_TransStatus u8_LinErrorCnt rx u8_Lin_Diag_Enable 
+                                Lin_RLS_Frame msg_send 
+TIM_Init                  USES _OCPD _TSCR1 _TIOS _TCTL1 _TC4 _TIE _TCTL2 _TC0 
+                                _TSCR2 
+TIM4_ISR                  USES _TCNT _TC4 Diagnostic_Extended_En 
+                                Diagnostic_6s_cnt Diagnostic_R Diagnostic_KEY_Locked 
+                                Diagnostic_2s_cnt Diagnostic_60s_cnt _TFLG1 
+TIM0_ISR                  USES _TCNT _TC0 _TFLG1 G_10ms_counter G_20ms_counter 
+                                G_50ms_counter G_100ms_counter G_500ms_counter G_4s_counter 
+                                G_150ms_counter G_600ms_counter G_4sFlag G_10msFlag G_20msFlag 
+                                G_50msFlag G_100msFlag G_150msFlag G_500msFlag 
+                                G_600msFlag 
+MCU_CLOCK_Init            USES _CPMUOSC _CPMUSYNR _CPMUREFDIV _CPMUPOSTDIV 
+                                _CPMUFLG _CPMUCLKS 
+COP_Init                  USES _CPMUCOP 
+GPIO_Init                 USES _PT01AD _DDR01AD _PER01AD _PTT _DDRT _PERT _PTS 
+                                _DDRS _PERS _DDRM 
+LinSendChar               USES _SCI0SR1 _SCI0DRL _SCI0BD _SCI0CR2 
+LinSndMsg                 USES LinSendChar LinCalcChecksum rx 
+                                EnhancedLinCalcChecksum 
+Lin_chkparity             USES LinCalcParity 
+Lin_send_break            USES _SCI0CR2 
+ADC_Init                  USES _ATDCTL23 _ATDCTL01 _ATDCTL45 
+get_adc                   USES _ATDCTL45 _ATDSTAT0 _ATDDR0 
+get_adc_times             USES get_adc _LDIVU 
+SPI_Wr_Cmd                USES SPI_Wr_Cmd _BSHRU _PTT _PTS _ISHRU _ISHL 
+SPI_Wr_Reg                USES _BSHRU SPI_Wr_Reg _LSHL _PTT _PTS _LSHRU _LCMP 
+SPI_Rd_Reg                USES _LSHL _PTT _PTS _LSHRU _LCMP 
+MLX75308_SetPara          USES _CASE_CHECKED MLX75308_SetPara SPI_Rd_Reg 
+                                SPI_Wr_Reg 
+SPI_Rd_Mchan              USES MLX75308_RxFrame _PTT _PTS _ISHRU Delay_Nus 
+                                _BSHL _ISHL 
+MLX75308_Meansure         USES SPI_Wr_Cmd Delay_Ms SPI_Rd_Mchan 
+HCS12_EE_Init             USES _FSTAT _FCLKDIV 
+HCS12_EE_Cmd              USES _FSTAT _FCCOBIX _FCCOB 
+HCS12_EE_Write_2Word      USES EE_Erase_Section HCS12_EE_Cmd 
+HCS12_EE_Read_2Word       USES EE_Byte_Read 
+EE_Erase_Section          USES HCS12_EE_Cmd 
+EE_Byte_Read              USES _FSTAT 
+Search_Table              USES _LCMP_P Search_Table _LDIVU _LMULU16x32 
+MLX75308_Init             USES SPI_Wr_Cmd _PTT Delay_Ms SPI_Wr_Reg 
+                                Mlx75308_Config_Parameter MLX75308_SetPara MLX75308_A_Adc MLX75308_B_Adc 
+                                RLS_Rain_Get_Measure PD_WIN_AVG 
+RLS_Rain_Get_Measure      USES RLS_Rain_Get_Measure MLX75308_Meansure 
+                                MLX75308_RxFrame u16_DC_checkValue RLS_RunMode Mnrval 
+                                u16_Save_DC_bre_A u16_Delta_DC_bre_A u16_Save_DC_aft_A 
+                                u16_Delta_DC_aft_A u16_Save_DC_bre_B u16_Delta_DC_bre_B 
+                                u16_Save_DC_aft_B u16_Delta_DC_aft_B _LDIVU u16_DC_Comp_Value 
+RLS_Light_Module_Fault_Process USES Mnrval App_Rls_Error Lin_RLS_Frame 
+RLS_AutoLightControl      USES u8_SPD_Vehicle u8_LightOnTimer Lin_RLS_Frame 
+                                u16_Brightness_FW u8_Brightness_IR Light_Stastegy_Parameter 
+                                App_Rls_Error RLS_AutoLightControl Light_on_cnt 
+                                Light_off_cnt 
+RLS_Auto_Light_Task       USES MLX75308_Meansure MLX75308_RxFrame Mnrval 
+                                Tab_AWG_IR Tab_Brightness_IR Search_Table Lin_RLS_Frame 
+                                Tab_AWG_FW Tab_Brightness_FW 
+                                RLS_Light_Module_Fault_Process RLS_AutoLightControl 
+RLS_Rain_Module_Fault_Process USES u16_Pd_Measure_Value App_Rls_Error 
+RLS_Get_Rain_State        USES Rain_Stastegy_Parameter RLS_Rain_Get_Measure 
+                                u16_Pd_Measure_Value RLS_Rain_Module_Fault_Process Mnrval 
+                                DC_WIN_BUFF u8_RLS_StopMsureFlg PD_WIN_AVG Lin_BCM_Frame 
+                                PD_Meas_Comp_Ref u16_PDA_Wmax u8_PD_State u16_Dt_PD 
+                                u8_Rain_Delta PD_Meas_Comp_Ref_Pre RLS_Get_Rain_State 
+                                u16_PDB_Wmax 
+RLS_Get_Rain_ExpectStage  USES RLS_Get_Rain_State u8_RainIntensity 
+                                u8_RainIntensityPre 
+RLS_Mask_False_Operation  USES Mnrval u16_DC_PD_dt u16_Delta_DC_bre_A 
+                                u16_Delta_DC_aft_A u16_Delta_DC_bre_B u16_Delta_DC_aft_B 
+                                u8_Rain_Valid DC_WIN_BUFF 
+RLS_Invalid_DataProcess   USES u8_Rain_Valid u8_RainIntensity_Win 
+                                u8_Rain_Value u8_RainIntensity u8_Cmd_Execution 
+                                u8_WiperSpeed_Expert u8_RainIntensity_Max PD_WIN_AVG 
+                                u8_Rain_Invalid_Cnt 
+RLS_Period_Mode           USES Lin_RLS_Frame 
+RLS_Rain_State_Mchaine    USES u8_Wiper_State _CASE_CHECKED 
+                                RLS_Rain_State_Mchaine u8_Rain_Sensitivity Rain_Stastegy_Parameter 
+                                u8_Wiper_StatePre u8_Wiper_StatePre_Int Mnrval PD_WIN_AVG 
+                                u8_RainIntensity_Win u8_WiperSpeed_Expert u8_Wiper_StatePre_Int_Cnt 
+                                u8_ClearEnternIntSpeedCnt u8_IntSpeedEnterCnt u8_IntDelayTimer 
+                                u8_EnterLowSpeedCnt u8_IntSpeedCnt u8_low_enter_high_timer 
+                                u8_Rain_Value u8_LowSpeedCnt u8_HighHoldCnt Lin_RLS_Frame 
+                                u8_ExitLowSpeedCnt u8_SPD_Vehicle u8_cnt_choose u8_Int_Time_pre 
+                                u8_cnt_choose_pre RLS_Period_Mode u8_Int_Time 
+                                u8_HighSpeedHoldCnt 
+RLS_Wipe_Park_Process     USES Lin_BCM_Frame u8_MeasureSureTime u8_Wiper_State 
+                                Rain_Stastegy_Parameter u8_RLS_StopMsureFlg 
+RLS_Auto_Rain_Task        USES RLS_Get_Rain_ExpectStage 
+                                RLS_Mask_False_Operation RLS_Invalid_DataProcess RLS_Rain_State_Mchaine 
+RLS_SelfAdaptTask         USES Lin_RLS_Frame RLS_SelfAdaptTask 
+                                u16_Pd_Measure_Value MLX75308_A_Adc u16_Ref_Adc_A PD_WIN_AVG 
+                                MLX75308_B_Adc u16_Ref_Adc_B u8_RainIntensity_Win COP_Init 
+                                RLS_RunMode u8_IntSpeedEnterCnt u8_LowSpeedCnt 
+                                RLS_Rain_Get_Measure MLX75308_SetPara Delay_Ms HCS12_EE_Write_2Word 
+RLS_Wipe_Auto_On_Function USES Lin_BCM_Frame u8_Rain_Value Lin_RLS_Frame 
+                                u8_Wipe_Automatic_On_Pre u8_Wipe_Automatic_On_Flg u8_IntSpeedEnterCnt 
+                                u8_Automatic_On_Cnt u8_Wiper_StatePre u8_Wiper_State 
+                                u8_RainIntensity_Win 
+RLS_Wipe_Sensitivity_Up_Function USES u8_Rain_SensitivityPre 
+                                u8_SensitivityUpFlg u8_Wiper_State Lin_RLS_Frame 
+                                u8_IntSpeedEnterCnt u8_SensitivityUpCnt u8_RainIntensity_Win 
+                                u8_Wiper_StatePre Lin_BCM_Frame 
+RLS_Battery_Measurement   USES get_adc_times _LDIVU _LSHRU u16_Battery_Volt 
+RLS_Battery_State         USES RLS_Battery_Measurement u16_Battery_Volt 
+                                u8_high_voltage_cnt u8_low_voltage_cnt Lin_RLS_Frame 
+RLS_Lin_Diag_Fucntion     USES u8_Lin_Diag_Enable_Cnt u8_Lin_Diag_Enable 
+Sleep_Process             USES SPI_Wr_Cmd _PTT u8_receive_data_flg API_6h_Cnt 
+                                Lin_Window_Frame API_init Lin_RLS_Frame Lin_RLS_data _SCI0SR2 
+                                _SCI0BD _PTS _CPMUPROT _CPMUCLKS G_4sFlag G_4s_counter 
+Recover_Process           USES u8_Lin_Diag_Enable u8_Lin_Diag_Enable_Cnt 
+                                App_Rls_Error u8_low_voltage_cnt u8_high_voltage_cnt 
+                                LinConfig TIM_Init rx G_4sFlag G_4s_counter _PTT 
+                                SPI_Wr_Cmd 
+RLS_Roof_Task             USES API_10s_Flag RLS_Auto_Rain_Task Lin_RLS_Frame 
+                                u8_rain_detect_flg Lin_Window_Frame API_6h_Cnt Lin_send_break 
+                                Delay_Ms u8_receive_data_flg G_600msFlag G_4sFlag 
+                                G_4s_counter Sleep_Process Recover_Process 
+API_init                  USES _CPMUAPICTL _CPMUACLKTR _CPMUAPIR 
+API_Disable               USES _CPMUAPICTL 
+api                       USES _CPMUAPICTL API_Disable API_10s_Flag 
+                                API_wake_up_Flag G_600ms_counter G_600msFlag 
+global_parameter_init     USES msg_send rx Light_on_cnt Light_off_cnt 
+                                Brightness_Light_Percentage HCS12_EE_Read_2Word 
+                                Brightness_Infrared_Percentage Scuttle_Control Mlx75308_Config_Parameter 
+                                MLX75308_A_Adc MLX75308_B_Adc u8_WiperSpeed_Expert 
+                                RLS_RunMode u8_Rain_Delta u8_Rain_SensitivityPre 
+                                u8_Rain_Sensitivity Lin_RLS_Frame Lin_BCM_Frame u8_IntSpeedCnt 
+                                u8_IntSpeedEnterCnt u8_Wipe_Automatic_On_Pre u8_lin_cmd_sleep_flg 
+                                u8_rls_wake_up_bcm_flg u8_receive_data_flg API_6h_Cnt 
+                                u8_send_break_cnt u8_receive_break_flag u8_rain_detect_flg 
+                                u8_LinErrorCnt u8_Lin_Diag_Enable u8_Lin_Diag_Enable_Cnt 
+_LDIVU                    USES _lDivMod 
+_Vector_59                USES api 
+_Vector_20                USES SCI1_RX 
+_Vector_12                USES TIM4_ISR 
+_Vector_8                 USES TIM0_ISR 
+
+*********************************************************************************************
+DEPENDENCY TREE
+*********************************************************************************************
+ main and _Startup Group
+ | 
+ +- main                
+ |  | 
+ |  +- MCU_CLOCK_Init      
+ |  |    
+ |  +- TIM_Init            
+ |  |    
+ |  +- GPIO_Init           
+ |  |    
+ |  +- HCS12_EE_Init       
+ |  |    
+ |  +- global_parameter_init
+ |  |  | 
+ |  |  +- HCS12_EE_Read_2Word 
+ |  |     | 
+ |  |     +- EE_Byte_Read        
+ |  |          
+ |  +- Lin_Prameter_Init   
+ |  |    
+ |  +- MLX75308_Init       
+ |  |  | 
+ |  |  +- SPI_Wr_Cmd          
+ |  |  |  | 
+ |  |  |  +- _BSHRU              
+ |  |  |  |    
+ |  |  |  +- _ISHRU              
+ |  |  |  |    
+ |  |  |  +- _ISHL               
+ |  |  |       
+ |  |  +- Delay_Ms            
+ |  |  |    
+ |  |  +- SPI_Wr_Reg          
+ |  |  |  | 
+ |  |  |  +- _BSHRU               (see above)
+ |  |  |  |  
+ |  |  |  +- _LSHL               
+ |  |  |  |    
+ |  |  |  +- _LSHRU              
+ |  |  |  |    
+ |  |  |  +- _LCMP               
+ |  |  |       
+ |  |  +- MLX75308_SetPara    
+ |  |  |  | 
+ |  |  |  +- _CASE_CHECKED       
+ |  |  |  |    
+ |  |  |  +- SPI_Rd_Reg          
+ |  |  |  |  | 
+ |  |  |  |  +- _LSHL                (see above)
+ |  |  |  |  |  
+ |  |  |  |  +- _LSHRU               (see above)
+ |  |  |  |  |  
+ |  |  |  |  +- _LCMP                (see above)
+ |  |  |  |     
+ |  |  |  +- SPI_Wr_Reg           (see above)
+ |  |  |     
+ |  |  +- RLS_Rain_Get_Measure
+ |  |     | 
+ |  |     +- MLX75308_Meansure   
+ |  |     |  | 
+ |  |     |  +- SPI_Wr_Cmd           (see above)
+ |  |     |  |  
+ |  |     |  +- Delay_Ms             (see above)
+ |  |     |  |  
+ |  |     |  +- SPI_Rd_Mchan        
+ |  |     |     | 
+ |  |     |     +- _ISHRU               (see above)
+ |  |     |     |  
+ |  |     |     +- Delay_Nus           
+ |  |     |     |    
+ |  |     |     +- _BSHL               
+ |  |     |     |    
+ |  |     |     +- _ISHL                (see above)
+ |  |     |        
+ |  |     +- _LDIVU              
+ |  |        | 
+ |  |        +- _lDivMod            
+ |  |             
+ |  +- SCI_Init            
+ |  |    
+ |  +- ADC_Init            
+ |  |    
+ |  +- RLS_Roof_Task       
+ |  |  | 
+ |  |  +- RLS_Auto_Rain_Task  
+ |  |  |  | 
+ |  |  |  +- RLS_Get_Rain_ExpectStage
+ |  |  |  |  | 
+ |  |  |  |  +- RLS_Get_Rain_State  
+ |  |  |  |     | 
+ |  |  |  |     +- RLS_Rain_Get_Measure (see above)
+ |  |  |  |     |  
+ |  |  |  |     +- RLS_Rain_Module_Fault_Process
+ |  |  |  |          
+ |  |  |  +- RLS_Mask_False_Operation
+ |  |  |  |    
+ |  |  |  +- RLS_Invalid_DataProcess
+ |  |  |  |    
+ |  |  |  +- RLS_Rain_State_Mchaine
+ |  |  |     | 
+ |  |  |     +- _CASE_CHECKED        (see above)
+ |  |  |     |  
+ |  |  |     +- RLS_Period_Mode     
+ |  |  |          
+ |  |  +- Lin_send_break      
+ |  |  |    
+ |  |  +- Delay_Ms             (see above)
+ |  |  |  
+ |  |  +- Sleep_Process       
+ |  |  |  | 
+ |  |  |  +- SPI_Wr_Cmd           (see above)
+ |  |  |  |  
+ |  |  |  +- API_init            
+ |  |  |  |    
+ |  |  |  +- Lin_RLS_data        
+ |  |  |     | 
+ |  |  |     +- RLS_Wipe_Auto_On_Function
+ |  |  |     |    
+ |  |  |     +- RLS_Wipe_Sensitivity_Up_Function
+ |  |  |          
+ |  |  +- Recover_Process     
+ |  |     | 
+ |  |     +- LinConfig           
+ |  |     |    
+ |  |     +- TIM_Init             (see above)
+ |  |     |  
+ |  |     +- SPI_Wr_Cmd           (see above)
+ |  |        
+ |  +- Sleep_Process        (see above)
+ |  |  
+ |  +- Recover_Process      (see above)
+ |  |  
+ |  +- RLS_Battery_State   
+ |  |  | 
+ |  |  +- RLS_Battery_Measurement
+ |  |     | 
+ |  |     +- get_adc_times       
+ |  |     |  | 
+ |  |     |  +- get_adc             
+ |  |     |  |    
+ |  |     |  +- _LDIVU               (see above)
+ |  |     |     
+ |  |     +- _LDIVU               (see above)
+ |  |     |  
+ |  |     +- _LSHRU               (see above)
+ |  |        
+ |  +- RLS_Lin_Diag_Fucntion
+ |  |    
+ |  +- RLS_Auto_Light_Task 
+ |  |  | 
+ |  |  +- MLX75308_Meansure    (see above)
+ |  |  |  
+ |  |  +- Search_Table        
+ |  |  |  | 
+ |  |  |  +- _LCMP_P             
+ |  |  |  |    
+ |  |  |  +- _LDIVU               (see above)
+ |  |  |  |  
+ |  |  |  +- _LMULU16x32         
+ |  |  |       
+ |  |  +- RLS_Light_Module_Fault_Process
+ |  |  |    
+ |  |  +- RLS_AutoLightControl
+ |  |       
+ |  +- RLS_Auto_Rain_Task   (see above)
+ |  |  
+ |  +- Lin_RLS_data         (see above)
+ |  |  
+ |  +- RLS_SelfAdaptTask   
+ |     | 
+ |     +- COP_Init            
+ |     |    
+ |     +- RLS_Rain_Get_Measure (see above)
+ |     |  
+ |     +- MLX75308_SetPara     (see above)
+ |     |  
+ |     +- Delay_Ms             (see above)
+ |     |  
+ |     +- HCS12_EE_Write_2Word
+ |        | 
+ |        +- EE_Erase_Section    
+ |        |  | 
+ |        |  +- HCS12_EE_Cmd        
+ |        |       
+ |        +- HCS12_EE_Cmd         (see above)
+ |           
+ +- _Startup            
+    | 
+    +- Init                
+    |    
+    +- main                 (see above)
+       
+ _Vector_20          
+ | 
+ +- SCI1_RX             
+    | 
+    +- API_Disable         
+    |    
+    +- Lin_TransStatus     
+       | 
+       +- _CASE_DIRECT_BYTE   
+       |    
+       +- Lin_chkparity       
+       |  | 
+       |  +- LinCalcParity       
+       |       
+       +- _CASE_SEARCH_8      
+       |    
+       +- LinSndMsg           
+       |  | 
+       |  +- LinSendChar         
+       |  |    
+       |  +- LinCalcChecksum     
+       |  |    
+       |  +- EnhancedLinCalcChecksum
+       |       
+       +- Diagnostic_RESP_Process
+       |  | 
+       |  +- _COPY               
+       |  |    
+       |  +- LinSndMsg            (see above)
+       |     
+       +- Analysis_Master_Data
+       |  | 
+       |  +- _CASE_CHECKED_BYTE  
+       |       
+       +- RLS_Wipe_Park_Process
+       |    
+       +- Analysis_BCM_Config 
+       |  | 
+       |  +- HCS12_EE_Write_2Word (see above)
+       |     
+       +- LinCalcChecksum      (see above)
+       |  
+       +- Diagnostic_Process  
+       |  | 
+       |  +- _CASE_CHECKED        (see above)
+       |  |  
+       |  +- _CASE_SEARCH_8       (see above)
+       |  |  
+       |  +- HCS12_EE_Write_2Word (see above)
+       |  |  
+       |  +- Seed_To_Key         
+       |       
+       +- EnhancedLinCalcChecksum (see above)
+       |  
+       +- _COPY                (see above)
+          
+ _Vector_12          
+ | 
+ +- TIM4_ISR            
+      
+ _Vector_8           
+ | 
+ +- TIM0_ISR            
+      
+ _Vector_59          
+ | 
+ +- api                 
+    | 
+    +- API_Disable          (see above)
+       
+*********************************************************************************************
+STATISTIC SECTION
+---------------------------------------------------------------------------------------------
+
+ExeFile:
+--------
+Number of blocks to be downloaded: 9
+Total size of all blocks to be downloaded: 13477
+
