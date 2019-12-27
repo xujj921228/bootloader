@@ -4,7 +4,7 @@ LIN_node_config_file;
 /*** MCU DEFINITION ***/
 mcu {
    mcu_name                      = SKEAZN642;
-   bus_clock                     = 20000000;                 /* Frequency bus of system Hz*/
+   bus_clock                     = 19500000;                 /* Frequency bus of system Hz*/
    xgate_support                 = no;                       /* Support XGATE Co-Processor */
 }
 

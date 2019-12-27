@@ -1,411 +1,148 @@
 /*---------GLOBAL DEFINITIONS-----------*/
-
 LIN_description_file;
-LIN_protocol_version = "2.1";
-LIN_language_version = "2.1";
-LIN_speed = 19.2 kbps;
-
+LIN_protocol_version             = "2.1";
+LIN_language_version             = "2.1";
+LIN_speed                        = 19.2 kbps;
+/* ----------NODE DEFINITIONS---------- */
 Nodes {
-  Master: BCM, 5 ms, 0 ms ;
-  Slaves: RLS ;
+   Master:
+      BCM,                                                   /* Master node name */
+      5.0 ms,                                                /* Time base */
+      0.1 ms;                                                /* Jitter */
+   Slaves:
+      RLS;
 }
-
+/* ----------SIGNAL DEFINITIONS---------- */
 Signals {
-  STAT_Terminal: 3, 2, BCM, RLS ;
-  vehicleSpeed: 12, 0, BCM, RLS ;
-  WiperSpeed: 2, 0, RLS, BCM ;
-  STAT_RS: 1, 0, RLS, BCM ;
-  STAT_RSError: 1, 0, RLS, BCM ;
-  LightOnReq: 1, 0, RLS, BCM ;
-  STAT_DayNightMode: 2, 0, RLS, BCM ;
-  STAT_LS: 1, 0, RLS, BCM ;
-  STAT_LSError: 1, 0, RLS, BCM ;
-  FrontWiperSwitch: 3, 7, BCM, RLS ;
-  FrontWasherSwitch: 2, 0, BCM, RLS ;
-  FrontWiperPosition: 1, 0, BCM, RLS ;
-  MasterLightSwitch: 3, 7, BCM, RLS ;
-  LightOnReason: 2, 0, RLS, BCM ;
-  VehicleSpeedValid: 2, 2, BCM, RLS ;
-  Day: 5, 0, BCM, RLS ;
-  Month: 4, 0, BCM, RLS ;
-  Year: 7, 101, BCM, RLS ;
-  RLS_REP_Error: 1, 0, RLS, BCM ;
-  FrontWiperInterval: 3, 0, BCM, RLS ;
-  HUDBrightnessUnit: 2, 0, RLS, BCM ;
-  HUDBrightnessRawValue: 7, 0, RLS, BCM ;
-  RainDayGlobalClose: 1, 0, RLS, BCM ;
-  RLSHumidTempError: 1, 1, RLS, BCM ;
-  InterTempDewPoint: 9, 511, RLS, BCM ;
-  InterTempSensorValue: 8, 255, RLS, BCM ;
-  InterHumidSensorValue: 8, 255, RLS, BCM ;
-  SolarIrradianceLeft: 8, 0, RLS, BCM ;
-  SolarIrradianceRight: 8, 0, RLS, BCM ;
-  AmbientTemp: 8, 0, BCM, RLS ;
-  WindowSunroofPosition: 2, 0, BCM, RLS ;
-  STAT_RemoteControl: 1, 0, BCM, RLS ;
+   /* Signal_name                : Size,       Init,            Publisher, Subscriber(s) */
+   BCM_Status_IGN                :  2,        0x0,                  BCM, RLS;
+   BCM_CMD_AutoWiper             :  1,        0x0,                  BCM, RLS;
+   BCM_RQ_FrontWash              :  1,        0x0,                  BCM, RLS;
+   BCM_ParkPosition              :  1,        0x0,                  BCM, RLS;
+   BCM_RainSensitivity           :  3,        0x0,                  BCM, RLS;
+   BCM_CMD_AutoLight             :  1,        0x0,                  BCM, RLS;
+   BCM_BladesTurningPoint        :  1,        0x0,                  BCM, RLS;
+   BCM_RoofStatus                :  1,        0x0,                  BCM, RLS;
+   BCM_SPD_Vehicle               : 13,        0x0,                  BCM, RLS;
+   BCM_OutsideTemp               :  8,        0x0,                  BCM, RLS;
+   RLS_MsgCounter                :  4,        0x0,                  RLS, BCM;
+   RLS_RQ_WiperSPD               :  2,        0x0,                  RLS, BCM;
+   RLS_RQ_LowBeam                :  1,        0x0,                  RLS, BCM;
+   RLS_RQ_PositionLamp           :  1,        0x0,                  RLS, BCM;
+   RLS_Fault_Rain                :  1,        0x0,                  RLS, BCM;
+   RLS_Fault_Light               :  1,        0x0,                  RLS, BCM;
+   RLS_REP_Error                 :  1,        0x0,                  RLS, BCM;
+   RLS_VOLT_Error                :  2,        0x0,                  RLS, BCM;
+   RLS_Humid_Temp_Error          :  1,        0x0,                  RLS, BCM;
+   RLS_Brightness_IR_L           :  8,        0x0,                  RLS, BCM;
+   RLS_Brightness_FW             : 10,        0x0,                  RLS, BCM;
+   RLS_Rain_Intensity            :  4,        0x0,                  RLS, BCM;
+   RLS_Brightness_IR_R           :  8,        0x0,                  RLS, BCM;
+   RLS_Temperature               :  8,        0x0,                  RLS, BCM;
+   RLS_Humid                     :  8,        0x0,                  RLS, BCM;
 }
-
+/* ----------DIAGNOSTIC SIGNAL DEFINITIONS---------- */
 Diagnostic_signals {
-  MasterReqB0: 8, 0 ;
-  MasterReqB1: 8, 0 ;
-  MasterReqB2: 8, 0 ;
-  MasterReqB3: 8, 0 ;
-  MasterReqB4: 8, 0 ;
-  MasterReqB5: 8, 0 ;
-  MasterReqB6: 8, 0 ;
-  MasterReqB7: 8, 0 ;
-  SlaveRespB0: 8, 0 ;
-  SlaveRespB1: 8, 0 ;
-  SlaveRespB2: 8, 0 ;
-  SlaveRespB3: 8, 0 ;
-  SlaveRespB4: 8, 0 ;
-  SlaveRespB5: 8, 0 ;
-  SlaveRespB6: 8, 0 ;
-  SlaveRespB7: 8, 0 ;
+   /* MasterReq Reserved Signals */
+   MasterReqB0         :    8,   0;
+   MasterReqB1         :    8,   0;
+   MasterReqB2         :    8,   0;
+   MasterReqB3         :    8,   0;
+   MasterReqB4         :    8,   0;
+   MasterReqB5         :    8,   0;
+   MasterReqB6         :    8,   0;
+   MasterReqB7         :    8,   0;
+   /* SlaveResp Reserved Signals */
+   SlaveRespB0         :    8,   0;
+   SlaveRespB1         :    8,   0;
+   SlaveRespB2         :    8,   0;
+   SlaveRespB3         :    8,   0;
+   SlaveRespB4         :    8,   0;
+   SlaveRespB5         :    8,   0;
+   SlaveRespB6         :    8,   0;
+   SlaveRespB7         :    8,   0;
 }
-
-
-
+/* ----------UNCONDITIONAL FRAME DEFINITIONS---------- */
 Frames {
-  BCM_LIN_1: 5, BCM, 8 {
-    STAT_Terminal, 24 ;
-    vehicleSpeed, 36 ;
-    VehicleSpeedValid, 6 ;
-    Day, 27 ;
-    Month, 32 ;
-    Year, 48 ;
-  }
-  RLS_2: 14, RLS, 8 {
-    WiperSpeed, 0 ;
-    STAT_RS, 2 ;
-    STAT_RSError, 3 ;
-    LightOnReq, 4 ;
-    STAT_DayNightMode, 5 ;
-    STAT_LS, 7 ;
-    STAT_LSError, 8 ;
-    LightOnReason, 9 ;
-    RLS_REP_Error, 11 ;
-    HUDBrightnessUnit, 12 ;
-    HUDBrightnessRawValue, 16 ;
-    RainDayGlobalClose, 14 ;
-    RLSHumidTempError, 15 ;
-    InterTempDewPoint, 23 ;
-    InterTempSensorValue, 32 ;
-    InterHumidSensorValue, 40 ;
-    SolarIrradianceLeft, 48 ;
-    SolarIrradianceRight, 56 ;
-  }
-  BCM_LIN_3: 21, BCM, 2 {
-    FrontWiperSwitch, 0 ;
-    FrontWasherSwitch, 3 ;
-    FrontWiperPosition, 11 ;
-    MasterLightSwitch, 8 ;
-    FrontWiperInterval, 5 ;
-  }
-  BCM_LIN_2: 17, BCM, 8 {
-    AmbientTemp, 16 ;
-    WindowSunroofPosition, 32 ;
-    STAT_RemoteControl, 34 ;
-  }
+   BCM_01              : 0x31, BCM                 ,    8 {
+      BCM_Status_IGN      , 0;
+      BCM_CMD_AutoWiper   , 2;
+      BCM_RQ_FrontWash    , 3;
+      BCM_ParkPosition    , 4;
+      BCM_RainSensitivity , 5;
+      BCM_CMD_AutoLight   , 8;
+      BCM_BladesTurningPoint, 9;
+      BCM_RoofStatus      , 10;
+      BCM_SPD_Vehicle     , 16;
+      BCM_OutsideTemp     , 32;
+   }
+   RLS_01              : 0x23, RLS                 ,    8 {
+      RLS_MsgCounter      , 0;
+      RLS_RQ_WiperSPD     , 4;
+      RLS_RQ_LowBeam      , 7;
+      RLS_RQ_PositionLamp , 8;
+      RLS_Fault_Rain      , 9;
+      RLS_Fault_Light     , 10;
+      RLS_REP_Error       , 11;
+      RLS_VOLT_Error      , 12;
+      RLS_Humid_Temp_Error, 14;
+      RLS_Brightness_IR_L , 16;
+      RLS_Brightness_FW   , 24;
+      RLS_Rain_Intensity  , 34;
+      RLS_Brightness_IR_R , 40;
+      RLS_Temperature     , 48;
+      RLS_Humid           , 56;
+   }
 }
-
-
-
+/* ----------DIAGNOSTIC FRAME DEFINITIONS---------- */
 Diagnostic_frames {
-  MasterReq: 0x3c {
-    MasterReqB0, 0 ;
-    MasterReqB1, 8 ;
-    MasterReqB2, 16 ;
-    MasterReqB3, 24 ;
-    MasterReqB4, 32 ;
-    MasterReqB5, 40 ;
-    MasterReqB6, 48 ;
-    MasterReqB7, 56 ;
-  }
-  SlaveResp: 0x3d {
-    SlaveRespB0, 0 ;
-    SlaveRespB1, 8 ;
-    SlaveRespB2, 16 ;
-    SlaveRespB3, 24 ;
-    SlaveRespB4, 32 ;
-    SlaveRespB5, 40 ;
-    SlaveRespB6, 48 ;
-    SlaveRespB7, 56 ;
-  }
+   MasterReq           : 0x3c {
+      MasterReqB0         , 0;
+      MasterReqB1         , 8;
+      MasterReqB2         , 16;
+      MasterReqB3         , 24;
+      MasterReqB4         , 32;
+      MasterReqB5         , 40;
+      MasterReqB6         , 48;
+      MasterReqB7         , 56;
+   }
+   SlaveResp           : 0x3d {
+      SlaveRespB0         , 0;
+      SlaveRespB1         , 8;
+      SlaveRespB2         , 16;
+      SlaveRespB3         , 24;
+      SlaveRespB4         , 32;
+      SlaveRespB5         , 40;
+      SlaveRespB6         , 48;
+      SlaveRespB7         , 56;
+   }
 }
-
+/* ----------NODE ATTRIBUTE DEFINITIONS---------- */
 Node_attributes {
-  RLS{
-    LIN_protocol = "2.1" ;
-    configured_NAD = 0x1 ;
-    initial_NAD = 0x1 ;
-    product_id = 0x66, 0x0, 255 ;
-    response_error = RLS_REP_Error ;
-    P2_min = 50 ms ;
-    ST_min = 10 ms ;
-    N_As_timeout = 1000 ms ;
-    N_Cr_timeout = 1000 ms ;
-    configurable_frames {
-      RLS_2 ;
-      BCM_LIN_3 ;
-      BCM_LIN_1 ;
-      BCM_LIN_2 ;
-    }
-  }
+   RLS {
+      LIN_protocol               = "2.1";                    /* Node protocol version */
+      configured_NAD             = 0x16;                     /* configured NAD of node (1-125) */
+      initial_NAD                = 0x16;                     /* initial NAD of node (1-125) */
+      product_id                 =   0x23,   0x23,   0xff;   /* Product id */
+      response_error             = RLS_REP_Error;            /* Response error signal */
+      P2_min                     = 50 ms;                    /* P2_min */
+      ST_min                     = 20 ms;                    /* ST_min */
+      N_As_timeout               = 1000 ms;                  /* N_As timeout value */
+      N_Cr_timeout               = 1000 ms;                  /* N_Cr timeout value */
+      configurable_frames {
+         RLS_01;
+         BCM_01;
+      }
+   }
 }
-
+/* ----------SCHEDULE TABLE DEFINITIONS---------- */
 Schedule_tables {
- NormalTable {
-    BCM_LIN_1 delay 10 ms ;
-    BCM_LIN_3 delay 10 ms ;
-    BCM_LIN_2 delay 10 ms ;
-    RLS_2 delay 50 ms ;
-  }
- DiagReqNormalTable {
-    MasterReq delay 10 ms ;
-    BCM_LIN_1 delay 10 ms ;
-    BCM_LIN_3 delay 10 ms ;
-    BCM_LIN_2 delay 10 ms ;
-    RLS_2 delay 50 ms ;
-  }
- DiagRespNormalTable {
-    SlaveResp delay 10 ms ;
-    BCM_LIN_1 delay 10 ms ;
-    BCM_LIN_3 delay 10 ms ;
-    BCM_LIN_2 delay 10 ms ;
-    RLS_2 delay 50 ms ;
-  }
- DiagReqOnly {
-    MasterReq delay 10 ms ;
-  }
- DiagRespOnly {
-    SlaveResp delay 10 ms ;
-  }
+   NormalTable {
+      BCM_01                              delay 40.0 ms;
+      RLS_01                              delay 10.0 ms;
+   }
+   Diagnose {
+      MasterReq                           delay 10.0 ms;
+   }
 }
 
-
-Signal_encoding_types {
-  AmbientTemp_Encoding {
-    physical_value, 0, 252, 0.5, -40, "degC" ;
-  }
-  Day_Encoding {
-    physical_value, 0, 31, 1, 0, "m" ;
-  }
-  FrontWiperInterval_Encoding {
-    logical_value, 0, "Interval 1" ;
-    logical_value, 1, "Interval 2" ;
-    logical_value, 2, "Interval 3" ;
-    logical_value, 3, "Interval 4" ;
-    logical_value, 4, "Reserved" ;
-    logical_value, 5, "Reserved" ;
-    logical_value, 6, "Reserved" ;
-    logical_value, 7, "Invalid" ;
-  }
-  HUDBrightnessRawValue_Encoding {
-    physical_value, 0, 127, 1, 0, "dec" ;
-  }
-  HUDBrightnessUnit_Encoding {
-    logical_value, 0, "1 lux" ;
-    logical_value, 1, "100 lux" ;
-    logical_value, 2, "1000 lux" ;
-    logical_value, 3, "Reserved" ;
-  }
-  InterHumidSensorValue_Encoding {
-    physical_value, 0, 201, 0.5, -0.5, "%" ;
-  }
-  InterTempDewPoint_Encoding {
-    physical_value, 0, 500, 0.2, -39.7, "degC" ;
-  }
-  InterTempSensorValue_Encoding {
-    physical_value, 0, 254, 0.5, -40, "degC" ;
-  }
-  LIN_LightOnReason_Encoding {
-    logical_value, 0, "Day" ;
-    logical_value, 1, "Simi-darkness (reserved)" ;
-    logical_value, 2, "darkness" ;
-    logical_value, 3, "tunnel driving" ;
-  }
-  LIN_LightOnReq_Encoding {
-    logical_value, 0, "off" ;
-    logical_value, 1, "on" ;
-  }
-  LIN_STAT_DayNight_Mode_Encoding {
-    logical_value, 0, "Day" ;
-    logical_value, 1, "Night" ;
-    logical_value, 2, "Reserved" ;
-    logical_value, 3, "Invalid" ;
-  }
-  LIN_STAT_LSError_Encoding {
-    logical_value, 0, "normal" ;
-    logical_value, 1, "fairure" ;
-  }
-  LIN_STAT_LS_Encoding {
-    logical_value, 0, "not active" ;
-    logical_value, 1, "active" ;
-  }
-  LIN_STAT_RSError_Encoding {
-    logical_value, 0, "normal" ;
-    logical_value, 1, "fairure" ;
-  }
-  LIN_STAT_RS_Encoding {
-    logical_value, 0, "not active" ;
-    logical_value, 1, "active" ;
-  }
-  LIN_SpeedModeWiper_Encoding {
-    logical_value, 0, "OFF" ;
-    logical_value, 1, "Intermittent/Auto" ;
-    logical_value, 2, "Speed mode low" ;
-    logical_value, 3, "Speed mode high" ;
-    logical_value, 4, "Tip mode" ;
-    logical_value, 5, "Reserved" ;
-    logical_value, 6, "Reserved" ;
-    logical_value, 7, "Invalid" ;
-  }
-  LIN_WashMode_FW_Encoding {
-    logical_value, 0, "OFF" ;
-    logical_value, 1, "ON" ;
-    logical_value, 2, "Reserved" ;
-    logical_value, 3, "Invalid" ;
-  }
-  LIN_WiperPosition_FW_Encoding {
-    logical_value, 0, "Park position" ;
-    logical_value, 1, "outside park position" ;
-  }
-  LIN_WiperSpeed_Encoding {
-    logical_value, 0, "wiper off" ;
-    logical_value, 1, "wiper_single" ;
-    logical_value, 2, "Low speed" ;
-    logical_value, 3, "high speed" ;
-  }
-  MasterLightSwitch {
-    logical_value, 0, "OFF" ;
-    logical_value, 1, "Auto light" ;
-    logical_value, 2, "Position light" ;
-    logical_value, 3, "Head light" ;
-    logical_value, 4, "Reserved" ;
-    logical_value, 5, "Reserved" ;
-    logical_value, 6, "Reserved" ;
-    logical_value, 7, "Invalid" ;
-  }
-  Month_Encoding {
-    physical_value, 0, 12, 1, 0, "m" ;
-  }
-  RLSHumidTempError_Encoding {
-    logical_value, 0, "normal" ;
-    logical_value, 1, "error" ;
-  }
-  RLS_REP_Error_Encoding {
-    logical_value, 0, "No error" ;
-    logical_value, 1, "Error" ;
-  }
-  RainDayGlobalClose_Encoding {
-    logical_value, 0, "No Request" ;
-    logical_value, 1, "Global Close" ;
-  }
-  STAT_RemoteControl_Encoding {
-    logical_value, 0, "Normal Mode" ;
-    logical_value, 1, "Remote Mode" ;
-  }
-  STAT_Terminal_Encoding {
-    logical_value, 0, "OFF" ;
-    logical_value, 1, "ACC" ;
-    logical_value, 2, "ON" ;
-    logical_value, 3, "Start" ;
-    logical_value, 4, "Reserved" ;
-    logical_value, 5, "Reserved" ;
-    logical_value, 6, "Reserved" ;
-    logical_value, 7, "invalid" ;
-  }
-  SolarIrradianceLeft_Encoding {
-    physical_value, 0, 250, 4, 0, "w/m2" ;
-  }
-  SolarIrradianceRight_Encoding {
-    physical_value, 0, 250, 4, 0, "w/m2" ;
-  }
-  VehicleSpeedValid_Encoding {
-    logical_value, 0, "Valid" ;
-    logical_value, 1, "Invalid" ;
-    logical_value, 2, "Initial" ;
-    logical_value, 3, "Reserved" ;
-  }
-  WindowSunroofPosition_Encoding {
-    logical_value, 0, "Open" ;
-    logical_value, 1, "Close" ;
-  }
-  Year_Encoding {
-    physical_value, 0, 101, 1, 2000, "m" ;
-  }
-  vehicleSpeed_Encoding {
-    physical_value, 0, 4000, 0.075, 0, "km/h" ;
-  }
-  AmbientLightRequest_Encoding {
-    logical_value, 0, "OFF" ;
-    logical_value, 1, "ON" ;
-  }
-  BCM_Global_Close_Encoding {
-    logical_value, 0, "No Request" ;
-    logical_value, 1, "Global Close" ;
-  }
-  BCM_Global_Open_Encoding {
-    logical_value, 0, "No Request" ;
-    logical_value, 1, "Global Open" ;
-  }
-  BCM_Global_Stop_Encoding {
-    logical_value, 0, "No Request" ;
-    logical_value, 1, "Global Stop" ;
-  }
-  Enc_ERROR {
-    logical_value, 0, "No error" ;
-    logical_value, 1, "Error" ;
-  }
-  FLAG_INCONSISTENCY_Encoding {
-    logical_value, 0, "Values consistent" ;
-    logical_value, 1, "Values not consistent" ;
-  }
-  SRF_RspError_Encoding {
-    logical_value, 0, "No error" ;
-    logical_value, 1, "Error" ;
-  }
-  Set_AmbientLightBrightness_Encoding {
-    logical_value, 0, "Level 1" ;
-    logical_value, 1, "Level 2" ;
-    logical_value, 2, "Level 3" ;
-    logical_value, 3, "Level 4" ;
-    logical_value, 4, "Level 5" ;
-  }
-}
-
-Signal_representation {
-  AmbientTemp_Encoding: AmbientTemp ;
-  Day_Encoding: Day ;
-  FrontWiperInterval_Encoding: FrontWiperInterval ;
-  HUDBrightnessRawValue_Encoding: HUDBrightnessRawValue ;
-  HUDBrightnessUnit_Encoding: HUDBrightnessUnit ;
-  InterHumidSensorValue_Encoding: InterHumidSensorValue ;
-  InterTempDewPoint_Encoding: InterTempDewPoint ;
-  InterTempSensorValue_Encoding: InterTempSensorValue ;
-  LIN_LightOnReason_Encoding: LightOnReason ;
-  LIN_LightOnReq_Encoding: LightOnReq ;
-  LIN_STAT_DayNight_Mode_Encoding: STAT_DayNightMode ;
-  LIN_STAT_LSError_Encoding: STAT_LSError ;
-  LIN_STAT_LS_Encoding: STAT_LS ;
-  LIN_STAT_RSError_Encoding: STAT_RSError ;
-  LIN_STAT_RS_Encoding: STAT_RS ;
-  LIN_SpeedModeWiper_Encoding: FrontWiperSwitch ;
-  LIN_WashMode_FW_Encoding: FrontWasherSwitch ;
-  LIN_WiperPosition_FW_Encoding: FrontWiperPosition ;
-  LIN_WiperSpeed_Encoding: WiperSpeed ;
-  MasterLightSwitch: MasterLightSwitch ;
-  Month_Encoding: Month ;
-  RLSHumidTempError_Encoding: RLSHumidTempError ;
-  RLS_REP_Error_Encoding: RLS_REP_Error ;
-  RainDayGlobalClose_Encoding: RainDayGlobalClose ;
-  STAT_RemoteControl_Encoding: STAT_RemoteControl ;
-  STAT_Terminal_Encoding: STAT_Terminal ;
-  SolarIrradianceLeft_Encoding: SolarIrradianceLeft ;
-  SolarIrradianceRight_Encoding: SolarIrradianceRight ;
-  VehicleSpeedValid_Encoding: VehicleSpeedValid ;
-  WindowSunroofPosition_Encoding: WindowSunroofPosition ;
-  Year_Encoding: Year ;
-  vehicleSpeed_Encoding: vehicleSpeed ;
-}

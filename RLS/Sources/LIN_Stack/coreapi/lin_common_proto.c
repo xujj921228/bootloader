@@ -31,6 +31,7 @@
 #include "lin_lin21_proto.h"
 #include "lin_j2602_proto.h"
 #include "lin_common_api.h"
+#include "rls_app.h"
 /* Unuse for GPIO */
 #if ( _LIN_GPIO_ == 0 ) && !defined(_MC9S08SC4_H) && !defined(MCU_SKEAZN84)
 #include "lin_commontl_proto.h"
@@ -320,7 +321,14 @@ void lin_handle_error
         case LIN_LLD_READBACK_ERR:
         case LIN_LLD_NODATA_TIMEOUT:
             /* Set response error */
-            lin_error_in_response = 1;
+        	if(u8_Lin_Diag_Enable == 0)
+        	{
+        		lin_error_in_response = 0;
+        	}
+        	else
+        	{
+        		lin_error_in_response = 1;
+        	}
             /* Multi frame support */
         #if (_TL_FRAME_SUPPORT_ == _TL_MULTI_FRAME_)
             if (0x3C == pid)

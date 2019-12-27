@@ -45,7 +45,7 @@
 
 #define MAX_LENGTH_SERVICE 8
 
-#define MAX_QUEUE_SIZE 6
+#define MAX_QUEUE_SIZE 2
 
 #define DIAGSRV_SESSION_DEFAULT 1
 #define DIAGSRV_SESSION_PROGRAM 2
@@ -77,7 +77,7 @@
 #define _TL_FRAME_SUPPORT_      _TL_MULTI_FRAME_
 
 /* frame buffer size */
-#define LIN_FRAME_BUF_SIZE			26
+#define LIN_FRAME_BUF_SIZE			22
 #define LIN_FLAG_BUF_SIZE			6
 
 /**********************************************************************/
@@ -91,94 +91,78 @@ typedef enum {
 /***************               Signals              *******************/
 /**********************************************************************/
 /* Number of signals */
-#define LIN_NUM_OF_SIGS  32
+#define LIN_NUM_OF_SIGS  25
 /* List of signals */   
 typedef enum {
 
    /* Interface_name = LI0 */
 
-   LI0_STAT_Terminal
+   LI0_BCM_Status_IGN
 
-   , LI0_vehicleSpeed
+   , LI0_BCM_CMD_AutoWiper
   
-   , LI0_WiperSpeed
+   , LI0_BCM_RQ_FrontWash
   
-   , LI0_STAT_RS
+   , LI0_BCM_ParkPosition
   
-   , LI0_STAT_RSError
+   , LI0_BCM_RainSensitivity
   
-   , LI0_LightOnReq
+   , LI0_BCM_CMD_AutoLight
   
-   , LI0_STAT_DayNightMode
+   , LI0_BCM_BladesTurningPoint
   
-   , LI0_STAT_LS
+   , LI0_BCM_RoofStatus
   
-   , LI0_STAT_LSError
+   , LI0_BCM_SPD_Vehicle
   
-   , LI0_FrontWiperSwitch
+   , LI0_BCM_OutsideTemp
   
-   , LI0_FrontWasherSwitch
+   , LI0_RLS_MsgCounter
   
-   , LI0_FrontWiperPosition
+   , LI0_RLS_RQ_WiperSPD
   
-   , LI0_MasterLightSwitch
+   , LI0_RLS_RQ_LowBeam
   
-   , LI0_LightOnReason
+   , LI0_RLS_RQ_PositionLamp
   
-   , LI0_VehicleSpeedValid
+   , LI0_RLS_Fault_Rain
   
-   , LI0_Day
-  
-   , LI0_Month
-  
-   , LI0_Year
+   , LI0_RLS_Fault_Light
   
    , LI0_RLS_REP_Error
   
-   , LI0_FrontWiperInterval
+   , LI0_RLS_VOLT_Error
   
-   , LI0_HUDBrightnessUnit
+   , LI0_RLS_Humid_Temp_Error
   
-   , LI0_HUDBrightnessRawValue
+   , LI0_RLS_Brightness_IR_L
   
-   , LI0_RainDayGlobalClose
+   , LI0_RLS_Brightness_FW
   
-   , LI0_RLSHumidTempError
+   , LI0_RLS_Rain_Intensity
   
-   , LI0_InterTempDewPoint
+   , LI0_RLS_Brightness_IR_R
   
-   , LI0_InterTempSensorValue
+   , LI0_RLS_Temperature
   
-   , LI0_InterHumidSensorValue
+   , LI0_RLS_Humid
   
-   , LI0_SolarIrradianceLeft
   
-   , LI0_SolarIrradianceRight
-  
-   , LI0_AmbientTemp
-  
-   , LI0_WindowSunroofPosition
-  
-   , LI0_STAT_RemoteControl
 } l_signal_handle; 
 /**********************************************************************/
 /*****************               Frame             ********************/
 /**********************************************************************/
 /* Number of frames */
-#define LIN_NUM_OF_FRMS  6 
+#define LIN_NUM_OF_FRMS  4 
 /* List of frames */
 typedef enum {
 /* All frames for master node */
 
    /* Interface_name = LI0 */
 
-   LI0_RLS_2
+   LI0_RLS_01
 
-   , LI0_BCM_LIN_3
-  
-   , LI0_BCM_LIN_1
-  
-   , LI0_BCM_LIN_2
+   , LI0_BCM_01
   
    , LI0_MasterReq
   
@@ -191,8 +175,8 @@ typedef enum {
 /***************             Configuration          *******************/
 /**********************************************************************/
 /* Size of configuration in ROM and RAM used for interface: LI1 */
-#define LIN_SIZE_OF_CFG  8 
-#define LIN_CFG_FRAME_NUM  4 
+#define LIN_SIZE_OF_CFG  6 
+#define LIN_CFG_FRAME_NUM  2 
 /*********************************************************************
  * global macros
  *********************************************************************/
@@ -226,244 +210,192 @@ typedef enum {
  */
 
 
-#define LIN_BYTE_OFFSET_LI0_STAT_Terminal    13
-#define LIN_BIT_OFFSET_LI0_STAT_Terminal    0
-#define LIN_SIGNAL_SIZE_LI0_STAT_Terminal    3
-#define LIN_FLAG_BYTE_OFFSET_LI0_STAT_Terminal    4
-#define LIN_FLAG_BIT_OFFSET_LI0_STAT_Terminal    1
-#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_STAT_Terminal    2
+#define LIN_BYTE_OFFSET_LI0_BCM_Status_IGN    8
+#define LIN_BIT_OFFSET_LI0_BCM_Status_IGN    0
+#define LIN_SIGNAL_SIZE_LI0_BCM_Status_IGN    2
+#define LIN_FLAG_BYTE_OFFSET_LI0_BCM_Status_IGN    2
+#define LIN_FLAG_BIT_OFFSET_LI0_BCM_Status_IGN    0
+#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_BCM_Status_IGN    1
 
-#define LIN_BYTE_OFFSET_LI0_vehicleSpeed    14
-#define LIN_BIT_OFFSET_LI0_vehicleSpeed    4
-#define LIN_SIGNAL_SIZE_LI0_vehicleSpeed    12
-#define LIN_FLAG_BYTE_OFFSET_LI0_vehicleSpeed    4
-#define LIN_FLAG_BIT_OFFSET_LI0_vehicleSpeed    4
-#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_vehicleSpeed    2
+#define LIN_BYTE_OFFSET_LI0_BCM_CMD_AutoWiper    8
+#define LIN_BIT_OFFSET_LI0_BCM_CMD_AutoWiper    2
+#define LIN_SIGNAL_SIZE_LI0_BCM_CMD_AutoWiper    1
+#define LIN_FLAG_BYTE_OFFSET_LI0_BCM_CMD_AutoWiper    2
+#define LIN_FLAG_BIT_OFFSET_LI0_BCM_CMD_AutoWiper    1
+#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_BCM_CMD_AutoWiper    1
 
-#define LIN_BYTE_OFFSET_LI0_WiperSpeed    0
-#define LIN_BIT_OFFSET_LI0_WiperSpeed    0
-#define LIN_SIGNAL_SIZE_LI0_WiperSpeed    2
-#define LIN_FLAG_BYTE_OFFSET_LI0_WiperSpeed    0
-#define LIN_FLAG_BIT_OFFSET_LI0_WiperSpeed    0
-#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_WiperSpeed    0
+#define LIN_BYTE_OFFSET_LI0_BCM_RQ_FrontWash    8
+#define LIN_BIT_OFFSET_LI0_BCM_RQ_FrontWash    3
+#define LIN_SIGNAL_SIZE_LI0_BCM_RQ_FrontWash    1
+#define LIN_FLAG_BYTE_OFFSET_LI0_BCM_RQ_FrontWash    2
+#define LIN_FLAG_BIT_OFFSET_LI0_BCM_RQ_FrontWash    2
+#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_BCM_RQ_FrontWash    1
 
-#define LIN_BYTE_OFFSET_LI0_STAT_RS    0
-#define LIN_BIT_OFFSET_LI0_STAT_RS    2
-#define LIN_SIGNAL_SIZE_LI0_STAT_RS    1
-#define LIN_FLAG_BYTE_OFFSET_LI0_STAT_RS    0
-#define LIN_FLAG_BIT_OFFSET_LI0_STAT_RS    1
-#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_STAT_RS    0
+#define LIN_BYTE_OFFSET_LI0_BCM_ParkPosition    8
+#define LIN_BIT_OFFSET_LI0_BCM_ParkPosition    4
+#define LIN_SIGNAL_SIZE_LI0_BCM_ParkPosition    1
+#define LIN_FLAG_BYTE_OFFSET_LI0_BCM_ParkPosition    2
+#define LIN_FLAG_BIT_OFFSET_LI0_BCM_ParkPosition    3
+#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_BCM_ParkPosition    1
 
-#define LIN_BYTE_OFFSET_LI0_STAT_RSError    0
-#define LIN_BIT_OFFSET_LI0_STAT_RSError    3
-#define LIN_SIGNAL_SIZE_LI0_STAT_RSError    1
-#define LIN_FLAG_BYTE_OFFSET_LI0_STAT_RSError    0
-#define LIN_FLAG_BIT_OFFSET_LI0_STAT_RSError    2
-#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_STAT_RSError    0
+#define LIN_BYTE_OFFSET_LI0_BCM_RainSensitivity    8
+#define LIN_BIT_OFFSET_LI0_BCM_RainSensitivity    5
+#define LIN_SIGNAL_SIZE_LI0_BCM_RainSensitivity    3
+#define LIN_FLAG_BYTE_OFFSET_LI0_BCM_RainSensitivity    2
+#define LIN_FLAG_BIT_OFFSET_LI0_BCM_RainSensitivity    4
+#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_BCM_RainSensitivity    1
 
-#define LIN_BYTE_OFFSET_LI0_LightOnReq    0
-#define LIN_BIT_OFFSET_LI0_LightOnReq    4
-#define LIN_SIGNAL_SIZE_LI0_LightOnReq    1
-#define LIN_FLAG_BYTE_OFFSET_LI0_LightOnReq    0
-#define LIN_FLAG_BIT_OFFSET_LI0_LightOnReq    3
-#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_LightOnReq    0
+#define LIN_BYTE_OFFSET_LI0_BCM_CMD_AutoLight    9
+#define LIN_BIT_OFFSET_LI0_BCM_CMD_AutoLight    0
+#define LIN_SIGNAL_SIZE_LI0_BCM_CMD_AutoLight    1
+#define LIN_FLAG_BYTE_OFFSET_LI0_BCM_CMD_AutoLight    2
+#define LIN_FLAG_BIT_OFFSET_LI0_BCM_CMD_AutoLight    5
+#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_BCM_CMD_AutoLight    1
 
-#define LIN_BYTE_OFFSET_LI0_STAT_DayNightMode    0
-#define LIN_BIT_OFFSET_LI0_STAT_DayNightMode    5
-#define LIN_SIGNAL_SIZE_LI0_STAT_DayNightMode    2
-#define LIN_FLAG_BYTE_OFFSET_LI0_STAT_DayNightMode    0
-#define LIN_FLAG_BIT_OFFSET_LI0_STAT_DayNightMode    4
-#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_STAT_DayNightMode    0
+#define LIN_BYTE_OFFSET_LI0_BCM_BladesTurningPoint    9
+#define LIN_BIT_OFFSET_LI0_BCM_BladesTurningPoint    1
+#define LIN_SIGNAL_SIZE_LI0_BCM_BladesTurningPoint    1
+#define LIN_FLAG_BYTE_OFFSET_LI0_BCM_BladesTurningPoint    2
+#define LIN_FLAG_BIT_OFFSET_LI0_BCM_BladesTurningPoint    6
+#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_BCM_BladesTurningPoint    1
 
-#define LIN_BYTE_OFFSET_LI0_STAT_LS    0
-#define LIN_BIT_OFFSET_LI0_STAT_LS    7
-#define LIN_SIGNAL_SIZE_LI0_STAT_LS    1
-#define LIN_FLAG_BYTE_OFFSET_LI0_STAT_LS    0
-#define LIN_FLAG_BIT_OFFSET_LI0_STAT_LS    5
-#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_STAT_LS    0
+#define LIN_BYTE_OFFSET_LI0_BCM_RoofStatus    9
+#define LIN_BIT_OFFSET_LI0_BCM_RoofStatus    2
+#define LIN_SIGNAL_SIZE_LI0_BCM_RoofStatus    1
+#define LIN_FLAG_BYTE_OFFSET_LI0_BCM_RoofStatus    2
+#define LIN_FLAG_BIT_OFFSET_LI0_BCM_RoofStatus    7
+#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_BCM_RoofStatus    1
 
-#define LIN_BYTE_OFFSET_LI0_STAT_LSError    1
-#define LIN_BIT_OFFSET_LI0_STAT_LSError    0
-#define LIN_SIGNAL_SIZE_LI0_STAT_LSError    1
-#define LIN_FLAG_BYTE_OFFSET_LI0_STAT_LSError    0
-#define LIN_FLAG_BIT_OFFSET_LI0_STAT_LSError    6
-#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_STAT_LSError    0
+#define LIN_BYTE_OFFSET_LI0_BCM_SPD_Vehicle    10
+#define LIN_BIT_OFFSET_LI0_BCM_SPD_Vehicle    0
+#define LIN_SIGNAL_SIZE_LI0_BCM_SPD_Vehicle    13
+#define LIN_FLAG_BYTE_OFFSET_LI0_BCM_SPD_Vehicle    3
+#define LIN_FLAG_BIT_OFFSET_LI0_BCM_SPD_Vehicle    0
+#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_BCM_SPD_Vehicle    1
 
-#define LIN_BYTE_OFFSET_LI0_FrontWiperSwitch    8
-#define LIN_BIT_OFFSET_LI0_FrontWiperSwitch    0
-#define LIN_SIGNAL_SIZE_LI0_FrontWiperSwitch    3
-#define LIN_FLAG_BYTE_OFFSET_LI0_FrontWiperSwitch    3
-#define LIN_FLAG_BIT_OFFSET_LI0_FrontWiperSwitch    0
-#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_FrontWiperSwitch    1
+#define LIN_BYTE_OFFSET_LI0_BCM_OutsideTemp    12
+#define LIN_BIT_OFFSET_LI0_BCM_OutsideTemp    0
+#define LIN_SIGNAL_SIZE_LI0_BCM_OutsideTemp    8
+#define LIN_FLAG_BYTE_OFFSET_LI0_BCM_OutsideTemp    3
+#define LIN_FLAG_BIT_OFFSET_LI0_BCM_OutsideTemp    1
+#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_BCM_OutsideTemp    1
 
-#define LIN_BYTE_OFFSET_LI0_FrontWasherSwitch    8
-#define LIN_BIT_OFFSET_LI0_FrontWasherSwitch    3
-#define LIN_SIGNAL_SIZE_LI0_FrontWasherSwitch    2
-#define LIN_FLAG_BYTE_OFFSET_LI0_FrontWasherSwitch    3
-#define LIN_FLAG_BIT_OFFSET_LI0_FrontWasherSwitch    1
-#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_FrontWasherSwitch    1
+#define LIN_BYTE_OFFSET_LI0_RLS_MsgCounter    0
+#define LIN_BIT_OFFSET_LI0_RLS_MsgCounter    0
+#define LIN_SIGNAL_SIZE_LI0_RLS_MsgCounter    4
+#define LIN_FLAG_BYTE_OFFSET_LI0_RLS_MsgCounter    0
+#define LIN_FLAG_BIT_OFFSET_LI0_RLS_MsgCounter    0
+#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_MsgCounter    0
 
-#define LIN_BYTE_OFFSET_LI0_FrontWiperPosition    9
-#define LIN_BIT_OFFSET_LI0_FrontWiperPosition    3
-#define LIN_SIGNAL_SIZE_LI0_FrontWiperPosition    1
-#define LIN_FLAG_BYTE_OFFSET_LI0_FrontWiperPosition    3
-#define LIN_FLAG_BIT_OFFSET_LI0_FrontWiperPosition    4
-#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_FrontWiperPosition    1
+#define LIN_BYTE_OFFSET_LI0_RLS_RQ_WiperSPD    0
+#define LIN_BIT_OFFSET_LI0_RLS_RQ_WiperSPD    4
+#define LIN_SIGNAL_SIZE_LI0_RLS_RQ_WiperSPD    2
+#define LIN_FLAG_BYTE_OFFSET_LI0_RLS_RQ_WiperSPD    0
+#define LIN_FLAG_BIT_OFFSET_LI0_RLS_RQ_WiperSPD    1
+#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_RQ_WiperSPD    0
 
-#define LIN_BYTE_OFFSET_LI0_MasterLightSwitch    9
-#define LIN_BIT_OFFSET_LI0_MasterLightSwitch    0
-#define LIN_SIGNAL_SIZE_LI0_MasterLightSwitch    3
-#define LIN_FLAG_BYTE_OFFSET_LI0_MasterLightSwitch    3
-#define LIN_FLAG_BIT_OFFSET_LI0_MasterLightSwitch    3
-#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_MasterLightSwitch    1
+#define LIN_BYTE_OFFSET_LI0_RLS_RQ_LowBeam    0
+#define LIN_BIT_OFFSET_LI0_RLS_RQ_LowBeam    7
+#define LIN_SIGNAL_SIZE_LI0_RLS_RQ_LowBeam    1
+#define LIN_FLAG_BYTE_OFFSET_LI0_RLS_RQ_LowBeam    0
+#define LIN_FLAG_BIT_OFFSET_LI0_RLS_RQ_LowBeam    2
+#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_RQ_LowBeam    0
 
-#define LIN_BYTE_OFFSET_LI0_LightOnReason    1
-#define LIN_BIT_OFFSET_LI0_LightOnReason    1
-#define LIN_SIGNAL_SIZE_LI0_LightOnReason    2
-#define LIN_FLAG_BYTE_OFFSET_LI0_LightOnReason    0
-#define LIN_FLAG_BIT_OFFSET_LI0_LightOnReason    7
-#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_LightOnReason    0
+#define LIN_BYTE_OFFSET_LI0_RLS_RQ_PositionLamp    1
+#define LIN_BIT_OFFSET_LI0_RLS_RQ_PositionLamp    0
+#define LIN_SIGNAL_SIZE_LI0_RLS_RQ_PositionLamp    1
+#define LIN_FLAG_BYTE_OFFSET_LI0_RLS_RQ_PositionLamp    0
+#define LIN_FLAG_BIT_OFFSET_LI0_RLS_RQ_PositionLamp    3
+#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_RQ_PositionLamp    0
 
-#define LIN_BYTE_OFFSET_LI0_VehicleSpeedValid    10
-#define LIN_BIT_OFFSET_LI0_VehicleSpeedValid    6
-#define LIN_SIGNAL_SIZE_LI0_VehicleSpeedValid    2
-#define LIN_FLAG_BYTE_OFFSET_LI0_VehicleSpeedValid    4
-#define LIN_FLAG_BIT_OFFSET_LI0_VehicleSpeedValid    0
-#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_VehicleSpeedValid    2
+#define LIN_BYTE_OFFSET_LI0_RLS_Fault_Rain    1
+#define LIN_BIT_OFFSET_LI0_RLS_Fault_Rain    1
+#define LIN_SIGNAL_SIZE_LI0_RLS_Fault_Rain    1
+#define LIN_FLAG_BYTE_OFFSET_LI0_RLS_Fault_Rain    0
+#define LIN_FLAG_BIT_OFFSET_LI0_RLS_Fault_Rain    4
+#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_Fault_Rain    0
 
-#define LIN_BYTE_OFFSET_LI0_Day    13
-#define LIN_BIT_OFFSET_LI0_Day    3
-#define LIN_SIGNAL_SIZE_LI0_Day    5
-#define LIN_FLAG_BYTE_OFFSET_LI0_Day    4
-#define LIN_FLAG_BIT_OFFSET_LI0_Day    2
-#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_Day    2
-
-#define LIN_BYTE_OFFSET_LI0_Month    14
-#define LIN_BIT_OFFSET_LI0_Month    0
-#define LIN_SIGNAL_SIZE_LI0_Month    4
-#define LIN_FLAG_BYTE_OFFSET_LI0_Month    4
-#define LIN_FLAG_BIT_OFFSET_LI0_Month    3
-#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_Month    2
-
-#define LIN_BYTE_OFFSET_LI0_Year    16
-#define LIN_BIT_OFFSET_LI0_Year    0
-#define LIN_SIGNAL_SIZE_LI0_Year    7
-#define LIN_FLAG_BYTE_OFFSET_LI0_Year    4
-#define LIN_FLAG_BIT_OFFSET_LI0_Year    5
-#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_Year    2
+#define LIN_BYTE_OFFSET_LI0_RLS_Fault_Light    1
+#define LIN_BIT_OFFSET_LI0_RLS_Fault_Light    2
+#define LIN_SIGNAL_SIZE_LI0_RLS_Fault_Light    1
+#define LIN_FLAG_BYTE_OFFSET_LI0_RLS_Fault_Light    0
+#define LIN_FLAG_BIT_OFFSET_LI0_RLS_Fault_Light    5
+#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_Fault_Light    0
 
 #define LIN_BYTE_OFFSET_LI0_RLS_REP_Error    1
 #define LIN_BIT_OFFSET_LI0_RLS_REP_Error    3
 #define LIN_SIGNAL_SIZE_LI0_RLS_REP_Error    1
-#define LIN_FLAG_BYTE_OFFSET_LI0_RLS_REP_Error    1
-#define LIN_FLAG_BIT_OFFSET_LI0_RLS_REP_Error    0
+#define LIN_FLAG_BYTE_OFFSET_LI0_RLS_REP_Error    0
+#define LIN_FLAG_BIT_OFFSET_LI0_RLS_REP_Error    6
 #define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_REP_Error    0
 
-#define LIN_BYTE_OFFSET_LI0_FrontWiperInterval    8
-#define LIN_BIT_OFFSET_LI0_FrontWiperInterval    5
-#define LIN_SIGNAL_SIZE_LI0_FrontWiperInterval    3
-#define LIN_FLAG_BYTE_OFFSET_LI0_FrontWiperInterval    3
-#define LIN_FLAG_BIT_OFFSET_LI0_FrontWiperInterval    2
-#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_FrontWiperInterval    1
+#define LIN_BYTE_OFFSET_LI0_RLS_VOLT_Error    1
+#define LIN_BIT_OFFSET_LI0_RLS_VOLT_Error    4
+#define LIN_SIGNAL_SIZE_LI0_RLS_VOLT_Error    2
+#define LIN_FLAG_BYTE_OFFSET_LI0_RLS_VOLT_Error    0
+#define LIN_FLAG_BIT_OFFSET_LI0_RLS_VOLT_Error    7
+#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_VOLT_Error    0
 
-#define LIN_BYTE_OFFSET_LI0_HUDBrightnessUnit    1
-#define LIN_BIT_OFFSET_LI0_HUDBrightnessUnit    4
-#define LIN_SIGNAL_SIZE_LI0_HUDBrightnessUnit    2
-#define LIN_FLAG_BYTE_OFFSET_LI0_HUDBrightnessUnit    1
-#define LIN_FLAG_BIT_OFFSET_LI0_HUDBrightnessUnit    1
-#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_HUDBrightnessUnit    0
+#define LIN_BYTE_OFFSET_LI0_RLS_Humid_Temp_Error    1
+#define LIN_BIT_OFFSET_LI0_RLS_Humid_Temp_Error    6
+#define LIN_SIGNAL_SIZE_LI0_RLS_Humid_Temp_Error    1
+#define LIN_FLAG_BYTE_OFFSET_LI0_RLS_Humid_Temp_Error    1
+#define LIN_FLAG_BIT_OFFSET_LI0_RLS_Humid_Temp_Error    0
+#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_Humid_Temp_Error    0
 
-#define LIN_BYTE_OFFSET_LI0_HUDBrightnessRawValue    2
-#define LIN_BIT_OFFSET_LI0_HUDBrightnessRawValue    0
-#define LIN_SIGNAL_SIZE_LI0_HUDBrightnessRawValue    7
-#define LIN_FLAG_BYTE_OFFSET_LI0_HUDBrightnessRawValue    1
-#define LIN_FLAG_BIT_OFFSET_LI0_HUDBrightnessRawValue    4
-#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_HUDBrightnessRawValue    0
+#define LIN_BYTE_OFFSET_LI0_RLS_Brightness_IR_L    2
+#define LIN_BIT_OFFSET_LI0_RLS_Brightness_IR_L    0
+#define LIN_SIGNAL_SIZE_LI0_RLS_Brightness_IR_L    8
+#define LIN_FLAG_BYTE_OFFSET_LI0_RLS_Brightness_IR_L    1
+#define LIN_FLAG_BIT_OFFSET_LI0_RLS_Brightness_IR_L    1
+#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_Brightness_IR_L    0
 
-#define LIN_BYTE_OFFSET_LI0_RainDayGlobalClose    1
-#define LIN_BIT_OFFSET_LI0_RainDayGlobalClose    6
-#define LIN_SIGNAL_SIZE_LI0_RainDayGlobalClose    1
-#define LIN_FLAG_BYTE_OFFSET_LI0_RainDayGlobalClose    1
-#define LIN_FLAG_BIT_OFFSET_LI0_RainDayGlobalClose    2
-#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RainDayGlobalClose    0
+#define LIN_BYTE_OFFSET_LI0_RLS_Brightness_FW    3
+#define LIN_BIT_OFFSET_LI0_RLS_Brightness_FW    0
+#define LIN_SIGNAL_SIZE_LI0_RLS_Brightness_FW    10
+#define LIN_FLAG_BYTE_OFFSET_LI0_RLS_Brightness_FW    1
+#define LIN_FLAG_BIT_OFFSET_LI0_RLS_Brightness_FW    2
+#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_Brightness_FW    0
 
-#define LIN_BYTE_OFFSET_LI0_RLSHumidTempError    1
-#define LIN_BIT_OFFSET_LI0_RLSHumidTempError    7
-#define LIN_SIGNAL_SIZE_LI0_RLSHumidTempError    1
-#define LIN_FLAG_BYTE_OFFSET_LI0_RLSHumidTempError    1
-#define LIN_FLAG_BIT_OFFSET_LI0_RLSHumidTempError    3
-#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLSHumidTempError    0
+#define LIN_BYTE_OFFSET_LI0_RLS_Rain_Intensity    4
+#define LIN_BIT_OFFSET_LI0_RLS_Rain_Intensity    2
+#define LIN_SIGNAL_SIZE_LI0_RLS_Rain_Intensity    4
+#define LIN_FLAG_BYTE_OFFSET_LI0_RLS_Rain_Intensity    1
+#define LIN_FLAG_BIT_OFFSET_LI0_RLS_Rain_Intensity    3
+#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_Rain_Intensity    0
 
-#define LIN_BYTE_OFFSET_LI0_InterTempDewPoint    2
-#define LIN_BIT_OFFSET_LI0_InterTempDewPoint    7
-#define LIN_SIGNAL_SIZE_LI0_InterTempDewPoint    9
-#define LIN_FLAG_BYTE_OFFSET_LI0_InterTempDewPoint    1
-#define LIN_FLAG_BIT_OFFSET_LI0_InterTempDewPoint    5
-#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_InterTempDewPoint    0
+#define LIN_BYTE_OFFSET_LI0_RLS_Brightness_IR_R    5
+#define LIN_BIT_OFFSET_LI0_RLS_Brightness_IR_R    0
+#define LIN_SIGNAL_SIZE_LI0_RLS_Brightness_IR_R    8
+#define LIN_FLAG_BYTE_OFFSET_LI0_RLS_Brightness_IR_R    1
+#define LIN_FLAG_BIT_OFFSET_LI0_RLS_Brightness_IR_R    4
+#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_Brightness_IR_R    0
 
-#define LIN_BYTE_OFFSET_LI0_InterTempSensorValue    4
-#define LIN_BIT_OFFSET_LI0_InterTempSensorValue    0
-#define LIN_SIGNAL_SIZE_LI0_InterTempSensorValue    8
-#define LIN_FLAG_BYTE_OFFSET_LI0_InterTempSensorValue    1
-#define LIN_FLAG_BIT_OFFSET_LI0_InterTempSensorValue    6
-#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_InterTempSensorValue    0
+#define LIN_BYTE_OFFSET_LI0_RLS_Temperature    6
+#define LIN_BIT_OFFSET_LI0_RLS_Temperature    0
+#define LIN_SIGNAL_SIZE_LI0_RLS_Temperature    8
+#define LIN_FLAG_BYTE_OFFSET_LI0_RLS_Temperature    1
+#define LIN_FLAG_BIT_OFFSET_LI0_RLS_Temperature    5
+#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_Temperature    0
 
-#define LIN_BYTE_OFFSET_LI0_InterHumidSensorValue    5
-#define LIN_BIT_OFFSET_LI0_InterHumidSensorValue    0
-#define LIN_SIGNAL_SIZE_LI0_InterHumidSensorValue    8
-#define LIN_FLAG_BYTE_OFFSET_LI0_InterHumidSensorValue    1
-#define LIN_FLAG_BIT_OFFSET_LI0_InterHumidSensorValue    7
-#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_InterHumidSensorValue    0
-
-#define LIN_BYTE_OFFSET_LI0_SolarIrradianceLeft    6
-#define LIN_BIT_OFFSET_LI0_SolarIrradianceLeft    0
-#define LIN_SIGNAL_SIZE_LI0_SolarIrradianceLeft    8
-#define LIN_FLAG_BYTE_OFFSET_LI0_SolarIrradianceLeft    2
-#define LIN_FLAG_BIT_OFFSET_LI0_SolarIrradianceLeft    0
-#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_SolarIrradianceLeft    0
-
-#define LIN_BYTE_OFFSET_LI0_SolarIrradianceRight    7
-#define LIN_BIT_OFFSET_LI0_SolarIrradianceRight    0
-#define LIN_SIGNAL_SIZE_LI0_SolarIrradianceRight    8
-#define LIN_FLAG_BYTE_OFFSET_LI0_SolarIrradianceRight    2
-#define LIN_FLAG_BIT_OFFSET_LI0_SolarIrradianceRight    1
-#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_SolarIrradianceRight    0
-
-#define LIN_BYTE_OFFSET_LI0_AmbientTemp    20
-#define LIN_BIT_OFFSET_LI0_AmbientTemp    0
-#define LIN_SIGNAL_SIZE_LI0_AmbientTemp    8
-#define LIN_FLAG_BYTE_OFFSET_LI0_AmbientTemp    5
-#define LIN_FLAG_BIT_OFFSET_LI0_AmbientTemp    0
-#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_AmbientTemp    3
-
-#define LIN_BYTE_OFFSET_LI0_WindowSunroofPosition    22
-#define LIN_BIT_OFFSET_LI0_WindowSunroofPosition    0
-#define LIN_SIGNAL_SIZE_LI0_WindowSunroofPosition    2
-#define LIN_FLAG_BYTE_OFFSET_LI0_WindowSunroofPosition    5
-#define LIN_FLAG_BIT_OFFSET_LI0_WindowSunroofPosition    1
-#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_WindowSunroofPosition    3
-
-#define LIN_BYTE_OFFSET_LI0_STAT_RemoteControl    22
-#define LIN_BIT_OFFSET_LI0_STAT_RemoteControl    2
-#define LIN_SIGNAL_SIZE_LI0_STAT_RemoteControl    1
-#define LIN_FLAG_BYTE_OFFSET_LI0_STAT_RemoteControl    5
-#define LIN_FLAG_BIT_OFFSET_LI0_STAT_RemoteControl    2
-#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_STAT_RemoteControl    3
+#define LIN_BYTE_OFFSET_LI0_RLS_Humid    7
+#define LIN_BIT_OFFSET_LI0_RLS_Humid    0
+#define LIN_SIGNAL_SIZE_LI0_RLS_Humid    8
+#define LIN_FLAG_BYTE_OFFSET_LI0_RLS_Humid    1
+#define LIN_FLAG_BIT_OFFSET_LI0_RLS_Humid    6
+#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_Humid    0
 
 
 
 
-#define LIN_FLAG_BYTE_OFFSET_LI0_RLS_2             0
-#define LIN_FLAG_BIT_OFFSET_LI0_RLS_2              0
+#define LIN_FLAG_BYTE_OFFSET_LI0_RLS_01             0
+#define LIN_FLAG_BIT_OFFSET_LI0_RLS_01              0
 
-#define LIN_FLAG_BYTE_OFFSET_LI0_BCM_LIN_3             3
-#define LIN_FLAG_BIT_OFFSET_LI0_BCM_LIN_3              0
+#define LIN_FLAG_BYTE_OFFSET_LI0_BCM_01             2
+#define LIN_FLAG_BIT_OFFSET_LI0_BCM_01              0
 
-#define LIN_FLAG_BYTE_OFFSET_LI0_BCM_LIN_1             4
-#define LIN_FLAG_BIT_OFFSET_LI0_BCM_LIN_1              0
-
-#define LIN_FLAG_BYTE_OFFSET_LI0_BCM_LIN_2             5
-#define LIN_FLAG_BIT_OFFSET_LI0_BCM_LIN_2              0
+#define LIN_FLAG_BYTE_OFFSET_LI0_BCM_02             4
+#define LIN_FLAG_BIT_OFFSET_LI0_BCM_02              0
 
 
 /**********************************************************************/
@@ -474,227 +406,201 @@ typedef enum {
  */
 
 
-/* static access macros for signal LI0_STAT_Terminal */
+/* static access macros for signal LI0_Ignition */
    
-#define l_u8_rd_LI0_STAT_Terminal() \
-    ((l_u8) ((lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_STAT_Terminal] & \
-    (((1U << LIN_SIGNAL_SIZE_LI0_STAT_Terminal) - 1) \
-    << LIN_BIT_OFFSET_LI0_STAT_Terminal )) >> LIN_BIT_OFFSET_LI0_STAT_Terminal))
-#define l_u8_wr_LI0_STAT_Terminal(A) \
-    {lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_STAT_Terminal] = \
-    ((l_u8) (((l_u8) (lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_STAT_Terminal] & \
-    ((l_u8) (~(((1U << LIN_SIGNAL_SIZE_LI0_STAT_Terminal) - 1) << LIN_BIT_OFFSET_LI0_STAT_Terminal)))))  | \
-    ((l_u8) ((((1U << LIN_SIGNAL_SIZE_LI0_STAT_Terminal) - 1) & (A)) << LIN_BIT_OFFSET_LI0_STAT_Terminal))));\
-    lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_STAT_Terminal] = 1;}
+#define l_u8_rd_LI0_BCM_Status_IGN() \
+    ((l_u8) ((lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_BCM_Status_IGN] & \
+    (((1U << LIN_SIGNAL_SIZE_LI0_BCM_Status_IGN) - 1) \
+    << LIN_BIT_OFFSET_LI0_BCM_Status_IGN )) >> LIN_BIT_OFFSET_LI0_BCM_Status_IGN))
+#define l_u8_wr_LI0_BCM_Status_IGN(A) \
+    {lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_BCM_Status_IGN] = \
+    ((l_u8) (((l_u8) (lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_BCM_Status_IGN] & \
+    ((l_u8) (~(((1U << LIN_SIGNAL_SIZE_LI0_BCM_Status_IGN) - 1) << LIN_BIT_OFFSET_LI0_BCM_Status_IGN)))))  | \
+    ((l_u8) ((((1U << LIN_SIGNAL_SIZE_LI0_BCM_Status_IGN) - 1) & (A)) << LIN_BIT_OFFSET_LI0_BCM_Status_IGN))));\
+    lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_BCM_Status_IGN] = 1;}
 
-
-/* static access macros for signal LI0_WiperSpeed */
+/* static access macros for signal LI0_BCM_CMD_AutoWiper */
    
-#define l_u8_rd_LI0_WiperSpeed() \
-    ((l_u8) ((lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_WiperSpeed] & \
-    (((1U << LIN_SIGNAL_SIZE_LI0_WiperSpeed) - 1) \
-    << LIN_BIT_OFFSET_LI0_WiperSpeed )) >> LIN_BIT_OFFSET_LI0_WiperSpeed))
-#define l_u8_wr_LI0_WiperSpeed(A) \
-    {lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_WiperSpeed] = \
-    ((l_u8) (((l_u8) (lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_WiperSpeed] & \
-    ((l_u8) (~(((1U << LIN_SIGNAL_SIZE_LI0_WiperSpeed) - 1) << LIN_BIT_OFFSET_LI0_WiperSpeed)))))  | \
-    ((l_u8) ((((1U << LIN_SIGNAL_SIZE_LI0_WiperSpeed) - 1) & (A)) << LIN_BIT_OFFSET_LI0_WiperSpeed))));\
-    lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_WiperSpeed] = 1;}
-
-/* static access macros for signal LI0_STAT_RS */
-   
-#define l_bool_rd_LI0_STAT_RS() \
-   	(LIN_TEST_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_STAT_RS], \
-   	LIN_BIT_OFFSET_LI0_STAT_RS))
-#define l_bool_wr_LI0_STAT_RS(A) \
+#define l_bool_rd_LI0_BCM_CMD_AutoWiper() \
+   	(LIN_TEST_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_BCM_CMD_AutoWiper], \
+   	LIN_BIT_OFFSET_LI0_BCM_CMD_AutoWiper))
+#define l_bool_wr_LI0_BCM_CMD_AutoWiper(A) \
 	{(A) ? \
-  	(LIN_SET_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_STAT_RS], \
-  	LIN_BIT_OFFSET_LI0_STAT_RS)):\
-  	(LIN_CLEAR_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_STAT_RS], \
-  	LIN_BIT_OFFSET_LI0_STAT_RS));\
-  	lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_STAT_RS] = 1;}
+  	(LIN_SET_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_BCM_CMD_AutoWiper], \
+  	LIN_BIT_OFFSET_LI0_BCM_CMD_AutoWiper)):\
+  	(LIN_CLEAR_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_BCM_CMD_AutoWiper], \
+  	LIN_BIT_OFFSET_LI0_BCM_CMD_AutoWiper));\
+  	lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_BCM_CMD_AutoWiper] = 1;}
 
-/* static access macros for signal LI0_STAT_RSError */
+/* static access macros for signal LI0_BCM_RQ_FrontWash */
    
-#define l_bool_rd_LI0_STAT_RSError() \
-   	(LIN_TEST_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_STAT_RSError], \
-   	LIN_BIT_OFFSET_LI0_STAT_RSError))
-#define l_bool_wr_LI0_STAT_RSError(A) \
+#define l_bool_rd_LI0_BCM_RQ_FrontWash() \
+   	(LIN_TEST_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_BCM_RQ_FrontWash], \
+   	LIN_BIT_OFFSET_LI0_BCM_RQ_FrontWash))
+#define l_bool_wr_LI0_BCM_RQ_FrontWash(A) \
 	{(A) ? \
-  	(LIN_SET_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_STAT_RSError], \
-  	LIN_BIT_OFFSET_LI0_STAT_RSError)):\
-  	(LIN_CLEAR_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_STAT_RSError], \
-  	LIN_BIT_OFFSET_LI0_STAT_RSError));\
-  	lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_STAT_RSError] = 1;}
+  	(LIN_SET_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_BCM_RQ_FrontWash], \
+  	LIN_BIT_OFFSET_LI0_BCM_RQ_FrontWash)):\
+  	(LIN_CLEAR_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_BCM_RQ_FrontWash], \
+  	LIN_BIT_OFFSET_LI0_BCM_RQ_FrontWash));\
+  	lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_BCM_RQ_FrontWash] = 1;}
 
-/* static access macros for signal LI0_LightOnReq */
+/* static access macros for signal LI0_BCM_ParkPosition */
    
-#define l_bool_rd_LI0_LightOnReq() \
-   	(LIN_TEST_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_LightOnReq], \
-   	LIN_BIT_OFFSET_LI0_LightOnReq))
-#define l_bool_wr_LI0_LightOnReq(A) \
+#define l_bool_rd_LI0_BCM_ParkPosition() \
+   	(LIN_TEST_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_BCM_ParkPosition], \
+   	LIN_BIT_OFFSET_LI0_BCM_ParkPosition))
+#define l_bool_wr_LI0_BCM_ParkPosition(A) \
 	{(A) ? \
-  	(LIN_SET_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_LightOnReq], \
-  	LIN_BIT_OFFSET_LI0_LightOnReq)):\
-  	(LIN_CLEAR_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_LightOnReq], \
-  	LIN_BIT_OFFSET_LI0_LightOnReq));\
-  	lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_LightOnReq] = 1;}
+  	(LIN_SET_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_BCM_ParkPosition], \
+  	LIN_BIT_OFFSET_LI0_BCM_ParkPosition)):\
+  	(LIN_CLEAR_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_BCM_ParkPosition], \
+  	LIN_BIT_OFFSET_LI0_BCM_ParkPosition));\
+  	lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_BCM_ParkPosition] = 1;}
 
-/* static access macros for signal LI0_STAT_DayNightMode */
+/* static access macros for signal LI0_BCM_RainSensitivity */
    
-#define l_u8_rd_LI0_STAT_DayNightMode() \
-    ((l_u8) ((lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_STAT_DayNightMode] & \
-    (((1U << LIN_SIGNAL_SIZE_LI0_STAT_DayNightMode) - 1) \
-    << LIN_BIT_OFFSET_LI0_STAT_DayNightMode )) >> LIN_BIT_OFFSET_LI0_STAT_DayNightMode))
-#define l_u8_wr_LI0_STAT_DayNightMode(A) \
-    {lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_STAT_DayNightMode] = \
-    ((l_u8) (((l_u8) (lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_STAT_DayNightMode] & \
-    ((l_u8) (~(((1U << LIN_SIGNAL_SIZE_LI0_STAT_DayNightMode) - 1) << LIN_BIT_OFFSET_LI0_STAT_DayNightMode)))))  | \
-    ((l_u8) ((((1U << LIN_SIGNAL_SIZE_LI0_STAT_DayNightMode) - 1) & (A)) << LIN_BIT_OFFSET_LI0_STAT_DayNightMode))));\
-    lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_STAT_DayNightMode] = 1;}
+#define l_u8_rd_LI0_BCM_RainSensitivity() \
+    ((l_u8) ((lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_BCM_RainSensitivity] & \
+    (((1U << LIN_SIGNAL_SIZE_LI0_BCM_RainSensitivity) - 1) \
+    << LIN_BIT_OFFSET_LI0_BCM_RainSensitivity )) >> LIN_BIT_OFFSET_LI0_BCM_RainSensitivity))
+#define l_u8_wr_LI0_BCM_RainSensitivity(A) \
+    {lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_BCM_RainSensitivity] = \
+    ((l_u8) (((l_u8) (lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_BCM_RainSensitivity] & \
+    ((l_u8) (~(((1U << LIN_SIGNAL_SIZE_LI0_BCM_RainSensitivity) - 1) << LIN_BIT_OFFSET_LI0_BCM_RainSensitivity)))))  | \
+    ((l_u8) ((((1U << LIN_SIGNAL_SIZE_LI0_BCM_RainSensitivity) - 1) & (A)) << LIN_BIT_OFFSET_LI0_BCM_RainSensitivity))));\
+    lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_BCM_RainSensitivity] = 1;}
 
-/* static access macros for signal LI0_STAT_LS */
+/* static access macros for signal LI0_BCM_CMD_AutoLight */
    
-#define l_bool_rd_LI0_STAT_LS() \
-   	(LIN_TEST_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_STAT_LS], \
-   	LIN_BIT_OFFSET_LI0_STAT_LS))
-#define l_bool_wr_LI0_STAT_LS(A) \
+#define l_bool_rd_LI0_BCM_CMD_AutoLight() \
+   	(LIN_TEST_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_BCM_CMD_AutoLight], \
+   	LIN_BIT_OFFSET_LI0_BCM_CMD_AutoLight))
+#define l_bool_wr_LI0_BCM_CMD_AutoLight(A) \
 	{(A) ? \
-  	(LIN_SET_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_STAT_LS], \
-  	LIN_BIT_OFFSET_LI0_STAT_LS)):\
-  	(LIN_CLEAR_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_STAT_LS], \
-  	LIN_BIT_OFFSET_LI0_STAT_LS));\
-  	lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_STAT_LS] = 1;}
+  	(LIN_SET_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_BCM_CMD_AutoLight], \
+  	LIN_BIT_OFFSET_LI0_BCM_CMD_AutoLight)):\
+  	(LIN_CLEAR_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_BCM_CMD_AutoLight], \
+  	LIN_BIT_OFFSET_LI0_BCM_CMD_AutoLight));\
+  	lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_BCM_CMD_AutoLight] = 1;}
 
-/* static access macros for signal LI0_STAT_LSError */
+/* static access macros for signal LI0_BCM_BladesTurningPoint */
    
-#define l_bool_rd_LI0_STAT_LSError() \
-   	(LIN_TEST_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_STAT_LSError], \
-   	LIN_BIT_OFFSET_LI0_STAT_LSError))
-#define l_bool_wr_LI0_STAT_LSError(A) \
+#define l_bool_rd_LI0_BCM_BladesTurningPoint() \
+   	(LIN_TEST_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_BCM_BladesTurningPoint], \
+   	LIN_BIT_OFFSET_LI0_BCM_BladesTurningPoint))
+#define l_bool_wr_LI0_BCM_BladesTurningPoint(A) \
 	{(A) ? \
-  	(LIN_SET_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_STAT_LSError], \
-  	LIN_BIT_OFFSET_LI0_STAT_LSError)):\
-  	(LIN_CLEAR_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_STAT_LSError], \
-  	LIN_BIT_OFFSET_LI0_STAT_LSError));\
-  	lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_STAT_LSError] = 1;}
+  	(LIN_SET_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_BCM_BladesTurningPoint], \
+  	LIN_BIT_OFFSET_LI0_BCM_BladesTurningPoint)):\
+  	(LIN_CLEAR_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_BCM_BladesTurningPoint], \
+  	LIN_BIT_OFFSET_LI0_BCM_BladesTurningPoint));\
+  	lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_BCM_BladesTurningPoint] = 1;}
 
-/* static access macros for signal LI0_FrontWiperSwitch */
+/* static access macros for signal LI0_BCM_RoofStatus */
    
-#define l_u8_rd_LI0_FrontWiperSwitch() \
-    ((l_u8) ((lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_FrontWiperSwitch] & \
-    (((1U << LIN_SIGNAL_SIZE_LI0_FrontWiperSwitch) - 1) \
-    << LIN_BIT_OFFSET_LI0_FrontWiperSwitch )) >> LIN_BIT_OFFSET_LI0_FrontWiperSwitch))
-#define l_u8_wr_LI0_FrontWiperSwitch(A) \
-    {lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_FrontWiperSwitch] = \
-    ((l_u8) (((l_u8) (lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_FrontWiperSwitch] & \
-    ((l_u8) (~(((1U << LIN_SIGNAL_SIZE_LI0_FrontWiperSwitch) - 1) << LIN_BIT_OFFSET_LI0_FrontWiperSwitch)))))  | \
-    ((l_u8) ((((1U << LIN_SIGNAL_SIZE_LI0_FrontWiperSwitch) - 1) & (A)) << LIN_BIT_OFFSET_LI0_FrontWiperSwitch))));\
-    lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_FrontWiperSwitch] = 1;}
-
-/* static access macros for signal LI0_FrontWasherSwitch */
-   
-#define l_u8_rd_LI0_FrontWasherSwitch() \
-    ((l_u8) ((lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_FrontWasherSwitch] & \
-    (((1U << LIN_SIGNAL_SIZE_LI0_FrontWasherSwitch) - 1) \
-    << LIN_BIT_OFFSET_LI0_FrontWasherSwitch )) >> LIN_BIT_OFFSET_LI0_FrontWasherSwitch))
-#define l_u8_wr_LI0_FrontWasherSwitch(A) \
-    {lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_FrontWasherSwitch] = \
-    ((l_u8) (((l_u8) (lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_FrontWasherSwitch] & \
-    ((l_u8) (~(((1U << LIN_SIGNAL_SIZE_LI0_FrontWasherSwitch) - 1) << LIN_BIT_OFFSET_LI0_FrontWasherSwitch)))))  | \
-    ((l_u8) ((((1U << LIN_SIGNAL_SIZE_LI0_FrontWasherSwitch) - 1) & (A)) << LIN_BIT_OFFSET_LI0_FrontWasherSwitch))));\
-    lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_FrontWasherSwitch] = 1;}
-
-/* static access macros for signal LI0_FrontWiperPosition */
-   
-#define l_bool_rd_LI0_FrontWiperPosition() \
-   	(LIN_TEST_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_FrontWiperPosition], \
-   	LIN_BIT_OFFSET_LI0_FrontWiperPosition))
-#define l_bool_wr_LI0_FrontWiperPosition(A) \
+#define l_bool_rd_LI0_BCM_RoofStatus() \
+   	(LIN_TEST_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_BCM_RoofStatus], \
+   	LIN_BIT_OFFSET_LI0_BCM_RoofStatus))
+#define l_bool_wr_LI0_BCM_RoofStatus(A) \
 	{(A) ? \
-  	(LIN_SET_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_FrontWiperPosition], \
-  	LIN_BIT_OFFSET_LI0_FrontWiperPosition)):\
-  	(LIN_CLEAR_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_FrontWiperPosition], \
-  	LIN_BIT_OFFSET_LI0_FrontWiperPosition));\
-  	lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_FrontWiperPosition] = 1;}
+  	(LIN_SET_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_BCM_RoofStatus], \
+  	LIN_BIT_OFFSET_LI0_BCM_RoofStatus)):\
+  	(LIN_CLEAR_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_BCM_RoofStatus], \
+  	LIN_BIT_OFFSET_LI0_BCM_RoofStatus));\
+  	lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_BCM_RoofStatus] = 1;}
 
-/* static access macros for signal LI0_MasterLightSwitch */
-   
-#define l_u8_rd_LI0_MasterLightSwitch() \
-    ((l_u8) ((lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_MasterLightSwitch] & \
-    (((1U << LIN_SIGNAL_SIZE_LI0_MasterLightSwitch) - 1) \
-    << LIN_BIT_OFFSET_LI0_MasterLightSwitch )) >> LIN_BIT_OFFSET_LI0_MasterLightSwitch))
-#define l_u8_wr_LI0_MasterLightSwitch(A) \
-    {lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_MasterLightSwitch] = \
-    ((l_u8) (((l_u8) (lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_MasterLightSwitch] & \
-    ((l_u8) (~(((1U << LIN_SIGNAL_SIZE_LI0_MasterLightSwitch) - 1) << LIN_BIT_OFFSET_LI0_MasterLightSwitch)))))  | \
-    ((l_u8) ((((1U << LIN_SIGNAL_SIZE_LI0_MasterLightSwitch) - 1) & (A)) << LIN_BIT_OFFSET_LI0_MasterLightSwitch))));\
-    lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_MasterLightSwitch] = 1;}
 
-/* static access macros for signal LI0_LightOnReason */
+/* static access macros for signal LI0_BCM_OutsideTemp */
    
-#define l_u8_rd_LI0_LightOnReason() \
-    ((l_u8) ((lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_LightOnReason] & \
-    (((1U << LIN_SIGNAL_SIZE_LI0_LightOnReason) - 1) \
-    << LIN_BIT_OFFSET_LI0_LightOnReason )) >> LIN_BIT_OFFSET_LI0_LightOnReason))
-#define l_u8_wr_LI0_LightOnReason(A) \
-    {lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_LightOnReason] = \
-    ((l_u8) (((l_u8) (lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_LightOnReason] & \
-    ((l_u8) (~(((1U << LIN_SIGNAL_SIZE_LI0_LightOnReason) - 1) << LIN_BIT_OFFSET_LI0_LightOnReason)))))  | \
-    ((l_u8) ((((1U << LIN_SIGNAL_SIZE_LI0_LightOnReason) - 1) & (A)) << LIN_BIT_OFFSET_LI0_LightOnReason))));\
-    lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_LightOnReason] = 1;}
+#define l_u8_rd_LI0_BCM_OutsideTemp() \
+    ((l_u8) ((lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_BCM_OutsideTemp] & \
+    (((1U << LIN_SIGNAL_SIZE_LI0_BCM_OutsideTemp) - 1) \
+    << LIN_BIT_OFFSET_LI0_BCM_OutsideTemp )) >> LIN_BIT_OFFSET_LI0_BCM_OutsideTemp))
+#define l_u8_wr_LI0_BCM_OutsideTemp(A) \
+    {lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_BCM_OutsideTemp] = \
+    ((l_u8) (((l_u8) (lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_BCM_OutsideTemp] & \
+    ((l_u8) (~(((1U << LIN_SIGNAL_SIZE_LI0_BCM_OutsideTemp) - 1) << LIN_BIT_OFFSET_LI0_BCM_OutsideTemp)))))  | \
+    ((l_u8) ((((1U << LIN_SIGNAL_SIZE_LI0_BCM_OutsideTemp) - 1) & (A)) << LIN_BIT_OFFSET_LI0_BCM_OutsideTemp))));\
+    lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_BCM_OutsideTemp] = 1;}
 
-/* static access macros for signal LI0_VehicleSpeedValid */
+/* static access macros for signal LI0_RLS_MsgCounter */
    
-#define l_u8_rd_LI0_VehicleSpeedValid() \
-    ((l_u8) ((lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_VehicleSpeedValid] & \
-    (((1U << LIN_SIGNAL_SIZE_LI0_VehicleSpeedValid) - 1) \
-    << LIN_BIT_OFFSET_LI0_VehicleSpeedValid )) >> LIN_BIT_OFFSET_LI0_VehicleSpeedValid))
-#define l_u8_wr_LI0_VehicleSpeedValid(A) \
-    {lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_VehicleSpeedValid] = \
-    ((l_u8) (((l_u8) (lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_VehicleSpeedValid] & \
-    ((l_u8) (~(((1U << LIN_SIGNAL_SIZE_LI0_VehicleSpeedValid) - 1) << LIN_BIT_OFFSET_LI0_VehicleSpeedValid)))))  | \
-    ((l_u8) ((((1U << LIN_SIGNAL_SIZE_LI0_VehicleSpeedValid) - 1) & (A)) << LIN_BIT_OFFSET_LI0_VehicleSpeedValid))));\
-    lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_VehicleSpeedValid] = 1;}
+#define l_u8_rd_LI0_RLS_MsgCounter() \
+    ((l_u8) ((lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_MsgCounter] & \
+    (((1U << LIN_SIGNAL_SIZE_LI0_RLS_MsgCounter) - 1) \
+    << LIN_BIT_OFFSET_LI0_RLS_MsgCounter )) >> LIN_BIT_OFFSET_LI0_RLS_MsgCounter))
+#define l_u8_wr_LI0_RLS_MsgCounter(A) \
+    {lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_MsgCounter] = \
+    ((l_u8) (((l_u8) (lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_MsgCounter] & \
+    ((l_u8) (~(((1U << LIN_SIGNAL_SIZE_LI0_RLS_MsgCounter) - 1) << LIN_BIT_OFFSET_LI0_RLS_MsgCounter)))))  | \
+    ((l_u8) ((((1U << LIN_SIGNAL_SIZE_LI0_RLS_MsgCounter) - 1) & (A)) << LIN_BIT_OFFSET_LI0_RLS_MsgCounter))));\
+    lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_MsgCounter] = 1;}
 
-/* static access macros for signal LI0_Day */
+/* static access macros for signal LI0_RLS_RQ_WiperSPD */
    
-#define l_u8_rd_LI0_Day() \
-    ((l_u8) ((lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_Day] & \
-    (((1U << LIN_SIGNAL_SIZE_LI0_Day) - 1) \
-    << LIN_BIT_OFFSET_LI0_Day )) >> LIN_BIT_OFFSET_LI0_Day))
-#define l_u8_wr_LI0_Day(A) \
-    {lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_Day] = \
-    ((l_u8) (((l_u8) (lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_Day] & \
-    ((l_u8) (~(((1U << LIN_SIGNAL_SIZE_LI0_Day) - 1) << LIN_BIT_OFFSET_LI0_Day)))))  | \
-    ((l_u8) ((((1U << LIN_SIGNAL_SIZE_LI0_Day) - 1) & (A)) << LIN_BIT_OFFSET_LI0_Day))));\
-    lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_Day] = 1;}
+#define l_u8_rd_LI0_RLS_RQ_WiperSPD() \
+    ((l_u8) ((lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_RQ_WiperSPD] & \
+    (((1U << LIN_SIGNAL_SIZE_LI0_RLS_RQ_WiperSPD) - 1) \
+    << LIN_BIT_OFFSET_LI0_RLS_RQ_WiperSPD )) >> LIN_BIT_OFFSET_LI0_RLS_RQ_WiperSPD))
+#define l_u8_wr_LI0_RLS_RQ_WiperSPD(A) \
+    {lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_RQ_WiperSPD] = \
+    ((l_u8) (((l_u8) (lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_RQ_WiperSPD] & \
+    ((l_u8) (~(((1U << LIN_SIGNAL_SIZE_LI0_RLS_RQ_WiperSPD) - 1) << LIN_BIT_OFFSET_LI0_RLS_RQ_WiperSPD)))))  | \
+    ((l_u8) ((((1U << LIN_SIGNAL_SIZE_LI0_RLS_RQ_WiperSPD) - 1) & (A)) << LIN_BIT_OFFSET_LI0_RLS_RQ_WiperSPD))));\
+    lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_RQ_WiperSPD] = 1;}
 
-/* static access macros for signal LI0_Month */
+/* static access macros for signal LI0_RLS_RQ_LowBeam */
    
-#define l_u8_rd_LI0_Month() \
-    ((l_u8) ((lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_Month] & \
-    (((1U << LIN_SIGNAL_SIZE_LI0_Month) - 1) \
-    << LIN_BIT_OFFSET_LI0_Month )) >> LIN_BIT_OFFSET_LI0_Month))
-#define l_u8_wr_LI0_Month(A) \
-    {lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_Month] = \
-    ((l_u8) (((l_u8) (lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_Month] & \
-    ((l_u8) (~(((1U << LIN_SIGNAL_SIZE_LI0_Month) - 1) << LIN_BIT_OFFSET_LI0_Month)))))  | \
-    ((l_u8) ((((1U << LIN_SIGNAL_SIZE_LI0_Month) - 1) & (A)) << LIN_BIT_OFFSET_LI0_Month))));\
-    lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_Month] = 1;}
+#define l_bool_rd_LI0_RLS_RQ_LowBeam() \
+   	(LIN_TEST_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_RQ_LowBeam], \
+   	LIN_BIT_OFFSET_LI0_RLS_RQ_LowBeam))
+#define l_bool_wr_LI0_RLS_RQ_LowBeam(A) \
+	{(A) ? \
+  	(LIN_SET_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_RQ_LowBeam], \
+  	LIN_BIT_OFFSET_LI0_RLS_RQ_LowBeam)):\
+  	(LIN_CLEAR_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_RQ_LowBeam], \
+  	LIN_BIT_OFFSET_LI0_RLS_RQ_LowBeam));\
+  	lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_RQ_LowBeam] = 1;}
 
-/* static access macros for signal LI0_Year */
+/* static access macros for signal LI0_RLS_RQ_PositionLamp */
    
-#define l_u8_rd_LI0_Year() \
-    ((l_u8) ((lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_Year] & \
-    (((1U << LIN_SIGNAL_SIZE_LI0_Year) - 1) \
-    << LIN_BIT_OFFSET_LI0_Year )) >> LIN_BIT_OFFSET_LI0_Year))
-#define l_u8_wr_LI0_Year(A) \
-    {lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_Year] = \
-    ((l_u8) (((l_u8) (lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_Year] & \
-    ((l_u8) (~(((1U << LIN_SIGNAL_SIZE_LI0_Year) - 1) << LIN_BIT_OFFSET_LI0_Year)))))  | \
-    ((l_u8) ((((1U << LIN_SIGNAL_SIZE_LI0_Year) - 1) & (A)) << LIN_BIT_OFFSET_LI0_Year))));\
-    lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_Year] = 1;}
+#define l_bool_rd_LI0_RLS_RQ_PositionLamp() \
+   	(LIN_TEST_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_RQ_PositionLamp], \
+   	LIN_BIT_OFFSET_LI0_RLS_RQ_PositionLamp))
+#define l_bool_wr_LI0_RLS_RQ_PositionLamp(A) \
+	{(A) ? \
+  	(LIN_SET_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_RQ_PositionLamp], \
+  	LIN_BIT_OFFSET_LI0_RLS_RQ_PositionLamp)):\
+  	(LIN_CLEAR_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_RQ_PositionLamp], \
+  	LIN_BIT_OFFSET_LI0_RLS_RQ_PositionLamp));\
+  	lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_RQ_PositionLamp] = 1;}
+
+/* static access macros for signal LI0_RLS_Fault_Rain */
+   
+#define l_bool_rd_LI0_RLS_Fault_Rain() \
+   	(LIN_TEST_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_Fault_Rain], \
+   	LIN_BIT_OFFSET_LI0_RLS_Fault_Rain))
+#define l_bool_wr_LI0_RLS_Fault_Rain(A) \
+	{(A) ? \
+  	(LIN_SET_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_Fault_Rain], \
+  	LIN_BIT_OFFSET_LI0_RLS_Fault_Rain)):\
+  	(LIN_CLEAR_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_Fault_Rain], \
+  	LIN_BIT_OFFSET_LI0_RLS_Fault_Rain));\
+  	lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_Fault_Rain] = 1;}
+
+/* static access macros for signal LI0_RLS_Fault_Light */
+   
+#define l_bool_rd_LI0_RLS_Fault_Light() \
+   	(LIN_TEST_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_Fault_Light], \
+   	LIN_BIT_OFFSET_LI0_RLS_Fault_Light))
+#define l_bool_wr_LI0_RLS_Fault_Light(A) \
+	{(A) ? \
+  	(LIN_SET_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_Fault_Light], \
+  	LIN_BIT_OFFSET_LI0_RLS_Fault_Light)):\
+  	(LIN_CLEAR_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_Fault_Light], \
+  	LIN_BIT_OFFSET_LI0_RLS_Fault_Light));\
+  	lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_Fault_Light] = 1;}
 
 /* static access macros for signal LI0_RLS_REP_Error */
    
@@ -709,188 +615,123 @@ typedef enum {
   	LIN_BIT_OFFSET_LI0_RLS_REP_Error));\
   	lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_REP_Error] = 1;}
 
-/* static access macros for signal LI0_FrontWiperInterval */
+/* static access macros for signal LI0_RLS_VOLT_Error */
    
-#define l_u8_rd_LI0_FrontWiperInterval() \
-    ((l_u8) ((lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_FrontWiperInterval] & \
-    (((1U << LIN_SIGNAL_SIZE_LI0_FrontWiperInterval) - 1) \
-    << LIN_BIT_OFFSET_LI0_FrontWiperInterval )) >> LIN_BIT_OFFSET_LI0_FrontWiperInterval))
-#define l_u8_wr_LI0_FrontWiperInterval(A) \
-    {lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_FrontWiperInterval] = \
-    ((l_u8) (((l_u8) (lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_FrontWiperInterval] & \
-    ((l_u8) (~(((1U << LIN_SIGNAL_SIZE_LI0_FrontWiperInterval) - 1) << LIN_BIT_OFFSET_LI0_FrontWiperInterval)))))  | \
-    ((l_u8) ((((1U << LIN_SIGNAL_SIZE_LI0_FrontWiperInterval) - 1) & (A)) << LIN_BIT_OFFSET_LI0_FrontWiperInterval))));\
-    lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_FrontWiperInterval] = 1;}
+#define l_u8_rd_LI0_RLS_VOLT_Error() \
+    ((l_u8) ((lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_VOLT_Error] & \
+    (((1U << LIN_SIGNAL_SIZE_LI0_RLS_VOLT_Error) - 1) \
+    << LIN_BIT_OFFSET_LI0_RLS_VOLT_Error )) >> LIN_BIT_OFFSET_LI0_RLS_VOLT_Error))
+#define l_u8_wr_LI0_RLS_VOLT_Error(A) \
+    {lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_VOLT_Error] = \
+    ((l_u8) (((l_u8) (lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_VOLT_Error] & \
+    ((l_u8) (~(((1U << LIN_SIGNAL_SIZE_LI0_RLS_VOLT_Error) - 1) << LIN_BIT_OFFSET_LI0_RLS_VOLT_Error)))))  | \
+    ((l_u8) ((((1U << LIN_SIGNAL_SIZE_LI0_RLS_VOLT_Error) - 1) & (A)) << LIN_BIT_OFFSET_LI0_RLS_VOLT_Error))));\
+    lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_VOLT_Error] = 1;}
 
-/* static access macros for signal LI0_HUDBrightnessUnit */
+/* static access macros for signal LI0_RLS_Humid_Temp_Error */
    
-#define l_u8_rd_LI0_HUDBrightnessUnit() \
-    ((l_u8) ((lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_HUDBrightnessUnit] & \
-    (((1U << LIN_SIGNAL_SIZE_LI0_HUDBrightnessUnit) - 1) \
-    << LIN_BIT_OFFSET_LI0_HUDBrightnessUnit )) >> LIN_BIT_OFFSET_LI0_HUDBrightnessUnit))
-#define l_u8_wr_LI0_HUDBrightnessUnit(A) \
-    {lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_HUDBrightnessUnit] = \
-    ((l_u8) (((l_u8) (lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_HUDBrightnessUnit] & \
-    ((l_u8) (~(((1U << LIN_SIGNAL_SIZE_LI0_HUDBrightnessUnit) - 1) << LIN_BIT_OFFSET_LI0_HUDBrightnessUnit)))))  | \
-    ((l_u8) ((((1U << LIN_SIGNAL_SIZE_LI0_HUDBrightnessUnit) - 1) & (A)) << LIN_BIT_OFFSET_LI0_HUDBrightnessUnit))));\
-    lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_HUDBrightnessUnit] = 1;}
-
-/* static access macros for signal LI0_HUDBrightnessRawValue */
-   
-#define l_u8_rd_LI0_HUDBrightnessRawValue() \
-    ((l_u8) ((lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_HUDBrightnessRawValue] & \
-    (((1U << LIN_SIGNAL_SIZE_LI0_HUDBrightnessRawValue) - 1) \
-    << LIN_BIT_OFFSET_LI0_HUDBrightnessRawValue )) >> LIN_BIT_OFFSET_LI0_HUDBrightnessRawValue))
-#define l_u8_wr_LI0_HUDBrightnessRawValue(A) \
-    {lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_HUDBrightnessRawValue] = \
-    ((l_u8) (((l_u8) (lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_HUDBrightnessRawValue] & \
-    ((l_u8) (~(((1U << LIN_SIGNAL_SIZE_LI0_HUDBrightnessRawValue) - 1) << LIN_BIT_OFFSET_LI0_HUDBrightnessRawValue)))))  | \
-    ((l_u8) ((((1U << LIN_SIGNAL_SIZE_LI0_HUDBrightnessRawValue) - 1) & (A)) << LIN_BIT_OFFSET_LI0_HUDBrightnessRawValue))));\
-    lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_HUDBrightnessRawValue] = 1;}
-
-/* static access macros for signal LI0_RainDayGlobalClose */
-   
-#define l_bool_rd_LI0_RainDayGlobalClose() \
-   	(LIN_TEST_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RainDayGlobalClose], \
-   	LIN_BIT_OFFSET_LI0_RainDayGlobalClose))
-#define l_bool_wr_LI0_RainDayGlobalClose(A) \
+#define l_bool_rd_LI0_RLS_Humid_Temp_Error() \
+   	(LIN_TEST_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_Humid_Temp_Error], \
+   	LIN_BIT_OFFSET_LI0_RLS_Humid_Temp_Error))
+#define l_bool_wr_LI0_RLS_Humid_Temp_Error(A) \
 	{(A) ? \
-  	(LIN_SET_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RainDayGlobalClose], \
-  	LIN_BIT_OFFSET_LI0_RainDayGlobalClose)):\
-  	(LIN_CLEAR_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RainDayGlobalClose], \
-  	LIN_BIT_OFFSET_LI0_RainDayGlobalClose));\
-  	lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RainDayGlobalClose] = 1;}
+  	(LIN_SET_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_Humid_Temp_Error], \
+  	LIN_BIT_OFFSET_LI0_RLS_Humid_Temp_Error)):\
+  	(LIN_CLEAR_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_Humid_Temp_Error], \
+  	LIN_BIT_OFFSET_LI0_RLS_Humid_Temp_Error));\
+  	lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_Humid_Temp_Error] = 1;}
 
-/* static access macros for signal LI0_RLSHumidTempError */
+/* static access macros for signal LI0_RLS_Brightness_IR_L */
    
-#define l_bool_rd_LI0_RLSHumidTempError() \
-   	(LIN_TEST_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLSHumidTempError], \
-   	LIN_BIT_OFFSET_LI0_RLSHumidTempError))
-#define l_bool_wr_LI0_RLSHumidTempError(A) \
-	{(A) ? \
-  	(LIN_SET_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLSHumidTempError], \
-  	LIN_BIT_OFFSET_LI0_RLSHumidTempError)):\
-  	(LIN_CLEAR_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLSHumidTempError], \
-  	LIN_BIT_OFFSET_LI0_RLSHumidTempError));\
-  	lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLSHumidTempError] = 1;}
+#define l_u8_rd_LI0_RLS_Brightness_IR_L() \
+    ((l_u8) ((lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_Brightness_IR_L] & \
+    (((1U << LIN_SIGNAL_SIZE_LI0_RLS_Brightness_IR_L) - 1) \
+    << LIN_BIT_OFFSET_LI0_RLS_Brightness_IR_L )) >> LIN_BIT_OFFSET_LI0_RLS_Brightness_IR_L))
+#define l_u8_wr_LI0_RLS_Brightness_IR_L(A) \
+    {lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_Brightness_IR_L] = \
+    ((l_u8) (((l_u8) (lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_Brightness_IR_L] & \
+    ((l_u8) (~(((1U << LIN_SIGNAL_SIZE_LI0_RLS_Brightness_IR_L) - 1) << LIN_BIT_OFFSET_LI0_RLS_Brightness_IR_L)))))  | \
+    ((l_u8) ((((1U << LIN_SIGNAL_SIZE_LI0_RLS_Brightness_IR_L) - 1) & (A)) << LIN_BIT_OFFSET_LI0_RLS_Brightness_IR_L))));\
+    lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_Brightness_IR_L] = 1;}
 
 
-/* static access macros for signal LI0_InterTempSensorValue */
+/* static access macros for signal LI0_RLS_Rain_Intensity */
    
-#define l_u8_rd_LI0_InterTempSensorValue() \
-    ((l_u8) ((lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_InterTempSensorValue] & \
-    (((1U << LIN_SIGNAL_SIZE_LI0_InterTempSensorValue) - 1) \
-    << LIN_BIT_OFFSET_LI0_InterTempSensorValue )) >> LIN_BIT_OFFSET_LI0_InterTempSensorValue))
-#define l_u8_wr_LI0_InterTempSensorValue(A) \
-    {lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_InterTempSensorValue] = \
-    ((l_u8) (((l_u8) (lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_InterTempSensorValue] & \
-    ((l_u8) (~(((1U << LIN_SIGNAL_SIZE_LI0_InterTempSensorValue) - 1) << LIN_BIT_OFFSET_LI0_InterTempSensorValue)))))  | \
-    ((l_u8) ((((1U << LIN_SIGNAL_SIZE_LI0_InterTempSensorValue) - 1) & (A)) << LIN_BIT_OFFSET_LI0_InterTempSensorValue))));\
-    lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_InterTempSensorValue] = 1;}
+#define l_u8_rd_LI0_RLS_Rain_Intensity() \
+    ((l_u8) ((lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_Rain_Intensity] & \
+    (((1U << LIN_SIGNAL_SIZE_LI0_RLS_Rain_Intensity) - 1) \
+    << LIN_BIT_OFFSET_LI0_RLS_Rain_Intensity )) >> LIN_BIT_OFFSET_LI0_RLS_Rain_Intensity))
+#define l_u8_wr_LI0_RLS_Rain_Intensity(A) \
+    {lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_Rain_Intensity] = \
+    ((l_u8) (((l_u8) (lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_Rain_Intensity] & \
+    ((l_u8) (~(((1U << LIN_SIGNAL_SIZE_LI0_RLS_Rain_Intensity) - 1) << LIN_BIT_OFFSET_LI0_RLS_Rain_Intensity)))))  | \
+    ((l_u8) ((((1U << LIN_SIGNAL_SIZE_LI0_RLS_Rain_Intensity) - 1) & (A)) << LIN_BIT_OFFSET_LI0_RLS_Rain_Intensity))));\
+    lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_Rain_Intensity] = 1;}
 
-/* static access macros for signal LI0_InterHumidSensorValue */
+/* static access macros for signal LI0_RLS_Brightness_IR_R */
    
-#define l_u8_rd_LI0_InterHumidSensorValue() \
-    ((l_u8) ((lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_InterHumidSensorValue] & \
-    (((1U << LIN_SIGNAL_SIZE_LI0_InterHumidSensorValue) - 1) \
-    << LIN_BIT_OFFSET_LI0_InterHumidSensorValue )) >> LIN_BIT_OFFSET_LI0_InterHumidSensorValue))
-#define l_u8_wr_LI0_InterHumidSensorValue(A) \
-    {lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_InterHumidSensorValue] = \
-    ((l_u8) (((l_u8) (lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_InterHumidSensorValue] & \
-    ((l_u8) (~(((1U << LIN_SIGNAL_SIZE_LI0_InterHumidSensorValue) - 1) << LIN_BIT_OFFSET_LI0_InterHumidSensorValue)))))  | \
-    ((l_u8) ((((1U << LIN_SIGNAL_SIZE_LI0_InterHumidSensorValue) - 1) & (A)) << LIN_BIT_OFFSET_LI0_InterHumidSensorValue))));\
-    lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_InterHumidSensorValue] = 1;}
+#define l_u8_rd_LI0_RLS_Brightness_IR_R() \
+    ((l_u8) ((lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_Brightness_IR_R] & \
+    (((1U << LIN_SIGNAL_SIZE_LI0_RLS_Brightness_IR_R) - 1) \
+    << LIN_BIT_OFFSET_LI0_RLS_Brightness_IR_R )) >> LIN_BIT_OFFSET_LI0_RLS_Brightness_IR_R))
+#define l_u8_wr_LI0_RLS_Brightness_IR_R(A) \
+    {lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_Brightness_IR_R] = \
+    ((l_u8) (((l_u8) (lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_Brightness_IR_R] & \
+    ((l_u8) (~(((1U << LIN_SIGNAL_SIZE_LI0_RLS_Brightness_IR_R) - 1) << LIN_BIT_OFFSET_LI0_RLS_Brightness_IR_R)))))  | \
+    ((l_u8) ((((1U << LIN_SIGNAL_SIZE_LI0_RLS_Brightness_IR_R) - 1) & (A)) << LIN_BIT_OFFSET_LI0_RLS_Brightness_IR_R))));\
+    lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_Brightness_IR_R] = 1;}
 
-/* static access macros for signal LI0_SolarIrradianceLeft */
+/* static access macros for signal LI0_RLS_Temperature */
    
-#define l_u8_rd_LI0_SolarIrradianceLeft() \
-    ((l_u8) ((lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_SolarIrradianceLeft] & \
-    (((1U << LIN_SIGNAL_SIZE_LI0_SolarIrradianceLeft) - 1) \
-    << LIN_BIT_OFFSET_LI0_SolarIrradianceLeft )) >> LIN_BIT_OFFSET_LI0_SolarIrradianceLeft))
-#define l_u8_wr_LI0_SolarIrradianceLeft(A) \
-    {lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_SolarIrradianceLeft] = \
-    ((l_u8) (((l_u8) (lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_SolarIrradianceLeft] & \
-    ((l_u8) (~(((1U << LIN_SIGNAL_SIZE_LI0_SolarIrradianceLeft) - 1) << LIN_BIT_OFFSET_LI0_SolarIrradianceLeft)))))  | \
-    ((l_u8) ((((1U << LIN_SIGNAL_SIZE_LI0_SolarIrradianceLeft) - 1) & (A)) << LIN_BIT_OFFSET_LI0_SolarIrradianceLeft))));\
-    lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_SolarIrradianceLeft] = 1;}
+#define l_u8_rd_LI0_RLS_Temperature() \
+    ((l_u8) ((lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_Temperature] & \
+    (((1U << LIN_SIGNAL_SIZE_LI0_RLS_Temperature) - 1) \
+    << LIN_BIT_OFFSET_LI0_RLS_Temperature )) >> LIN_BIT_OFFSET_LI0_RLS_Temperature))
+#define l_u8_wr_LI0_RLS_Temperature(A) \
+    {lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_Temperature] = \
+    ((l_u8) (((l_u8) (lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_Temperature] & \
+    ((l_u8) (~(((1U << LIN_SIGNAL_SIZE_LI0_RLS_Temperature) - 1) << LIN_BIT_OFFSET_LI0_RLS_Temperature)))))  | \
+    ((l_u8) ((((1U << LIN_SIGNAL_SIZE_LI0_RLS_Temperature) - 1) & (A)) << LIN_BIT_OFFSET_LI0_RLS_Temperature))));\
+    lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_Temperature] = 1;}
 
-/* static access macros for signal LI0_SolarIrradianceRight */
+/* static access macros for signal LI0_RLS_Humid */
    
-#define l_u8_rd_LI0_SolarIrradianceRight() \
-    ((l_u8) ((lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_SolarIrradianceRight] & \
-    (((1U << LIN_SIGNAL_SIZE_LI0_SolarIrradianceRight) - 1) \
-    << LIN_BIT_OFFSET_LI0_SolarIrradianceRight )) >> LIN_BIT_OFFSET_LI0_SolarIrradianceRight))
-#define l_u8_wr_LI0_SolarIrradianceRight(A) \
-    {lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_SolarIrradianceRight] = \
-    ((l_u8) (((l_u8) (lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_SolarIrradianceRight] & \
-    ((l_u8) (~(((1U << LIN_SIGNAL_SIZE_LI0_SolarIrradianceRight) - 1) << LIN_BIT_OFFSET_LI0_SolarIrradianceRight)))))  | \
-    ((l_u8) ((((1U << LIN_SIGNAL_SIZE_LI0_SolarIrradianceRight) - 1) & (A)) << LIN_BIT_OFFSET_LI0_SolarIrradianceRight))));\
-    lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_SolarIrradianceRight] = 1;}
-
-/* static access macros for signal LI0_AmbientTemp */
-   
-#define l_u8_rd_LI0_AmbientTemp() \
-    ((l_u8) ((lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_AmbientTemp] & \
-    (((1U << LIN_SIGNAL_SIZE_LI0_AmbientTemp) - 1) \
-    << LIN_BIT_OFFSET_LI0_AmbientTemp )) >> LIN_BIT_OFFSET_LI0_AmbientTemp))
-#define l_u8_wr_LI0_AmbientTemp(A) \
-    {lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_AmbientTemp] = \
-    ((l_u8) (((l_u8) (lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_AmbientTemp] & \
-    ((l_u8) (~(((1U << LIN_SIGNAL_SIZE_LI0_AmbientTemp) - 1) << LIN_BIT_OFFSET_LI0_AmbientTemp)))))  | \
-    ((l_u8) ((((1U << LIN_SIGNAL_SIZE_LI0_AmbientTemp) - 1) & (A)) << LIN_BIT_OFFSET_LI0_AmbientTemp))));\
-    lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_AmbientTemp] = 1;}
-
-/* static access macros for signal LI0_WindowSunroofPosition */
-   
-#define l_u8_rd_LI0_WindowSunroofPosition() \
-    ((l_u8) ((lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_WindowSunroofPosition] & \
-    (((1U << LIN_SIGNAL_SIZE_LI0_WindowSunroofPosition) - 1) \
-    << LIN_BIT_OFFSET_LI0_WindowSunroofPosition )) >> LIN_BIT_OFFSET_LI0_WindowSunroofPosition))
-#define l_u8_wr_LI0_WindowSunroofPosition(A) \
-    {lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_WindowSunroofPosition] = \
-    ((l_u8) (((l_u8) (lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_WindowSunroofPosition] & \
-    ((l_u8) (~(((1U << LIN_SIGNAL_SIZE_LI0_WindowSunroofPosition) - 1) << LIN_BIT_OFFSET_LI0_WindowSunroofPosition)))))  | \
-    ((l_u8) ((((1U << LIN_SIGNAL_SIZE_LI0_WindowSunroofPosition) - 1) & (A)) << LIN_BIT_OFFSET_LI0_WindowSunroofPosition))));\
-    lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_WindowSunroofPosition] = 1;}
-
-/* static access macros for signal LI0_STAT_RemoteControl */
-   
-#define l_bool_rd_LI0_STAT_RemoteControl() \
-   	(LIN_TEST_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_STAT_RemoteControl], \
-   	LIN_BIT_OFFSET_LI0_STAT_RemoteControl))
-#define l_bool_wr_LI0_STAT_RemoteControl(A) \
-	{(A) ? \
-  	(LIN_SET_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_STAT_RemoteControl], \
-  	LIN_BIT_OFFSET_LI0_STAT_RemoteControl)):\
-  	(LIN_CLEAR_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_STAT_RemoteControl], \
-  	LIN_BIT_OFFSET_LI0_STAT_RemoteControl));\
-  	lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_STAT_RemoteControl] = 1;}
+#define l_u8_rd_LI0_RLS_Humid() \
+    ((l_u8) ((lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_Humid] & \
+    (((1U << LIN_SIGNAL_SIZE_LI0_RLS_Humid) - 1) \
+    << LIN_BIT_OFFSET_LI0_RLS_Humid )) >> LIN_BIT_OFFSET_LI0_RLS_Humid))
+#define l_u8_wr_LI0_RLS_Humid(A) \
+    {lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_Humid] = \
+    ((l_u8) (((l_u8) (lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_Humid] & \
+    ((l_u8) (~(((1U << LIN_SIGNAL_SIZE_LI0_RLS_Humid) - 1) << LIN_BIT_OFFSET_LI0_RLS_Humid)))))  | \
+    ((l_u8) ((((1U << LIN_SIGNAL_SIZE_LI0_RLS_Humid) - 1) & (A)) << LIN_BIT_OFFSET_LI0_RLS_Humid))));\
+    lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_Humid] = 1;}
 
 
 
-/* static access macros for signal LI0_vehicleSpeed */
-#define l_u16_rd_LI0_vehicleSpeed() \
-    ((l_u16) ((lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_vehicleSpeed + 1] & 0xff) << 4) + ((l_u16) (lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_vehicleSpeed]) >> 0x04))
-#define l_u16_wr_LI0_vehicleSpeed(A) \
-    {lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_vehicleSpeed + 1] = \
-	((l_u8) (((l_u8) (lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_vehicleSpeed + 1] &  (0x00))) | \
-	((l_u8) ((l_u8) ((A) >> 4)) & 0xff))); \
-	lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_vehicleSpeed] = \
-	((l_u8) (((l_u8) (lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_vehicleSpeed] & (0x0f))) | \
-	((l_u8) (A) << LIN_BIT_OFFSET_LI0_vehicleSpeed))); \
-	lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_vehicleSpeed] = 1;}
+/* static access macros for signal LI0_BCM_SPD_Vehicle */
+#define l_u16_rd_LI0_BCM_SPD_Vehicle() \
+    ((l_u16) ((lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_BCM_SPD_Vehicle + 1] & 0x1f) << 8) + ((l_u16) (lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_BCM_SPD_Vehicle]) >> 0x00))
+#define l_u16_wr_LI0_BCM_SPD_Vehicle(A) \
+    {lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_BCM_SPD_Vehicle + 1] = \
+	((l_u8) (((l_u8) (lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_BCM_SPD_Vehicle + 1] &  (0xe0))) | \
+	((l_u8) ((l_u8) ((A) >> 8)) & 0x1f))); \
+	lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_BCM_SPD_Vehicle] = \
+	((l_u8) (((l_u8) (lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_BCM_SPD_Vehicle] & (0x00))) | \
+	((l_u8) (A) << LIN_BIT_OFFSET_LI0_BCM_SPD_Vehicle))); \
+	lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_BCM_SPD_Vehicle] = 1;}
 
-/* static access macros for signal LI0_InterTempDewPoint */
-#define l_u16_rd_LI0_InterTempDewPoint() \
-    ((l_u16) ((lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_InterTempDewPoint + 1] & 0xff) << 1) + ((l_u16) (lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_InterTempDewPoint]) >> 0x07))
-#define l_u16_wr_LI0_InterTempDewPoint(A) \
-    {lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_InterTempDewPoint + 1] = \
-	((l_u8) (((l_u8) (lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_InterTempDewPoint + 1] &  (0x00))) | \
-	((l_u8) ((l_u8) ((A) >> 1)) & 0xff))); \
-	lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_InterTempDewPoint] = \
-	((l_u8) (((l_u8) (lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_InterTempDewPoint] & (0x7f))) | \
-	((l_u8) (A) << LIN_BIT_OFFSET_LI0_InterTempDewPoint))); \
-	lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_InterTempDewPoint] = 1;}
+/* static access macros for signal LI0_RLS_Brightness_FW */
+#define l_u16_rd_LI0_RLS_Brightness_FW() \
+    ((l_u16) ((lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_Brightness_FW + 1] & 0x03) << 8) + ((l_u16) (lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_Brightness_FW]) >> 0x00))
+#define l_u16_wr_LI0_RLS_Brightness_FW(A) \
+    {lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_Brightness_FW + 1] = \
+	((l_u8) (((l_u8) (lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_Brightness_FW + 1] &  (0xfc))) | \
+	((l_u8) ((l_u8) ((A) >> 8)) & 0x03))); \
+	lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_Brightness_FW] = \
+	((l_u8) (((l_u8) (lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_Brightness_FW] & (0x00))) | \
+	((l_u8) (A) << LIN_BIT_OFFSET_LI0_RLS_Brightness_FW))); \
+	lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_Brightness_FW] = 1;}
 
 
 
@@ -898,131 +739,117 @@ typedef enum {
 
 /* Signal flag APIs */
 
-#define l_flg_tst_LI0_STAT_Terminal_flag() \
-         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_STAT_Terminal],\
-         LIN_FLAG_BIT_OFFSET_LI0_STAT_Terminal)
-#define l_flg_clr_LI0_STAT_Terminal_flag() \
-         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_STAT_Terminal],\
-         LIN_FLAG_BIT_OFFSET_LI0_STAT_Terminal)
+#define l_flg_tst_LI0_BCM_Status_IGN_flag() \
+         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_BCM_Status_IGN],\
+         LIN_FLAG_BIT_OFFSET_LI0_BCM_Status_IGN)
+#define l_flg_clr_LI0_BCM_Status_IGN_flag() \
+         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_BCM_Status_IGN],\
+         LIN_FLAG_BIT_OFFSET_LI0_BCM_Status_IGN)
 
-#define l_flg_tst_LI0_vehicleSpeed_flag() \
-         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_vehicleSpeed],\
-         LIN_FLAG_BIT_OFFSET_LI0_vehicleSpeed)
-#define l_flg_clr_LI0_vehicleSpeed_flag() \
-         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_vehicleSpeed],\
-         LIN_FLAG_BIT_OFFSET_LI0_vehicleSpeed)
+#define l_flg_tst_LI0_BCM_CMD_AutoWiper_flag() \
+         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_BCM_CMD_AutoWiper],\
+         LIN_FLAG_BIT_OFFSET_LI0_BCM_CMD_AutoWiper)
+#define l_flg_clr_LI0_BCM_CMD_AutoWiper_flag() \
+         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_BCM_CMD_AutoWiper],\
+         LIN_FLAG_BIT_OFFSET_LI0_BCM_CMD_AutoWiper)
 
-#define l_flg_tst_LI0_WiperSpeed_flag() \
-         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_WiperSpeed],\
-         LIN_FLAG_BIT_OFFSET_LI0_WiperSpeed)
-#define l_flg_clr_LI0_WiperSpeed_flag() \
-         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_WiperSpeed],\
-         LIN_FLAG_BIT_OFFSET_LI0_WiperSpeed)
+#define l_flg_tst_LI0_BCM_RQ_FrontWash_flag() \
+         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_BCM_RQ_FrontWash],\
+         LIN_FLAG_BIT_OFFSET_LI0_BCM_RQ_FrontWash)
+#define l_flg_clr_LI0_BCM_RQ_FrontWash_flag() \
+         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_BCM_RQ_FrontWash],\
+         LIN_FLAG_BIT_OFFSET_LI0_BCM_RQ_FrontWash)
 
-#define l_flg_tst_LI0_STAT_RS_flag() \
-         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_STAT_RS],\
-         LIN_FLAG_BIT_OFFSET_LI0_STAT_RS)
-#define l_flg_clr_LI0_STAT_RS_flag() \
-         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_STAT_RS],\
-         LIN_FLAG_BIT_OFFSET_LI0_STAT_RS)
+#define l_flg_tst_LI0_BCM_ParkPosition_flag() \
+         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_BCM_ParkPosition],\
+         LIN_FLAG_BIT_OFFSET_LI0_BCM_ParkPosition)
+#define l_flg_clr_LI0_BCM_ParkPosition_flag() \
+         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_BCM_ParkPosition],\
+         LIN_FLAG_BIT_OFFSET_LI0_BCM_ParkPosition)
 
-#define l_flg_tst_LI0_STAT_RSError_flag() \
-         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_STAT_RSError],\
-         LIN_FLAG_BIT_OFFSET_LI0_STAT_RSError)
-#define l_flg_clr_LI0_STAT_RSError_flag() \
-         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_STAT_RSError],\
-         LIN_FLAG_BIT_OFFSET_LI0_STAT_RSError)
+#define l_flg_tst_LI0_BCM_RainSensitivity_flag() \
+         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_BCM_RainSensitivity],\
+         LIN_FLAG_BIT_OFFSET_LI0_BCM_RainSensitivity)
+#define l_flg_clr_LI0_BCM_RainSensitivity_flag() \
+         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_BCM_RainSensitivity],\
+         LIN_FLAG_BIT_OFFSET_LI0_BCM_RainSensitivity)
 
-#define l_flg_tst_LI0_LightOnReq_flag() \
-         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_LightOnReq],\
-         LIN_FLAG_BIT_OFFSET_LI0_LightOnReq)
-#define l_flg_clr_LI0_LightOnReq_flag() \
-         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_LightOnReq],\
-         LIN_FLAG_BIT_OFFSET_LI0_LightOnReq)
+#define l_flg_tst_LI0_BCM_CMD_AutoLight_flag() \
+         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_BCM_CMD_AutoLight],\
+         LIN_FLAG_BIT_OFFSET_LI0_BCM_CMD_AutoLight)
+#define l_flg_clr_LI0_BCM_CMD_AutoLight_flag() \
+         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_BCM_CMD_AutoLight],\
+         LIN_FLAG_BIT_OFFSET_LI0_BCM_CMD_AutoLight)
 
-#define l_flg_tst_LI0_STAT_DayNightMode_flag() \
-         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_STAT_DayNightMode],\
-         LIN_FLAG_BIT_OFFSET_LI0_STAT_DayNightMode)
-#define l_flg_clr_LI0_STAT_DayNightMode_flag() \
-         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_STAT_DayNightMode],\
-         LIN_FLAG_BIT_OFFSET_LI0_STAT_DayNightMode)
+#define l_flg_tst_LI0_BCM_BladesTurningPoint_flag() \
+         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_BCM_BladesTurningPoint],\
+         LIN_FLAG_BIT_OFFSET_LI0_BCM_BladesTurningPoint)
+#define l_flg_clr_LI0_BCM_BladesTurningPoint_flag() \
+         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_BCM_BladesTurningPoint],\
+         LIN_FLAG_BIT_OFFSET_LI0_BCM_BladesTurningPoint)
 
-#define l_flg_tst_LI0_STAT_LS_flag() \
-         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_STAT_LS],\
-         LIN_FLAG_BIT_OFFSET_LI0_STAT_LS)
-#define l_flg_clr_LI0_STAT_LS_flag() \
-         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_STAT_LS],\
-         LIN_FLAG_BIT_OFFSET_LI0_STAT_LS)
+#define l_flg_tst_LI0_BCM_RoofStatus_flag() \
+         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_BCM_RoofStatus],\
+         LIN_FLAG_BIT_OFFSET_LI0_BCM_RoofStatus)
+#define l_flg_clr_LI0_BCM_RoofStatus_flag() \
+         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_BCM_RoofStatus],\
+         LIN_FLAG_BIT_OFFSET_LI0_BCM_RoofStatus)
 
-#define l_flg_tst_LI0_STAT_LSError_flag() \
-         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_STAT_LSError],\
-         LIN_FLAG_BIT_OFFSET_LI0_STAT_LSError)
-#define l_flg_clr_LI0_STAT_LSError_flag() \
-         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_STAT_LSError],\
-         LIN_FLAG_BIT_OFFSET_LI0_STAT_LSError)
+#define l_flg_tst_LI0_BCM_SPD_Vehicle_flag() \
+         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_BCM_SPD_Vehicle],\
+         LIN_FLAG_BIT_OFFSET_LI0_BCM_SPD_Vehicle)
+#define l_flg_clr_LI0_BCM_SPD_Vehicle_flag() \
+         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_BCM_SPD_Vehicle],\
+         LIN_FLAG_BIT_OFFSET_LI0_BCM_SPD_Vehicle)
 
-#define l_flg_tst_LI0_FrontWiperSwitch_flag() \
-         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_FrontWiperSwitch],\
-         LIN_FLAG_BIT_OFFSET_LI0_FrontWiperSwitch)
-#define l_flg_clr_LI0_FrontWiperSwitch_flag() \
-         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_FrontWiperSwitch],\
-         LIN_FLAG_BIT_OFFSET_LI0_FrontWiperSwitch)
+#define l_flg_tst_LI0_BCM_OutsideTemp_flag() \
+         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_BCM_OutsideTemp],\
+         LIN_FLAG_BIT_OFFSET_LI0_BCM_OutsideTemp)
+#define l_flg_clr_LI0_BCM_OutsideTemp_flag() \
+         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_BCM_OutsideTemp],\
+         LIN_FLAG_BIT_OFFSET_LI0_BCM_OutsideTemp)
 
-#define l_flg_tst_LI0_FrontWasherSwitch_flag() \
-         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_FrontWasherSwitch],\
-         LIN_FLAG_BIT_OFFSET_LI0_FrontWasherSwitch)
-#define l_flg_clr_LI0_FrontWasherSwitch_flag() \
-         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_FrontWasherSwitch],\
-         LIN_FLAG_BIT_OFFSET_LI0_FrontWasherSwitch)
+#define l_flg_tst_LI0_RLS_MsgCounter_flag() \
+         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_MsgCounter],\
+         LIN_FLAG_BIT_OFFSET_LI0_RLS_MsgCounter)
+#define l_flg_clr_LI0_RLS_MsgCounter_flag() \
+         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_MsgCounter],\
+         LIN_FLAG_BIT_OFFSET_LI0_RLS_MsgCounter)
 
-#define l_flg_tst_LI0_FrontWiperPosition_flag() \
-         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_FrontWiperPosition],\
-         LIN_FLAG_BIT_OFFSET_LI0_FrontWiperPosition)
-#define l_flg_clr_LI0_FrontWiperPosition_flag() \
-         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_FrontWiperPosition],\
-         LIN_FLAG_BIT_OFFSET_LI0_FrontWiperPosition)
+#define l_flg_tst_LI0_RLS_RQ_WiperSPD_flag() \
+         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_RQ_WiperSPD],\
+         LIN_FLAG_BIT_OFFSET_LI0_RLS_RQ_WiperSPD)
+#define l_flg_clr_LI0_RLS_RQ_WiperSPD_flag() \
+         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_RQ_WiperSPD],\
+         LIN_FLAG_BIT_OFFSET_LI0_RLS_RQ_WiperSPD)
 
-#define l_flg_tst_LI0_MasterLightSwitch_flag() \
-         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_MasterLightSwitch],\
-         LIN_FLAG_BIT_OFFSET_LI0_MasterLightSwitch)
-#define l_flg_clr_LI0_MasterLightSwitch_flag() \
-         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_MasterLightSwitch],\
-         LIN_FLAG_BIT_OFFSET_LI0_MasterLightSwitch)
+#define l_flg_tst_LI0_RLS_RQ_LowBeam_flag() \
+         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_RQ_LowBeam],\
+         LIN_FLAG_BIT_OFFSET_LI0_RLS_RQ_LowBeam)
+#define l_flg_clr_LI0_RLS_RQ_LowBeam_flag() \
+         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_RQ_LowBeam],\
+         LIN_FLAG_BIT_OFFSET_LI0_RLS_RQ_LowBeam)
 
-#define l_flg_tst_LI0_LightOnReason_flag() \
-         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_LightOnReason],\
-         LIN_FLAG_BIT_OFFSET_LI0_LightOnReason)
-#define l_flg_clr_LI0_LightOnReason_flag() \
-         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_LightOnReason],\
-         LIN_FLAG_BIT_OFFSET_LI0_LightOnReason)
+#define l_flg_tst_LI0_RLS_RQ_PositionLamp_flag() \
+         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_RQ_PositionLamp],\
+         LIN_FLAG_BIT_OFFSET_LI0_RLS_RQ_PositionLamp)
+#define l_flg_clr_LI0_RLS_RQ_PositionLamp_flag() \
+         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_RQ_PositionLamp],\
+         LIN_FLAG_BIT_OFFSET_LI0_RLS_RQ_PositionLamp)
 
-#define l_flg_tst_LI0_VehicleSpeedValid_flag() \
-         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_VehicleSpeedValid],\
-         LIN_FLAG_BIT_OFFSET_LI0_VehicleSpeedValid)
-#define l_flg_clr_LI0_VehicleSpeedValid_flag() \
-         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_VehicleSpeedValid],\
-         LIN_FLAG_BIT_OFFSET_LI0_VehicleSpeedValid)
+#define l_flg_tst_LI0_RLS_Fault_Rain_flag() \
+         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_Fault_Rain],\
+         LIN_FLAG_BIT_OFFSET_LI0_RLS_Fault_Rain)
+#define l_flg_clr_LI0_RLS_Fault_Rain_flag() \
+         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_Fault_Rain],\
+         LIN_FLAG_BIT_OFFSET_LI0_RLS_Fault_Rain)
 
-#define l_flg_tst_LI0_Day_flag() \
-         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_Day],\
-         LIN_FLAG_BIT_OFFSET_LI0_Day)
-#define l_flg_clr_LI0_Day_flag() \
-         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_Day],\
-         LIN_FLAG_BIT_OFFSET_LI0_Day)
-
-#define l_flg_tst_LI0_Month_flag() \
-         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_Month],\
-         LIN_FLAG_BIT_OFFSET_LI0_Month)
-#define l_flg_clr_LI0_Month_flag() \
-         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_Month],\
-         LIN_FLAG_BIT_OFFSET_LI0_Month)
-
-#define l_flg_tst_LI0_Year_flag() \
-         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_Year],\
-         LIN_FLAG_BIT_OFFSET_LI0_Year)
-#define l_flg_clr_LI0_Year_flag() \
-         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_Year],\
-         LIN_FLAG_BIT_OFFSET_LI0_Year)
+#define l_flg_tst_LI0_RLS_Fault_Light_flag() \
+         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_Fault_Light],\
+         LIN_FLAG_BIT_OFFSET_LI0_RLS_Fault_Light)
+#define l_flg_clr_LI0_RLS_Fault_Light_flag() \
+         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_Fault_Light],\
+         LIN_FLAG_BIT_OFFSET_LI0_RLS_Fault_Light)
 
 #define l_flg_tst_LI0_RLS_REP_Error_flag() \
          LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_REP_Error],\
@@ -1031,128 +858,79 @@ typedef enum {
          LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_REP_Error],\
          LIN_FLAG_BIT_OFFSET_LI0_RLS_REP_Error)
 
-#define l_flg_tst_LI0_FrontWiperInterval_flag() \
-         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_FrontWiperInterval],\
-         LIN_FLAG_BIT_OFFSET_LI0_FrontWiperInterval)
-#define l_flg_clr_LI0_FrontWiperInterval_flag() \
-         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_FrontWiperInterval],\
-         LIN_FLAG_BIT_OFFSET_LI0_FrontWiperInterval)
+#define l_flg_tst_LI0_RLS_VOLT_Error_flag() \
+         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_VOLT_Error],\
+         LIN_FLAG_BIT_OFFSET_LI0_RLS_VOLT_Error)
+#define l_flg_clr_LI0_RLS_VOLT_Error_flag() \
+         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_VOLT_Error],\
+         LIN_FLAG_BIT_OFFSET_LI0_RLS_VOLT_Error)
 
-#define l_flg_tst_LI0_HUDBrightnessUnit_flag() \
-         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_HUDBrightnessUnit],\
-         LIN_FLAG_BIT_OFFSET_LI0_HUDBrightnessUnit)
-#define l_flg_clr_LI0_HUDBrightnessUnit_flag() \
-         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_HUDBrightnessUnit],\
-         LIN_FLAG_BIT_OFFSET_LI0_HUDBrightnessUnit)
+#define l_flg_tst_LI0_RLS_Humid_Temp_Error_flag() \
+         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_Humid_Temp_Error],\
+         LIN_FLAG_BIT_OFFSET_LI0_RLS_Humid_Temp_Error)
+#define l_flg_clr_LI0_RLS_Humid_Temp_Error_flag() \
+         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_Humid_Temp_Error],\
+         LIN_FLAG_BIT_OFFSET_LI0_RLS_Humid_Temp_Error)
 
-#define l_flg_tst_LI0_HUDBrightnessRawValue_flag() \
-         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_HUDBrightnessRawValue],\
-         LIN_FLAG_BIT_OFFSET_LI0_HUDBrightnessRawValue)
-#define l_flg_clr_LI0_HUDBrightnessRawValue_flag() \
-         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_HUDBrightnessRawValue],\
-         LIN_FLAG_BIT_OFFSET_LI0_HUDBrightnessRawValue)
+#define l_flg_tst_LI0_RLS_Brightness_IR_L_flag() \
+         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_Brightness_IR_L],\
+         LIN_FLAG_BIT_OFFSET_LI0_RLS_Brightness_IR_L)
+#define l_flg_clr_LI0_RLS_Brightness_IR_L_flag() \
+         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_Brightness_IR_L],\
+         LIN_FLAG_BIT_OFFSET_LI0_RLS_Brightness_IR_L)
 
-#define l_flg_tst_LI0_RainDayGlobalClose_flag() \
-         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RainDayGlobalClose],\
-         LIN_FLAG_BIT_OFFSET_LI0_RainDayGlobalClose)
-#define l_flg_clr_LI0_RainDayGlobalClose_flag() \
-         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RainDayGlobalClose],\
-         LIN_FLAG_BIT_OFFSET_LI0_RainDayGlobalClose)
+#define l_flg_tst_LI0_RLS_Brightness_FW_flag() \
+         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_Brightness_FW],\
+         LIN_FLAG_BIT_OFFSET_LI0_RLS_Brightness_FW)
+#define l_flg_clr_LI0_RLS_Brightness_FW_flag() \
+         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_Brightness_FW],\
+         LIN_FLAG_BIT_OFFSET_LI0_RLS_Brightness_FW)
 
-#define l_flg_tst_LI0_RLSHumidTempError_flag() \
-         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLSHumidTempError],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLSHumidTempError)
-#define l_flg_clr_LI0_RLSHumidTempError_flag() \
-         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLSHumidTempError],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLSHumidTempError)
+#define l_flg_tst_LI0_RLS_Rain_Intensity_flag() \
+         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_Rain_Intensity],\
+         LIN_FLAG_BIT_OFFSET_LI0_RLS_Rain_Intensity)
+#define l_flg_clr_LI0_RLS_Rain_Intensity_flag() \
+         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_Rain_Intensity],\
+         LIN_FLAG_BIT_OFFSET_LI0_RLS_Rain_Intensity)
 
-#define l_flg_tst_LI0_InterTempDewPoint_flag() \
-         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_InterTempDewPoint],\
-         LIN_FLAG_BIT_OFFSET_LI0_InterTempDewPoint)
-#define l_flg_clr_LI0_InterTempDewPoint_flag() \
-         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_InterTempDewPoint],\
-         LIN_FLAG_BIT_OFFSET_LI0_InterTempDewPoint)
+#define l_flg_tst_LI0_RLS_Brightness_IR_R_flag() \
+         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_Brightness_IR_R],\
+         LIN_FLAG_BIT_OFFSET_LI0_RLS_Brightness_IR_R)
+#define l_flg_clr_LI0_RLS_Brightness_IR_R_flag() \
+         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_Brightness_IR_R],\
+         LIN_FLAG_BIT_OFFSET_LI0_RLS_Brightness_IR_R)
 
-#define l_flg_tst_LI0_InterTempSensorValue_flag() \
-         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_InterTempSensorValue],\
-         LIN_FLAG_BIT_OFFSET_LI0_InterTempSensorValue)
-#define l_flg_clr_LI0_InterTempSensorValue_flag() \
-         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_InterTempSensorValue],\
-         LIN_FLAG_BIT_OFFSET_LI0_InterTempSensorValue)
+#define l_flg_tst_LI0_RLS_Temperature_flag() \
+         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_Temperature],\
+         LIN_FLAG_BIT_OFFSET_LI0_RLS_Temperature)
+#define l_flg_clr_LI0_RLS_Temperature_flag() \
+         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_Temperature],\
+         LIN_FLAG_BIT_OFFSET_LI0_RLS_Temperature)
 
-#define l_flg_tst_LI0_InterHumidSensorValue_flag() \
-         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_InterHumidSensorValue],\
-         LIN_FLAG_BIT_OFFSET_LI0_InterHumidSensorValue)
-#define l_flg_clr_LI0_InterHumidSensorValue_flag() \
-         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_InterHumidSensorValue],\
-         LIN_FLAG_BIT_OFFSET_LI0_InterHumidSensorValue)
-
-#define l_flg_tst_LI0_SolarIrradianceLeft_flag() \
-         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_SolarIrradianceLeft],\
-         LIN_FLAG_BIT_OFFSET_LI0_SolarIrradianceLeft)
-#define l_flg_clr_LI0_SolarIrradianceLeft_flag() \
-         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_SolarIrradianceLeft],\
-         LIN_FLAG_BIT_OFFSET_LI0_SolarIrradianceLeft)
-
-#define l_flg_tst_LI0_SolarIrradianceRight_flag() \
-         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_SolarIrradianceRight],\
-         LIN_FLAG_BIT_OFFSET_LI0_SolarIrradianceRight)
-#define l_flg_clr_LI0_SolarIrradianceRight_flag() \
-         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_SolarIrradianceRight],\
-         LIN_FLAG_BIT_OFFSET_LI0_SolarIrradianceRight)
-
-#define l_flg_tst_LI0_AmbientTemp_flag() \
-         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_AmbientTemp],\
-         LIN_FLAG_BIT_OFFSET_LI0_AmbientTemp)
-#define l_flg_clr_LI0_AmbientTemp_flag() \
-         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_AmbientTemp],\
-         LIN_FLAG_BIT_OFFSET_LI0_AmbientTemp)
-
-#define l_flg_tst_LI0_WindowSunroofPosition_flag() \
-         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_WindowSunroofPosition],\
-         LIN_FLAG_BIT_OFFSET_LI0_WindowSunroofPosition)
-#define l_flg_clr_LI0_WindowSunroofPosition_flag() \
-         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_WindowSunroofPosition],\
-         LIN_FLAG_BIT_OFFSET_LI0_WindowSunroofPosition)
-
-#define l_flg_tst_LI0_STAT_RemoteControl_flag() \
-         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_STAT_RemoteControl],\
-         LIN_FLAG_BIT_OFFSET_LI0_STAT_RemoteControl)
-#define l_flg_clr_LI0_STAT_RemoteControl_flag() \
-         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_STAT_RemoteControl],\
-         LIN_FLAG_BIT_OFFSET_LI0_STAT_RemoteControl)
+#define l_flg_tst_LI0_RLS_Humid_flag() \
+         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_Humid],\
+         LIN_FLAG_BIT_OFFSET_LI0_RLS_Humid)
+#define l_flg_clr_LI0_RLS_Humid_flag() \
+         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_Humid],\
+         LIN_FLAG_BIT_OFFSET_LI0_RLS_Humid)
 
 
 
 /* Frame flag APIs */
 
-#define l_flg_tst_LI0_RLS_2_flag() \
-         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_2],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLS_2)
-#define l_flg_clr_LI0_RLS_2_flag() \
-         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_2],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLS_2)
+#define l_flg_tst_LI0_RLS_01_flag() \
+         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_01],\
+         LIN_FLAG_BIT_OFFSET_LI0_RLS_01)
+#define l_flg_clr_LI0_RLS_01_flag() \
+         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_01],\
+         LIN_FLAG_BIT_OFFSET_LI0_RLS_01)
 
-#define l_flg_tst_LI0_BCM_LIN_3_flag() \
-         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_BCM_LIN_3],\
-         LIN_FLAG_BIT_OFFSET_LI0_BCM_LIN_3)
-#define l_flg_clr_LI0_BCM_LIN_3_flag() \
-         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_BCM_LIN_3],\
-         LIN_FLAG_BIT_OFFSET_LI0_BCM_LIN_3)
-
-#define l_flg_tst_LI0_BCM_LIN_1_flag() \
-         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_BCM_LIN_1],\
-         LIN_FLAG_BIT_OFFSET_LI0_BCM_LIN_1)
-#define l_flg_clr_LI0_BCM_LIN_1_flag() \
-         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_BCM_LIN_1],\
-         LIN_FLAG_BIT_OFFSET_LI0_BCM_LIN_1)
-
-#define l_flg_tst_LI0_BCM_LIN_2_flag() \
-         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_BCM_LIN_2],\
-         LIN_FLAG_BIT_OFFSET_LI0_BCM_LIN_2)
-#define l_flg_clr_LI0_BCM_LIN_2_flag() \
-         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_BCM_LIN_2],\
-         LIN_FLAG_BIT_OFFSET_LI0_BCM_LIN_2)
+#define l_flg_tst_LI0_BCM_01_flag() \
+         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_BCM_01],\
+         LIN_FLAG_BIT_OFFSET_LI0_BCM_01)
+#define l_flg_clr_LI0_BCM_01_flag() \
+         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_BCM_01],\
+         LIN_FLAG_BIT_OFFSET_LI0_BCM_01)
 
 
 

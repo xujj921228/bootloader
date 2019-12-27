@@ -49,6 +49,7 @@
 #if (_LIN_GPIO_ == 0) && !defined(_MC9S08SC4_H) && !defined(MCU_SKEAZN84)
 /*************************** FUNCTIONS *******************/
 
+
 void lin_tl_make_slaveres_pdu
 (
     /* [IN] service identifier */
@@ -56,13 +57,13 @@ void lin_tl_make_slaveres_pdu
     /* [IN] type of response */
     l_u8 res_type,
     /* [IN] Error code in case of negative response, if positive = 0 */
-    l_u16 error_code
+    l_u8 error_code
 
 )
 {
     lin_tl_pdu_data lin_tl_pdu;
-    l_u8 i,lenth;
-    l_u8 temp_data[32],data_buf[32];
+    l_u8 i;
+    l_u8 temp_data[64];
 
     lin_tl_pdu[0] = lin_configured_NAD;                /* NAD */
     lin_tl_pdu[1] = 0x03;                              /* PCI */
@@ -105,130 +106,71 @@ void lin_tl_make_slaveres_pdu
 				/* PCI type */
 				lin_tl_pdu[1] = PCI_SESSION_CONTROL_BY_IDENTIFY;
 				/* SID */
-				lin_tl_pdu[2] = RES_POSITIVE + sid;  						   
+				lin_tl_pdu[2] = RES_POSITIVE + sid;  
+						   
 				lin_tl_pdu[3] = error_code ;
-				lin_tl_pdu[4] = 0x01 ;
-			    lin_tl_pdu[5] = 0xF4;                              /* D2  */
-			    lin_tl_pdu[6] = 0x09;                              /* D3  */
-			    lin_tl_pdu[7] = 0xC4;                              /* D4  */		
-			    
-			    lenth = 6 ;
+				lin_tl_pdu[4] = 0xFF ;
         	}
-        	else
-        	{
-        		lenth = 3;
-        	}
-        	
-        	for( i = 0;i < 6;i++)
-        	{
-        		data_buf[i] =  lin_tl_pdu[i+2];
-        	}
-        	ld_send_message(lenth,data_buf);
-            diag_clear_flag(DIAGSRV_SESSION_CONTROL_ORDER);
         	break;
         case SERVICE_READ_DATA_BY_IDENTIFY:
         	if (POSITIVE == res_type)
-			{
-        		/* SID */
-        		if (error_code == LIN_SPARE_PART_NUMBER)
-        		{
-        			lenth =  LIN_SPARE_PART_NUMBER_LENTH + 3; //RSID + DID + DATA
-        			
-        			data_buf[0] =  RES_POSITIVE + sid; //RSID
-        			data_buf[1] =  LIN_SPARE_PART_NUMBER>>8;
-        			data_buf[2] =  LIN_SPARE_PART_NUMBER&0xFF;
-        			
-        			for(i = 0;i < LIN_SPARE_PART_NUMBER_LENTH;i++)  data_buf[i+3] = lin_Spare_Part_Number[i];
-        			
-        		}
-        		else if(error_code == LIN_SPARE_PART_NUMBER_ASM)
-        		{
-        			lenth =  LIN_SPARE_PART_NUMBER_LENTH + 3; //RSID + DID + DATA
-        			        			
-					data_buf[0] =  RES_POSITIVE + sid; //RSID
-					data_buf[1] =  LIN_SPARE_PART_NUMBER_ASM>>8;
-					data_buf[2] =  LIN_SPARE_PART_NUMBER_ASM&0xFF;
-					
-					for(i = 0;i < LIN_SPARE_PART_NUMBER_LENTH;i++)  data_buf[i+3] = lin_Spare_Part_Number[i];
-					
-        		}
-        		else if(error_code == LIN_VEHICLE_SOFT_VERSION)
+			{				
+				/* SID */
+				lin_tl_pdu[2] = RES_POSITIVE + sid;
+
+				if (error_code == (LIN_PRODUCT_SERIAL_NUMBER0&0xFF))
 				{
-					lenth =  LIN_VEHICLE_SOFT_VERSION_LENTH + 3; //RSID + DID + DATA
-										
-					data_buf[0] =  RES_POSITIVE + sid; //RSID
-					data_buf[1] =  LIN_VEHICLE_SOFT_VERSION>>8;
-					data_buf[2] =  LIN_VEHICLE_SOFT_VERSION&0xFF;
-					
-					for(i = 0;i < LIN_VEHICLE_SOFT_VERSION_LENTH;i++)  data_buf[i+3] = lin_Vehicle_Soft_Version[i];
+					read_data_from_EEPROM(EEPROM_SERIAL_NUMBER0_ADDR,temp_data,EEPROM_SERIAL_NUMBER_LENTH,ENABLE);
+					/* PCI type */
+				    lin_tl_pdu[1] = PCI_READ_SERIAL_BY_IDENTIFY;
+					/* Get Identifier infor */
+					lin_tl_pdu[3] = (LIN_PRODUCT_SERIAL_NUMBER0>>8) ;
+					lin_tl_pdu[4] = (l_u8)(LIN_PRODUCT_SERIAL_NUMBER0&0xFF);
+					lin_tl_pdu[5] = (l_u8)(temp_data[0]);
+					lin_tl_pdu[6] = (l_u8)(temp_data[1]);
+					lin_tl_pdu[7] = (l_u8)(temp_data[2]);					
+	
 				}
-        		else if(error_code == LIN_VEHICLE_HARD_VERSION)
+				else if (error_code == (LIN_PRODUCT_SERIAL_NUMBER1&0xFF))
 				{
-					lenth =  LIN_VEHICLE_HARD_VERSION_LENTH + 3; //RSID + DID + DATA
-										
-					data_buf[0] =  RES_POSITIVE + sid; //RSID
-					data_buf[1] =  LIN_VEHICLE_HARD_VERSION>>8;
-					data_buf[2] =  LIN_VEHICLE_HARD_VERSION&0xFF;
-					
-					for(i = 0;i < LIN_VEHICLE_HARD_VERSION_LENTH;i++)  data_buf[i+3] = lin_Vehicle_Hard_Version[i];
-					
+					read_data_from_EEPROM(EEPROM_SERIAL_NUMBER1_ADDR,temp_data,EEPROM_SERIAL_NUMBER_LENTH,ENABLE);
+					/* PCI type */
+					lin_tl_pdu[1] = PCI_READ_SERIAL_BY_IDENTIFY;
+					/* Get Identifier infor */
+					lin_tl_pdu[3] = (LIN_PRODUCT_SERIAL_NUMBER1>>8) ;
+					lin_tl_pdu[4] = (l_u8)(LIN_PRODUCT_SERIAL_NUMBER1&0xFF);
+					lin_tl_pdu[5] = (l_u8)(temp_data[0]);
+					lin_tl_pdu[6] = (l_u8)(temp_data[1]);
+					lin_tl_pdu[7] = (l_u8)(temp_data[2]);					
+	
 				}
-        		else if(error_code == LIN_SUPPLIER_ID)
+				else if (error_code == (LIN_PRODUCT_SERIAL_NUMBER2&0xFF))
 				{
-					lenth =  LIN_SUPPLIER_ID_LENTH + 3; //RSID + DID + DATA
-										
-					data_buf[0] =  RES_POSITIVE + sid; //RSID
-					data_buf[1] =  LIN_SUPPLIER_ID>>8;
-					data_buf[2] =  LIN_SUPPLIER_ID&0xFF;
-					
-					for(i = 0;i < LIN_SUPPLIER_ID_LENTH;i++)  data_buf[i+3] = lin_Supplier_ID[i];
-					
+					read_data_from_EEPROM(EEPROM_SERIAL_NUMBER2_ADDR,temp_data,EEPROM_SERIAL_NUMBER_LENTH,ENABLE);
+					/* PCI type */
+					lin_tl_pdu[1] = PCI_READ_SERIAL_BY_IDENTIFY;
+					/* Get Identifier infor */
+					lin_tl_pdu[3] = (LIN_PRODUCT_SERIAL_NUMBER2>>8) ;
+					lin_tl_pdu[4] = (l_u8)(LIN_PRODUCT_SERIAL_NUMBER2&0xFF);
+					lin_tl_pdu[5] = (l_u8)(temp_data[0]);
+					lin_tl_pdu[6] = (l_u8)(temp_data[1]);
+					lin_tl_pdu[7] = (l_u8)(temp_data[2]);					
+	
 				}
-        		else if(error_code == LIN_MANUFACT_DATA)
+				else if (error_code == (LIN_PRODUCT_SERIAL_NUMBER3&0xFF))
 				{
-					lenth =  LIN_MANUFACT_DATA_LENTH + 3; //RSID + DID + DATA
-										
-					data_buf[0] =  RES_POSITIVE + sid; //RSID
-					data_buf[1] =  LIN_MANUFACT_DATA>>8;
-					data_buf[2] =  LIN_MANUFACT_DATA&0xFF;
-					
-					for(i = 0;i < LIN_MANUFACT_DATA_LENTH;i++)  data_buf[i+3] = lin_Manufact_Data[i];
-					
+					read_data_from_EEPROM(EEPROM_SERIAL_NUMBER3_ADDR,temp_data,EEPROM_SERIAL_NUMBER_LENTH,ENABLE);
+					/* PCI type */
+					lin_tl_pdu[1] = PCI_READ_SERIAL_BY_IDENTIFY;
+					/* Get Identifier infor */
+					lin_tl_pdu[3] = (LIN_PRODUCT_SERIAL_NUMBER3>>8) ;
+					lin_tl_pdu[4] = (l_u8)(LIN_PRODUCT_SERIAL_NUMBER3&0xFF);
+					lin_tl_pdu[5] = (l_u8)(temp_data[0]);
+					lin_tl_pdu[6] = (l_u8)(temp_data[1]);
+					lin_tl_pdu[7] = (l_u8)(temp_data[2]);					
+	
 				}
-        		else if(error_code == LIN_ECU_SERIAL)
-				{
-					lenth =  LIN_ECU_SERIAL_LENTH + 3; //RSID + DID + DATA
-										
-					data_buf[0] =  RES_POSITIVE + sid; //RSID
-					data_buf[1] =  LIN_ECU_SERIAL>>8;
-					data_buf[2] =  LIN_ECU_SERIAL&0xFF;
-					
-					for(i = 0;i < LIN_ECU_SERIAL_LENTH;i++)  data_buf[i+3] = lin_Ecu_Serial[i];
-					
-				}
-        		else if(error_code == LIN_SUPPLIER_HARD_VERSION)
-				{
-					lenth =  LIN_SUPPLIER_HARD_VERSION_LENTH + 3; //RSID + DID + DATA
-										
-					data_buf[0] =  RES_POSITIVE + sid; //RSID
-					data_buf[1] =  LIN_SUPPLIER_HARD_VERSION>>8;
-					data_buf[2] =  LIN_SUPPLIER_HARD_VERSION&0xFF;
-					
-					for(i = 0;i < LIN_SUPPLIER_HARD_VERSION_LENTH;i++)  data_buf[i+3] = lin_Supplier_Hard_Version[i];
-					
-				}
-        		else if(error_code == LIN_SUPPLIER_SOFT_VERSION)
-				{
-					lenth =  LIN_SUPPLIER_SOFT_VERSION_LENTH + 3; //RSID + DID + DATA
-										
-					data_buf[0] =  RES_POSITIVE + sid; //RSID
-					data_buf[1] =  LIN_SUPPLIER_SOFT_VERSION>>8;
-					data_buf[2] =  LIN_SUPPLIER_SOFT_VERSION&0xFF;
-					
-					for(i = 0;i < LIN_SUPPLIER_SOFT_VERSION_LENTH;i++)  data_buf[i+3] = lin_Supplier_Soft_Version[i];
-					
-				}
-        		else if (error_code == LIN_LS_FW_PARAM)
+				else if (error_code == (LIN_LS_FW_PARAM&0xFF))
 				{
 					read_data_from_EEPROM(EEPROM_BR_LIG_PER_ADDR,temp_data,EEPROM_BR_LIG_PER_LENTH,ENABLE);
 					
@@ -240,22 +182,14 @@ void lin_tl_make_slaveres_pdu
 					{
 						Brightness_Light_Percentage[0] = temp_data[0];
 					}
-					lin_tl_pdu[0] = lin_configured_NAD;                /* NAD */
 					/* PCI type */
-					lin_tl_pdu[1] = PCI_READ_LS_FW_BY_IDENTIFY;
-					/* SID */
-					lin_tl_pdu[2] = RES_POSITIVE + sid;
-					lin_tl_pdu[3] = (LIN_LS_FW_PARAM>>8) ;
+				    lin_tl_pdu[1] = PCI_READ_LS_FW_BY_IDENTIFY;
+					/* Get Identifier infor */
+				    lin_tl_pdu[3] = (LIN_LS_FW_PARAM>>8) ;
 					lin_tl_pdu[4] = (l_u8)(LIN_LS_FW_PARAM&0xFF);
 					lin_tl_pdu[5] = (l_u8)(Brightness_Light_Percentage[0]);
-					
-					for( i = 0;i < PCI_READ_LS_FW_BY_IDENTIFY;i++)
-					{
-						data_buf[i] =  lin_tl_pdu[i+2];
-					}
-					lenth = PCI_READ_LS_FW_BY_IDENTIFY;
 				}
-				else if (error_code == LIN_LS_IR_PARAM)
+				else if (error_code == (LIN_LS_IR_PARAM&0xFF))
 				{
 					read_data_from_EEPROM(EEPROM_IR_PER_ADDR,temp_data,EEPROM_IR_PER_LENTH,ENABLE);
 					if(temp_data[0] == 0xFF)
@@ -266,71 +200,49 @@ void lin_tl_make_slaveres_pdu
 					{
 						Brightness_Infrared_Percentage[0] = temp_data[0];
 					}
-					lin_tl_pdu[0] = lin_configured_NAD;                /* NAD */					
-					lin_tl_pdu[1] = PCI_READ_LS_IR_BY_IDENTIFY;  /* PCI type */					
-					lin_tl_pdu[2] = RES_POSITIVE + sid;/* SID */
+					/* PCI type */
+					lin_tl_pdu[1] = PCI_READ_LS_IR_BY_IDENTIFY;
+					/* Get Identifier infor */
 					lin_tl_pdu[3] = (LIN_LS_IR_PARAM>>8) ;
 					lin_tl_pdu[4] = (l_u8)(LIN_LS_IR_PARAM&0xFF);
 					lin_tl_pdu[5] = (l_u8)(Brightness_Infrared_Percentage[0]);
-					
-					for( i = 0;i < PCI_READ_LS_IR_BY_IDENTIFY;i++)
-					{
-						data_buf[i] =  lin_tl_pdu[i+2];
-					}
-					lenth = PCI_READ_LS_IR_BY_IDENTIFY;
 				}
-				else if (error_code == LIN_RAIN_ADC_A_PARAM)
+				else if (error_code == (LIN_RAIN_ADC_A_PARAM&0xFF))
 				{
-					lin_tl_pdu[0] = lin_configured_NAD;                /* NAD */					
-					lin_tl_pdu[1] = PCI_READ_RS_ADC_BY_IDENTIFY; /* PCI type */					
-					lin_tl_pdu[2] = RES_POSITIVE + sid;/* SID */
+					/* PCI type */
+					lin_tl_pdu[1] = PCI_READ_RS_ADC_BY_IDENTIFY;
+					/* Get Identifier infor */
 					lin_tl_pdu[3] = (LIN_RAIN_ADC_A_PARAM>>8) ;
 					lin_tl_pdu[4] = (l_u8)(LIN_RAIN_ADC_A_PARAM&0xFF);
 					lin_tl_pdu[5] = (l_u8)(Mnrval.IR_A);
 					lin_tl_pdu[6] = (l_u8)(Mnrval.IR_A>>8);
-					
-					for( i = 0;i < PCI_READ_RS_ADC_BY_IDENTIFY;i++)
-					{
-						data_buf[i] =  lin_tl_pdu[i+2];
-					}
-					lenth = PCI_READ_RS_ADC_BY_IDENTIFY;
 				}
-				else if (error_code == LIN_RAIN_ADC_B_PARAM)
+				else if (error_code == (LIN_RAIN_ADC_B_PARAM&0xFF))
 				{
-					lin_tl_pdu[0] = lin_configured_NAD;                /* NAD */					
-					lin_tl_pdu[1] = PCI_READ_RS_ADC_BY_IDENTIFY;/* PCI type */					
-					lin_tl_pdu[2] = RES_POSITIVE + sid;/* SID */
+					/* PCI type */
+					lin_tl_pdu[1] = PCI_READ_RS_ADC_BY_IDENTIFY;
+					/* Get Identifier infor */
 					lin_tl_pdu[3] = (LIN_RAIN_ADC_B_PARAM>>8) ;
 					lin_tl_pdu[4] = (l_u8)(LIN_RAIN_ADC_B_PARAM&0xFF);
 					lin_tl_pdu[5] = (l_u8)(Mnrval.IR_B);
 					lin_tl_pdu[6] = (l_u8)(Mnrval.IR_B>>8);
-					
-					for( i = 0;i < PCI_READ_RS_ADC_BY_IDENTIFY;i++)
+				}
+				else if (error_code >= LIN_READ_USR_DEF_MIN && error_code <= LIN_READ_USR_DEF_MAX)
+				{
+					l_u8 data_callout[5];
+					l_u8 retval = ld_read_by_id_callout(error_code, data_callout);
+
+					if (retval == LD_POSITIVE_RESPONSE)
 					{
-						data_buf[i] =  lin_tl_pdu[i+2];
+						/* packing user defined pdu */
+						lin_tl_pdu[3] = data_callout[0];
+						lin_tl_pdu[4] = data_callout[1];
+						lin_tl_pdu[5] = data_callout[2];
+						lin_tl_pdu[6] = data_callout[3];
+						lin_tl_pdu[7] = data_callout[4];
 					}
-					lenth = PCI_READ_RS_ADC_BY_IDENTIFY;
-				}
-				else 
-				{
-					
-				}       		
+				}				
 			}
-        	else
-        	{
-        		lin_tl_pdu[4] = error_code;
-				lin_tl_pdu[5] = 0xFF;
-				lin_tl_pdu[6] = 0xFF;
-				lin_tl_pdu[7] = 0xFF;
-				for( i = 0;i < 3;i++)
-				{
-					data_buf[i] =  lin_tl_pdu[i+2];
-				}
-				lenth = 3;
-        	}  
-        	       	
-        	ld_send_message(lenth,data_buf);
-        	diag_clear_flag(DIAGSRV_READ_DATA_BY_IDENTIFIER_ORDER);        	
         	break;
         case SERVICE_WRITE_DATA_BY_IDENTIFY:
         	if (POSITIVE == res_type)
@@ -339,92 +251,75 @@ void lin_tl_make_slaveres_pdu
 				lin_tl_pdu[2] = RES_POSITIVE + sid;
 				lin_tl_pdu[5] = 0xFF;
 
-				if (error_code == LIN_ECU_SERIAL)
+				if (error_code == (LIN_PRODUCT_SERIAL_NUMBER0&0xFF))
 				{
 					/* PCI type */
 					lin_tl_pdu[1] = PCI_WRITE_BY_IDENTIFY;
 					/* Get Identifier infor */
-					lin_tl_pdu[3] = LIN_ECU_SERIAL>>8 ;	
-					lin_tl_pdu[4] = LIN_ECU_SERIAL&0xff ;
-					
-					for( i = 0;i < PCI_WRITE_BY_IDENTIFY;i++)
-					{
-						data_buf[i] =  lin_tl_pdu[i+2];
-					}
-					lenth = PCI_WRITE_BY_IDENTIFY;
+					lin_tl_pdu[3] = LIN_PRODUCT_SERIAL_NUMBER0>>8 ;	
+					lin_tl_pdu[4] = LIN_PRODUCT_SERIAL_NUMBER0&0xff ;
 				}
-				else if (error_code == LIN_LS_FW_PARAM)
+				else if (error_code == (LIN_PRODUCT_SERIAL_NUMBER1&0xFF))
+				{
+					/* PCI type */
+					lin_tl_pdu[1] = PCI_WRITE_BY_IDENTIFY;
+					/* Get Identifier infor */
+					lin_tl_pdu[3] = LIN_PRODUCT_SERIAL_NUMBER1>>8 ;	
+					lin_tl_pdu[4] = LIN_PRODUCT_SERIAL_NUMBER1&0xff ;
+				}
+				else if (error_code == (LIN_PRODUCT_SERIAL_NUMBER2&0xFF))
+				{
+					/* PCI type */
+					lin_tl_pdu[1] = PCI_WRITE_BY_IDENTIFY;
+					/* Get Identifier infor */
+					lin_tl_pdu[3] = LIN_PRODUCT_SERIAL_NUMBER2>>8 ;	
+					lin_tl_pdu[4] = LIN_PRODUCT_SERIAL_NUMBER2&0xff ;
+				}
+				else if (error_code == (LIN_PRODUCT_SERIAL_NUMBER3&0xFF))
+				{
+					/* PCI type */
+					lin_tl_pdu[1] = PCI_WRITE_BY_IDENTIFY;
+					/* Get Identifier infor */
+					lin_tl_pdu[3] = LIN_PRODUCT_SERIAL_NUMBER3>>8 ;	
+					lin_tl_pdu[4] = LIN_PRODUCT_SERIAL_NUMBER3&0xff ;
+				}
+				else if (error_code == (LIN_LS_FW_PARAM&0xff))
 				{
 					/* PCI type */
 					lin_tl_pdu[1] = PCI_WRITE_BY_IDENTIFY;
 					/* Get Identifier infor */
 					lin_tl_pdu[3] = LIN_LS_FW_PARAM>>8 ;	
 					lin_tl_pdu[4] = LIN_LS_FW_PARAM&0xff ;
-					
-					for( i = 0;i < PCI_WRITE_BY_IDENTIFY;i++)
-					{
-						data_buf[i] =  lin_tl_pdu[i+2];
-					}
-					lenth = PCI_WRITE_BY_IDENTIFY;
 				}
-				else if (error_code == LIN_LS_IR_PARAM)
+				else if (error_code == (LIN_LS_IR_PARAM&0xff))
 				{
 					/* PCI type */
 					lin_tl_pdu[1] = PCI_WRITE_BY_IDENTIFY;
 					/* Get Identifier infor */
 					lin_tl_pdu[3] = LIN_LS_IR_PARAM>>8 ;	
 				    lin_tl_pdu[4] = LIN_LS_IR_PARAM&0xff ;
-				    for( i = 0;i < PCI_WRITE_BY_IDENTIFY;i++)
-					{
-						data_buf[i] =  lin_tl_pdu[i+2];
-					}
-					lenth = PCI_WRITE_BY_IDENTIFY;
 				}
-				else if (error_code == LIN_RAIN_ADC_A_PARAM)
+				else if (error_code == (LIN_RAIN_ADC_A_PARAM&0xff))
 				{
 					/* PCI type */
 					lin_tl_pdu[1] = PCI_WRITE_BY_IDENTIFY;
 					/* Get Identifier infor */
 					lin_tl_pdu[3] = LIN_RAIN_ADC_A_PARAM>>8 ;	
 					lin_tl_pdu[4] = LIN_RAIN_ADC_A_PARAM&0xff ;
-					for( i = 0;i < PCI_WRITE_BY_IDENTIFY;i++)
-					{
-						data_buf[i] =  lin_tl_pdu[i+2];
-					}
-					lenth = PCI_WRITE_BY_IDENTIFY;
 				}
-				else if (error_code == LIN_RAIN_ADC_B_PARAM)
+				else if (error_code == (LIN_RAIN_ADC_B_PARAM&0xff))
 				{
 					/* PCI type */
 					lin_tl_pdu[1] = PCI_WRITE_BY_IDENTIFY;
 					/* Get Identifier infor */
 					lin_tl_pdu[3] = LIN_RAIN_ADC_B_PARAM>>8 ;	
 					lin_tl_pdu[4] = LIN_RAIN_ADC_B_PARAM&0xff ;
-					for( i = 0;i < PCI_WRITE_BY_IDENTIFY;i++)
-					{
-						data_buf[i] =  lin_tl_pdu[i+2];
-					}
-					lenth = PCI_WRITE_BY_IDENTIFY;
 				}
 				else
 				{
 					
-				}				
-			}
-        	else
-        	{
-        		lin_tl_pdu[4] = error_code;
-				lin_tl_pdu[5] = 0xFF;
-				lin_tl_pdu[6] = 0xFF;
-				lin_tl_pdu[7] = 0xFF;
-				for( i = 0;i < 3;i++)
-				{
-					data_buf[i] =  lin_tl_pdu[i+2];
 				}
-				lenth = 3;
-        	}
-        	ld_send_message(lenth,data_buf);
-        	diag_clear_flag(DIAGSRV_WRITE_DATA_BY_IDENTIFIER_ORDER);
+			}
         	break;
         case SERVICE_READ_BY_IDENTIFY:
             if (POSITIVE == res_type)
@@ -442,32 +337,23 @@ void lin_tl_make_slaveres_pdu
                     lin_tl_pdu[5] = (l_u8)(product_id.function_id & 0xFF);
                     lin_tl_pdu[6] = (l_u8)(product_id.function_id >> 8);
                     lin_tl_pdu[7] = product_id.variant;
-                    
-                    for( i = 0;i < PCI_RES_READ_BY_IDENTIFY;i++)
-					{
-						data_buf[i] =  lin_tl_pdu[i+2];
-					}
-					lenth = PCI_RES_READ_BY_IDENTIFY;
                 }
-                else 
+                else if (error_code >= LIN_READ_USR_DEF_MIN && error_code <= LIN_READ_USR_DEF_MAX)
                 {
+                    l_u8 data_callout[5];
+                    l_u8 retval = ld_read_by_id_callout(error_code, data_callout);
 
+                    if (retval == LD_POSITIVE_RESPONSE)
+                    {
+                        /* packing user defined pdu */
+                        lin_tl_pdu[3] = data_callout[0];
+                        lin_tl_pdu[4] = data_callout[1];
+                        lin_tl_pdu[5] = data_callout[2];
+                        lin_tl_pdu[6] = data_callout[3];
+                        lin_tl_pdu[7] = data_callout[4];
+                    }
                 }
             }
-            else
-            {
-            	lin_tl_pdu[4] = error_code;
-				lin_tl_pdu[5] = 0xFF;
-				lin_tl_pdu[6] = 0xFF;
-				lin_tl_pdu[7] = 0xFF;
-				for( i = 0;i < 3;i++)
-				{
-					data_buf[i] =  lin_tl_pdu[i+2];
-				}
-				lenth = 3;
-            }
-            ld_send_message(lenth,data_buf);
-            diag_clear_flag(DIAGSRV_READ_BY_IDENTIFIER_ORDER);
             break;
         case SERVICE_ASSIGN_FRAME_ID_RANGE:  /* Mandatory for TL LIN 2.1 */
             if (POSITIVE == res_type)
@@ -476,27 +362,7 @@ void lin_tl_make_slaveres_pdu
                 lin_tl_pdu[2] = RES_POSITIVE + sid;
                 lin_tl_pdu[3] = 0xFF;
                 lin_tl_pdu[4] = 0xFF;
-                for( i = 0;i < PCI_RES_ASSIGN_FRAME_ID_RANGE;i++)
-				{
-					data_buf[i] =  lin_tl_pdu[i+2];
-				}
-				lenth = PCI_RES_ASSIGN_FRAME_ID_RANGE;
             }
-            else
-            {
-            	lin_tl_pdu[4] = error_code;
-				lin_tl_pdu[5] = 0xFF;
-				lin_tl_pdu[6] = 0xFF;
-				lin_tl_pdu[7] = 0xFF;
-				for( i = 0;i < 3;i++)
-				{
-					data_buf[i] =  lin_tl_pdu[i+2];
-				}
-				lenth = 3;
-            }
-            
-            ld_send_message(lenth,data_buf);
-			diag_clear_flag(DIAGSRV_ASSIGN_FRAME_ID_RANGE_ORDER);
             break;
         case SERVICE_SAVE_CONFIGURATION:
             if (POSITIVE == res_type)
@@ -508,28 +374,7 @@ void lin_tl_make_slaveres_pdu
                 /* Data unused */
                 lin_tl_pdu[3] = 0xFF;
                 lin_tl_pdu[4] = 0xFF;
-                
-                for( i = 0;i < PCI_RES_SAVE_CONFIGURATION;i++)
-				{
-					data_buf[i] =  lin_tl_pdu[i+2];
-				}
-				lenth = PCI_RES_SAVE_CONFIGURATION;
             }
-            else
-            {
-            	lin_tl_pdu[4] = error_code;
-				lin_tl_pdu[5] = 0xFF;
-				lin_tl_pdu[6] = 0xFF;
-				lin_tl_pdu[7] = 0xFF;
-				for( i = 0;i < 3;i++)
-				{
-					data_buf[i] =  lin_tl_pdu[i+2];
-				}
-				lenth = 3;
-            }
-            
-            ld_send_message(lenth,data_buf);
-            diag_clear_flag(DIAGSRV_SAVE_CONFIGURATION_ORDER);
             break;
         case SERVICE_ASSIGN_NAD:
         #if (_TL_FRAME_SUPPORT_ == _TL_MULTI_FRAME_)
@@ -537,94 +382,35 @@ void lin_tl_make_slaveres_pdu
         #else  /* Single frame support */
             lin_configured_NAD = (*tl_current_rx_pdu_ptr)[7];
         #endif /* End (_TL_FRAME_SUPPORT_ == _TL_MULTI_FRAME_) */
-            if (POSITIVE == res_type)
-            {
-				lin_tl_pdu[1] = 0x01;                              /* PCI */
-				lin_tl_pdu[2] = 0xF0;                              /* RSID */
-				lin_tl_pdu[3] = 0xFF;
-				lin_tl_pdu[4] = 0xFF;
-				for( i = 0;i < 0x01;i++)
-				{
-					data_buf[i] =  lin_tl_pdu[i+2];
-				}
-				lenth = 0x01;
-            }
-            else
-            {
-            	lin_tl_pdu[4] = error_code;
-				lin_tl_pdu[5] = 0xFF;
-				lin_tl_pdu[6] = 0xFF;
-				lin_tl_pdu[7] = 0xFF;
-				for( i = 0;i < 3;i++)
-				{
-					data_buf[i] =  lin_tl_pdu[i+2];
-				}
-				lenth = 3;
-            }
-            ld_send_message(lenth,data_buf);
-			diag_clear_flag(DIAGSRV_ASSIGN_NAD_ORDER);
+            lin_tl_pdu[1] = 0x01;                              /* PCI */
+            lin_tl_pdu[2] = 0xF0;                              /* RSID */
+            lin_tl_pdu[3] = 0xFF;
+            lin_tl_pdu[4] = 0xFF;
             break;
         case SERVICE_CONDITIONAL_CHANGE_NAD:
-        	if (POSITIVE == res_type)
-            {
-				lin_tl_pdu[1] = 0x01;                              /* PCI */
-				lin_tl_pdu[2] = 0xF3;                              /* RSID */
-				lin_tl_pdu[3] = 0xFF;
-				lin_tl_pdu[4] = 0xFF;
-				for( i = 0;i < 0x01;i++)
-				{
-					data_buf[i] =  lin_tl_pdu[i+2];
-				}
-				lenth = 0x01;
-            }
-        	else
-        	{
-        		lin_tl_pdu[4] = error_code;
-				lin_tl_pdu[5] = 0xFF;
-				lin_tl_pdu[6] = 0xFF;
-				lin_tl_pdu[7] = 0xFF;
-				for( i = 0;i < 3;i++)
-				{
-					data_buf[i] =  lin_tl_pdu[i+2];
-				}
-				lenth = 3;
-        	}
-        	ld_send_message(lenth,data_buf);
-			diag_clear_flag(DIAGSRV_CONDITIONAL_CHANGE_NAD_ORDER);
+            lin_tl_pdu[1] = 0x01;                              /* PCI */
+            lin_tl_pdu[2] = 0xF3;                              /* RSID */
+            lin_tl_pdu[3] = 0xFF;
+            lin_tl_pdu[4] = 0xFF;
             break;
         #endif /* End (LIN_PROTOCOL == PROTOCOL_21) */
         default:
-        	
-        	lin_tl_pdu[4] = error_code;
-			lin_tl_pdu[5] = 0xFF;
-			lin_tl_pdu[6] = 0xFF;
-			lin_tl_pdu[7] = 0xFF;
-			for( i = 0;i < 3;i++)
-			{
-				data_buf[i] =  lin_tl_pdu[i+2];
-			}
-			lenth = 3;
-			ld_send_message(lenth,data_buf);
             break;
     }/* end of switch statement */
     /* Multi frame support */
 #if (_TL_FRAME_SUPPORT_ == _TL_MULTI_FRAME_)
-        
-#if 0		
-		lin_tl_tx_queue.queue_status = LD_QUEUE_FULL;
-		lin_tl_tx_queue.queue_current_size = 1;
+    lin_tl_tx_queue.queue_status = LD_QUEUE_FULL;
+    lin_tl_tx_queue.queue_current_size = 1;
 
-		/* Put to transmit queue */
-		for (i = 0; i < 8; i++)
-		{
-			lin_tl_tx_queue.tl_pdu[lin_tl_tx_queue.queue_header][i] = lin_tl_pdu[i];
-		}
-
-		/* Set check N_As Timeout */
-		tl_tx_msg_index = lin_tl_tx_queue.queue_tail;
-		//tl_tx_msg_size = 1;
-		tl_tx_msg_status = LD_IN_PROGRESS;
-#endif	
+    /* Put to transmit queue */
+    for (i = 0; i < 8; i++)
+    {
+        lin_tl_tx_queue.tl_pdu[lin_tl_tx_queue.queue_header][i] = lin_tl_pdu[i];
+    }
+    /* Set check N_As Timeout */
+    tl_tx_msg_index = lin_tl_tx_queue.queue_tail;
+    tl_tx_msg_size = 1;
+    tl_tx_msg_status = LD_IN_PROGRESS;
 #else /* Single frame support */
     for (i = 0; i < 8; i++)
     {
@@ -635,7 +421,7 @@ void lin_tl_make_slaveres_pdu
 #endif /* End (_TL_FRAME_SUPPORT_ == _TL_MULTI_FRAME_) */
 
     /* set number of SlaveResp response data */
-    //tl_slaveresp_cnt = 1;
+    tl_slaveresp_cnt = 1;
 }
 
 void lin_tl_get_pdu()
@@ -870,10 +656,9 @@ void lin_tl_handler()
         /* ignore request */
         NAD = 0x00;
         return;
-    }   
-    
+    }
     /* check if slave node is transmitting response while receive functional request */
-    if (NAD != LD_FUNCTIONAL_NAD)//if (tl_diag_state == LD_DIAG_TX_PHY && NAD != LD_FUNCTIONAL_NAD)
+    if (tl_diag_state == LD_DIAG_TX_PHY && NAD != LD_FUNCTIONAL_NAD)
     {
         /* clear received request & response */
         tl_service_status = LD_SERVICE_BUSY;

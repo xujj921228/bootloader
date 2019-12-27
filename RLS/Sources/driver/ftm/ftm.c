@@ -28,7 +28,6 @@ uint8  G_20ms_counter = FALSE;
 uint8  G_50ms_counter = FALSE;
 uint8  G_100ms_counter = FALSE;
 uint8  G_500ms_counter = FALSE;
-uint8  G_600ms_counter = FALSE;
 uint16  G_4s_counter = FALSE;
 
 uint8  G_10msFlag = FALSE;
@@ -36,7 +35,6 @@ uint8  G_20msFlag = FALSE;
 uint8  G_50msFlag = FALSE;
 uint8  G_100msFlag = FALSE;
 uint8  G_500msFlag = FALSE;
-uint8  G_600msFlag = FALSE;
 uint8  G_4sFlag = FALSE;
 
 void FTM0_Init(void)
@@ -77,7 +75,6 @@ void FTM0_IRQHandler()   //10ms
 		G_50ms_counter++;
 		G_100ms_counter++;
 		G_500ms_counter++;
-		G_600ms_counter++;
 		G_4s_counter++;
 		
 		if(G_4s_counter >= 400)
@@ -97,24 +94,16 @@ void FTM0_IRQHandler()   //10ms
 			G_50ms_counter = 0;
 			G_50msFlag = 1;
 		}
-		
-		if(G_100ms_counter >= 10)
+		 if(G_100ms_counter >= 10)
 		{
 			G_100ms_counter = 0;
 			G_100msFlag = 1;     
 		}
-		
 		if(G_500ms_counter>= 50)
 		{
 			G_500ms_counter=0;
 			G_500msFlag=1;    
 		}    
-		
-		if(G_600ms_counter>= 60)
-		{
-			G_600ms_counter=0;
-			G_600msFlag=1;    
-		} 
             
     }
 }

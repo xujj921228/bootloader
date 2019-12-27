@@ -25,18 +25,14 @@
 
 #define MEAS_NUM 3
 
-#define   VOLT_CH      11
-#define   SOLAR_L_CH   9
-#define   SOLAR_R_CH   8
+#define   VOLT_CH   11
 
 #define   AVG_N  2
 #define   Tab_FW_NUM             16
 #define   Tab_IR_NUM             16 
-#define   Tab_HUD_NUM            16 
 
 #define   PD_WINDOW   6
 #define   DC_WINDOW   20
-#define   SOLAR_WINDOW 8
 
 #define   SLEFADAPT 0
 #define   NORMAL    1
@@ -48,8 +44,6 @@
 #define   LIGHT_TYPE       2
 #define   LIGHT            0
 #define   TWILIGHT         1
-
-#define   FW_IR_NUM    5
 
 
 #define  VOLTAGE_NORMAL 0 
@@ -75,17 +69,11 @@ struct Rls_Error
   uint8  RS_Error              :1;
   uint8  LS_Error              :1;
   uint8  IR_Error              :1;
-  uint8  Hud_Error             :1;
-  uint8  Solar_Left_Error      :1;
-  uint8  Solar_Right_Error     :1;
-  uint8  RS_State              :1;
-  uint8  LS_State              :1;
+  uint8  rsv0                  :5;
   
   uint8  RS_Error_Cnt[2];
   uint8  LS_Error_Cnt ;
-  uint8  IR_Error_Cnt ;
-  uint8  Hud_Error_Cnt ;
-  uint8  Solar_Error_Cnt[2] ;
+  uint8  IR_Error_Cnt[2] ;
 };
 
 extern uint8 u8_MsgCounter;
@@ -93,10 +81,7 @@ extern uint8 u8_light_on_req,u8_light_on_invent_req,u8_twilight_on_req,u8_twilig
 extern uint8 Brightness_Light_Percentage[1];
 extern uint8 Brightness_Infrared_Percentage[1];
 
-extern uint8  u8_hud_value,u8_hud_factor;
-extern uint8  u8_Rain_Value;
-extern uint8  u8_Solar_l_value,u8_Solar_r_value;
-
+extern uint8  u8_Rain_Value,u8_MeasureSureTime;
 extern uint8  u8_Rain_Sensitivity,u8_Rain_Delta;
 extern uint8  RLS_RunMode,u8_Battery_status;
 extern uint8  u8_WiperSpeed_Expert,u8_IntSpeedCnt,u8_IntSpeedEnterCnt,u8_WiperSpeed;
@@ -114,15 +99,10 @@ extern uint8  MLX75308_A_Gain,MLX75308_B_Gain,MLX75308_A_Adc,MLX75308_B_Adc;
 
 extern uint8  u8_Cmd_Execution;
 extern uint16 u16_SPD_Vehicle;
-extern uint8  u8_Battery_status;
+extern uint8  u8_Battery_status,u8_Rain_Valid;
 
-extern uint8 u8_RTC_10S_Flg;
-extern uint8 u8_polling_mode_enter,Mcu_wakeup_state,u8_wakeup_bcm_timer,u8_wakeup_cnt,u8_wakeup_timer,u8_rain_state_exit_polling_flg;
-extern uint8 u8_lin_cmd_sleep,u8_auto_roof_rain_measure_sleep_flg,u8_wakeup_bcm_1min_flg,u8_rain_state_polling_flg,u8_Sleep_16h_flg;
-extern uint16 u16_wakeup_16h_cnt;
-
-extern uint8 u8_Tunnel_Detect_pre_flg,u8_Tunnel_Detect_flg;
-extern uint8 u8_LightOnReason,u8_LightMode,u8_RainDayGlobalCloseCmd;
+extern uint8 u8_polling_mode_enter,Mcu_wakeup_state,u8_wakeup_bcm_timer,u8_wakeup_cnt,u8_wakeup_timer;
+extern uint8 u8_lin_cmd_sleep,u8_auto_roof_rain_measure_sleep_flg,u8_wakeup_bcm_cnt_sleep_flg;
 
 extern uint8  u8_Rain_Flg;
 extern uint16 u16_RainWindow_Cnt;
@@ -132,9 +112,9 @@ extern uint8  u8_Vehicle_State,u8_Vehicle_State_Pre;
 extern uint8  u8_Int_Cnt;
 extern uint16 u16_IntWindow_Cnt;
 
-extern uint16 u16_Solar_l_value_raw_temp,u16_Solar_r_value_raw_temp;
+extern uint8  u8_Lin_Diag_Enable;
+extern uint8  u8_Lin_Diag_Enable_Cnt;
 
-extern uint8 u8_AmbientTemp;
 extern struct Rls_Error       App_Rls_Error;
 extern struct MLX75308_Frame  MLX75308_RxFrame;
 extern struct MLX75308_Mnrval Mnrval;
@@ -155,12 +135,6 @@ extern void RLS_SelfAdaptTask(void);
 extern void Sleep_Process(void);
 extern void Recover_Process(void);
 extern void Auto_Roof_Process(void);
-extern void RLS_Auto_Solar_Task();
-extern void RLS_Tunnel_Detect_Task(void);
-extern void roof_error_process(void);
-extern void RLS_remote_process(void);
-extern void RLS_Wash_Function(void);
-extern void Auto_Roof_receive_schdule_process(void);
-extern void Auto_Roof_Send_Wake_Up(void);
+extern void RLS_Lin_Diag_Fucntion(void);
 
 #endif    /* _ADC_H_ */

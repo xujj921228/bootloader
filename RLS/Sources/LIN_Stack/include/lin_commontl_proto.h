@@ -71,26 +71,16 @@
 #define SERIAL_NUMBER                     0x01   /**< Serial number */
 
 /* Identifiers of node read data by identifier service */
-#define LIN_PRODUCT_SERIAL_NUMBER0           0x1305
-#define LIN_PRODUCT_SERIAL_NUMBER1           0x1306
-#define LIN_PRODUCT_SERIAL_NUMBER2           0x1307
-#define LIN_PRODUCT_SERIAL_NUMBER3           0x1308
+#define LIN_PRODUCT_SERIAL_NUMBER0           0xF185
+#define LIN_PRODUCT_SERIAL_NUMBER1           0xF186
+#define LIN_PRODUCT_SERIAL_NUMBER2           0xF187
+#define LIN_PRODUCT_SERIAL_NUMBER3           0xF188
 
 #define LIN_LS_FW_PARAM                     0x1301
 #define LIN_LS_IR_PARAM                     0x1302
 
 #define LIN_RAIN_ADC_A_PARAM                0x130A
 #define LIN_RAIN_ADC_B_PARAM                0x130B
-
-#define LIN_SPARE_PART_NUMBER               0xF10A
-#define LIN_SPARE_PART_NUMBER_ASM           0xF187
-#define LIN_VEHICLE_SOFT_VERSION			0xF188
-#define LIN_SUPPLIER_ID			            0xF18A
-#define LIN_MANUFACT_DATA			        0xF18B
-#define LIN_ECU_SERIAL			            0xF18C
-#define LIN_VEHICLE_HARD_VERSION			0xF191
-#define LIN_SUPPLIER_HARD_VERSION			0xF193
-#define LIN_SUPPLIER_SOFT_VERSION			0xF195
 
 
 #if LIN_MODE == _SLAVE_MODE_
@@ -123,7 +113,7 @@ extern l_u8 ld_read_by_id_callout(l_u8 id, l_u8 *data);
 * @details
 *   This function is implemented for Slave only
 *//*END*----------------------------------------------------------------------*/
-void lin_tl_make_slaveres_pdu(l_u8 sid, l_u8 res_type, l_u16 error_code);
+void lin_tl_make_slaveres_pdu(l_u8 sid, l_u8 res_type, l_u8 error_code);
 
 /*FUNCTION*--------------------------------------------------------------*//**
 * @fn void lin_tl_attach_service()

@@ -1002,8 +1002,6 @@ l_u8 ld_raw_rx_status(void)
 /* COOKED APIs */
 /** @addtogroup cooked_api_group
  * @{ */
-
-l_u8 test3;
 void ld_send_message(l_u16 length, const l_u8* const data)
 {
     lin_tl_pdu_data pdu;
@@ -1013,11 +1011,9 @@ void ld_send_message(l_u16 length, const l_u8* const data)
     l_u16 tmp_length = length;
     l_u16 frame_counter = 1;
 
-    
     /* check message status in queue */
     if (LD_COMPLETED == tl_tx_msg_status)
     {
-    	test3 = 1;
         /* calculate number of PDU for this message */
         if (length <= 6)
         {

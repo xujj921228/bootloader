@@ -24,7 +24,7 @@
 void ADC_Init(void)
 {
 	SIM_SCGC |= SIM_SCGC_ADC_MASK ;
-	ADC_APCTL1 |= 0x0B00 ;  //ad 11,9,8
+	ADC_APCTL1 |= 0x0800 ;  //ad 11
 	ADC_SC3 = 0x0038; //12BIT,bus clock 
 	ADC_SC4 = 0x0000; 
 }

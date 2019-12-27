@@ -55,7 +55,6 @@ void DRV_IIC_Init(void)
     IIC_SCL_Output();                       //PA2  Humidity sensor SCL     output
     IIC_SDA_Input();                        //PB1  Humidity sensor SDA     output/input     Default input
     
-    //FUNC_HUM_SETTING(SHT30_ACQ_CMD);
     FUNC_HUM_SETTING(SHT30_SACQ_CMD);
 }
 

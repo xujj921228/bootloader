@@ -20,11 +20,10 @@
 #ifndef    _CONFIG_PARAMETER_H_  
 #define    _CONFIG_PARAMETER_H_  
 
+#include "derivative.h" /* include peripheral declarations */
 
-#define ENABLE_SOLAR
-#define ENABLE_HUD
-//#define ENABLE_HUMID
-#define ENABLE_AUTO_ROOF  //使能自动开天窗功能
+//#define FOUR_TO_ONE
+//#define ENABLE_AUTO_ROOF  //使能自动开天窗功能
 
 #define  ENABLE_INTERRUPT  asm("CPSIE i");
 #define  DISABLE_INTERRUPT asm("CPSID i");
@@ -62,22 +61,6 @@ typedef  unsigned long   uint32;     //unsigned 32 bit definition
 
 #define EEPROM_A_RAIN_ADC_LENTH        2
 #define EEPROM_B_RAIN_ADC_LENTH        2
-
-
-#define LIN_SPARE_PART_NUMBER_LENTH        13
-#define LIN_VEHICLE_SOFT_VERSION_LENTH     8
-#define LIN_VEHICLE_HARD_VERSION_LENTH     5
-#define LIN_SUPPLIER_ID_LENTH              3
-#define LIN_MANUFACT_DATA_LENTH            3
-#define LIN_ECU_SERIAL_LENTH               9
-#define LIN_SUPPLIER_HARD_VERSION_LENTH    9
-#define LIN_SUPPLIER_SOFT_VERSION_LENTH          9
-
-
-#define   TUNNEL_IR_DELTA_TH       5
-#define   TUNNEL_FW_DELTA_TH       100
-#define   TUNNEL_IR_TH       133
-#define   TUNNEL_FW_TH       2
 
 
 /************RAIN_INVALID***********/   
@@ -233,14 +216,7 @@ typedef struct
 extern tMlx75308_Config const Mlx75308_Config_Parameter[1];
 extern tRain_Stastegy_Config const  Rain_Stastegy_Parameter[1];
 extern tLight_Stastegy_Config const  Light_Stastegy_Parameter[1];
-extern const uint8 lin_Spare_Part_Number[LIN_SPARE_PART_NUMBER_LENTH];
-extern const uint8 lin_Vehicle_Soft_Version[LIN_VEHICLE_SOFT_VERSION_LENTH];
-extern const uint8 lin_Vehicle_Hard_Version[LIN_VEHICLE_HARD_VERSION_LENTH];
-extern const uint8 lin_Supplier_ID[LIN_SUPPLIER_ID_LENTH];
-extern const uint8 lin_Manufact_Data[LIN_MANUFACT_DATA_LENTH];
-extern const uint8 lin_Ecu_Serial[LIN_ECU_SERIAL_LENTH];
-extern const uint8 lin_Supplier_Soft_Version[LIN_SUPPLIER_SOFT_VERSION_LENTH];
-extern const uint8 lin_Supplier_Hard_Version[LIN_SUPPLIER_HARD_VERSION_LENTH];
+
 
 extern void Globle_parameter_Init(void);
 #endif    /* _ADC_H_ */

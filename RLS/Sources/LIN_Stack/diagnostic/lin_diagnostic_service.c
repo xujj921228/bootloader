@@ -147,48 +147,33 @@ void lin_diagservice_read_data_by_identifier(void)
     if(length >= 3)
     {
 		switch (id)
-		{   
-		    case LIN_SPARE_PART_NUMBER:
-				lin_tl_make_slaveres_pdu(SERVICE_READ_DATA_BY_IDENTIFY, POSITIVE, LIN_SPARE_PART_NUMBER);
+		{
+			case LIN_PRODUCT_SERIAL_NUMBER0:
+				lin_tl_make_slaveres_pdu(SERVICE_READ_DATA_BY_IDENTIFY, POSITIVE, (LIN_PRODUCT_SERIAL_NUMBER0&0xFF));
 				break;
-		    case LIN_SPARE_PART_NUMBER_ASM:
-		    	lin_tl_make_slaveres_pdu(SERVICE_READ_DATA_BY_IDENTIFY, POSITIVE, LIN_SPARE_PART_NUMBER_ASM);
-		    	break;							
-		    case LIN_VEHICLE_SOFT_VERSION:
-				lin_tl_make_slaveres_pdu(SERVICE_READ_DATA_BY_IDENTIFY, POSITIVE, LIN_VEHICLE_SOFT_VERSION);
+			case LIN_PRODUCT_SERIAL_NUMBER1:
+				lin_tl_make_slaveres_pdu(SERVICE_READ_DATA_BY_IDENTIFY, POSITIVE, (LIN_PRODUCT_SERIAL_NUMBER1&0xFF));
 				break;
-		    case LIN_VEHICLE_HARD_VERSION:
-				lin_tl_make_slaveres_pdu(SERVICE_READ_DATA_BY_IDENTIFY, POSITIVE, LIN_VEHICLE_HARD_VERSION);
+			case LIN_PRODUCT_SERIAL_NUMBER2:
+				lin_tl_make_slaveres_pdu(SERVICE_READ_DATA_BY_IDENTIFY, POSITIVE, (LIN_PRODUCT_SERIAL_NUMBER2&0xFF));
 				break;
-		    case LIN_SUPPLIER_ID:
-				lin_tl_make_slaveres_pdu(SERVICE_READ_DATA_BY_IDENTIFY, POSITIVE, LIN_SUPPLIER_ID);
-				break;
-		    case LIN_MANUFACT_DATA:
-				lin_tl_make_slaveres_pdu(SERVICE_READ_DATA_BY_IDENTIFY, POSITIVE, LIN_MANUFACT_DATA);
-				break;
-		    case LIN_ECU_SERIAL:
-				lin_tl_make_slaveres_pdu(SERVICE_READ_DATA_BY_IDENTIFY, POSITIVE, LIN_ECU_SERIAL);
-				break;
-			case LIN_SUPPLIER_HARD_VERSION:
-				lin_tl_make_slaveres_pdu(SERVICE_READ_DATA_BY_IDENTIFY, POSITIVE, LIN_SUPPLIER_HARD_VERSION);
-				break;
-			case LIN_SUPPLIER_SOFT_VERSION:
-				lin_tl_make_slaveres_pdu(SERVICE_READ_DATA_BY_IDENTIFY, POSITIVE, LIN_SUPPLIER_SOFT_VERSION);
-				break;
-		    case LIN_LS_FW_PARAM:
-				lin_tl_make_slaveres_pdu(SERVICE_READ_DATA_BY_IDENTIFY, POSITIVE, LIN_LS_FW_PARAM);
+			case LIN_PRODUCT_SERIAL_NUMBER3:
+				lin_tl_make_slaveres_pdu(SERVICE_READ_DATA_BY_IDENTIFY, POSITIVE, (LIN_PRODUCT_SERIAL_NUMBER3&0xFF));
+				break;				
+			case LIN_LS_FW_PARAM:
+				lin_tl_make_slaveres_pdu(SERVICE_READ_DATA_BY_IDENTIFY, POSITIVE, (LIN_LS_FW_PARAM&0xFF));
 				break;
 							  
 			case LIN_LS_IR_PARAM:
-				lin_tl_make_slaveres_pdu(SERVICE_READ_DATA_BY_IDENTIFY, POSITIVE, LIN_LS_IR_PARAM);
+				lin_tl_make_slaveres_pdu(SERVICE_READ_DATA_BY_IDENTIFY, POSITIVE, (LIN_LS_IR_PARAM&0xFF));
 				break;
 				
 			case LIN_RAIN_ADC_A_PARAM:
-				lin_tl_make_slaveres_pdu(SERVICE_READ_DATA_BY_IDENTIFY, POSITIVE, LIN_RAIN_ADC_A_PARAM);
+				lin_tl_make_slaveres_pdu(SERVICE_READ_DATA_BY_IDENTIFY, POSITIVE, (LIN_RAIN_ADC_A_PARAM&0xFF));
 				break;
 							  
 			case LIN_RAIN_ADC_B_PARAM:
-				lin_tl_make_slaveres_pdu(SERVICE_READ_DATA_BY_IDENTIFY, POSITIVE, LIN_RAIN_ADC_B_PARAM);
+				lin_tl_make_slaveres_pdu(SERVICE_READ_DATA_BY_IDENTIFY, POSITIVE, (LIN_RAIN_ADC_B_PARAM&0xFF));
 				break;
 	
 			default:
@@ -231,7 +216,7 @@ void lin_diagservice_write_data_by_identifier(void)
 	{
 		switch (id)
 		{
-			case LIN_ECU_SERIAL:
+			case LIN_PRODUCT_SERIAL_NUMBER0:
 				if(length != 6)
 				{
 					/* Make a negative slave response PDU */
@@ -241,9 +226,49 @@ void lin_diagservice_write_data_by_identifier(void)
 				{
 					// important write_data_from_EEPROM need place before lin_tl_make_slaveres_pdu
 					write_data_from_EEPROM(EEPROM_SERIAL_NUMBER0_ADDR,&(*lin_tl_pdu)[5],EEPROM_SERIAL_NUMBER_LENTH,1);
-					lin_tl_make_slaveres_pdu(SERVICE_WRITE_DATA_BY_IDENTIFY, POSITIVE, LIN_ECU_SERIAL);	
-				}						
-				break;		
+					lin_tl_make_slaveres_pdu(SERVICE_WRITE_DATA_BY_IDENTIFY, POSITIVE, (LIN_PRODUCT_SERIAL_NUMBER0&0xff));	
+				}
+						
+				break;
+			case LIN_PRODUCT_SERIAL_NUMBER1:
+				if(length != 6)
+				{
+					/* Make a negative slave response PDU */
+					lin_tl_make_slaveres_pdu(SERVICE_WRITE_DATA_BY_IDENTIFY, NEGATIVE, INVALID_FORMAT);
+				}
+				else
+				{
+					// important write_data_from_EEPROM need place before lin_tl_make_slaveres_pdu
+					write_data_from_EEPROM(EEPROM_SERIAL_NUMBER1_ADDR,&(*lin_tl_pdu)[5],EEPROM_SERIAL_NUMBER_LENTH,1);
+					lin_tl_make_slaveres_pdu(SERVICE_WRITE_DATA_BY_IDENTIFY, POSITIVE,  (LIN_PRODUCT_SERIAL_NUMBER1&0xff));	
+				}
+				break;
+			case LIN_PRODUCT_SERIAL_NUMBER2:
+				if(length != 6)
+				{
+					/* Make a negative slave response PDU */
+					lin_tl_make_slaveres_pdu(SERVICE_WRITE_DATA_BY_IDENTIFY, NEGATIVE, INVALID_FORMAT);
+				}
+				else
+				{
+					// important write_data_from_EEPROM need place before lin_tl_make_slaveres_pdu
+					write_data_from_EEPROM(EEPROM_SERIAL_NUMBER2_ADDR,&(*lin_tl_pdu)[5],EEPROM_SERIAL_NUMBER_LENTH,1);
+					lin_tl_make_slaveres_pdu(SERVICE_WRITE_DATA_BY_IDENTIFY, POSITIVE,  (LIN_PRODUCT_SERIAL_NUMBER2&0xff));		
+				}	
+				break;
+			case LIN_PRODUCT_SERIAL_NUMBER3:
+				if(length != 6)
+				{
+					/* Make a negative slave response PDU */
+					lin_tl_make_slaveres_pdu(SERVICE_WRITE_DATA_BY_IDENTIFY, NEGATIVE, INVALID_FORMAT);
+				}
+				else
+				{
+					// important write_data_from_EEPROM need place before lin_tl_make_slaveres_pdu
+					write_data_from_EEPROM(EEPROM_SERIAL_NUMBER3_ADDR,&(*lin_tl_pdu)[5],EEPROM_SERIAL_NUMBER_LENTH,1);
+					lin_tl_make_slaveres_pdu(SERVICE_WRITE_DATA_BY_IDENTIFY, POSITIVE,  (LIN_PRODUCT_SERIAL_NUMBER3&0xff));
+				}
+				break;
 				
 			case LIN_LS_FW_PARAM:
 				
@@ -263,7 +288,7 @@ void lin_diagservice_write_data_by_identifier(void)
 					{
 						Brightness_Light_Percentage[0] = (*lin_tl_pdu)[5];
 					}
-					lin_tl_make_slaveres_pdu(SERVICE_WRITE_DATA_BY_IDENTIFY, POSITIVE, LIN_LS_FW_PARAM);
+					lin_tl_make_slaveres_pdu(SERVICE_WRITE_DATA_BY_IDENTIFY, POSITIVE, (LIN_LS_FW_PARAM&0xff));
 				}
 				break;
 							  
@@ -284,7 +309,7 @@ void lin_diagservice_write_data_by_identifier(void)
 					{
 						Brightness_Infrared_Percentage[0] = (*lin_tl_pdu)[5];
 					}
-					lin_tl_make_slaveres_pdu(SERVICE_WRITE_DATA_BY_IDENTIFY, POSITIVE, LIN_LS_IR_PARAM);
+					lin_tl_make_slaveres_pdu(SERVICE_WRITE_DATA_BY_IDENTIFY, POSITIVE, (LIN_LS_IR_PARAM&0xff));
 				}
 			    break;
 				
@@ -297,7 +322,7 @@ void lin_diagservice_write_data_by_identifier(void)
 				else
 				{
 					write_data_from_EEPROM(EEPROM_A_RAIN_ADC_ADDR,&(*lin_tl_pdu)[5],EEPROM_A_RAIN_ADC_LENTH,1);				
-					lin_tl_make_slaveres_pdu(SERVICE_WRITE_DATA_BY_IDENTIFY, POSITIVE, LIN_RAIN_ADC_A_PARAM);
+					lin_tl_make_slaveres_pdu(SERVICE_WRITE_DATA_BY_IDENTIFY, POSITIVE, (LIN_RAIN_ADC_A_PARAM&0xff));
 				}
 				break;
 							  
@@ -310,7 +335,7 @@ void lin_diagservice_write_data_by_identifier(void)
 				else
 				{
 					write_data_from_EEPROM(EEPROM_B_RAIN_ADC_ADDR,&(*lin_tl_pdu)[5],EEPROM_B_RAIN_ADC_LENTH,1);				
-					lin_tl_make_slaveres_pdu(SERVICE_WRITE_DATA_BY_IDENTIFY, POSITIVE, LIN_RAIN_ADC_B_PARAM);
+					lin_tl_make_slaveres_pdu(SERVICE_WRITE_DATA_BY_IDENTIFY, POSITIVE, (LIN_RAIN_ADC_B_PARAM&0xff));
 				}
 				break;
 	
@@ -430,9 +455,15 @@ void lin_diagservice_read_by_identifier()
         #endif  /* End _DIAG_CLASS_ == _DIAG_CLASS_III_ */
 
         default:
-			/* Make a negative slave response PDU */
-			lin_tl_make_slaveres_pdu(SERVICE_READ_BY_IDENTIFY, NEGATIVE, SUBFUNCTION_NOT_SUPPORTED);
-
+            if (id >= LIN_READ_USR_DEF_MIN && id <= LIN_READ_USR_DEF_MAX)
+            {
+                lin_tl_make_slaveres_pdu(SERVICE_READ_BY_IDENTIFY, POSITIVE, id);
+            }
+            else
+            {
+                /* Make a negative slave response PDU */
+                lin_tl_make_slaveres_pdu(SERVICE_READ_BY_IDENTIFY, NEGATIVE, SUBFUNCTION_NOT_SUPPORTED);
+            }
             break;
     } /* End of switch */
 }

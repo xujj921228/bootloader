@@ -24,49 +24,34 @@
 
 
 
-struct BCM1_Frame 
-{	
-  uint8  rsv1              :5;
-  uint8  rsv3              :1;
-  uint8  VehicleSpeedValid :2;
+struct BCM_Frame 
+{
+  uint8  Status_IGN        :2;
+  uint8  CMD_AutoWiper     :1;
+  uint8  RQ_FrontWash      :1;
+  uint8  ParkPosition      :1;
+  uint8  RainSensitivity   :3;
   
-  uint8  STAT_Terminal     :3;
-  uint8  Day     :5;
+  uint8  CMD_AutoLight     :1;
+  uint8  BladesTurningPoint:1;
+  uint8  RoofStatus        :1;
+  uint8  rsv0              :5;
   
-  uint8  Month     :4;
-  uint8  vehicleSpeed_l     :4;
+  uint8  SPD_Vehicle_L  ;
   
-  uint8  vehicleSpeed_h     :8;
+  uint8  SPD_Vehicle_H     :5;
+  uint8  rsv1              :3;
   
-  uint8  rsv2               :7;
-  uint8  remote             :1;
-};
-
-struct BCM3_Frame 
-{	
-  uint8  FrontWiperSwitch    :3;
-  uint8  FrontWasherSwitch  :2;
-  uint8  FrontWiperInterval :3;
-  
-  uint8  MasterLightSwitch     :3;
-  uint8  FrontWiperPosition     :1;
-  uint8  rsv                    :4;
-};
-
-struct BCM2_Frame 
-{	
-  uint8  AmbientTemp    ;
-  
-  uint8  RoofStatus    :2;
-  uint8  remote       :1;
-  uint8  rsv                      :5;
-
+  uint8  OutsideTemp;
 };
 
 
-extern struct BCM1_Frame         Lin_BCM1_Frame;
-extern struct BCM2_Frame         Lin_BCM2_Frame;
-extern struct BCM3_Frame         Lin_BCM3_Frame;
+extern uint8 Lin_Busy_Flag;
+extern uint8 Enter_Sleep_Flag;
+extern uint16 u16_DC_checkValue;
+
+extern struct BCM_Frame         Lin_BCM_Frame;
+
 
 extern void Lin_Sys_Init(void);
 extern void Lin_Busy_Process(void);
@@ -75,6 +60,5 @@ extern void RLS_Analysis_Master_Data(void);
 extern void Lin_RLS_data(void);
 extern void MLX75308_Init(void);
 extern void Lin_RLS_Wakeup_BCM(void);
-extern void RLS_Wipe_Park_Process(void);
 
 #endif    /* _ADC_H_ */

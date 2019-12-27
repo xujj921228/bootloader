@@ -7,6 +7,7 @@
 #include "rls_app.h"
 
 
+
 /****************************************************************************************************
  * FUNCTION NAME : SPI_COM(uint8 ucData)
  *   DESCRIPTION : Transmit one byte data by the SPI bus .
@@ -413,7 +414,6 @@ uint8 SPI_Rd_Mchan(uint8 Mnsr_chan)
   if((Mnsr_chan & PDC) != 0)  Output_Nbr ++;
   if((Mnsr_chan & PDD) != 0)  Output_Nbr ++;
   if((Mnsr_chan & PDE) != 0)  Output_Nbr ++;  
-  
   WDOG_Feed();
   while (!DR);     //wait until is DR goes high
   
@@ -452,7 +452,6 @@ uint8 SPI_Rd_Mchan(uint8 Mnsr_chan)
    
 }
 
-
 /********************************************************************************
  * @discription : void MLX75308_Meansure(uint8 Mnsr_chan)
  ********************************************************************************/
@@ -472,8 +471,7 @@ void MLX75308_Meansure(uint8 Mnsr_chan)
     SM_reg = (Mnsr_chan & 0x80);
     if((Mnsr_chan & 0x07) != 0x0)
     {
-       SM_reg = SM_reg | 0x40;
-    
+       SM_reg = SM_reg | 0x40;   
     }
     
     if((Mnsr_chan & PDA) == PDA)
@@ -483,10 +481,9 @@ void MLX75308_Meansure(uint8 Mnsr_chan)
                                  
     SM_reg = 0xD000 | SM_reg;
     SPI_Wr_Cmd(SM_reg);
-    
     WDOG_Feed();
-    Delay_Ms(1);                 //Measure Delay, very important
-
+    Delay_Ms(1);        //Measure Delay, very important              
+    
     SPI_Rd_Mchan(Mnsr_chan);
     
 }

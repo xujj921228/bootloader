@@ -508,7 +508,7 @@ void lin_lld_uart_rx_isr
                     if (0x55 == tmp_byte)
                     {
                         state = RECV_PID;
-                        Auto_Roof_receive_schdule_process();
+                        Mcu_wakeup_state = 1;         //xujun 20181008
                         Lin_Busy_Process();
                     }
                     else
@@ -532,8 +532,6 @@ void lin_lld_uart_rx_isr
                     {
                     	diagnostic_Session_timer = 0;
                     	diagnostic_Session_flg = 1;
-                    	u8_polling_mode_enter = 0 ;
-                    	Lin_BCM1_Frame.STAT_Terminal = 2;
                     }
                     
                     if (current_id != 0xFF)
@@ -575,10 +573,6 @@ void lin_lld_uart_rx_isr
                         if (lin_checksum(response_buffer, pid) == tmp_byte)
                         {                       	
                         	RLS_Analysis_Master_Data();
-                        	if(current_id == 0x15)
-                        	{
-                        		RLS_Wipe_Park_Process();
-                        	}
                             /*******************************************/
                             /***  RX Buffer Full - Checksum OK       ***/
                             /*******************************************/
@@ -653,6 +647,7 @@ void lin_lld_uart_rx_isr
                     else
                     {
                     	u8_Cmd_Execution = 0;
+                    	message_cnt(); //message cnt increase //xujun 20180826
                         /* TX transfer complete */
                         l_status.byte |= LIN_STA_SUCC_TRANSFER;
                         /* Disable RX interrupt */

@@ -38,10 +38,10 @@
 -g3
 -gdwarf-2
 -gstrict-dwarf
--T"C:/Users/ae-bk-067/Desktop/120041-04-000PR-V2.0/RLS/Project_Settings/Linker_Files/SKEAZN64_flash.ld"
+-T"F:/BAOLONG/RLS/ÁøÆû/ÐÂÏîÄ¿/KEAZN64/QY1208-04-000PR-V1.8/RLS/Project_Settings/Linker_Files/SKEAZN64_flash.ld"
 -Xlinker
 --gc-sections
--L"D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m"
+-L"D:/Freescale/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m"
 -Wl,-Map,RLS.map
 -n
 -specs=ewl_c_noio.specs

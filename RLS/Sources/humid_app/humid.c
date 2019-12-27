@@ -11,6 +11,7 @@
 uint16   Temp_measure_TP,Hum_measure_TP;
 uint8    Temp_measure;
 uint8    Hum_measure;
+//float    f_Dew_Point,f_acture_temp,f_acture_hum;
 uint16   Dew_Point;
 uint8    Humid_buffer[HUMID_NUM],Humid_Avg ;
 uint8    Temp_buffer[TEMP_NUM],Temp_Avg;  
@@ -124,115 +125,6 @@ uint8 FUNC_HUM_SETTING(uint16 cmd)
  ****************************************************************************************************/
 void FUNC_READ_HUMDATA(uint16 cmd)
 {
-	unsigned char Temper[2],TempCrc,HumCrc;
-	unsigned long temp = 0;
-	unsigned char i = 0 ;
-	
-	DRV_IIC_START();
-	if(DRV_IIC_WRITE_BYTE(SHT30_ADDR << 1)==ACK)                  //I2C address + write + ACK
-	{
-		if(DRV_IIC_WRITE_BYTE(SHT30_SACQ_CMD>>8)==ACK)                      //Command
-		{
-			if(DRV_IIC_WRITE_BYTE(SHT30_SACQ_CMD&0xFF)==ACK)
-			{
-				iic_error_cnt = 0;
-				
-				DRV_IIC_STOP();
-				
-				IIC_SCL_Low();                                  //clk free
-				do
-				{
-					Delay_Nus(200);
-					DRV_IIC_START();
-					Delay_Nus(1);  
-					i++;
-					if(i >= 100) break;
-				}while(DRV_IIC_WRITE_BYTE(((SHT30_ADDR<<1)|0x01))==NACK);     //I2C address + read        + NACK
-			
-				Temper[0] = DRV_IIC_READ_BYTE(ACK);                                              //Data(MSB)
-				Temper[1] = DRV_IIC_READ_BYTE(ACK);
-				TempCrc = DRV_IIC_READ_BYTE(ACK);
-				
-				if(TempCrc == crc8(Temper,2))
-				{
-					Temp_error_cnt = 0;
-					Temp_measure_TP = Temper[0]<<8|Temper[1];
-					temp         = (unsigned long)Temp_measure_TP*175;
-#if 0
-					f_acture_temp =  (float)(temp/65534 - 45); //f_acture_temp
-#endif						
-					Temp_measure = (uint16)(temp/65534 + 5 ); 
-					
-					if(Temp_measure >= 254)  Temp_measure = 254;
-					
-				}
-				else
-				{
-					  Temp_error_cnt++ ;  
-					  if(Temp_error_cnt == 4) Temp_error_cnt = 4;
-				}
-				
-				Temper[0] = DRV_IIC_READ_BYTE(ACK);                                              //Data(MSB)
-				Temper[1] = DRV_IIC_READ_BYTE(ACK);
-				HumCrc = DRV_IIC_READ_BYTE(ACK);                                              
-				
-				if(HumCrc == crc8(Temper,2))                   
-				{
-					  Hum_error_cnt = 0;
-					  Hum_measure_TP =  Temper[0]<<8|Temper[1];
-					  temp = (unsigned long)Hum_measure_TP*100;                    
-					  Hum_measure = temp/65534;
-#if 0
-					  f_acture_hum =  (float)(temp/65534);
-#endif	                         
-				}
-				else
-				{
-					  Hum_error_cnt++;  
-					  if(Hum_error_cnt == 4) Hum_error_cnt = 4;
-				}
-				
-				DRV_IIC_READ_BYTE(NACK);                                                          //Checksum  + NACK 
-				DRV_IIC_STOP();                 
-			}
-			else
-			{
-				iic_error_cnt++;
-			}
-			
-			if((Hum_error_cnt >= 4)||(Temp_error_cnt >= 4))
-			{
-				Humid_Temp_Error = 1;
-				FUNC_HUM_RESET();
-			}
-			else
-			{
-				Humid_Temp_Error = 0;
-			}
-			
-		}
-		else
-		{
-			iic_error_cnt++;
-		}
-	}
-	else
-	{
-		iic_error_cnt++;
-	}
-	
-	if(iic_error_cnt >= 4)
-	{
-		iic_error_cnt = 4;
-		Humid_Temp_Error = 1;
-		FUNC_HUM_RESET();
-	}
-	
-}
-
-#if 0
-void FUNC_READ_HUMDATA(uint16 cmd)
-{
         unsigned char Temper[2],TempCrc,HumCrc;
         unsigned long temp = 0;
         unsigned char i = 0 ;
@@ -279,7 +171,7 @@ void FUNC_READ_HUMDATA(uint16 cmd)
                           if(Temp_error_cnt == 4) Temp_error_cnt = 4;
                     }
                     
-                    Temper[0] = DRV_IIC_READ_BYTE(ACK);                                              //Data(MSB)
+                    Temper[0] = DRV_IIC_READ_BYTE(ACK);                      //Data(MSB)
                     Temper[1] = DRV_IIC_READ_BYTE(ACK);
                     HumCrc = DRV_IIC_READ_BYTE(ACK);                                              
                     
@@ -339,8 +231,6 @@ void FUNC_READ_HUMDATA(uint16 cmd)
         DRV_IIC_STOP();
         
 }
-
-#endif
 
 /****************************************************************************************************
  * FUNCTION NAME : Humid_Avg_Function()

@@ -28,6 +28,9 @@
 #include "humid.h"
 
 uint8 u8_MsgCounter;
+uint8 Lin_Busy_Flag;
+uint8 Enter_Sleep_Flag;
+
 
 /*******************************************************
  * FUNCTION NAME : Lin_Busy_Process()
@@ -60,12 +63,33 @@ void Lin_Sys_Init(void)
  *        OTHERS : NONE
  *******************************************************/ 
 void Lin_Busy_Process(void)
-{	
+{
+	Lin_Busy_Flag = 1;
 	G_4sFlag = 0;       //当接收到外界中断时则清除4s标志
-	G_4s_counter = 0;   //当接收到外界中断时则清除4s计数			
+	G_4s_counter = 0;   //当接收到外界中断时则清除4s计数		
 }
 
 
+/*******************************************************
+ * FUNCTION NAME : message_cnt()
+ *   DESCRIPTION : message_cnt  
+ *         INPUT : NONE
+ *        OUTPUT : void  
+ *        RETURN : NONE              
+ *        OTHERS : NONE
+ *******************************************************/ 
+void message_cnt(void)
+{
+	if(u8_MsgCounter >= 0x0f)
+	{
+		u8_MsgCounter = 0;
+	}
+	else
+	{
+		u8_MsgCounter++;
+	}
+	l_u8_wr_LI0_RLS_MsgCounter(u8_MsgCounter);
+}
 /*******************************************************
  * FUNCTION NAME : LS_Analysis_Master_Data()
  *   DESCRIPTION : LS_Analysis_Master_Data  
@@ -79,28 +103,29 @@ void RLS_Analysis_Master_Data(void)
 { 	
 	uint32 tempspd;
 	
-	Lin_BCM1_Frame.STAT_Terminal = l_u8_rd_LI0_STAT_Terminal();	
-	Lin_BCM1_Frame.VehicleSpeedValid = l_u8_rd_LI0_VehicleSpeedValid();	
+	Lin_BCM_Frame.Status_IGN = l_u8_rd_LI0_BCM_Status_IGN();
+	Lin_BCM_Frame.CMD_AutoWiper = l_bool_rd_LI0_BCM_CMD_AutoWiper();
+	Lin_BCM_Frame.RQ_FrontWash =  l_bool_rd_LI0_BCM_RQ_FrontWash();
+	Lin_BCM_Frame.ParkPosition =  l_bool_rd_LI0_BCM_ParkPosition();
+	Lin_BCM_Frame.RainSensitivity =  l_u8_rd_LI0_BCM_RainSensitivity();
+	Lin_BCM_Frame.CMD_AutoLight =  l_bool_rd_LI0_BCM_CMD_AutoLight();
+	Lin_BCM_Frame.BladesTurningPoint =  l_bool_rd_LI0_BCM_BladesTurningPoint();
+	Lin_BCM_Frame.RoofStatus =  l_bool_rd_LI0_BCM_RoofStatus();
+	Lin_BCM_Frame.OutsideTemp =  l_u8_rd_LI0_BCM_OutsideTemp();
 	
-	tempspd =  l_u16_rd_LI0_vehicleSpeed() ;
-	u16_SPD_Vehicle =  (tempspd * 3) /40 ;
+	tempspd =  l_u16_rd_LI0_BCM_SPD_Vehicle() ;
+	u16_SPD_Vehicle =  (tempspd * 9) /160 ;
+	RLS_Wipe_Park_Process();
 	
-	Lin_BCM3_Frame.FrontWasherSwitch = l_u8_rd_LI0_FrontWasherSwitch();
-	Lin_BCM3_Frame.FrontWiperInterval = l_u8_rd_LI0_FrontWiperInterval();
-	Lin_BCM3_Frame.FrontWiperPosition = l_bool_rd_LI0_FrontWiperPosition();
-	Lin_BCM3_Frame.FrontWiperSwitch = l_u8_rd_LI0_FrontWiperSwitch();
-	Lin_BCM3_Frame.MasterLightSwitch = l_u8_rd_LI0_MasterLightSwitch();
-	
-	Lin_BCM2_Frame.RoofStatus = l_u8_rd_LI0_WindowSunroofPosition();
-	Lin_BCM2_Frame.remote =  l_bool_rd_LI0_STAT_RemoteControl();
-	u8_AmbientTemp = l_u8_rd_LI0_AmbientTemp();
-
-	switch(Lin_BCM3_Frame.FrontWiperInterval)
+	switch(Lin_BCM_Frame.RainSensitivity)
 	{
 		case 0: u8_Rain_Sensitivity = 1;break;
-		case 1: u8_Rain_Sensitivity = 2;break;                                 
-		case 2: u8_Rain_Sensitivity = 3;break;
-		case 3: u8_Rain_Sensitivity = 4;break;
+		case 1: u8_Rain_Sensitivity = 1;break;                                 
+		case 2: u8_Rain_Sensitivity = 2;break;
+		case 3: u8_Rain_Sensitivity = 2;break;
+		case 4: u8_Rain_Sensitivity = 3;break;
+		case 5: u8_Rain_Sensitivity = 3;break;
+		case 6: u8_Rain_Sensitivity = 4;break;
 
 		default:u8_Rain_Sensitivity = 4;break;                
 	}
@@ -116,35 +141,39 @@ void RLS_Analysis_Master_Data(void)
  *        OTHERS : NONE
  *******************************************************/ 
 void Lin_RLS_data(void)
-{	
-	if((Mnrval.IR_A == 0xFFFF) || (Mnrval.IR_B == 0xFFFF)||(u8_Battery_status == VOLTAGE_LOW))
+{
+	uint8 RainIntensity_Temp ;
+	
+	
+	
+	//RLS_Wipe_Auto_On_Function();
+	//RLS_Wipe_Sensitivity_Up_Function();
+	
+	if((Mnrval.IR_A >= 0xFFFF) || (Mnrval.IR_B >= 0xFFFF)||(u8_Battery_status == VOLTAGE_LOW)||(u8_Lin_Diag_Enable == 0))
 	{
 		u8_WiperSpeed = 0;
 	}
 	
-	if((Lin_BCM2_Frame.RoofStatus == 1)&&(Lin_BCM1_Frame.STAT_Terminal <= 3)&&(Lin_BCM1_Frame.STAT_Terminal >= 1))
-	{
-		u8_RainDayGlobalCloseCmd = 0;
-	}
+	l_u8_wr_LI0_RLS_RQ_WiperSPD(u8_WiperSpeed);
+
+	l_bool_wr_LI0_RLS_RQ_LowBeam(u8_light_on_req);
+	l_bool_wr_LI0_RLS_RQ_PositionLamp(u8_twilight_on_req);
+		
+	l_u16_wr_LI0_RLS_Brightness_FW(u16_Brightness_FW);
+	l_u8_wr_LI0_RLS_Brightness_IR_L(u8_Brightness_IR);
+	l_u8_wr_LI0_RLS_Brightness_IR_R((uint8)(Mnrval.DC_bre_A>>8));
 	
-	RLS_Wipe_Auto_On_Function();
-	RLS_Wipe_Sensitivity_Up_Function();
-	RLS_Wash_Function();
+	if(u8_Rain_Value >= 10)  RainIntensity_Temp = 10 ;
+	else                     RainIntensity_Temp = u8_Rain_Value ;
+	l_u8_wr_LI0_RLS_Rain_Intensity(RainIntensity_Temp);
 	
-	l_u8_wr_LI0_WiperSpeed(u8_WiperSpeed);
-	l_bool_wr_LI0_STAT_RS(App_Rls_Error.RS_State);
-	l_bool_wr_LI0_STAT_RSError(0);
-	l_bool_wr_LI0_LightOnReq(u8_light_on_req);
-	l_u8_wr_LI0_STAT_DayNightMode(u8_LightMode);
-	l_bool_wr_LI0_STAT_LS(App_Rls_Error.LS_State);
-	l_bool_wr_LI0_STAT_LSError(0);
-	l_u8_wr_LI0_LightOnReason(u8_LightOnReason);
-	l_u8_wr_LI0_HUDBrightnessUnit(u8_hud_factor);
-	l_u8_wr_LI0_HUDBrightnessRawValue(u8_hud_value);
-	l_bool_wr_LI0_RainDayGlobalClose(u8_RainDayGlobalCloseCmd);
+	l_bool_wr_LI0_RLS_Fault_Rain(App_Rls_Error.RS_Error);
+	l_bool_wr_LI0_RLS_Fault_Light((App_Rls_Error.LS_Error)|(App_Rls_Error.IR_Error));
+	l_u8_wr_LI0_RLS_VOLT_Error(u8_Battery_status);
+	l_bool_wr_LI0_RLS_Humid_Temp_Error(u8_Rain_Valid);
 	
-	l_u8_wr_LI0_SolarIrradianceLeft(u8_Solar_l_value);
-	l_u8_wr_LI0_SolarIrradianceRight(u8_Solar_r_value);
+	l_u8_wr_LI0_RLS_Temperature(Mnrval.IR_A);
+	l_u8_wr_LI0_RLS_Humid(Mnrval.IR_A>>8);
 }
 
 void Lin_RLS_Wakeup_BCM(void)

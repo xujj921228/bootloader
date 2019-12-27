@@ -40,54 +40,32 @@ l_u8    lin_pFrameBuf[LIN_FRAME_BUF_SIZE] =
 {
 
 
-  0x00 /* 0 : 00000000 */ /* start of frame LI0_RLS_2 */
+  0x40 /* 0 : 01000000 */ /* start of frame LI0_RLS_01 */
 
   ,0x80 /* 1 : 10000000 */
-  ,0x80 /* 2 : 10000000 */
-  ,0xff /* 3 : 11111111 */
-  ,0xff /* 4 : 11111111 */
-  ,0xff /* 5 : 11111111 */
+  ,0x00 /* 2 : 00000000 */
+  ,0x00 /* 3 : 00000000 */
+  ,0xc0 /* 4 : 11000000 */
+  ,0x00 /* 5 : 00000000 */
   ,0x00 /* 6 : 00000000 */
   ,0x00 /* 7 : 00000000 */
 
 
-  ,0x07 /* 3 : 00000111 */ /* start of frame LI0_BCM_LIN_3 */
+  ,0x00 /* 8 : 00000000 */ /* start of frame LI0_BCM_01 */
 
-  ,0xf7 /* 4 : 11110111 */
-  
-
-  ,0xbf /* 5 : 10111111 */ /* start of frame LI0_BCM_LIN_1 */
-
-  ,0xff /* 6 : 11111111 */
-  
-  ,0xff /* 7 : 11111111 */
-  
-  ,0x02 /* 8 : 00000010 */
-  
-  ,0x00 /* 9 : 00000000 */
+  ,0xf8 /* 9 : 11111000 */
   
   ,0x00 /* 10 : 00000000 */
   
-  ,0xe5 /* 16 : 11100101 */
+  ,0xe0 /* 11 : 11100000 */
   
-  ,0xff /* 17 : 11111111 */
+  ,0x00 /* 12 : 00000000 */
   
-
-  ,0xff /* 18 : 11111111 */ /* start of frame LI0_BCM_LIN_2 */
-
-  ,0xff /* 19 : 11111111 */
+  ,0xff /* 13 : 11111111 */
   
-  ,0x00 /* 20 : 00000000 */
+  ,0xff /* 14 : 11111111 */
   
-  ,0xff /* 21 : 11111111 */
-  
-  ,0xf8 /* 22 : 11111000 */
-  
-  ,0xff /* 23 : 11111111 */
-  
-  ,0xff /* 24 : 11111111 */
-  
-  ,0xff /* 12 : 11111111 */
+  ,0xff /* 15 : 11111111 */
   
 };
 
@@ -96,20 +74,15 @@ l_u8    lin_flag_handle_tbl[LIN_FLAG_BUF_SIZE] =
 {
 
 
-  0x00 /* 0: start of flag frame LI0_RLS_2 */
+  0x00 /* 0: start of flag frame LI0_RLS_01 */
 
   ,0x00 /* 1: */
-  ,0x00 /* 2: */
 
 
-  ,0x00 /* 3: start of flag frame LI0_BCM_LIN_3 */
+  ,0x00 /* 2: start of flag frame LI0_BCM_01 */
 
-
-  ,0x00 /* 4: start of flag frame LI0_BCM_LIN_1 */
-
-
-  ,0x00 /* 5: start of flag frame LI0_BCM_LIN_2 */
-
+  ,0x00 /* 3: */
+  
 };
 
 /*************************** Flag set when signal is updated ******************/
@@ -120,13 +93,9 @@ l_u8 lin_diag_signal_tbl[16];
 /**********************************  Frame table **********************************/
 const lin_frame_struct lin_frame_tbl[LIN_NUM_OF_FRMS] ={
 
-    { LIN_FRM_UNCD, 8, LIN_RES_PUB, 0, 0, 3  , (l_u8*)&LI0_response_error_signal  }
+    { LIN_FRM_UNCD, 8, LIN_RES_PUB, 0, 0, 2  , (l_u8*)&LI0_response_error_signal  }
 
-   ,{ LIN_FRM_UNCD, 2, LIN_RES_SUB, 8, 3, 1 , (l_u8*)0 }
-  
-   ,{ LIN_FRM_UNCD, 8, LIN_RES_SUB, 10, 4, 1 , (l_u8*)0 }
-  
-   ,{ LIN_FRM_UNCD, 8, LIN_RES_SUB, 18, 5, 1 , (l_u8*)0 }
+   ,{ LIN_FRM_UNCD, 8, LIN_RES_SUB, 8, 2, 2 , (l_u8*)0 }
   
    ,{ LIN_FRM_DIAG, 8, LIN_RES_SUB, 0, 0, 0 , (l_u8*)0 }
   
@@ -135,7 +104,7 @@ const lin_frame_struct lin_frame_tbl[LIN_NUM_OF_FRMS] ={
 };
 
 /*********************************** Frame flag Initialization **********************/
-l_bool lin_frame_flag_tbl[LIN_NUM_OF_FRMS] = {0, 0, 0, 0, 0, 0};
+l_bool lin_frame_flag_tbl[LIN_NUM_OF_FRMS] = {0, 0, 0, 0};
 
 /**************************** Lin configuration Initialization ***********************/
 /* max_response_frame_timeout = round((1.4x(10+Nx10)xTbit)/Tbase_period) + 3 */
@@ -147,14 +116,14 @@ const l_u16 lin_max_frame_res_timeout_val[8]={
 };
 
 
-l_u8 lin_configuration_RAM[LIN_SIZE_OF_CFG]= {0x00, 0x0E, 0x15, 0x05, 0x11, 0x3C, 0x3D ,0xFF};
-const l_u16  lin_configuration_ROM[LIN_SIZE_OF_CFG]= {0x00, 0x0E, 0x15, 0x05, 0x11, 0x3C, 0x3D ,0xFFFF};
+l_u8 lin_configuration_RAM[LIN_SIZE_OF_CFG]= {0x00, 0x23, 0x31, 0x3C, 0x3D ,0xFF};
+const l_u16  lin_configuration_ROM[LIN_SIZE_OF_CFG]= {0x00, 0x23, 0x31, 0x3C, 0x3D ,0xFFFF};
 
 /***************************************** Node Attribute*****************************************/
 
-l_u8 lin_configured_NAD = 0x01;    /*<configured_NAD>*/
-const l_u8 lin_initial_NAD    =0x01;    /*<initial_NAD>*/
-const lin_product_id product_id = {0x0066, 0x0000, 0x00FF };  /* {<supplier_id>,<function_id>,<variant>} */
+l_u8 lin_configured_NAD = 0x16;    /*<configured_NAD>*/
+const l_u8 lin_initial_NAD    =0x16;    /*<initial_NAD>*/
+const lin_product_id product_id = {0x0023, 0x0023, 0x00FF };  /* {<supplier_id>,<function_id>,<variant>} */
 
 const lin_product_serial_num product_serial_num = {0x2018, 0x0824};  /* {<supplier_id>,<function_id>,<variant>} */
 const l_signal_handle response_error =  LI0_RLS_REP_Error;
