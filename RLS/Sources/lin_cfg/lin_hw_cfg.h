@@ -1,7 +1,7 @@
 /****************************************************************************** 
 * 
 * Freescale Semiconductor Inc. 
-* (c) Copyright 2013-2018 Freescale Semiconductor, Inc. 
+* (c) Copyright 2013-2019 Freescale Semiconductor, Inc. 
 * ALL RIGHTS RESERVED. 
 * 
 ****************************************************************************//*! 
@@ -12,7 +12,7 @@
 *  
 * @version   1.0 
 *  
-* @date      Fri Dec 28 13:33:49 CST 2018
+* @date      Mon Dec 30 14:53:07 CST 2019
 *  
 * @brief     Hardware configuration file
 * 

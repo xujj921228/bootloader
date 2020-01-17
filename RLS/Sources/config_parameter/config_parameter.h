@@ -23,7 +23,8 @@
 #include "derivative.h" /* include peripheral declarations */
 
 //#define FOUR_TO_ONE
-//#define ENABLE_AUTO_ROOF  //使能自动开天窗功能
+#define ENABLE_AUTO_ROOF  //使能自动开天窗功能
+#define ENABLE_SOLAR
 
 #define  ENABLE_INTERRUPT  asm("CPSIE i");
 #define  DISABLE_INTERRUPT asm("CPSID i");

@@ -2,7 +2,7 @@
 # Automatically-generated file. Do not edit!
 ################################################################################
 
-#Progress monitor hint: 34
+#Progress monitor hint: 35
 first : all
 -include ../makefile.init
 
@@ -36,6 +36,7 @@ RM := "$(GNU_Make_Install_DirEnv)/rm" -rf
 -include Sources/LIN_Stack/coreapi/subdir.mk
 -include Sources/LIN_Stack/bsp/UART/subdir.mk
 -include Project_Settings/Startup_Code/subdir.mk
+-include .metadata/.plugins/org.eclipse.cdt.make.core/subdir.mk
 -include objects.mk
 
 ifneq ($(MAKECMDGOALS),clean)
@@ -87,14 +88,14 @@ all: warning-messages explicit-dependencies RLS.elf secondary-outputs
 # Tool invocations
 RLS.elf: $(OBJS) $(USER_OBJS) ../Project_Settings/Linker_Files/SKEAZN64_flash.ld
 	@echo 'Building target: $@'
-	@echo 'Executing target #35 $@'
+	@echo 'Executing target #36 $@'
 	@echo 'Invoking: ARM Ltd Windows GCC C Linker'
 	"$(ARMSourceryDirEnv)/arm-none-eabi-gcc"  $(USER_OBJS_QUOTED) $(LIBS_QUOTED) @"RLS.args" -o"RLS.elf"
 	@echo 'Finished building target: $@'
 	@echo ' '
 
 RLS.hex: RLS.elf
-	@echo 'Executing target #36 $@'
+	@echo 'Executing target #37 $@'
 	@echo 'Invoking: ARM Ltd Windows GNU Create Flash Image'
 	"$(ARMSourceryDirEnv)/arm-none-eabi-objcopy"  -O srec RLS.elf "RLS.hex"
 	@echo 'Finished building: $@'
@@ -102,7 +103,7 @@ RLS.hex: RLS.elf
 
 # Other Targets
 clean:
-	-$(RM) $(S_DEPS_QUOTED) $(SECONDARY_FLASH_QUOTED) "./*/*/*.o" "./*/*/*/*/*.o" "./*/*/*/*.o" "./*/*.o"  $(S_UPPER_DEPS_QUOTED) $(ASM_DEPS_QUOTED) $(ASM_UPPER_DEPS_QUOTED) $(SX_DEPS_QUOTED) $(EXECUTABLES_QUOTED) "./*/*/*.d" "./*/*/*/*/*.d" "./*/*/*/*.d" "./*/*.d"  $(ProjDirPath)/FLASH/RLS.elf
+	-$(RM) $(S_DEPS_QUOTED) $(SECONDARY_FLASH_QUOTED) "./*/*/*/*.o" "./*/*/*.o" "./*/*/*/*/*.o" "./*/*.o"  $(S_UPPER_DEPS_QUOTED) $(ASM_DEPS_QUOTED) $(ASM_UPPER_DEPS_QUOTED) $(SX_DEPS_QUOTED) $(EXECUTABLES_QUOTED) "./*/*/*/*.d" "./*/*/*.d" "./*/*/*/*/*.d" "./*/*.d"  $(ProjDirPath)/FLASH/RLS.elf
 	-@echo ' '
 
 secondary-outputs: $(SECONDARY_FLASH)

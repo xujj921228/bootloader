@@ -21,6 +21,30 @@
 #include "iic.h"
 #include "humid.h"
 
+
+/************gloable  var*****************/
+uint8  Timer_10ms;
+uint8  Timer_50ms;
+uint8  Timer_100ms;
+uint8  Timer_500ms;
+uint8  Timer_600ms;
+uint8  Timer_4s;
+uint32  Timer_6h;
+Main_Fsm_t  RLS_RunMode;
+extern uint8  u8windows_err;
+extern uint8 Mcu_wakeup_state;
+/*****************************************
+ * Gloable_Var_Init
+ * ***************************************/
+void Gloable_Var_Init(void)
+{
+    Timer_10ms = 0;
+	Timer_50ms = 0;
+	Timer_100ms = 0;
+    Timer_500ms = 0;
+    Timer_600ms = 0;
+    Timer_4s = 0;
+}
 /***********************************************************************************************
 *
 * @brief    main - Initialize 
@@ -41,94 +65,145 @@ void main(void)
 	DRV_IIC_Init();
 #endif	
 	Globle_parameter_Init();
+	Gloable_Var_Init();
 	Lin_Sys_Init();
 	MLX75308_Init();	
 	RTC_Init();
 	
+	
 	for(;;) 
 	{			
 		WDOG_Feed();
-		if(G_4sFlag == TRUE)
+		/***********here check for sleep*************************************************************************************************
+		 * ************************************************************************************************************************
+		 * ************************************************************************************************************************
+		 * ************************************************************************************************************************/
+		if((Timer_4s >= 8) //no lin data for 4s
+			||(u8_lin_cmd_sleep == TRUE)  //recive the signal of sleep from BCM
+			||(u8_auto_roof_rain_measure_sleep_flg == TRUE)
+			||(u8_wakeup_bcm_cnt_sleep_flg == TRUE))
 		{
-			G_4sFlag = 0;
-			G_4s_counter = 0;
-			//Lin线上没有数据
-			if((UART0_S2&UARTSR2_RAF_MASK)== 0)
-			{
-				Sleep_Process();
-				Recover_Process();
-			}
+			u8_lin_cmd_sleep = 0;
+			u8_auto_roof_rain_measure_sleep_flg = 0;
+			u8_wakeup_bcm_cnt_sleep_flg = 0;
+			Timer_4s = 0;
+				
+			Sleep_Process();
+			Recover_Process();
+			Gloable_Var_Init();
 		}
 		
-		if((u8_lin_cmd_sleep == 1)||(u8_auto_roof_rain_measure_sleep_flg == 1)||(u8_wakeup_bcm_cnt_sleep_flg == 1))
-		{
-			if(u8_lin_cmd_sleep == 1)                    u8_lin_cmd_sleep = 0;
-			if(u8_auto_roof_rain_measure_sleep_flg == 1) u8_auto_roof_rain_measure_sleep_flg = 0;
-			if(u8_wakeup_bcm_cnt_sleep_flg == 1)         u8_wakeup_bcm_cnt_sleep_flg = 0;
-			
-			if((UART0_S2&UARTSR2_RAF_MASK)== 0)
-			{
-				Sleep_Process();
-				Recover_Process();
-			}
-		}				
-									
+					
 		switch(RLS_RunMode)
 		{
-			  case NORMAL:
-			  {    
-					if( G_10msFlag == TRUE)
-					{
-						G_10msFlag = FALSE;
-						lin_diagservice_session_state();
-#ifdef ENABLE_AUTO_ROOF
-						if(u8_polling_mode_enter == 1)
-						{
-							Auto_Roof_Process();
-						}
-#endif
-					}		
-					
-					if( G_50msFlag == TRUE)
-					{
-						G_50msFlag = FALSE;						   						
-						RLS_Auto_Rain_Task();	
-						Lin_RLS_data();
-					}
-					
-					if( G_100msFlag == TRUE)
-					{
-						G_100msFlag = FALSE;  			
-						RLS_Battery_State();
-						RLS_Auto_Light_Task();
-						RLS_Lin_Diag_Fucntion();
-					}
-					
-					if( G_500msFlag == TRUE)
-					{
-						G_500msFlag = FALSE;	
-                    #ifdef FOUR_TO_ONE 
-						FUNC_READ_HUMDATA(SHT30_MEASU_CMD);
-						Humid_Avg_Function(); 
-						Temp_Avg_Function() ; 
-					#endif
-					}
-			  }break;
-			  
-			  case SLEFADAPT:
+		/***********RLS NORMAL MODE*************************************************************************************************
+		 * ************************************************************************************************************************
+		 * ************************************************************************************************************************
+		 * ************************************************************************************************************************/
+		  case MAIN_NORMAL:
+		  {    
+		    Timer_6h = 0;
+			if( Timer_10ms == TRUE)//   10ms Task
+			{
+			  Timer_10ms = 0;
+			  Timer_50ms++;
+			  lin_diagservice_session_state();
+
+			  if(Timer_50ms >= 5) //   50ms Task
 			  {
-					RLS_SelfAdaptTask();
-					#ifdef FOUR_TO_ONE 
+				Timer_50ms = 0;
+				Timer_100ms++;
+				RLS_Auto_Rain_Task();	
+				Lin_RLS_data();	
+				if(Timer_100ms >= 2)  //   100ms Task
+				{
+					Timer_100ms = 0;  
+					Timer_500ms++;
+					
+					RLS_Battery_State();
+					RLS_Auto_Light_Task();
+					RLS_Lin_Diag_Fucntion();
+#ifdef ENABLE_SOLAR
+					RLS_Auto_Solar_Task();	
+#endif
+					if(Timer_500ms >= 5) //   500ms  Task
+					{
+						Timer_500ms = 0;
+						Timer_4s++;
+#ifdef FOUR_TO_ONE 
 						FUNC_READ_HUMDATA(SHT30_MEASU_CMD);
 						Humid_Avg_Function(); 
 						Temp_Avg_Function() ; 
-					#endif
-			  }break;
-			  
-			  default: 
-					 RLS_RunMode = NORMAL; 
-					 break;
-		}
-				
+#endif
+						
+					}
+				}		
+			  }
+			}
+		  }break;
+
+		  
+		  
+		/***********RLS SLEEP MODE*************************************************************************************************
+		 * ************************************************************************************************************************
+		 * ************************************************************************************************************************
+		 * ************************************************************************************************************************/	  
+		  case MAIN_SLEEP_Mode:
+		  {
+			if( Timer_10ms == TRUE)//   10ms Task
+			{
+			  Timer_10ms = 0;
+			  Timer_50ms++;
+	
+			  if(Timer_50ms >= 5) //   50ms Task
+			  {
+				Timer_50ms = 0;
+				Timer_100ms++;
+#ifdef ENABLE_AUTO_ROOF
+				if((Lin_BCM_Frame.BCM_Ignition == 1)&&((Mcu_wakeup_state == 1)))
+				{
+					u8windows_err = 0;
+					RLS_RunMode =  MAIN_NORMAL;
+				}
+				else
+				{
+					RLS_Auto_Rain_Task();
+					Auto_Roof_Process();
+				}
+#endif
+	
+				if(Timer_100ms >= 2)  //   100ms Task
+				{
+					Timer_100ms = 0;  
+					Timer_600ms++;
+					if(Timer_600ms >= 6) //   500ms Task
+					{
+						Timer_600ms = 0;
+						u8_auto_roof_rain_measure_sleep_flg = 1;
+					}
+				}		
+			  }
+			}
+		  }break;
+		  
+		  
+		  /***********RLS SLEFADAPT MODE*************************************************************************************************
+		 * ******************************************************************************************************************************
+		 * ******************************************************************************************************************************
+		 * ******************************************************************************************************************************/	  
+		  case MAIN_SLEFADAPT:
+		  {
+			RLS_SelfAdaptTask();
+#ifdef FOUR_TO_ONE 
+				FUNC_READ_HUMDATA(SHT30_MEASU_CMD);
+				Humid_Avg_Function(); 
+				Temp_Avg_Function() ; 
+#endif
+		  }break;
+		  	  
+		  default: 
+		 RLS_RunMode = MAIN_NORMAL; 
+		 break;
+		}				
 	 }	
 }

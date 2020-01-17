@@ -116,7 +116,7 @@ extern const l_u16 lin_max_frame_res_timeout_val[8];
 
 extern l_u8 lin_lld_response_buffer[10];
 
-
+extern uint8  Timer_4s;
 
 /***** LOW-LEVEL API *****/
 
@@ -507,6 +507,7 @@ void lin_lld_uart_rx_isr
                 case RECV_SYN:
                     if (0x55 == tmp_byte)
                     {
+                    	Timer_4s = 0;
                         state = RECV_PID;
                         Mcu_wakeup_state = 1;         //xujun 20181008
                         Lin_Busy_Process();

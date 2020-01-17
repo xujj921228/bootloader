@@ -32,10 +32,16 @@
 #include "ftm.h"
 #include "watchdog.h"
 
+extern uint8  Timer_600ms;
+extern uint32  Timer_6h;
+extern Main_Fsm_t  RLS_RunMode;
 
+uint8  u8windows_err = 0;
 uint8  u8_Lin_Diag_Enable;
 uint8  u8_Lin_Diag_Enable_Cnt;
-
+uint16 u16_Solar_l_value_raw,u16_Solar_r_value_raw;
+uint16 u16_Solar_l_value_raw_temp,u16_Solar_r_value_raw_temp;
+uint8  u8_Solar_l_value,u8_Solar_r_value;
 uint8  u8_Rain_Sensitivity,Rain_Sensitivity;
 uint16 u16_SPD_Vehicle;
 
@@ -48,6 +54,7 @@ uint8 u8_enter_period_cnt;
 uint8 u8_enter_period_flg;
 uint16 u16_Brightness_FW;
 uint8  u8_Brightness_IR,u8_Brightness_IR_Right;
+uint8  u8_RLS_WindowCloseReq = 0;
 
 uint8  u8_Cmd_Execution;
 uint16 u16_Pd_Measure_Value;
@@ -65,6 +72,8 @@ uint16 u16_Save_DC_bre_A,u16_Save_DC_aft_A,u16_Save_DC_bre_B,u16_Save_DC_aft_B;
 uint16 PD_WIN_AVG[CHAN_NUM][PD_WINDOW];
 uint16 DC_WIN_BUFF[CHAN_NUM][DC_WINDOW];
 uint16 u16_DC_PD_dt[CHAN_NUM];
+
+uint16 u16_solar_buffer[CHAN_NUM][SOLAR_WINDOW];
 
 uint8  u8_RainIntensity_Win[Rain_WINDOW];
 uint16 u16_PD_Win_Max[CHAN_NUM]; 
@@ -107,7 +116,7 @@ uint16 u16_IntWindow_Cnt;
 uint8  u8_Int_Cnt;
 
 uint16 u16_DC_checkValue,u16_DC_comp_value,u16_Ref_Adc_A,u16_Ref_Adc_B;
-uint8  RLS_RunMode;
+extern uint8  RLS_RunMode;
 uint8  u8_Rain_Delta;
 
 uint8  u8_LightOnTimer;
@@ -145,8 +154,9 @@ uint8 u8_ls_error_cnt;
 
 uint8 u8_light_on_req,u8_light_on_invent_req,u8_twilight_on_req,u8_twilight_on_invent_req;
 
-uint8 u8_polling_mode_enter,u8_wakeup_timer,u8_wakeup_bcm_timer,u8_wakeup_cnt,Mcu_wakeup_state,u8_rain_state_polling_flg;
+uint8 u8_wakeup_timer,Mcu_wakeup_state;
 uint8 u8_lin_cmd_sleep,u8_auto_roof_rain_measure_sleep_flg,u8_wakeup_bcm_cnt_sleep_flg;
+uint8 u8_wakeup_bcm_1500ms_timer,u8_wakeup_bcm_1min_timer;
 
 
 struct BCM_Frame            Lin_BCM_Frame;
@@ -162,6 +172,8 @@ const uint16 Tab_Brightness_FW[Tab_FW_NUM] = {0,    40,    150,   220,   300,  3
 const uint32 Tab_AWG_IR[Tab_IR_NUM]        = {21062,26277 ,29680,30642,31246,32353,33035,33673,34084,34296,34780,35000,35220,  35420,   35700,  36000};
 const uint16 Tab_Brightness_IR[Tab_IR_NUM] = { 0   ,  9,     21,    29,   35,  51,   60,   75  , 80,  85,  90,   95,    100,    150,    200,    253}; 
 
+const uint32 Tab_AWG_Solar[Tab_IR_NUM]        = {0 , 96 , 160, 288 ,500,700, 900, 1100, 1300, 1500, 1700, 1900, 2100, 2150, 2300,2500};
+const uint16 Tab_Brightness_Solar[Tab_IR_NUM] = {5  , 16,  30,  50, 70, 80,  100, 120 , 130,  150,  170,  190,  200,  215,  230, 250}; 
 /*******************************************************
  * FUNCTION NAME : Search_Table()
  *   DESCRIPTION : line table 
@@ -308,26 +320,26 @@ uint16 RLS_Rain_Get_Measure(uint8 PD_chan,uint8 n,uint16 DC_cancel_th)
      
       u16_DC_checkValue =  DC_chk;
 
-      if(RLS_RunMode == NORMAL)
+      if(RLS_RunMode == MAIN_SLEFADAPT)
+	  {
+		if(MLX75308_RxFrame.data_field[1] > 34000) 
+		{
+		  sum_DC[0] += MLX75308_RxFrame.data_field[0];
+		  sum_DC[1] += MLX75308_RxFrame.data_field[2];  
+		  sum += MLX75308_RxFrame.data_field[1];
+		  mtime ++;
+		  i ++;
+		}
+		else
+		{
+		   return 0; 
+		}
+	  }
+      else
       {
           if((DC_chk < DC_cancel_th) && (MLX75308_RxFrame.data_field[1] > 34000)) 
           {
           
-            sum_DC[0] += MLX75308_RxFrame.data_field[0];
-            sum_DC[1] += MLX75308_RxFrame.data_field[2];  
-            sum += MLX75308_RxFrame.data_field[1];
-            mtime ++;
-            i ++;
-          }
-          else
-          {
-             return 0; 
-          }
-      }
-      else if(RLS_RunMode == SLEFADAPT)
-      {
-          if(MLX75308_RxFrame.data_field[1] > 34000) 
-          {
             sum_DC[0] += MLX75308_RxFrame.data_field[0];
             sum_DC[1] += MLX75308_RxFrame.data_field[2];  
             sum += MLX75308_RxFrame.data_field[1];
@@ -355,7 +367,7 @@ uint16 RLS_Rain_Get_Measure(uint8 PD_chan,uint8 n,uint16 DC_cancel_th)
         
         if((u16_Delta_DC_bre_A > DC_bef_dtTH) || (u16_Delta_DC_aft_A > DC_aft_dtTH))    return 0; 
    }
-   else if(PD_chan == PDB) 
+   if(PD_chan == PDB) 
    {  
         sum_DC[0] = sum_DC[0] / mtime;
         Mnrval.DC_bre_B = (uint16)(sum_DC[0]);
@@ -374,11 +386,11 @@ uint16 RLS_Rain_Get_Measure(uint8 PD_chan,uint8 n,uint16 DC_cancel_th)
    
     //-----------DC SOFT compensation ---------------//
    
-    if(RLS_RunMode == SLEFADAPT)
+    if(RLS_RunMode == MAIN_SLEFADAPT)
     {
         PDavage = (uint16) (sum);
     }
-    else if(RLS_RunMode == NORMAL)
+    else 
     {
         if(PD_chan == PDA)
         {
@@ -721,8 +733,105 @@ void RLS_Auto_Light_Task(void)
     RLS_Light_Module_Fault_Process();
     RLS_AutoLightControl();                
 }
+/*******************************************************
+ * FUNCTION NAME : RLS_Auto_Solar_Task()
+ *   DESCRIPTION : RLS_Auto_Solar_Task function 
+ *         INPUT : 
+ *        OUTPUT : NONE  
+ *        RETURN : NONE              
+ *        OTHERS : NONE
+ *******************************************************/
+void RLS_Auto_Solar_Task(void)
+{
+	uint16  avg_Solar_l_value = 0;
+	uint16  avg_Solar_r_value = 0;
+	uint16  sum_left = 0;
+	uint16  sum_right = 0;
+	uint8 i;
+	u16_Solar_l_value_raw = get_adc_times(SOLAR_L_CH,MEAS_NUM); 
+	u16_Solar_r_value_raw = get_adc_times(SOLAR_R_CH,MEAS_NUM); 
+		    
+	for(i = 0; i < AVG_N; i++)
+	{
+		avg_Solar_l_value +=  get_adc_times(SOLAR_L_CH,MEAS_NUM);
+		avg_Solar_r_value +=  get_adc_times(SOLAR_R_CH,MEAS_NUM);
+	}
+	
+	avg_Solar_l_value = avg_Solar_l_value / AVG_N;
+	avg_Solar_r_value = avg_Solar_r_value / AVG_N;
+	
+	for(i = 1;i <= SOLAR_WINDOW;i++)
+	{
+		u16_solar_buffer[CHAN_A][SOLAR_WINDOW - 1] = avg_Solar_l_value ;
+		u16_solar_buffer[CHAN_B][SOLAR_WINDOW - 1] = avg_Solar_r_value ;
+		
+		if(i < SOLAR_WINDOW)
+		{
+			u16_solar_buffer[CHAN_A][i - 1] = u16_solar_buffer[CHAN_A][i];	
+			u16_solar_buffer[CHAN_B][i - 1] = u16_solar_buffer[CHAN_B][i];
+		}
+	}
+	
+	for(i = 0; i < SOLAR_WINDOW;i++)
+	{
+		sum_left += u16_solar_buffer[CHAN_A][i];
+		sum_right += u16_solar_buffer[CHAN_B][i];
+	}
+	
+	avg_Solar_l_value =  sum_left/SOLAR_WINDOW ;
+	avg_Solar_r_value =  sum_right/SOLAR_WINDOW;
+	
+	avg_Solar_l_value = Search_Table(avg_Solar_l_value,Tab_AWG_Solar, Tab_Brightness_Solar, 16);
+	avg_Solar_r_value = Search_Table(avg_Solar_r_value,Tab_AWG_Solar, Tab_Brightness_Solar, 16);
+	
+	
+	if(avg_Solar_l_value >= 253) u8_Solar_l_value =  253;
+	else                         u8_Solar_l_value =  avg_Solar_l_value;
+	
+	if(avg_Solar_r_value >= 253) u8_Solar_r_value =  253;
+	else                         u8_Solar_r_value =  avg_Solar_r_value;
+}
+/*******************************************************
+ * FUNCTION NAME : RLS_Enable_Solar()
+ *   DESCRIPTION : RLS_Enable_Solar function 
+ *         INPUT : 
+ *        OUTPUT : NONE  
+ *        RETURN : NONE              
+ *        OTHERS : NONE
+ *******************************************************/
+void RLS_Enable_Solar(void)
+{
+	GPIOA_PDDR |= 0x00000002 ; //PTA1-output  
+	GPIOA_PSOR |= 0x00000002 ; //PTA1-output  
+	
+	GPIOA_PDDR |= 0x00800000 ; //PTC7-output  
+	GPIOA_PSOR |= 0x00800000 ; //PTC7-output   
+}
+/*******************************************************
+ * FUNCTION NAME : RLS_Disable_Solar()
+ *   DESCRIPTION : RLS_Disable_Solar function 
+ *         INPUT : 
+ *        OUTPUT : NONE  
+ *        RETURN : NONE              
+ *        OTHERS : NONE
+ *******************************************************/
+void RLS_Disable_Solar(void)
+{
+	GPIOA_PDDR |= 0x00000002 ; //PTA1-output  
+	GPIOA_PCOR |= 0x00000002 ; //PTA1-output  
+	
+	GPIOA_PDDR |= 0x00800000 ; //PTC7-output  
+	GPIOA_PCOR |= 0x00800000 ; //PTC7-output   
+}
 
-
+/*******************************************************
+ * FUNCTION NAME : RLS_Rain_Module_Fault_Process()
+ *   DESCRIPTION : RLS_Rain_Module_Fault_Process function 
+ *         INPUT : 
+ *        OUTPUT : NONE  
+ *        RETURN : NONE              
+ *        OTHERS : NONE
+ *******************************************************/
 void RLS_Rain_Module_Fault_Process(uint8 chan)
 {
 	if(chan == PDA) 
@@ -780,7 +889,7 @@ uint8 RLS_Get_Rain_State(uint8 PD_chan)
     
     u16_Pd_Measure_Value = RLS_Rain_Get_Measure(PD_chan,Rain_Stastegy_Parameter[0].meas_avg_cnt,600);
     
-    RLS_Rain_Module_Fault_Process(PD_chan);
+    //RLS_Rain_Module_Fault_Process(PD_chan);
     
     
     if((PD_chan == PDA)&&(u16_Pd_Measure_Value!=0)) 
@@ -836,7 +945,7 @@ uint8 RLS_Get_Rain_State(uint8 PD_chan)
         	temp = 3000;
         }
         
-        if(Lin_BCM_Frame.ParkPosition == 1)
+        if(Lin_BCM_Frame.BCM_WiperPosition == 1)
         { 
             PD_Meas_Comp_Ref[CHAN_A] =  PD_WIN_AVG[CHAN_A][0] ;            
         }
@@ -922,7 +1031,7 @@ uint8 RLS_Get_Rain_State(uint8 PD_chan)
         	temp = 3000;
         }
         
-        if(Lin_BCM_Frame.ParkPosition == 1)
+        if(Lin_BCM_Frame.BCM_WiperPosition == 1)
         { 
             PD_Meas_Comp_Ref[CHAN_B] =  PD_WIN_AVG[CHAN_B][0] ;
             
@@ -2193,7 +2302,7 @@ void RLS_Rain_State_Mchaine(void)
  *******************************************************/
 void RLS_Wipe_Park_Process(void)
 {
-    if(Lin_BCM_Frame.ParkPosition == 0)   //1为park点
+    if(Lin_BCM_Frame.BCM_WiperPosition == 0)   //1为park点
     {
         u8_MeasureSureTime++;
         if(u8_Wiper_State == HIGH_SPEED_MODE)
@@ -2258,9 +2367,9 @@ void RLS_SelfAdaptTask(void)
    /* add intia*/
 
     u8_WiperSpeed = 0 ;
-    l_u8_wr_LI0_RLS_RQ_WiperSPD(u8_WiperSpeed);
-    l_bool_wr_LI0_RLS_RQ_LowBeam(0);
-    l_bool_wr_LI0_RLS_RQ_PositionLamp(0);
+    l_u8_wr_LI0_RLS_WiperRequest(u8_WiperSpeed);
+    //l_bool_wr_LI0_RLS_RQ_LowBeam(0);
+    l_bool_wr_LI0_RLS_LightRequest(0);
 /******************Chanl A*********************/   
     for(i = 0; i < 20; i++)
     {
@@ -2390,7 +2499,7 @@ void RLS_SelfAdaptTask(void)
         u8_RainIntensity_Win[i] = 0;
     }
     
-    RLS_RunMode = NORMAL;
+    RLS_RunMode = MAIN_NORMAL;
     u8_IntSpeedEnterCnt = 0;
     u8_LowSpeedCnt = 0;      
 }
@@ -2407,12 +2516,12 @@ void RLS_Wipe_Auto_On_Function(void)
 {
     uint8 i;
     
-    if((u8_Wipe_Automatic_On_Pre == 0)&&(Lin_BCM_Frame.CMD_AutoWiper == 1))
+    if((u8_Wipe_Automatic_On_Pre == 0)&&(Lin_BCM_Frame.BCM_WiperSwitch == 1))
     {
         u8_Wipe_Automatic_On_Flg = 1;
     } 
     
-    u8_Wipe_Automatic_On_Pre = Lin_BCM_Frame.CMD_AutoWiper;  
+    u8_Wipe_Automatic_On_Pre = Lin_BCM_Frame.BCM_WiperSwitch;  
     
     if((u8_Wipe_Automatic_On_Flg == 1)&&(u8_Lin_Diag_Enable == 1))
     {
@@ -2448,11 +2557,11 @@ void RLS_Wipe_Auto_On_Function(void)
 void RLS_Wipe_Sensitivity_Up_Function(void)
 {
     uint8 i;
-    if(Lin_BCM_Frame.RainSensitivity > u8_Rain_SensitivityPre)
+    if(Lin_BCM_Frame.BCM_RainSensitivity > u8_Rain_SensitivityPre)
     {
         u8_SensitivityUpFlg = 1;
     }
-    u8_Rain_SensitivityPre = Lin_BCM_Frame.RainSensitivity;
+    u8_Rain_SensitivityPre = Lin_BCM_Frame.BCM_RainSensitivity;
     
     if((u8_SensitivityUpFlg == 1)&&((u8_Wiper_State == PARK_MODE)||(u8_Wiper_State == INT_SPEED_MODE))&&(u8_Lin_Diag_Enable == 1))
     {
@@ -2531,6 +2640,10 @@ void RLS_Battery_State(void)
 			u8_Battery_status = VOLTAGE_HIGH;
 		}
 	}
+	else
+	{
+		
+	}
 }
 /*******************************************************
  * FUNCTION NAME : RLS_Lin_Diag_Fucntion()
@@ -2552,6 +2665,8 @@ void RLS_Lin_Diag_Fucntion(void)
         u8_Lin_Diag_Enable_Cnt++;
     }
 }
+
+Auto_Roof_FSM_t  Auto_Roof_FSM;
 /*******************************************************
  * FUNCTION NAME : Auto_Roof_Process()
  *   DESCRIPTION : Auto_Roof_Process  
@@ -2562,52 +2677,95 @@ void RLS_Lin_Diag_Fucntion(void)
  *******************************************************/ 
 void Auto_Roof_Process(void)
 {   
-	if(Mcu_wakeup_state == 1)
-	{
-		u8_wakeup_timer = 0;
-		u8_polling_mode_enter = 0;
-	}
+	Timer_6h++;
 	
-	if(u8_WiperSpeed != 0)
+	switch(Auto_Roof_FSM)
 	{
-		u8_rain_state_polling_flg = 1;		
-	}	
-	else
-	{
-	   u8_wakeup_timer++;
-	   if(u8_wakeup_timer >= 6) //600ms
-	   {   
-		   u8_wakeup_timer = 0;
-		   u8_auto_roof_rain_measure_sleep_flg = 1;
-	   }
-	}
-   		
-	
-	if(u8_rain_state_polling_flg == 1)
-	{
-		u8_WiperSpeed = 1 ;
-		u8_wakeup_timer = 0;
-		u8_wakeup_bcm_timer++;
-		if(u8_wakeup_bcm_timer >= 2) //200ms
-		{			
-			u8_wakeup_bcm_timer = 0;
-			Lin_RLS_Wakeup_BCM();
-			
-			if(u8_wakeup_cnt >= 2)
-			{
-				u8_wakeup_cnt = 0;
-				u8_wakeup_bcm_cnt_sleep_flg = 1;
+		case Roof_RAIN_CHECK:
+		{
+			if(u8_WiperSpeed != 0)
+			{			
+				Auto_Roof_FSM = Roof_Wake_Up;	
+				u8_wakeup_bcm_1500ms_timer = 0;
+				RTC_DisableInt();
 			}
 			else
 			{
-				u8_wakeup_cnt++;
+				if(Timer_6h >=(6*60*60*20)) //time out deep sleep
+				{
+					Auto_Roof_FSM = Roof_Wake_Up;
+					u8_wakeup_bcm_1500ms_timer = 0;
+				}
+				else
+				{
+					u8_auto_roof_rain_measure_sleep_flg = 1;	
+				}
 			}	
-			
-			if(Mcu_wakeup_state == 1) 
+			if(Mcu_wakeup_state == 1)  //if BCM wake up RLS,  go to normal mode
 			{
-				u8_rain_state_polling_flg = 0 ;
+				u8_auto_roof_rain_measure_sleep_flg = 0;
+				RLS_RunMode =  MAIN_NORMAL;
 			}
-		}					
+		}break;
+		
+		case Roof_Wake_Up:
+		{
+			Timer_600ms = 0;	
+			if(Mcu_wakeup_state == 1)
+			{
+				u8_wakeup_bcm_1min_timer = 0;
+				Auto_Roof_FSM = Roof_CLOSED_WINDOWS;
+			}
+			else
+			{
+				u8_wakeup_bcm_1500ms_timer++;
+							
+				if((u8_wakeup_bcm_1500ms_timer <= 9)&&
+					((u8_wakeup_bcm_1500ms_timer%3) == 0))//150ms一包三帧唤醒信号
+				{
+					Lin_RLS_Wakeup_BCM();							
+				}
+				
+				if(u8_wakeup_bcm_1500ms_timer >= 30)//间隔1500ms发送唤醒包
+				{	
+					u8_wakeup_bcm_1500ms_timer = 0;
+					u8_wakeup_bcm_1min_timer++;
+					
+					if(u8_wakeup_bcm_1min_timer >= 40)//1min
+					{
+						u8_wakeup_bcm_1min_timer = 0;
+						u8_wakeup_bcm_cnt_sleep_flg = 1;
+						Lin_BCM_Frame.BCM_WindowStatus = 1;
+						Auto_Roof_FSM = Roof_CLOSED_WINDOWS;
+					}
+				}		
+			}
+					
+		}break;
+		case Roof_CLOSED_WINDOWS:
+		{
+			u8_wakeup_bcm_1min_timer++;
+			u8_RLS_WindowCloseReq = 1 ; //send closed window
+	
+			if(u8_wakeup_bcm_1min_timer >= 1200) //120*50ms
+			{
+				u8_wakeup_bcm_1min_timer = 0;
+				u8_RLS_WindowCloseReq = 0 ;
+				u8windows_err = 1;
+				RLS_RunMode =  MAIN_NORMAL;
+			}
+			
+			if(Lin_BCM_Frame.BCM_WindowStatus == 0)
+			{
+				u8_RLS_WindowCloseReq = 0;
+				RLS_RunMode =  MAIN_NORMAL;
+			}	
+		}break;
+		default:
+		{
+			Auto_Roof_FSM = Roof_RAIN_CHECK;
+		}break;
+		
 	}
 }
 /*******************************************************
@@ -2621,32 +2779,31 @@ void Auto_Roof_Process(void)
 void Sleep_Process(void)
 {
 	uint8 i;
-		
+	RLS_Disable_Solar();
 	DISABLE_INTERRUPT;
-	
-	UART0_S2 |=  UART_S2_RXEDGIF_MASK;   //去掉会产生错误帧
-	UART0_BDH  |=  UART_BDH_RXEDGIE_MASK; //去掉会产生错误帧
-	/******关闭LIN发送***********/ 
-	LIN_DISABLE ;// LIN_EN
 	
 	/******MLX75308进入休眠***********/
 	(void)SPI_Wr_Cmd(RSLP);    
 	(void)SPI_Wr_Cmd(CSLP);
 	SPI_Disable();
-#ifdef ENABLE_AUTO_ROOF
-		
-	if(Lin_BCM_Frame.RoofStatus >= 1)
+	
+#ifdef ENABLE_AUTO_ROOF	
+	if((Lin_BCM_Frame.BCM_WindowStatus >= 1)&&(u8windows_err == 0))
 	{
 		RTC_EnableInt();
-		u8_polling_mode_enter = 1 ;
-		u8_rain_state_polling_flg = 0;   //休眠前将有雨判断标志置0,有雨时置1
+		RLS_RunMode =  MAIN_SLEEP_Mode;
+		Auto_Roof_FSM = Roof_RAIN_CHECK;
 	}
 	else
 	{
-		u8_polling_mode_enter = 0 ;
 		RTC_DisableInt();
 	}
 #endif
+	
+	UART0_S2 |=  UART_S2_RXEDGIF_MASK;   //去掉会产生错误帧
+	UART0_BDH  |=  UART_BDH_RXEDGIE_MASK; //去掉会产生错误帧
+	/******关闭LIN发送***********/ 
+	LIN_DISABLE ;//GPIOA_PCOR |= 0x00008000 ; //PTB7  LIN_EN
 	
 	for (i = 0;i < LIGHT_TYPE ; i++)
 	{
@@ -2656,7 +2813,7 @@ void Sleep_Process(void)
 			
 	u8_light_on_req = 0;     
 	u8_twilight_on_req = 0;
-		
+	
 	Mcu_wakeup_state = 0;
 	u16_RainWindow_Cnt = 0;
 	u8_enter_period_cnt = 0;
@@ -2688,14 +2845,16 @@ void Sleep_Process(void)
 void Recover_Process(void)
 {
 	LIN_ENABLE ;// LIN_EN
+	Timer_6h = Timer_6h + (5 * 20);//every 5s wake up
+#ifdef ENABLE_SOLAR
+	RLS_Enable_Solar();
+#endif
 	u8_Lin_Diag_Enable = 0;
 	u8_Lin_Diag_Enable_Cnt = 0;
 	l_sys_init();
 	l_ifc_init(LI0);
-	SPI_Enable();
+	SPI_Init();
 	FTM0_Init();
 	
-	G_4s_counter = 0;
-	G_4sFlag = FALSE ;
     (void)SPI_Wr_Cmd(NRM); 
 }

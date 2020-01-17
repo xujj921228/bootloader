@@ -26,23 +26,24 @@
 
 struct BCM_Frame 
 {
-  uint8  Status_IGN        :2;
-  uint8  CMD_AutoWiper     :1;
-  uint8  RQ_FrontWash      :1;
-  uint8  ParkPosition      :1;
-  uint8  RainSensitivity   :3;
-  
-  uint8  CMD_AutoLight     :1;
-  uint8  BladesTurningPoint:1;
-  uint8  RoofStatus        :1;
-  uint8  rsv0              :5;
-  
-  uint8  SPD_Vehicle_L  ;
-  
-  uint8  SPD_Vehicle_H     :5;
-  uint8  rsv1              :3;
-  
-  uint8  OutsideTemp;
+  uint8  BCM_WiperPosition     :1;
+
+  uint8  BCM_WiperSwitch       :3;
+    
+  uint8  BCM_Washer            :1;
+    
+  uint8  BCM_WindowStatus      :1;
+    
+  uint8  BCM_Ignition          :1;
+    
+  uint8  BCM_RainSensitivity   :3;
+    
+  uint16  BCM_VehicleSpeed     ;
+    
+  uint8  BCM_Transmision550nm    ;
+    
+  uint8  BCM_Transmision880nm    ;
+    
 };
 
 

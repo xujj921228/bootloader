@@ -204,21 +204,21 @@ void Globle_parameter_Init(void)
 	}
 			
 	u8_light_on_req = 0;     
-	u8_twilight_on_req = 0;     
+	//u8_twilight_on_req = 0;     
 	
-	l_bool_wr_LI0_RLS_RQ_LowBeam(u8_light_on_req);	
-	l_bool_wr_LI0_RLS_RQ_PositionLamp(u8_twilight_on_req);
+	//l_bool_wr_LI0_RLS_RQ_LowBeam(u8_light_on_req);	
+	//l_bool_wr_LI0_RLS_RQ_PositionLamp(u8_twilight_on_req);
+	l_bool_wr_LI0_RLS_LightRequest(u8_light_on_req);
 	
-	l_bool_wr_LI0_RLS_Fault_Rain(0);
-	l_bool_wr_LI0_RLS_Fault_Light(0);
-	l_u8_wr_LI0_RLS_VOLT_Error(0);
-	l_bool_wr_LI0_RLS_Humid_Temp_Error(0);
+	l_bool_wr_LI0_RLS_RainSensorError(0);
+	l_bool_wr_LI0_RLS_LightSensorError(0);
+	l_u8_wr_LI0_RLS_VotalgeError(0);
+	//l_bool_wr_LI0_RLS_Humid_Temp_Error(0);
 	
-	Lin_BCM_Frame.ParkPosition = 1;
-	Lin_BCM_Frame.CMD_AutoWiper = 1;
+	Lin_BCM_Frame.BCM_WiperSwitch = 1;
 	u8_Wipe_Automatic_On_Pre = 1;
 	
-	Lin_BCM_Frame.Status_IGN = 2;
+	Lin_BCM_Frame.BCM_Ignition = 1;
 	u16_SPD_Vehicle =  0;
 	
 	u8_MsgCounter = 0;
@@ -227,7 +227,7 @@ void Globle_parameter_Init(void)
     diagnostic_Session_timer = 0 ;
     diagnostic_Session_flg = 0;
     
-    RLS_RunMode = SLEFADAPT;
+    RLS_RunMode = MAIN_SLEFADAPT;
     
     Lin_Busy_Flag = 0;
     
@@ -239,9 +239,6 @@ void Globle_parameter_Init(void)
 	u8_IntSpeedCnt = 0;
 	u8_IntSpeedEnterCnt = 0;	
 	
-	u8_polling_mode_enter = 0 ;
-	u8_wakeup_bcm_timer = 0;
-	u8_wakeup_cnt = 0;
 	u8_wakeup_timer = 0;
 	
 	u8_lin_cmd_sleep = 0;

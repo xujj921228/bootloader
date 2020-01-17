@@ -22,20 +22,7 @@
 #include "lin_hw_cfg.h"
 #include "config_parameter.h"
 
-
-uint8  G_10ms_counter = FALSE;
-uint8  G_20ms_counter = FALSE;
-uint8  G_50ms_counter = FALSE;
-uint8  G_100ms_counter = FALSE;
-uint8  G_500ms_counter = FALSE;
-uint16  G_4s_counter = FALSE;
-
-uint8  G_10msFlag = FALSE;
-uint8  G_20msFlag = FALSE;
-uint8  G_50msFlag = FALSE;
-uint8  G_100msFlag = FALSE;
-uint8  G_500msFlag = FALSE;
-uint8  G_4sFlag = FALSE;
+extern uint8  Timer_10ms;
 
 void FTM0_Init(void)
 {
@@ -71,39 +58,7 @@ void FTM0_IRQHandler()   //10ms
         FTM0_C0V += ((MCU_BUS_FREQ  / 1000000.0) * (TIME_BASE_PERIOD_10ms / 128.0));
         /* Call Timer interrupt handler function */
     
-		G_10ms_counter++;
-		G_50ms_counter++;
-		G_100ms_counter++;
-		G_500ms_counter++;
-		G_4s_counter++;
-		
-		if(G_4s_counter >= 400)
-		{
-			G_4s_counter = 0;
-			G_4sFlag =  TRUE ;
-		}
-		
-		if(G_10ms_counter >= 1)
-		{
-			G_10ms_counter = 0;
-			G_10msFlag = 1;
-		}
-
-		if(G_50ms_counter >= 5)
-		{
-			G_50ms_counter = 0;
-			G_50msFlag = 1;
-		}
-		 if(G_100ms_counter >= 10)
-		{
-			G_100ms_counter = 0;
-			G_100msFlag = 1;     
-		}
-		if(G_500ms_counter>= 50)
-		{
-			G_500ms_counter=0;
-			G_500msFlag=1;    
-		}    
+        Timer_10ms = 1;
             
     }
 }

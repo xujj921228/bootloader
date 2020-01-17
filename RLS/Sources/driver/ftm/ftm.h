@@ -32,7 +32,9 @@ extern uint8 G_20msFlag ;
 extern uint8 G_50msFlag ;
 extern uint8 G_100msFlag ;
 extern uint8 G_500msFlag ;
+extern uint8 G_600msFlag ;
 extern uint8 G_4sFlag ;
+extern uint8 G_600ms_counter;
 
 extern uint16 G_4s_counter ;
 extern void FTM0_Init(void);

@@ -25,7 +25,9 @@
 
 #define MEAS_NUM 3
 
-#define   VOLT_CH   11
+#define   VOLT_CH      11
+#define   SOLAR_L_CH   9
+#define   SOLAR_R_CH   8
 
 #define   AVG_N  2
 #define   Tab_FW_NUM             16
@@ -33,9 +35,8 @@
 
 #define   PD_WINDOW   6
 #define   DC_WINDOW   20
+#define   SOLAR_WINDOW 8
 
-#define   SLEFADAPT 0
-#define   NORMAL    1
 
 #define   CHAN_NUM 2
 #define   CHAN_A 0
@@ -62,7 +63,19 @@
 #define   HIGH_SPEED_MODE   5
 
 
+typedef enum
+{
+	MAIN_SLEFADAPT = 0,
+	MAIN_NORMAL = 1,
+	MAIN_SLEEP_Mode
+}Main_Fsm_t;
 
+typedef enum
+{
+	Roof_RAIN_CHECK = 0,
+	Roof_Wake_Up = 1,
+	Roof_CLOSED_WINDOWS
+}Auto_Roof_FSM_t;
 
 struct Rls_Error 
 {
@@ -101,6 +114,7 @@ extern uint8  u8_Cmd_Execution;
 extern uint16 u16_SPD_Vehicle;
 extern uint8  u8_Battery_status,u8_Rain_Valid;
 
+extern uint8 u8_RTC_10S_Flg;
 extern uint8 u8_polling_mode_enter,Mcu_wakeup_state,u8_wakeup_bcm_timer,u8_wakeup_cnt,u8_wakeup_timer;
 extern uint8 u8_lin_cmd_sleep,u8_auto_roof_rain_measure_sleep_flg,u8_wakeup_bcm_cnt_sleep_flg;
 
@@ -130,11 +144,11 @@ extern void RLS_Wipe_Park_Process(void);
 extern void RLS_Battery_State(void);
 extern void RLS_Battery_State(void);
 extern void RLS_Auto_Light_Task(void);
-extern void RLS_Auto_Rain_Task(void);
 extern void RLS_SelfAdaptTask(void);
 extern void Sleep_Process(void);
 extern void Recover_Process(void);
 extern void Auto_Roof_Process(void);
+extern void RLS_Auto_Solar_Task();
 extern void RLS_Lin_Diag_Fucntion(void);
 
 #endif    /* _ADC_H_ */
