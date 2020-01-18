@@ -31,7 +31,6 @@ uint8  Timer_600ms;
 uint8  Timer_4s;
 uint32  Timer_6h;
 Main_Fsm_t  RLS_RunMode;
-extern uint8  u8windows_err;
 extern uint8 Mcu_wakeup_state;
 /*****************************************
  * Gloable_Var_Init
@@ -160,23 +159,14 @@ void main(void)
 				Timer_50ms = 0;
 				Timer_100ms++;
 #ifdef ENABLE_AUTO_ROOF
-				if((Lin_BCM_Frame.BCM_Ignition == 1)&&((Mcu_wakeup_state == 1)))
-				{
-					u8windows_err = 0;
-					RLS_RunMode =  MAIN_NORMAL;
-				}
-				else
-				{
-					RLS_Auto_Rain_Task();
-					Auto_Roof_Process();
-				}
+				Auto_Roof_Process();
 #endif
 	
 				if(Timer_100ms >= 2)  //   100ms Task
 				{
 					Timer_100ms = 0;  
 					Timer_600ms++;
-					if(Timer_600ms >= 6) //   500ms Task
+					if(Timer_600ms >= 6) //   600ms Task
 					{
 						Timer_600ms = 0;
 						u8_auto_roof_rain_measure_sleep_flg = 1;

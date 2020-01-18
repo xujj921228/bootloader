@@ -13,6 +13,7 @@ Sources/driver/adc/adc.o: ../Sources/driver/adc/adc.c \
  D:/CW11.0/CW\ MCU\ v11.0/MCU/ARM_GCC_Support/ewl/EWL_C/include/limits_api.h \
  D:/CW11.0/CW\ MCU\ v11.0/MCU/ARM_GCC_Support/ewl/EWL_C/include/ewl_lib_ext1.h \
  C:/Users/ae-bk-067/Desktop/QY1208-04-000PR-V1.9/RLS/Sources/config_parameter/config_parameter.h \
+ C:/Users/ae-bk-067/Desktop/QY1208-04-000PR-V1.9/RLS/Sources/driver/watchdog/watchdog.h \
  ../Sources/driver/adc/adc.h
 
 D:/CW11.0/CW\ MCU\ v11.0/MCU/ARM_GCC_Support/ewl/EWL_C/include/lib_ewl.prefix:
@@ -42,5 +43,7 @@ D:/CW11.0/CW\ MCU\ v11.0/MCU/ARM_GCC_Support/ewl/EWL_C/include/limits_api.h:
 D:/CW11.0/CW\ MCU\ v11.0/MCU/ARM_GCC_Support/ewl/EWL_C/include/ewl_lib_ext1.h:
 
 C:/Users/ae-bk-067/Desktop/QY1208-04-000PR-V1.9/RLS/Sources/config_parameter/config_parameter.h:
+
+C:/Users/ae-bk-067/Desktop/QY1208-04-000PR-V1.9/RLS/Sources/driver/watchdog/watchdog.h:
 
 ../Sources/driver/adc/adc.h:

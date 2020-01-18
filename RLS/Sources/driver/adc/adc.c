@@ -19,7 +19,11 @@
 ******************************************************************************/
 #include "derivative.h" /* include peripheral declarations */
 #include "config_parameter.h"
+#include "watchdog.h"
 #include "adc.h"
+
+
+extern void WDOG_Feed(void);
 
 void ADC_Init(void)
 {

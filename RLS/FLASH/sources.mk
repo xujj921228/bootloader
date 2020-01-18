@@ -87,5 +87,4 @@ Sources/LIN_Stack/diagnostic \
 Sources/LIN_Stack/coreapi \
 Sources/LIN_Stack/bsp/UART \
 Project_Settings/Startup_Code \
-.metadata/.plugins/org.eclipse.cdt.make.core \
 

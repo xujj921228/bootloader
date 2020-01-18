@@ -26,6 +26,7 @@
 #include "lin_app.h"
 
 
+extern Main_Fsm_t  RLS_RunMode;
 tMlx75308_Config const Mlx75308_Config_Parameter[1] =
 {
     {

@@ -65,9 +65,9 @@ typedef  unsigned long   uint32;     //unsigned 32 bit definition
 
 
 /************RAIN_INVALID***********/   
-#define   DC_bef_dtTH           300     //300
-#define   DC_aft_dtTH           300     //300
-#define   DC_CHANGE_TH          300     //300
+#define   DC_bef_dtTH           200     //300
+#define   DC_aft_dtTH           200     //300
+#define   DC_CHANGE_TH          200     //300
 
 #define   RAIN_INVALID_NUM     1
 

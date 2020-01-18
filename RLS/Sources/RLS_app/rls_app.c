@@ -36,7 +36,6 @@ extern uint8  Timer_600ms;
 extern uint32  Timer_6h;
 extern Main_Fsm_t  RLS_RunMode;
 
-uint8  u8windows_err = 0;
 uint8  u8_Lin_Diag_Enable;
 uint8  u8_Lin_Diag_Enable_Cnt;
 uint16 u16_Solar_l_value_raw,u16_Solar_r_value_raw;
@@ -116,7 +115,6 @@ uint16 u16_IntWindow_Cnt;
 uint8  u8_Int_Cnt;
 
 uint16 u16_DC_checkValue,u16_DC_comp_value,u16_Ref_Adc_A,u16_Ref_Adc_B;
-extern uint8  RLS_RunMode;
 uint8  u8_Rain_Delta;
 
 uint8  u8_LightOnTimer;
@@ -156,7 +154,8 @@ uint8 u8_light_on_req,u8_light_on_invent_req,u8_twilight_on_req,u8_twilight_on_i
 
 uint8 u8_wakeup_timer,Mcu_wakeup_state;
 uint8 u8_lin_cmd_sleep,u8_auto_roof_rain_measure_sleep_flg,u8_wakeup_bcm_cnt_sleep_flg;
-uint8 u8_wakeup_bcm_1500ms_timer,u8_wakeup_bcm_1min_timer;
+uint8 u8_wakeup_bcm_1500ms_timer;
+uint16 u16_wakeup_bcm_1min_timer;
 
 
 struct BCM_Frame            Lin_BCM_Frame;
@@ -889,7 +888,7 @@ uint8 RLS_Get_Rain_State(uint8 PD_chan)
     
     u16_Pd_Measure_Value = RLS_Rain_Get_Measure(PD_chan,Rain_Stastegy_Parameter[0].meas_avg_cnt,600);
     
-    //RLS_Rain_Module_Fault_Process(PD_chan);
+    RLS_Rain_Module_Fault_Process(PD_chan);
     
     
     if((PD_chan == PDA)&&(u16_Pd_Measure_Value!=0)) 
@@ -920,25 +919,31 @@ uint8 RLS_Get_Rain_State(uint8 PD_chan)
                 }
             }
             if(Mnrval.DC_bre_A < Rain_Stastegy_Parameter[0].dc_stage1)
-			{
-				temp =  Rain_Stastegy_Parameter[0].stage_intensity1;
-			}
-			else if(Mnrval.DC_bre_A < Rain_Stastegy_Parameter[0].dc_stage2)
-			{
-				temp =   Rain_Stastegy_Parameter[0].stage_intensity2;
-			}
-			else if(Mnrval.DC_bre_A < Rain_Stastegy_Parameter[0].dc_stage3)
-			{
-				temp =   Rain_Stastegy_Parameter[0].stage_intensity3;
-			}
-			else if(Mnrval.DC_bre_A < Rain_Stastegy_Parameter[0].dc_stage4)
-			{
-				temp =   Rain_Stastegy_Parameter[0].stage_intensity4;
-			}
-			else
-			{
-				temp =   Rain_Stastegy_Parameter[0].stage_intensity5;
-			}            
+            {
+                    temp =  Rain_Stastegy_Parameter[0].stage_intensity1;
+            }
+            else if(Mnrval.DC_bre_A < Rain_Stastegy_Parameter[0].dc_stage2)
+            {
+                    temp =   Rain_Stastegy_Parameter[0].stage_intensity2;
+            }
+            else if(Mnrval.DC_bre_A < Rain_Stastegy_Parameter[0].dc_stage3)
+            {
+                    temp =   Rain_Stastegy_Parameter[0].stage_intensity3;
+            }
+            else if(Mnrval.DC_bre_A < Rain_Stastegy_Parameter[0].dc_stage4)
+            {
+                    temp =   Rain_Stastegy_Parameter[0].stage_intensity4;
+            }
+            else
+            {
+                    temp =   Rain_Stastegy_Parameter[0].stage_intensity5;
+            }     
+            
+            if(u8_Rain_Sensitivity == 4)  temp = temp ;
+            else if (u8_Rain_Sensitivity == 3)  temp = temp + 30 ;
+            else if (u8_Rain_Sensitivity == 2)  temp = temp + 70 ;
+            else                                temp = temp + 100 ;
+               
         } 
         else
         {
@@ -1025,6 +1030,11 @@ uint8 RLS_Get_Rain_State(uint8 PD_chan)
 			{
 				temp =  Rain_Stastegy_Parameter[0].stage_intensity5;
 			}
+            
+                        if(u8_Rain_Sensitivity == 4)  temp = temp ;
+                        else if (u8_Rain_Sensitivity == 3)  temp = temp + 30 ;
+                        else if (u8_Rain_Sensitivity == 2)  temp = temp + 70 ;
+                        else                                temp = temp + 100 ;
         } 
         else
         {
@@ -2302,7 +2312,7 @@ void RLS_Rain_State_Mchaine(void)
  *******************************************************/
 void RLS_Wipe_Park_Process(void)
 {
-    if(Lin_BCM_Frame.BCM_WiperPosition == 0)   //1为park点
+    if(Lin_BCM_Frame.BCM_WiperPosition == 1)   //0为park点
     {
         u8_MeasureSureTime++;
         if(u8_Wiper_State == HIGH_SPEED_MODE)
@@ -2683,6 +2693,7 @@ void Auto_Roof_Process(void)
 	{
 		case Roof_RAIN_CHECK:
 		{
+                        RLS_Auto_Rain_Task();
 			if(u8_WiperSpeed != 0)
 			{			
 				Auto_Roof_FSM = Roof_Wake_Up;	
@@ -2695,10 +2706,6 @@ void Auto_Roof_Process(void)
 				{
 					Auto_Roof_FSM = Roof_Wake_Up;
 					u8_wakeup_bcm_1500ms_timer = 0;
-				}
-				else
-				{
-					u8_auto_roof_rain_measure_sleep_flg = 1;	
 				}
 			}	
 			if(Mcu_wakeup_state == 1)  //if BCM wake up RLS,  go to normal mode
@@ -2713,7 +2720,7 @@ void Auto_Roof_Process(void)
 			Timer_600ms = 0;	
 			if(Mcu_wakeup_state == 1)
 			{
-				u8_wakeup_bcm_1min_timer = 0;
+				u16_wakeup_bcm_1min_timer = 0;
 				Auto_Roof_FSM = Roof_CLOSED_WINDOWS;
 			}
 			else
@@ -2729,14 +2736,13 @@ void Auto_Roof_Process(void)
 				if(u8_wakeup_bcm_1500ms_timer >= 30)//间隔1500ms发送唤醒包
 				{	
 					u8_wakeup_bcm_1500ms_timer = 0;
-					u8_wakeup_bcm_1min_timer++;
+					u16_wakeup_bcm_1min_timer++;
 					
-					if(u8_wakeup_bcm_1min_timer >= 40)//1min
+					if(u16_wakeup_bcm_1min_timer >= 40)//1min
 					{
-						u8_wakeup_bcm_1min_timer = 0;
+						u16_wakeup_bcm_1min_timer = 0;
 						u8_wakeup_bcm_cnt_sleep_flg = 1;
-						Lin_BCM_Frame.BCM_WindowStatus = 1;
-						Auto_Roof_FSM = Roof_CLOSED_WINDOWS;
+                                                Lin_BCM_Frame.BCM_WindowStatus = 0;
 					}
 				}		
 			}
@@ -2744,14 +2750,15 @@ void Auto_Roof_Process(void)
 		}break;
 		case Roof_CLOSED_WINDOWS:
 		{
-			u8_wakeup_bcm_1min_timer++;
+			Timer_600ms = 0;
+			u16_wakeup_bcm_1min_timer++;
 			u8_RLS_WindowCloseReq = 1 ; //send closed window
-	
-			if(u8_wakeup_bcm_1min_timer >= 1200) //120*50ms
+			Lin_RLS_data();
+			if(u16_wakeup_bcm_1min_timer >= 1200) //120*50ms
 			{
-				u8_wakeup_bcm_1min_timer = 0;
+				u16_wakeup_bcm_1min_timer = 0;
 				u8_RLS_WindowCloseReq = 0 ;
-				u8windows_err = 1;
+                Lin_BCM_Frame.BCM_WindowStatus = 0;
 				RLS_RunMode =  MAIN_NORMAL;
 			}
 			
@@ -2788,7 +2795,7 @@ void Sleep_Process(void)
 	SPI_Disable();
 	
 #ifdef ENABLE_AUTO_ROOF	
-	if((Lin_BCM_Frame.BCM_WindowStatus >= 1)&&(u8windows_err == 0))
+	if(Lin_BCM_Frame.BCM_WindowStatus >= 1)
 	{
 		RTC_EnableInt();
 		RLS_RunMode =  MAIN_SLEEP_Mode;
@@ -2853,7 +2860,7 @@ void Recover_Process(void)
 	u8_Lin_Diag_Enable_Cnt = 0;
 	l_sys_init();
 	l_ifc_init(LI0);
-	SPI_Init();
+	SPI_Enable();
 	FTM0_Init();
 	
     (void)SPI_Wr_Cmd(NRM); 

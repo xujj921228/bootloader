@@ -195,15 +195,10 @@ lin_message_status tl_tx_msg_status;                  /* cooked tx status */
 
 
 
-
-
-
-
 /****************************Support SID Initialization ***********************/
 
-const l_u8 lin_diag_services_supported[_DIAG_NUMBER_OF_SERVICES_] = {0xB2,0xB7,0x22,0xB3,0xB0,0x2E,0xB6,0xB4,0xB1};
+const l_u8 lin_diag_services_supported[_DIAG_NUMBER_OF_SERVICES_] = {0xB2,0xB6,0xB7,0x22,0x10,0xB3,0xB0,0x2E,0x27};
 l_u8 lin_diag_services_flag[_DIAG_NUMBER_OF_SERVICES_] = {0,0,0,0,0,0,0,0,0};
-
 l_u8 tl_slaveresp_cnt = 0;
 /* This function is an example of response; real implementation is application-dependent */
 /* You can use one of the following define to set PCI of response frame for */

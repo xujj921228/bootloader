@@ -39,6 +39,8 @@
 #include "clock.h"
 #include "IIC.h"
 
+
+extern uint8 FUNC_HUM_SETTING(uint16 cmd);
 /*******************************************************
  * FUNCTION NAME : DRV_IIC_Init()
  *   DESCRIPTION : Initialize the IO port used by the IIC
