@@ -172,10 +172,8 @@ uint8 DRV_IIC_READ_BYTE(uint8 AckValue)
 {
 	uint8  i;
 	uint8  read_data;
-	uint16 nCount;
 	
 	read_data = ZERO;
-	nCount    = ZERO;
 	IIC_SDA_Output();
 	IIC_SCL_Low();
 	IIC_SDA_High();

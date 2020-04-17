@@ -18,7 +18,6 @@
 *
 ******************************************************************************/
 #include "derivative.h" /* include peripheral declarations */
-#include "config_parameter.h"
 #include "watchdog.h"
 #include "adc.h"
 

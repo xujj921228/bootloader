@@ -7,7 +7,8 @@
 #include "rls_app.h"
 
 
-
+void SPI_SetBaudRate(uint32_t u32BusClock,uint32_t u32Bps);
+extern void WDOG_Feed(void);
 /****************************************************************************************************
  * FUNCTION NAME : SPI_COM(uint8 ucData)
  *   DESCRIPTION : Transmit one byte data by the SPI bus .
@@ -482,7 +483,7 @@ void MLX75308_Meansure(uint8 Mnsr_chan)
     SM_reg = 0xD000 | SM_reg;
     SPI_Wr_Cmd(SM_reg);
     WDOG_Feed();
-    Delay_Ms(1);        //Measure Delay, very important              
+    Delay_Ms(3);        //Measure Delay, very important              
     
     SPI_Rd_Mchan(Mnsr_chan);
     

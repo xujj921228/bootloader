@@ -1,94 +1,52 @@
-/******************************************************************************
+/***************************************************************************//*!
 *
-* Freescale Semiconductor Inc.
-* (c) Copyright 2013 Freescale Semiconductor, Inc.
-* ALL RIGHTS RESERVED.
+* #company  Shanghai baolong
 *
-***************************************************************************
+* #author   xujunjie@bb.com
 *
-* THIS SOFTWARE IS PROVIDED BY FREESCALE "AS IS" AND ANY EXPRESSED OR
-* IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
-* OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
-* IN NO EVENT SHALL FREESCALE OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
-* INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-* (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-* SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
-* HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
-* STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
-* IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
-* THE POSSIBILITY OF SUCH DAMAGE.
+* #brief    Watchdog for code  
 *
-***************************************************************************//*!
-*
-* @file     rtc.c
-*
-* @author   Freescale
-*
-* @brief    Real-time counter (RTC) driver source code.  
+* #time    2020/04/01
 *
 ******************************************************************************/
 #include "watchdog.h"
 #include "config_parameter.h"
-/**********************************************************************************************
-* External objects
-**********************************************************************************************/
 
-
-/**********************************************************************************************
-* Global variables
-**********************************************************************************************/
-
-
-/**********************************************************************************************
-* Constants and macros
-**********************************************************************************************/
-
-
-/**********************************************************************************************
-* Local types
-**********************************************************************************************/
-
-
-/**********************************************************************************************
-* Local function prototypes
-*********************************************************************************************/
-
-
-/**********************************************************************************************
-* Local variables
-**********************************************************************************************/
-
-
-/**********************************************************************************************
-* Local functions
-**********************************************************************************************/
-
-
-/**********************************************************************************************
-* Global functions
-**********************************************************************************************/
+/***************************************************************************//*!
+*
+* #company  Shanghai baolong
+*
+* #author   xujunjie@bb.com
+*
+* #brief    WDOG_Unlock  
+*
+* #time    2020/04/01
+* 
+* #input   none
+*
+* #output   none
+*
+******************************************************************************/
 void WDOG_Unlock(void)
 {
 	WDOG_CNT = 0x20C5; WDOG_CNT = 0x28D9 ;
 }
 
-/*****************************************************************************//*!
+/***************************************************************************//*!
 *
-* @brief initialize watchdog.
-*        
-* @param[in]   pConfig  poiner to watchdog configuration strcture.
+* #company  Shanghai baolong
 *
-* @return none
+* #author   xujunjie@bb.com
 *
-* @ Pass/ Fail criteria: none
+* #brief    WDOG_Init  
+*
+* #time    2020/04/01
 * 
-* @warning make sure that WDOG is not initialized after reset or WDOG update is enabled 
-* after reset by calling WDOG_EnableUpdate / WDOG_DisableWDOGEnableUpdate.
+* #input   none
 *
-* @see WDOG_EnableUpdate, WDOG_DisableWDOGEnableUpdate
+* #output   none
 *
-*****************************************************************************/
-
+******************************************************************************/
 void WDOG_Init(void)
 {
 	DISABLE_INTERRUPT; // disable global interrupt
@@ -101,39 +59,45 @@ void WDOG_Init(void)
 	ENABLE_INTERRUPT;
 }
 
-/*****************************************************************************//*!
+/***************************************************************************//*!
 *
-* @brief feed/refresh watchdog.
-*        
-* @param   none
+* #company  Shanghai baolong
 *
-* @return none
+* #author   xujunjie@bb.com
 *
-* @ Pass/ Fail criteria: none
-*****************************************************************************/
-
+* #brief    WDOG_Feed  
+*
+* #time    2020/04/01
+* 
+* #input   none
+*
+* #output   none
+*
+******************************************************************************/
 void WDOG_Feed(void)
 {
-	DISABLE_INTERRUPT;
-    WDOG_CNT = 0x02A6;
-    WDOG_CNT = 0x80B4;
-    ENABLE_INTERRUPT;
+     DISABLE_INTERRUPT;
+     WDOG_CNT = 0x02A6;
+     WDOG_CNT = 0x80B4;
+     ENABLE_INTERRUPT;
 }
 
 
-
-/*****************************************************************************//*!
+/***************************************************************************//*!
 *
-* @brief enable update of WDOG. 
-*        
-* @param  none
+* #company  Shanghai baolong
 *
-* @return none
+* #author   xujunjie@bb.com
 *
-* @ Pass/ Fail criteria: none
-* @warning  this must be the last step of writing control bits sequence.
-*****************************************************************************/
-
+* #brief    WDOG_EnableUpdate  
+*
+* #time    2020/04/01
+* 
+* #input   none
+*
+* #output   none
+*
+******************************************************************************/
 void WDOG_EnableUpdate(void)
 {
     uint8_t u8Cs1 =  WDOG_CS1;  

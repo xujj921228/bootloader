@@ -10,7 +10,7 @@
 /* maximum number of SPIs */
 #define     MAX_SPI_NO              2
 
-#define SPI_BIT_RATE    200000     /* ~500kbps */
+#define SPI_BIT_RATE    1000000     /* ~1000kbps */
 
 
 /******************************************************************************

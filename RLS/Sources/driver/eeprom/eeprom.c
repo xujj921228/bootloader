@@ -18,7 +18,7 @@
 *
 ******************************************************************************/
 #include "derivative.h" /* include peripheral declarations */
-#include "config_parameter.h"
+//#include "config_parameter.h"
 #include "eeprom.h"
 #include "clock.h"
 
