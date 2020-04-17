@@ -2,7 +2,7 @@
 # Automatically-generated file. Do not edit!
 ################################################################################
 
-#Progress monitor hint: 34
+#Progress monitor hint: 40
 first : all
 -include ../makefile.init
 
@@ -14,27 +14,33 @@ RM := "$(GNU_Make_Install_DirEnv)/rm" -rf
 # All of the sources participating in the build are defined here
 -include sources.mk
 -include subdir.mk
--include Sources/subdir.mk
--include Sources/lin_cfg/subdir.mk
--include Sources/humid_app/subdir.mk
--include Sources/driver/watchdog/subdir.mk
--include Sources/driver/rtc/subdir.mk
--include Sources/driver/pmc/subdir.mk
--include Sources/driver/gpio/subdir.mk
--include Sources/driver/ftm/subdir.mk
--include Sources/driver/eeprom/subdir.mk
--include Sources/driver/clock/subdir.mk
--include Sources/driver/adc/subdir.mk
--include Sources/driver/SPI/subdir.mk
--include Sources/driver/IIC/subdir.mk
--include Sources/config_parameter/subdir.mk
--include Sources/RLS_app/subdir.mk
--include Sources/LIN_app/subdir.mk
--include Sources/LIN_Stack/transport/subdir.mk
--include Sources/LIN_Stack/lowlevel/subdir.mk
--include Sources/LIN_Stack/diagnostic/subdir.mk
--include Sources/LIN_Stack/coreapi/subdir.mk
--include Sources/LIN_Stack/bsp/UART/subdir.mk
+-include Sources/Transport/lin_transport/subdir.mk
+-include Sources/Transport/lin_cfg/subdir.mk
+-include Sources/Transport/Local_eep_data/subdir.mk
+-include Sources/Transport/LIN_app/subdir.mk
+-include Sources/Driver/watchdog/subdir.mk
+-include Sources/Driver/rtc/subdir.mk
+-include Sources/Driver/pmc/subdir.mk
+-include Sources/Driver/gpio/subdir.mk
+-include Sources/Driver/ftm/subdir.mk
+-include Sources/Driver/eeprom/subdir.mk
+-include Sources/Driver/clock/subdir.mk
+-include Sources/Driver/adc/subdir.mk
+-include Sources/Driver/SPI/subdir.mk
+-include Sources/Driver/LIN_Stack/lowlevel/subdir.mk
+-include Sources/Driver/LIN_Stack/coreapi/subdir.mk
+-include Sources/Driver/LIN_Stack/bsp/UART/subdir.mk
+-include Sources/Driver/IIC/subdir.mk
+-include Sources/Application/subdir.mk
+-include Sources/Application/humid_app/subdir.mk
+-include Sources/Application/RLS_app/subdir.mk
+-include Sources/Application/Diagnostic/subdir.mk
+-include Sources/Application/Config_parameters/subdir.mk
+-include Sources/Application/Auto_wiper/subdir.mk
+-include Sources/Application/Auto_light/subdir.mk
+-include Sources/Application/Auto_humid/subdir.mk
+-include Sources/Application/Auto_fog/subdir.mk
+-include Sources/Application/Auto_air/subdir.mk
 -include Project_Settings/Startup_Code/subdir.mk
 -include objects.mk
 
@@ -87,14 +93,14 @@ all: warning-messages explicit-dependencies RLS.elf secondary-outputs
 # Tool invocations
 RLS.elf: $(OBJS) $(USER_OBJS) ../Project_Settings/Linker_Files/SKEAZN64_flash.ld
 	@echo 'Building target: $@'
-	@echo 'Executing target #35 $@'
+	@echo 'Executing target #41 $@'
 	@echo 'Invoking: ARM Ltd Windows GCC C Linker'
 	"$(ARMSourceryDirEnv)/arm-none-eabi-gcc"  $(USER_OBJS_QUOTED) $(LIBS_QUOTED) @"RLS.args" -o"RLS.elf"
 	@echo 'Finished building target: $@'
 	@echo ' '
 
 RLS.hex: RLS.elf
-	@echo 'Executing target #36 $@'
+	@echo 'Executing target #42 $@'
 	@echo 'Invoking: ARM Ltd Windows GNU Create Flash Image'
 	"$(ARMSourceryDirEnv)/arm-none-eabi-objcopy"  -O srec RLS.elf "RLS.hex"
 	@echo 'Finished building: $@'
@@ -102,7 +108,7 @@ RLS.hex: RLS.elf
 
 # Other Targets
 clean:
-	-$(RM) $(S_DEPS_QUOTED) $(SECONDARY_FLASH_QUOTED) "./*/*/*.o" "./*/*/*/*/*.o" "./*/*/*/*.o" "./*/*.o"  $(S_UPPER_DEPS_QUOTED) $(ASM_DEPS_QUOTED) $(ASM_UPPER_DEPS_QUOTED) $(SX_DEPS_QUOTED) $(EXECUTABLES_QUOTED) "./*/*/*.d" "./*/*/*/*/*.d" "./*/*/*/*.d" "./*/*.d"  $(ProjDirPath)/FLASH/RLS.elf
+	-$(RM) $(S_DEPS_QUOTED) $(SECONDARY_FLASH_QUOTED) "./*/*/*.o" "./*/*/*/*.o" "./*/*/*/*/*/*.o" "./*/*/*/*/*.o"  $(S_UPPER_DEPS_QUOTED) $(ASM_DEPS_QUOTED) $(ASM_UPPER_DEPS_QUOTED) $(SX_DEPS_QUOTED) $(EXECUTABLES_QUOTED) "./*/*/*.d" "./*/*/*/*.d" "./*/*/*/*/*/*.d" "./*/*/*/*/*.d"  $(ProjDirPath)/FLASH/RLS.elf
 	-@echo ' '
 
 secondary-outputs: $(SECONDARY_FLASH)

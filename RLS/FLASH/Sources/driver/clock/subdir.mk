@@ -6,33 +6,33 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS_QUOTED += \
-"../Sources/driver/clock/clock.c" \
+"../Sources/Driver/clock/clock.c" \
 
 C_SRCS += \
-../Sources/driver/clock/clock.c \
+../Sources/Driver/clock/clock.c \
 
 OBJS += \
-./Sources/driver/clock/clock.o \
+./Sources/Driver/clock/clock.o \
 
 OBJS_QUOTED += \
-"./Sources/driver/clock/clock.o" \
+"./Sources/Driver/clock/clock.o" \
 
 C_DEPS += \
-./Sources/driver/clock/clock.d \
+./Sources/Driver/clock/clock.d \
 
 OBJS_OS_FORMAT += \
-./Sources/driver/clock/clock.o \
+./Sources/Driver/clock/clock.o \
 
 C_DEPS_QUOTED += \
-"./Sources/driver/clock/clock.d" \
+"./Sources/Driver/clock/clock.d" \
 
 
 # Each subdirectory must supply rules for building sources it contributes
-Sources/driver/clock/clock.o: ../Sources/driver/clock/clock.c
+Sources/Driver/clock/clock.o: ../Sources/Driver/clock/clock.c
 	@echo 'Building file: $<'
-	@echo 'Executing target #10 $<'
+	@echo 'Executing target #14 $<'
 	@echo 'Invoking: ARM Ltd Windows GCC C Compiler'
-	"$(ARMSourceryDirEnv)/arm-none-eabi-gcc" "$<" @"Sources/driver/clock/clock.args" -MMD -MP -MF"$(@:%.o=%.d)" -o"Sources/driver/clock/clock.o"
+	"$(ARMSourceryDirEnv)/arm-none-eabi-gcc" "$<" @"Sources/Driver/clock/clock.args" -MMD -MP -MF"$(@:%.o=%.d)" -o"Sources/Driver/clock/clock.o"
 	@echo 'Finished building: $<'
 	@echo ' '
 

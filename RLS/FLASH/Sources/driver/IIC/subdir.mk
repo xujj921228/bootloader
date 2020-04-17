@@ -6,33 +6,33 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS_QUOTED += \
-"../Sources/driver/IIC/iic.c" \
+"../Sources/Driver/IIC/iic.c" \
 
 C_SRCS += \
-../Sources/driver/IIC/iic.c \
+../Sources/Driver/IIC/iic.c \
 
 OBJS += \
-./Sources/driver/IIC/iic.o \
+./Sources/Driver/IIC/iic.o \
 
 OBJS_QUOTED += \
-"./Sources/driver/IIC/iic.o" \
+"./Sources/Driver/IIC/iic.o" \
 
 C_DEPS += \
-./Sources/driver/IIC/iic.d \
+./Sources/Driver/IIC/iic.d \
 
 OBJS_OS_FORMAT += \
-./Sources/driver/IIC/iic.o \
+./Sources/Driver/IIC/iic.o \
 
 C_DEPS_QUOTED += \
-"./Sources/driver/IIC/iic.d" \
+"./Sources/Driver/IIC/iic.d" \
 
 
 # Each subdirectory must supply rules for building sources it contributes
-Sources/driver/IIC/iic.o: ../Sources/driver/IIC/iic.c
+Sources/Driver/IIC/iic.o: ../Sources/Driver/IIC/iic.c
 	@echo 'Building file: $<'
-	@echo 'Executing target #13 $<'
+	@echo 'Executing target #27 $<'
 	@echo 'Invoking: ARM Ltd Windows GCC C Compiler'
-	"$(ARMSourceryDirEnv)/arm-none-eabi-gcc" "$<" @"Sources/driver/IIC/iic.args" -MMD -MP -MF"$(@:%.o=%.d)" -o"Sources/driver/IIC/iic.o"
+	"$(ARMSourceryDirEnv)/arm-none-eabi-gcc" "$<" @"Sources/Driver/IIC/iic.args" -MMD -MP -MF"$(@:%.o=%.d)" -o"Sources/Driver/IIC/iic.o"
 	@echo 'Finished building: $<'
 	@echo ' '
 

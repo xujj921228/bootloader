@@ -65,26 +65,32 @@ C_DEPS_QUOTED :=
 
 # Every subdirectory with source files must be described here
 SUBDIRS := \
-Sources \
-Sources/lin_cfg \
-Sources/humid_app \
-Sources/driver/watchdog \
-Sources/driver/rtc \
-Sources/driver/pmc \
-Sources/driver/gpio \
-Sources/driver/ftm \
-Sources/driver/eeprom \
-Sources/driver/clock \
-Sources/driver/adc \
-Sources/driver/SPI \
-Sources/driver/IIC \
-Sources/config_parameter \
-Sources/RLS_app \
-Sources/LIN_app \
-Sources/LIN_Stack/transport \
-Sources/LIN_Stack/lowlevel \
-Sources/LIN_Stack/diagnostic \
-Sources/LIN_Stack/coreapi \
-Sources/LIN_Stack/bsp/UART \
+Sources/Transport/lin_transport \
+Sources/Transport/lin_cfg \
+Sources/Transport/Local_eep_data \
+Sources/Transport/LIN_app \
+Sources/Driver/watchdog \
+Sources/Driver/rtc \
+Sources/Driver/pmc \
+Sources/Driver/gpio \
+Sources/Driver/ftm \
+Sources/Driver/eeprom \
+Sources/Driver/clock \
+Sources/Driver/adc \
+Sources/Driver/SPI \
+Sources/Driver/LIN_Stack/lowlevel \
+Sources/Driver/LIN_Stack/coreapi \
+Sources/Driver/LIN_Stack/bsp/UART \
+Sources/Driver/IIC \
+Sources/Application \
+Sources/Application/humid_app \
+Sources/Application/RLS_app \
+Sources/Application/Diagnostic \
+Sources/Application/Config_parameters \
+Sources/Application/Auto_wiper \
+Sources/Application/Auto_light \
+Sources/Application/Auto_humid \
+Sources/Application/Auto_fog \
+Sources/Application/Auto_air \
 Project_Settings/Startup_Code \
 

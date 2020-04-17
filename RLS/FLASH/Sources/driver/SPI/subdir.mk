@@ -6,33 +6,33 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS_QUOTED += \
-"../Sources/driver/SPI/spi.c" \
+"../Sources/Driver/SPI/spi.c" \
 
 C_SRCS += \
-../Sources/driver/SPI/spi.c \
+../Sources/Driver/SPI/spi.c \
 
 OBJS += \
-./Sources/driver/SPI/spi.o \
+./Sources/Driver/SPI/spi.o \
 
 OBJS_QUOTED += \
-"./Sources/driver/SPI/spi.o" \
+"./Sources/Driver/SPI/spi.o" \
 
 C_DEPS += \
-./Sources/driver/SPI/spi.d \
+./Sources/Driver/SPI/spi.d \
 
 OBJS_OS_FORMAT += \
-./Sources/driver/SPI/spi.o \
+./Sources/Driver/SPI/spi.o \
 
 C_DEPS_QUOTED += \
-"./Sources/driver/SPI/spi.d" \
+"./Sources/Driver/SPI/spi.d" \
 
 
 # Each subdirectory must supply rules for building sources it contributes
-Sources/driver/SPI/spi.o: ../Sources/driver/SPI/spi.c
+Sources/Driver/SPI/spi.o: ../Sources/Driver/SPI/spi.c
 	@echo 'Building file: $<'
-	@echo 'Executing target #12 $<'
+	@echo 'Executing target #16 $<'
 	@echo 'Invoking: ARM Ltd Windows GCC C Compiler'
-	"$(ARMSourceryDirEnv)/arm-none-eabi-gcc" "$<" @"Sources/driver/SPI/spi.args" -MMD -MP -MF"$(@:%.o=%.d)" -o"Sources/driver/SPI/spi.o"
+	"$(ARMSourceryDirEnv)/arm-none-eabi-gcc" "$<" @"Sources/Driver/SPI/spi.args" -MMD -MP -MF"$(@:%.o=%.d)" -o"Sources/Driver/SPI/spi.o"
 	@echo 'Finished building: $<'
 	@echo ' '
 

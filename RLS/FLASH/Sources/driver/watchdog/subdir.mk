@@ -6,33 +6,33 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS_QUOTED += \
-"../Sources/driver/watchdog/watchdog.c" \
+"../Sources/Driver/watchdog/watchdog.c" \
 
 C_SRCS += \
-../Sources/driver/watchdog/watchdog.c \
+../Sources/Driver/watchdog/watchdog.c \
 
 OBJS += \
-./Sources/driver/watchdog/watchdog.o \
+./Sources/Driver/watchdog/watchdog.o \
 
 OBJS_QUOTED += \
-"./Sources/driver/watchdog/watchdog.o" \
+"./Sources/Driver/watchdog/watchdog.o" \
 
 C_DEPS += \
-./Sources/driver/watchdog/watchdog.d \
+./Sources/Driver/watchdog/watchdog.d \
 
 OBJS_OS_FORMAT += \
-./Sources/driver/watchdog/watchdog.o \
+./Sources/Driver/watchdog/watchdog.o \
 
 C_DEPS_QUOTED += \
-"./Sources/driver/watchdog/watchdog.d" \
+"./Sources/Driver/watchdog/watchdog.d" \
 
 
 # Each subdirectory must supply rules for building sources it contributes
-Sources/driver/watchdog/watchdog.o: ../Sources/driver/watchdog/watchdog.c
+Sources/Driver/watchdog/watchdog.o: ../Sources/Driver/watchdog/watchdog.c
 	@echo 'Building file: $<'
-	@echo 'Executing target #4 $<'
+	@echo 'Executing target #8 $<'
 	@echo 'Invoking: ARM Ltd Windows GCC C Compiler'
-	"$(ARMSourceryDirEnv)/arm-none-eabi-gcc" "$<" @"Sources/driver/watchdog/watchdog.args" -MMD -MP -MF"$(@:%.o=%.d)" -o"Sources/driver/watchdog/watchdog.o"
+	"$(ARMSourceryDirEnv)/arm-none-eabi-gcc" "$<" @"Sources/Driver/watchdog/watchdog.args" -MMD -MP -MF"$(@:%.o=%.d)" -o"Sources/Driver/watchdog/watchdog.o"
 	@echo 'Finished building: $<'
 	@echo ' '
 
