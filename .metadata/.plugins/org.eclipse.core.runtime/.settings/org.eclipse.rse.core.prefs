@@ -1,0 +1,4 @@
+activeuserprofiles=Team;ae-bk-067;xj-PC
+eclipse.preferences.version=1
+org.eclipse.rse.systemtype.local.systemType.defaultUserId=xj
+useridperkey=xj-PC.RLS_FLASH_PnE U-MultiLink Target\=xj;xj-PC.RLS_FLASH_OSJTAG\=xj;xj-PC.RLS_FLASH_OSJTAG Target\=xj;xj-PC.RLS_FLASH_Segger J-Link_Trace Target\=xj;xj-PC.Local\=xj;xj-PC.RLS_FLASH_PnE Cyclone MAX\=xj;xj-PC.RLS_FLASH_PnE U-MultiLink\=xj;xj-PC.RLS_FLASH_PnE Cyclone MAX Target\=xj;xj-PC.RLS_FLASH_Segger J-Link_Trace\=xj;

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Move &apos;Demo_Cluster2.ldf&apos; to &apos;RLS&apos;" description="Move &apos;Demo_Cluster2.ldf&apos; to &apos;RLS&apos;" destination="/RLS" element1="/SG32_SlaveA/lin_cfg/Demo_Cluster2.ldf" flags="7" id="org.eclipse.ltk.core.refactoring.move.resources" resources="1" stamp="1527502138017" updateReferences="true"/>
+</session>

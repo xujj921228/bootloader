@@ -1,0 +1,139 @@
+/*---------GLOBAL DEFINITIONS-----------*/
+LIN_description_file;
+LIN_protocol_version             = "2.1";
+LIN_language_version             = "2.1";
+LIN_speed                        = 19.2 kbps;
+/* ----------NODE DEFINITIONS---------- */
+Nodes {
+   Master:
+      BCM,                                                   /* Master node name */
+      5.0 ms,                                                /* Time base */
+      0.1 ms;                                                /* Jitter */
+   Slaves:
+      RLS;
+}
+/* ----------SIGNAL DEFINITIONS---------- */
+Signals {
+   /* Signal_name                : Size,       Init,            Publisher, Subscriber(s) */
+   BCM_WiperPosition             :  1,        0x0,                  BCM, RLS;
+   BCM_Washer                    :  1,        0x0,                  BCM, RLS;
+   BCM_Amb_LV                    :  2,        0x0,                  BCM, RLS;
+   BCM_RainSensitivity           :  3,        0x0,                  BCM, RLS;
+   BCM_VehicleSpeed              :  8,        0x0,                  BCM, RLS;
+   RLS_ContinuteReq              :  1,        0x0,                  RLS, BCM;
+   RLS_DiagnnosticReq            :  1,        0x0,                  RLS, BCM;
+   RLS_AppResetStatus            :  1,        0x0,                  RLS, BCM;
+   RLS_AppConfigurationStatus    :  1,        0x0,                  RLS, BCM;
+   RLS_AppStatus                 :  1,        0x0,                  RLS, BCM;
+   RLS_LinCommunicationAtatus    :  3,        0x0,                  RLS, BCM;
+   RLS_WiperRequest              :  2,        0x0,                  RLS, BCM;
+   RLS_Amb_LV                    :  2,        0x0,                  RLS, BCM;
+   RLS_RainSensorError           :  1,        0x0,                  RLS, BCM;
+   RLS_LightSensorInstalled      :  1,        0x0,                  RLS, BCM;
+   RLS_LightSensorError          :  1,        0x0,                  RLS, BCM;
+   RLS_HumiditySensorInstalled   :  1,        0x0,                  RLS, BCM;
+}
+/* ----------DIAGNOSTIC SIGNAL DEFINITIONS---------- */
+Diagnostic_signals {
+   /* MasterReq Reserved Signals */
+   MasterReqB0         :    8,   0;
+   MasterReqB1         :    8,   0;
+   MasterReqB2         :    8,   0;
+   MasterReqB3         :    8,   0;
+   MasterReqB4         :    8,   0;
+   MasterReqB5         :    8,   0;
+   MasterReqB6         :    8,   0;
+   MasterReqB7         :    8,   0;
+   /* SlaveResp Reserved Signals */
+   SlaveRespB0         :    8,   0;
+   SlaveRespB1         :    8,   0;
+   SlaveRespB2         :    8,   0;
+   SlaveRespB3         :    8,   0;
+   SlaveRespB4         :    8,   0;
+   SlaveRespB5         :    8,   0;
+   SlaveRespB6         :    8,   0;
+   SlaveRespB7         :    8,   0;
+}
+/* ----------UNCONDITIONAL FRAME DEFINITIONS---------- */
+Frames {
+   RLS_01              : 0x20, RLS                 ,    8 {
+      RLS_ContinuteReq    , 0;
+      RLS_DiagnnosticReq  , 2;
+      RLS_AppResetStatus  , 3;
+      RLS_AppConfigurationStatus, 4;
+      RLS_AppStatus       , 5;
+      RLS_LinCommunicationAtatus, 6;
+      RLS_WiperRequest    , 8;
+      RLS_Amb_LV          , 16;
+      RLS_RainSensorError , 32;
+   }
+   RLS_02              : 0x21, RLS                 ,    8 {
+      RLS_LightSensorInstalled, 0;
+      RLS_LightSensorError, 8;
+   }
+}
+/* ----------DIAGNOSTIC FRAME DEFINITIONS---------- */
+Diagnostic_frames {
+   MasterReq           : 0x3c {
+      MasterReqB0         , 0;
+      MasterReqB1         , 8;
+      MasterReqB2         , 16;
+      MasterReqB3         , 24;
+      MasterReqB4         , 32;
+      MasterReqB5         , 40;
+      MasterReqB6         , 48;
+      MasterReqB7         , 56;
+   }
+   SlaveResp           : 0x3d {
+      SlaveRespB0         , 0;
+      SlaveRespB1         , 8;
+      SlaveRespB2         , 16;
+      SlaveRespB3         , 24;
+      SlaveRespB4         , 32;
+      SlaveRespB5         , 40;
+      SlaveRespB6         , 48;
+      SlaveRespB7         , 56;
+   }
+}
+/* ----------NODE ATTRIBUTE DEFINITIONS---------- */
+Node_attributes {
+   RLS {
+      LIN_protocol               = "2.1";                    /* Node protocol version */
+      configured_NAD             = 0x22;                     /* configured NAD of node (1-125) */
+      initial_NAD                = 0x22;                     /* initial NAD of node (1-125) */
+      product_id                 =   0x66,    0x0,   0xff;   /* Product id */
+      response_error             = RLS_DiagnnosticReq;       /* Response error signal */
+      P2_min                     = 50 ms;                    /* P2_min */
+      ST_min                     = 10 ms;                    /* ST_min */
+      N_As_timeout               = 1000 ms;                  /* N_As timeout value */
+      N_Cr_timeout               = 1000 ms;                  /* N_Cr timeout value */
+      configurable_frames {
+         RLS_01;
+         RLS_02;
+      }
+   }
+}
+/* ----------SCHEDULE TABLE DEFINITIONS---------- */
+Schedule_tables {
+   NormalTable {
+      RLS_01                              delay 25.0 ms;
+      RLS_02                              delay 10.0 ms;
+   }
+   DiagReqNormalTable {
+      MasterReq                           delay 10.0 ms;
+      RLS_01                              delay 25.0 ms;
+      RLS_02                              delay 10.0 ms;
+   }
+   DiagRespNormalTable {
+      SlaveResp                           delay 10.0 ms;
+      RLS_01                              delay 25.0 ms;
+      RLS_02                              delay 10.0 ms;
+   }
+   DiagReqOnly {
+      MasterReq                           delay 10.0 ms;
+   }
+   DiagRespOnly {
+      SlaveResp                           delay 10.0 ms;
+   }
+}
+

@@ -1,0 +1,10 @@
+18:07:13 **** Clean-only build of configuration FLASH for project SG32_SlaveA ****
+make clean 
+Cannot run program "make": Launching failed
+
+Error: Program "make" not found in PATH
+PATH=[C:/Program Files/Java/jre1.8.0_121/bin/client;C:/Program Files/Java/jre1.8.0_121/bin;C:/Program Files/Java/jre1.8.0_121/lib/i386;C:\ProgramData\Oracle\Java\javapath;C:\Program Files\Broadcom\Broadcom 802.11 Network Adapter\Driver;;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\WIDCOMM\Bluetooth Software\;C:\Program Files\NVIDIA Corporation\PhysX\Common;C:\Program Files\Flash Magic;C:\ProgramData\Oracle\Java\javapath;C:\Program Files\Broadcom\Broadcom 802.11 Network Adapter\Driver;;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\WIDCOMM\Bluetooth Software\;C:\Program Files\NVIDIA Corporation\PhysX\Common;C:\Program Files\Flash Magic;C:\PROGRA~1\FLASHM~1;E:\BAOLONG\SENSOR\MLX\°²×°Èí¼þ\eclipse-cpp-neon-R-win32\eclipse;]
+
+**** Build of configuration FLASH for project SG32_SlaveA ****
+
+Nothing to build for project SG32_SlaveA

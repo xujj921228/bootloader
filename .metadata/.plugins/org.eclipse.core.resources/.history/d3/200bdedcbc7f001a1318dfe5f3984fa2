@@ -1,0 +1,157 @@
+/*---------GLOBAL DEFINITIONS-----------*/
+LIN_description_file;
+LIN_protocol_version             = "2.1";
+LIN_language_version             = "2.1";
+LIN_speed                        = 19.2 kbps;
+/* ----------NODE DEFINITIONS---------- */
+Nodes {
+   Master:
+      BCM,                                                   /* Master node name */
+      5.0 ms,                                                /* Time base */
+      0.1 ms;                                                /* Jitter */
+   Slaves:
+      RLS;
+}
+/* ----------SIGNAL DEFINITIONS---------- */
+Signals {
+   /* Signal_name                : Size,       Init,            Publisher, Subscriber(s) */
+   BCM_WiperPosition             :  1,        0x0,                  BCM, RLS;
+   BCM_WiperSwitch               :  3,        0x0,                  BCM, RLS;
+   BCM_Washer                    :  1,        0x0,                  BCM, RLS;
+   BCM_WindowStatus              :  1,        0x0,                  BCM, RLS;
+   BCM_Ignition                  :  1,        0x0,                  BCM, RLS;
+   BCM_RainSensitivity           :  3,        0x0,                  BCM, RLS;
+   BCM_VehicleSpeed              : 16,        0x0,                  BCM, RLS;
+   BCM_Transmision550nm          :  8,        0x0,                  BCM, RLS;
+   BCM_Transmision880nm          :  8,        0x0,                  BCM, RLS;
+   RLS_WiperRequest              :  2,        0x0,                  RLS, BCM;
+   RLS_RainSensorError           :  1,        0x0,                  RLS, BCM;
+   RLS_WindowCloseReq            :  1,        0x0,                  RLS, BCM;
+   RLS_LightSensorError          :  1,        0x0,                  RLS, BCM;
+   RLS_LightRequest              :  1,        0x0,                  RLS, BCM;
+   RLS_VotalgeError              :  2,        0x0,                  RLS, BCM;
+   RLS_ResponseError             :  1,        0x0,                  RLS, BCM;
+   RLS_FW_value                  : 12,        0x0,                  RLS, BCM;
+   RLS_Amb_value                 : 12,        0x0,                  RLS, BCM;
+   RLS_Solar_Right               :  8,       0xfe,                  RLS, BCM;
+   RLS_Solar_Left                :  8,       0xfe,                  RLS, BCM;
+}
+/* ----------DIAGNOSTIC SIGNAL DEFINITIONS---------- */
+Diagnostic_signals {
+   /* MasterReq Reserved Signals */
+   MasterReqB0         :    8,   0;
+   MasterReqB1         :    8,   0;
+   MasterReqB2         :    8,   0;
+   MasterReqB3         :    8,   0;
+   MasterReqB4         :    8,   0;
+   MasterReqB5         :    8,   0;
+   MasterReqB6         :    8,   0;
+   MasterReqB7         :    8,   0;
+   /* SlaveResp Reserved Signals */
+   SlaveRespB0         :    8,   0;
+   SlaveRespB1         :    8,   0;
+   SlaveRespB2         :    8,   0;
+   SlaveRespB3         :    8,   0;
+   SlaveRespB4         :    8,   0;
+   SlaveRespB5         :    8,   0;
+   SlaveRespB6         :    8,   0;
+   SlaveRespB7         :    8,   0;
+}
+/* ----------UNCONDITIONAL FRAME DEFINITIONS---------- */
+Frames {
+   BCM_01              : 0x10, BCM                 ,    8 {
+      BCM_WiperPosition   , 0;
+      BCM_WiperSwitch     , 1;
+      BCM_Washer          , 4;
+      BCM_WindowStatus    , 5;
+      BCM_Ignition        , 6;
+      BCM_RainSensitivity , 8;
+      BCM_VehicleSpeed    , 16;
+      BCM_Transmision550nm, 32;
+      BCM_Transmision880nm, 40;
+   }
+   RLS_01              : 0x1e, RLS                 ,    8 {
+      RLS_WiperRequest    , 0;
+      RLS_RainSensorError , 2;
+      RLS_WindowCloseReq  , 3;
+      RLS_LightSensorError, 4;
+      RLS_LightRequest    , 5;
+      RLS_VotalgeError    , 6;
+      RLS_ResponseError   , 8;
+      RLS_FW_value        , 16;
+      RLS_Amb_value       , 32;
+   }
+   RLS_02              : 0x21, RLS                 ,    8 {
+      RLS_Solar_Right     , 0;
+      RLS_Solar_Left      , 8;
+   }
+}
+/* ----------DIAGNOSTIC FRAME DEFINITIONS---------- */
+Diagnostic_frames {
+   MasterReq           : 0x3c {
+      MasterReqB0         , 0;
+      MasterReqB1         , 8;
+      MasterReqB2         , 16;
+      MasterReqB3         , 24;
+      MasterReqB4         , 32;
+      MasterReqB5         , 40;
+      MasterReqB6         , 48;
+      MasterReqB7         , 56;
+   }
+   SlaveResp           : 0x3d {
+      SlaveRespB0         , 0;
+      SlaveRespB1         , 8;
+      SlaveRespB2         , 16;
+      SlaveRespB3         , 24;
+      SlaveRespB4         , 32;
+      SlaveRespB5         , 40;
+      SlaveRespB6         , 48;
+      SlaveRespB7         , 56;
+   }
+}
+/* ----------NODE ATTRIBUTE DEFINITIONS---------- */
+Node_attributes {
+   RLS {
+      LIN_protocol               = "2.1";                    /* Node protocol version */
+      configured_NAD             = 0x22;                     /* configured NAD of node (1-125) */
+      initial_NAD                = 0x22;                     /* initial NAD of node (1-125) */
+      product_id                 =   0x66,    0x0,   0xff;   /* Product id */
+      response_error             = RLS_ResponseError;        /* Response error signal */
+      P2_min                     = 50 ms;                    /* P2_min */
+      ST_min                     = 10 ms;                    /* ST_min */
+      N_As_timeout               = 1000 ms;                  /* N_As timeout value */
+      N_Cr_timeout               = 1000 ms;                  /* N_Cr timeout value */
+      configurable_frames {
+         BCM_01;
+         RLS_01;
+         RLS_02;
+      }
+   }
+}
+/* ----------SCHEDULE TABLE DEFINITIONS---------- */
+Schedule_tables {
+   NormalTable {
+      BCM_01                              delay 10.0 ms;
+      RLS_01                              delay 25.0 ms;
+      RLS_02                              delay 10.0 ms;
+   }
+   DiagReqNormalTable {
+      MasterReq                           delay 10.0 ms;
+      BCM_01                              delay 10.0 ms;
+      RLS_01                              delay 25.0 ms;
+      RLS_02                              delay 10.0 ms;
+   }
+   DiagRespNormalTable {
+      SlaveResp                           delay 10.0 ms;
+      BCM_01                              delay 10.0 ms;
+      RLS_01                              delay 25.0 ms;
+      RLS_02                              delay 10.0 ms;
+   }
+   DiagReqOnly {
+      MasterReq                           delay 10.0 ms;
+   }
+   DiagRespOnly {
+      SlaveResp                           delay 10.0 ms;
+   }
+}
+
