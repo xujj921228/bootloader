@@ -159,40 +159,27 @@ tLight_Stastegy_Config const  Light_Stastegy_Parameter[1] =
 void Globle_parameter_Init(void)
 {
 	uint8 temp_data[1],i;
-        Get_All_data_From_EEPROM();
-	if(local_info.Brightness_Light_Percentage == 0xFF) 
-	{
-            local_info.Brightness_Light_Percentage = 100;
-	}
-	
-	if(local_info.Brightness_Infrared_Percentage == 0xFF) 
-	{
-            local_info.Brightness_Infrared_Percentage = 100;
-	}
+	 
+ 	Get_All_data_From_EEPROM();
+ 	while(local_info.mark != FMARK)
+ 	{
+ 		local_info.NUMBER0 = 0xF185;                         //0.1.2
+ 		local_info.NUMBER1 = xF186;                         //3.4.5
+ 		local_info.NUMBER2 = xF187;                        //6.7.8
+ 		local_info.NUMBER3 = xF188;                        //9.10.11
+ 		local_info.Brightness_Light_Percentage = 100;;         //12
+ 		local_info.Brightness_Infrared_Percentage = 100;      //13
+ 		local_info.A_DAC_EEPdtata = Mlx75308_Config_Parameter[0].dac_a_default;                     //14
+ 		local_info.B_DAC_EEPdtata = Mlx75308_Config_Parameter[0].dac_b_default;                      //15
+ 		local_info.A_RAIN_ADC_EEPdtata;                //16.17
+ 		local_info.B_RAIN_ADC_EEPdtata;                //18.19
+ 		local_info.EEPmark;                            //20.21
+ 		
+ 		Set_Data_To_EEPROM(EEPROM_SERIAL_NUMBER0_ADDR,local_info.array,LOCAL_SIZE);
+ 		Get_All_data_From_EEPROM();
+ 	}
 	
 	/**************Set ProType and Param****************************/
-	   
-   
-	if(local_info.A_DAC_EEPdtata == 0xFF)
-	{
-		MLX75308_A_Adc = Mlx75308_Config_Parameter[0].dac_a_default;
-	}
-	
-	else
-	{
-		MLX75308_A_Adc = local_info.A_DAC_EEPdtata;
-	}
-   
-	if(local_info.B_DAC_EEPdtata == 0xFF)
-	{
-		MLX75308_B_Adc = Mlx75308_Config_Parameter[0].dac_b_default ;
-	}
-	
-	else
-	{
-		MLX75308_B_Adc = local_info.B_DAC_EEPdtata;
-	}
-  
 	    	
 	for (i = 0;i < LIGHT_TYPE ; i++)
 	{
@@ -201,11 +188,11 @@ void Globle_parameter_Init(void)
 	}
 			
 	u8_light_on_req = 0;     
-	l_bool_wr_LI0_RLS_LightRequest(u8_light_on_req);
+	//l_bool_wr_LI0_RLS_LightRequest(u8_light_on_req);
 	
 	l_bool_wr_LI0_RLS_RainSensorError(0);
 	l_bool_wr_LI0_RLS_LightSensorError(0);
-	l_u8_wr_LI0_RLS_VotalgeError(0);
+	//l_u8_wr_LI0_RLS_VotalgeError(0);
 	
 	Lin_BCM_Frame.BCM_WiperSwitch = 4;
 	u8_Wipe_Automatic_On_Pre = 1;

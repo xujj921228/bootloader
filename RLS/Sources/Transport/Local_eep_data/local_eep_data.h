@@ -12,7 +12,8 @@
 #include "config_parameter.h"
 #include "eeprom.h"
 
-#define LOCAL_SIZE 20
+#define EEPromMark 0x5aa5
+#define LOCAL_SIZE 22
 typedef union
 {   
  struct
@@ -27,6 +28,7 @@ typedef union
         uint8 B_DAC_EEPdtata;                      //15
         uint16 A_RAIN_ADC_EEPdtata;                //16.17
         uint16 B_RAIN_ADC_EEPdtata;                //18.19
+        uint16 EEPmark;                            //20.21
  };
   uint8 array[LOCAL_SIZE];
 }local_info_t;
