@@ -13,16 +13,16 @@
 		<item value="false" key="isRegEx"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wholeword"/>
-		<item value="u8_RLS_WindowCloseReq" key="selection"/>
+		<item value="l_bool_wr_LI0" key="selection"/>
 		<list key="findhistory">
-			<item value="u8_RLS_WindowCloseReq"/>
+			<item value="l_bool_wr_LI0"/>
+			<item value="Light"/>
 			<item value="err"/>
+			<item value="u8_RLS_WindowCloseReq"/>
 			<item value="BCM_Washer"/>
 			<item value="high"/>
 			<item value="park_high_meas_timer1"/>
 			<item value="temp"/>
-			<item value="u8_Rain_Flg"/>
-			<item value="u8_Wiper_StatePre_Int"/>
 		</list>
 		<list key="replacehistory">
 		</list>

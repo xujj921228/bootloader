@@ -30,7 +30,7 @@ C_DEPS_QUOTED += \
 # Each subdirectory must supply rules for building sources it contributes
 Sources/Driver/SPI/spi.o: ../Sources/Driver/SPI/spi.c
 	@echo 'Building file: $<'
-	@echo 'Executing target #16 $<'
+	@echo 'Executing target #17 $<'
 	@echo 'Invoking: ARM Ltd Windows GCC C Compiler'
 	"$(ARMSourceryDirEnv)/arm-none-eabi-gcc" "$<" @"Sources/Driver/SPI/spi.args" -MMD -MP -MF"$(@:%.o=%.d)" -o"Sources/Driver/SPI/spi.o"
 	@echo 'Finished building: $<'

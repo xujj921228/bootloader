@@ -67,6 +67,7 @@ C_DEPS_QUOTED :=
 SUBDIRS := \
 Sources/Transport/lin_transport \
 Sources/Transport/lin_cfg \
+Sources/Transport/MLX75308 \
 Sources/Transport/Local_eep_data \
 Sources/Transport/LIN_app \
 Sources/Driver/watchdog \
@@ -87,6 +88,7 @@ Sources/Application/humid_app \
 Sources/Application/RLS_app \
 Sources/Application/Diagnostic \
 Sources/Application/Config_parameters \
+Sources/Application/Battery \
 Sources/Application/Auto_wiper \
 Sources/Application/Auto_light \
 Sources/Application/Auto_humid \

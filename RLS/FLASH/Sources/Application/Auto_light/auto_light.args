@@ -5,6 +5,8 @@
 -gdwarf-2
 -gstrict-dwarf
 -I"C:/Users/Administrator/Desktop/QY120091-04-000PR-V1.0/RLS/Sources/Application"
+-I"C:/Users/Administrator/Desktop/QY120091-04-000PR-V1.0/RLS/Sources/Application/Battery"
+-I"C:/Users/Administrator/Desktop/QY120091-04-000PR-V1.0/RLS/Sources/Transport/MLX75308"
 -I"C:/Users/Administrator/Desktop/QY120091-04-000PR-V1.0/RLS/Sources/Application/Auto_air"
 -I"C:/Users/Administrator/Desktop/QY120091-04-000PR-V1.0/RLS/Sources/Application/Auto_fog"
 -I"C:/Users/Administrator/Desktop/QY120091-04-000PR-V1.0/RLS/Sources/Application/Auto_humid"

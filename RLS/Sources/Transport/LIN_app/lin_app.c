@@ -20,6 +20,7 @@
 #include "ftm.h"
 #include "spi.h"
 #include "humid.h"
+#include "battery.h"
 
 uint8 u8_MsgCounter;
 uint8 Lin_Busy_Flag;
@@ -86,7 +87,7 @@ void message_cnt(void)
 void RLS_Analysis_Master_Data(void)
 { 	
 	
-	Lin_BCM_Frame.BCM_WiperPosition =  l_bool_rd_LI0_BCM_WiperPosition();
+	/*Lin_BCM_Frame.BCM_WiperPosition =  l_bool_rd_LI0_BCM_WiperPosition();
 	Lin_BCM_Frame.BCM_WiperSwitch = l_u8_rd_LI0_BCM_WiperSwitch();
 	Lin_BCM_Frame.BCM_Washer = l_bool_rd_LI0_BCM_Washer();
 	Lin_BCM_Frame.BCM_WindowStatus = l_bool_rd_LI0_BCM_WindowStatus();
@@ -94,7 +95,7 @@ void RLS_Analysis_Master_Data(void)
 	Lin_BCM_Frame.BCM_RainSensitivity =  l_u8_rd_LI0_BCM_RainSensitivity();
 	Lin_BCM_Frame.BCM_Transmision550nm = l_u8_rd_LI0_BCM_Transmision550nm();
 	Lin_BCM_Frame.BCM_Transmision880nm = l_u8_rd_LI0_BCM_Transmision880nm();
-	Lin_BCM_Frame.BCM_VehicleSpeed = l_u16_rd_LI0_BCM_VehicleSpeed();
+	Lin_BCM_Frame.BCM_VehicleSpeed = l_u16_rd_LI0_BCM_VehicleSpeed();*/
 	
 	u16_SPD_Vehicle =  Lin_BCM_Frame.BCM_VehicleSpeed /100 ;
 	
@@ -133,7 +134,7 @@ void Lin_RLS_data(void)
 		u8_WiperSpeed = 0;
 	}
 	
-	l_u8_wr_LI0_RLS_WiperRequest(u8_WiperSpeed);
+	/*l_u8_wr_LI0_RLS_WiperRequest(u8_WiperSpeed);
 	l_bool_wr_LI0_RLS_RainSensorError(0);
 	l_bool_wr_LI0_RLS_WindowCloseReq(u8_RLS_WindowCloseReq);
 	l_bool_wr_LI0_RLS_LightSensorError(0);
@@ -144,7 +145,7 @@ void Lin_RLS_data(void)
 	l_u16_wr_LI0_RLS_Amb_value(u16_Brightness_UP);
 	
 	l_u8_wr_LI0_RLS_Solar_Left(u8_Solar_l_value);
-	l_u8_wr_LI0_RLS_Solar_Right(u8_Solar_r_value);
+	l_u8_wr_LI0_RLS_Solar_Right(u8_Solar_r_value);*/
 	
 }
 

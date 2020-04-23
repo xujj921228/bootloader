@@ -22,7 +22,17 @@
 #include "lin_hw_cfg.h"
 #include "config_parameter.h"
 
-extern bool_t  Timer_10ms;
+
+extern uint8  Timer_50ms;
+extern uint8  Timer_100ms;
+extern uint8  Timer_500ms;
+
+extern uint8  Timer_10ms_flag;
+extern uint8  Timer_50ms_flag;
+extern uint8  Timer_100ms_flag;
+extern uint8  Timer_500ms_flag;
+extern uint8  Timer_4s;
+extern uint8  Timer_600ms;
 
 void FTM0_Init(void)
 {
@@ -58,7 +68,27 @@ void FTM0_IRQHandler()   //10ms
         FTM0_C0V += ((MCU_BUS_FREQ  / 1000000.0) * (TIME_BASE_PERIOD_10ms / 128.0));
         /* Call Timer interrupt handler function */
     
-        Timer_10ms = TRUE;
-            
+
+        Timer_10ms_flag = 1;
+        Timer_50ms++;
+        Timer_100ms++;
+        Timer_500ms++;
+
+        if(Timer_50ms >= 5) //   50ms Task
+        {
+              Timer_50ms = 0;
+              Timer_50ms_flag = 1;
+        } 
+        if(Timer_100ms >= 10)  //   100ms Task
+        {
+                Timer_100ms = 0;  
+                Timer_100ms_flag = 1;
+        }
+        if(Timer_500ms >= 50) //   500ms  Task
+        {
+               Timer_500ms = 0;
+               Timer_500ms_flag = 1;
+        }
+
     }
 }

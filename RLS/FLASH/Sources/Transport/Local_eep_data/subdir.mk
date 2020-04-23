@@ -30,7 +30,7 @@ C_DEPS_QUOTED += \
 # Each subdirectory must supply rules for building sources it contributes
 Sources/Transport/Local_eep_data/local_eep_data.o: ../Sources/Transport/Local_eep_data/local_eep_data.c
 	@echo 'Building file: $<'
-	@echo 'Executing target #6 $<'
+	@echo 'Executing target #7 $<'
 	@echo 'Invoking: ARM Ltd Windows GCC C Compiler'
 	"$(ARMSourceryDirEnv)/arm-none-eabi-gcc" "$<" @"Sources/Transport/Local_eep_data/local_eep_data.args" -MMD -MP -MF"$(@:%.o=%.d)" -o"Sources/Transport/Local_eep_data/local_eep_data.o"
 	@echo 'Finished building: $<'

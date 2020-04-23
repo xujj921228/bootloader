@@ -30,7 +30,7 @@ C_DEPS_QUOTED += \
 # Each subdirectory must supply rules for building sources it contributes
 Sources/Transport/LIN_app/lin_app.o: ../Sources/Transport/LIN_app/lin_app.c
 	@echo 'Building file: $<'
-	@echo 'Executing target #7 $<'
+	@echo 'Executing target #8 $<'
 	@echo 'Invoking: ARM Ltd Windows GCC C Compiler'
 	"$(ARMSourceryDirEnv)/arm-none-eabi-gcc" "$<" @"Sources/Transport/LIN_app/lin_app.args" -MMD -MP -MF"$(@:%.o=%.d)" -o"Sources/Transport/LIN_app/lin_app.o"
 	@echo 'Finished building: $<'

@@ -22,6 +22,27 @@
 
 #include "derivative.h" /* include peripheral declarations */
 
+#define MEAS_NUM 3
+
+#define   AVG_N  2
+
+#define   CHAN_NUM 2
+#define   CHAN_A 0
+#define   CHAN_B 1
+
+typedef enum
+{
+	MAIN_SLEFADAPT = 0,
+	MAIN_NORMAL = 1,
+	MAIN_SLEEP_Mode
+}Main_Fsm_t;
+
+typedef enum
+{
+	Roof_RAIN_CHECK = 0,
+	Roof_Wake_Up = 1,
+	Roof_CLOSED_WINDOWS
+}Auto_Roof_FSM_t;
 
  typedef enum
  {

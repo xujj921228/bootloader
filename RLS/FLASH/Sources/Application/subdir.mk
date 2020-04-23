@@ -30,7 +30,7 @@ C_DEPS_QUOTED += \
 # Each subdirectory must supply rules for building sources it contributes
 Sources/Application/main.o: ../Sources/Application/main.c
 	@echo 'Building file: $<'
-	@echo 'Executing target #28 $<'
+	@echo 'Executing target #29 $<'
 	@echo 'Invoking: ARM Ltd Windows GCC C Compiler'
 	"$(ARMSourceryDirEnv)/arm-none-eabi-gcc" "$<" @"Sources/Application/main.args" -MMD -MP -MF"$(@:%.o=%.d)" -o"Sources/Application/main.o"
 	@echo 'Finished building: $<'

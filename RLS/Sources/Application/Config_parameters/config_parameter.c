@@ -161,12 +161,12 @@ void Globle_parameter_Init(void)
 	uint8 temp_data[1],i;
 	 
  	Get_All_data_From_EEPROM();
- 	while(local_info.mark != FMARK)
+ 	while(local_info.EEPmark != EEPromMark)
  	{
  		local_info.NUMBER0 = 0xF185;                         //0.1.2
- 		local_info.NUMBER1 = xF186;                         //3.4.5
- 		local_info.NUMBER2 = xF187;                        //6.7.8
- 		local_info.NUMBER3 = xF188;                        //9.10.11
+ 		local_info.NUMBER1 = 0xF186;                         //3.4.5
+ 		local_info.NUMBER2 = 0xF187;                        //6.7.8
+ 		local_info.NUMBER3 = 0xF188;                        //9.10.11
  		local_info.Brightness_Light_Percentage = 100;;         //12
  		local_info.Brightness_Infrared_Percentage = 100;      //13
  		local_info.A_DAC_EEPdtata = Mlx75308_Config_Parameter[0].dac_a_default;                     //14

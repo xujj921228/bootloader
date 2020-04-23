@@ -30,7 +30,7 @@ C_DEPS_QUOTED += \
 # Each subdirectory must supply rules for building sources it contributes
 Sources/Driver/pmc/pmc.o: ../Sources/Driver/pmc/pmc.c
 	@echo 'Building file: $<'
-	@echo 'Executing target #10 $<'
+	@echo 'Executing target #11 $<'
 	@echo 'Invoking: ARM Ltd Windows GCC C Compiler'
 	"$(ARMSourceryDirEnv)/arm-none-eabi-gcc" "$<" @"Sources/Driver/pmc/pmc.args" -MMD -MP -MF"$(@:%.o=%.d)" -o"Sources/Driver/pmc/pmc.o"
 	@echo 'Finished building: $<'

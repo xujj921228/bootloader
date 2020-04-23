@@ -2,7 +2,7 @@
 #define __SPI_H__
 
 #include "derivative.h" /* include peripheral declarations */
-
+#include "config_parameter.h"
 
 /******************************************************************************
 * Macros

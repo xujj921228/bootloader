@@ -30,7 +30,7 @@ C_DEPS_QUOTED += \
 # Each subdirectory must supply rules for building sources it contributes
 Sources/Application/Auto_light/auto_light.o: ../Sources/Application/Auto_light/auto_light.c
 	@echo 'Building file: $<'
-	@echo 'Executing target #34 $<'
+	@echo 'Executing target #36 $<'
 	@echo 'Invoking: ARM Ltd Windows GCC C Compiler'
 	"$(ARMSourceryDirEnv)/arm-none-eabi-gcc" "$<" @"Sources/Application/Auto_light/auto_light.args" -MMD -MP -MF"$(@:%.o=%.d)" -o"Sources/Application/Auto_light/auto_light.o"
 	@echo 'Finished building: $<'

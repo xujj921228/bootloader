@@ -30,7 +30,7 @@ C_DEPS_QUOTED += \
 # Each subdirectory must supply rules for building sources it contributes
 Sources/Driver/gpio/gpio.o: ../Sources/Driver/gpio/gpio.c
 	@echo 'Building file: $<'
-	@echo 'Executing target #11 $<'
+	@echo 'Executing target #12 $<'
 	@echo 'Invoking: ARM Ltd Windows GCC C Compiler'
 	"$(ARMSourceryDirEnv)/arm-none-eabi-gcc" "$<" @"Sources/Driver/gpio/gpio.args" -MMD -MP -MF"$(@:%.o=%.d)" -o"Sources/Driver/gpio/gpio.o"
 	@echo 'Finished building: $<'

@@ -30,7 +30,7 @@ C_DEPS_QUOTED += \
 # Each subdirectory must supply rules for building sources it contributes
 Sources/Driver/rtc/rtc.o: ../Sources/Driver/rtc/rtc.c
 	@echo 'Building file: $<'
-	@echo 'Executing target #9 $<'
+	@echo 'Executing target #10 $<'
 	@echo 'Invoking: ARM Ltd Windows GCC C Compiler'
 	"$(ARMSourceryDirEnv)/arm-none-eabi-gcc" "$<" @"Sources/Driver/rtc/rtc.args" -MMD -MP -MF"$(@:%.o=%.d)" -o"Sources/Driver/rtc/rtc.o"
 	@echo 'Finished building: $<'

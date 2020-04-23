@@ -30,7 +30,7 @@ C_DEPS_QUOTED += \
 # Each subdirectory must supply rules for building sources it contributes
 Sources/Driver/watchdog/watchdog.o: ../Sources/Driver/watchdog/watchdog.c
 	@echo 'Building file: $<'
-	@echo 'Executing target #8 $<'
+	@echo 'Executing target #9 $<'
 	@echo 'Invoking: ARM Ltd Windows GCC C Compiler'
 	"$(ARMSourceryDirEnv)/arm-none-eabi-gcc" "$<" @"Sources/Driver/watchdog/watchdog.args" -MMD -MP -MF"$(@:%.o=%.d)" -o"Sources/Driver/watchdog/watchdog.o"
 	@echo 'Finished building: $<'

@@ -30,7 +30,7 @@ C_DEPS_QUOTED += \
 # Each subdirectory must supply rules for building sources it contributes
 Sources/Driver/adc/adc.o: ../Sources/Driver/adc/adc.c
 	@echo 'Building file: $<'
-	@echo 'Executing target #15 $<'
+	@echo 'Executing target #16 $<'
 	@echo 'Invoking: ARM Ltd Windows GCC C Compiler'
 	"$(ARMSourceryDirEnv)/arm-none-eabi-gcc" "$<" @"Sources/Driver/adc/adc.args" -MMD -MP -MF"$(@:%.o=%.d)" -o"Sources/Driver/adc/adc.o"
 	@echo 'Finished building: $<'

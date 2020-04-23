@@ -30,7 +30,7 @@ C_DEPS_QUOTED += \
 # Each subdirectory must supply rules for building sources it contributes
 Sources/Driver/ftm/ftm.o: ../Sources/Driver/ftm/ftm.c
 	@echo 'Building file: $<'
-	@echo 'Executing target #12 $<'
+	@echo 'Executing target #13 $<'
 	@echo 'Invoking: ARM Ltd Windows GCC C Compiler'
 	"$(ARMSourceryDirEnv)/arm-none-eabi-gcc" "$<" @"Sources/Driver/ftm/ftm.args" -MMD -MP -MF"$(@:%.o=%.d)" -o"Sources/Driver/ftm/ftm.o"
 	@echo 'Finished building: $<'

@@ -16,33 +16,40 @@
 #include "pmc.h"
 #include "rtc.h"
 #include "watchdog.h"
-#include "rls_app.h"
 #include "lin_app.h"
 #include "iic.h"
 #include "humid.h"
 
 
 /************gloable  var*****************/
-bool_t  Timer_10ms;
 uint8  Timer_50ms;
 uint8  Timer_100ms;
 uint8  Timer_500ms;
 uint8  Timer_600ms;
 uint8  Timer_4s;
 uint32  Timer_6h;
+
+uint8  Timer_10ms_flag;
+uint8  Timer_50ms_flag;
+uint8  Timer_100ms_flag;
+uint8  Timer_500ms_flag;
+
+
 Main_Fsm_t  RLS_RunMode;
 /*****************************************
  * Gloable_Var_Init
  * ***************************************/
 void Gloable_Var_Init(void)
 {
-        Timer_10ms = TRUE;
-	Timer_50ms = 0;
-	Timer_100ms = 0;
-        Timer_500ms = 0;
-        Timer_600ms = 0;
-        Timer_4s = 0;
-        RLS_RunMode = MAIN_SLEFADAPT;
+    Timer_50ms = 0;
+    Timer_100ms = 0;
+    Timer_500ms = 0;
+    Timer_600ms = 0;
+    Timer_4s = 0;
+    Timer_10ms_flag = 0;
+    Timer_50ms_flag = 0;
+    Timer_100ms_flag = 0;
+    Timer_500ms_flag = 0;
 }
 /***********************************************************************************************
 *
@@ -73,6 +80,7 @@ void main(void)
 	for(;;) 
 	{			
 		WDOG_Feed();
+                
 		/***********here check for sleep*************************************************************************************************
 		 * ************************************************************************************************************************
 		 * ************************************************************************************************************************
@@ -102,44 +110,37 @@ void main(void)
 		  case MAIN_NORMAL:
 		  {    
 		    Timer_6h = 0;
-			if( Timer_10ms == TRUE)//   10ms Task
-			{
-			  Timer_10ms = FALSE;
-			  Timer_50ms++;
-			  lin_diagservice_session_state();
-
-			  if(Timer_50ms >= 5) //   50ms Task
-			  {
-				Timer_50ms = 0;
-				Timer_100ms++;
-				RLS_Auto_Rain_Task();					
-				if(Timer_100ms >= 2)  //   100ms Task
-				{
-					Timer_100ms = 0;  
-					Timer_500ms++;
-					
-					RLS_Battery_State();
-					RLS_Auto_Light_Task();
-					RLS_Lin_Diag_Fucntion();
+                        if(Timer_10ms_flag == 1)
+                        {
+                          Timer_10ms_flag = 0;
+                          lin_diagservice_session_state();   
+                        }
+                         if(Timer_50ms_flag == 1)
+                        {
+                          Timer_50ms_flag = 0;
+                          RLS_Auto_Rain_Task();
+                          Lin_RLS_data();
+                        }
+                         if(Timer_100ms_flag == 1)
+                        {
+                          Timer_100ms_flag = 0;
+                          RLS_Battery_State();
+			  RLS_Auto_Light_Task();
+			  RLS_Lin_Diag_Fucntion();
 #ifdef ENABLE_SOLAR
-					RLS_Auto_Solar_Task();	
+			  RLS_Auto_Solar_Task();	
 #endif
-					if(Timer_500ms >= 5) //   500ms  Task
-					{
-						Timer_500ms = 0;
-						Timer_4s++;
+                        }
+                         if(Timer_500ms_flag == 1)
+                        {
+                          Timer_500ms_flag = 0;
+                          Timer_4s ++;
 #ifdef FOUR_TO_ONE 
-						FUNC_READ_HUMDATA(SHT30_MEASU_CMD);
-						Humid_Avg_Function(); 
-						Temp_Avg_Function() ; 
+                          FUNC_READ_HUMDATA(SHT30_MEASU_CMD);
+                          Humid_Avg_Function(); 
+                          Temp_Avg_Function() ; 
 #endif
-						
-					}
-				}
-                                
-                                Lin_RLS_data();	
-			  }
-			}
+                        }
 		  }break;
 
 		  
@@ -149,32 +150,21 @@ void main(void)
 		 * ************************************************************************************************************************
 		 * ************************************************************************************************************************/	  
 		  case MAIN_SLEEP_Mode:
-		  {
-			if( Timer_10ms == TRUE)//   10ms Task
-			{
-			  Timer_10ms = FALSE;
-			  Timer_50ms++;
-	
-			  if(Timer_50ms >= 5) //   50ms Task
-			  {
-				Timer_50ms = 0;
-				Timer_100ms++;
+		  {        
+                         if(Timer_50ms_flag == 1)
+                        {
+                               Timer_50ms_flag = 0;
+                               Timer_600ms++;
 #ifdef ENABLE_AUTO_ROOF
-				Auto_Roof_Process();
+			       Auto_Roof_Process();
 #endif
-	
-				if(Timer_100ms >= 2)  //   100ms Task
-				{
-					Timer_100ms = 0;  
-					Timer_600ms++;
-					if(Timer_600ms >= 6) //   600ms Task
-					{
-						Timer_600ms = 0;
-						u8_auto_roof_rain_measure_sleep_flg = 1;
-					}
-				}		
-			  }
-			}
+                        }
+
+                       if(Timer_600ms >= 12) //   600ms Task
+                        {
+                                Timer_600ms = 0;
+                                u8_auto_roof_rain_measure_sleep_flg = 1;
+                        }
 		  }break;
 		  
 		  
