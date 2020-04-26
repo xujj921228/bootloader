@@ -1,25 +1,51 @@
 #include "auto_light.h"
+#include "adc.h"
+#include "spi.h"
+#include "lin_app.h"
 
 
-
-
-
+extern uint16 u16_SPD_Vehicle;
+extern  Rls_Error_t      App_Rls_Error;
+extern  MLX75308_Mnrval_t      Mnrval;
 
 /*******************************
  * globle var
  * 
  * *************************************************/
+tLight_Stastegy_Config const  Light_Stastegy_Parameter =
+{
+        55,  //off_timer
+        350, //Lowbean_on_th
+        1000, //Lowbean_off_th
+        350, //PositionLamp_on_th
+        1000  //PositionLamp_off_th
+} ;
+
 uint8  u8_LightOnTimer;
 uint16 u16_Brightness_FW,u16_Brightness_UP;
 
 uint8  Light_on_cnt[LIGHT_TYPE];
 uint8  Light_off_cnt[LIGHT_TYPE];
-uint32 u32_light_value;
 
-extern uint16 u16_SPD_Vehicle;
-extern struct Rls_Error      App_Rls_Error;
-extern struct MLX75308_Mnrval      Mnrval;
+uint8 u8_light_on_req;
 
+uint8  u8_twilight_on_req;
+uint8 u8_twilight_on_invent_req;
+
+
+void Auto_light_Var_Init(void)
+{
+	uint8 i;
+	
+	for (i = 0;i < LIGHT_TYPE ; i++)
+	{
+		Light_on_cnt[i] = 0; 
+		Light_off_cnt[i] = 0;  
+	}
+	u8_light_on_req = 0;  
+	u8_twilight_on_req = 0;
+	u8_twilight_on_invent_req = 0;
+}
 
 /*******************************************************
  * FUNCTION NAME : RLS_AutoLightControl()
@@ -31,7 +57,7 @@ extern struct MLX75308_Mnrval      Mnrval;
  *******************************************************/
 void RLS_AutoLightControl(void)
 {
-    uint32 temp,temp_light_on_th,temp_light_off_th;
+    uint32 temp_light_on_th,temp_light_off_th;
     if(u16_SPD_Vehicle == 0)   
     {
         u8_LightOnTimer  =  4 ;        
@@ -52,18 +78,18 @@ void RLS_AutoLightControl(void)
 	
 	if(u16_Brightness_UP <= 100)
 	{
-	    temp_light_on_th =  Light_Stastegy_Parameter[0].Lowbean_on_th;
-	    temp_light_off_th =  Light_Stastegy_Parameter[0].Lowbean_off_th; 
+	    temp_light_on_th =  Light_Stastegy_Parameter.Lowbean_on_th;
+	    temp_light_off_th =  Light_Stastegy_Parameter.Lowbean_off_th; 
 	}
 	else if (u16_Brightness_UP <= 150)
 	{
-            temp_light_on_th =  Light_Stastegy_Parameter[0].Lowbean_on_th + 25;
-	    temp_light_off_th =  Light_Stastegy_Parameter[0].Lowbean_off_th + 25;
+            temp_light_on_th =  Light_Stastegy_Parameter.Lowbean_on_th + 25;
+	    temp_light_off_th =  Light_Stastegy_Parameter.Lowbean_off_th + 25;
 	}
 	else 
 	{
-            temp_light_on_th =  Light_Stastegy_Parameter[0].Lowbean_on_th + 50;
-	    temp_light_off_th =  Light_Stastegy_Parameter[0].Lowbean_off_th + 50;
+            temp_light_on_th =  Light_Stastegy_Parameter.Lowbean_on_th + 50;
+	    temp_light_off_th =  Light_Stastegy_Parameter.Lowbean_off_th + 50;
 	}
 	
 	if(App_Rls_Error.IR_Error == 0)
@@ -83,7 +109,7 @@ void RLS_AutoLightControl(void)
                     else if(((u16_Brightness_FW > temp_light_off_th )&&(u16_Brightness_UP > 250))||(u16_Brightness_FW > 1500))
                     {	
                              Light_on_cnt[LIGHT] = 0;
-                             if(Light_off_cnt[LIGHT] >= Light_Stastegy_Parameter[0].off_timer)
+                             if(Light_off_cnt[LIGHT] >= Light_Stastegy_Parameter.off_timer)
                              {
                                      u8_light_on_req = 0;     
                              }
@@ -115,7 +141,7 @@ void RLS_AutoLightControl(void)
 		else if(u16_Brightness_FW > temp_light_off_th )
 		{	
 			 Light_on_cnt[LIGHT] = 0;
-			 if(Light_off_cnt[LIGHT] >= Light_Stastegy_Parameter[0].off_timer)
+			 if(Light_off_cnt[LIGHT] >= Light_Stastegy_Parameter.off_timer)
 			 {
 				 u8_light_on_req = 0;     
 			 }

@@ -85,7 +85,7 @@ Sources/Driver/LIN_Stack/bsp/UART \
 Sources/Driver/IIC \
 Sources/Application \
 Sources/Application/humid_app \
-Sources/Application/RLS_app \
+Sources/Application/Sleep \
 Sources/Application/Diagnostic \
 Sources/Application/Config_parameters \
 Sources/Application/Battery \

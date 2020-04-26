@@ -34,10 +34,13 @@
 #include "lin_lld_timesrv.h"
 #include "lin_diagnostic_service.h"
 #include "lin_cfg.h"
-#include "rls_app.h"
 #include "lin_app.h"
 #include "ftm.h"
 
+
+extern bool_t bool_Mcu_wakeup_state;
+extern bool_t bool_lin_cmd_sleep;
+extern uint8  u8_Cmd_Execution;
 
 #if (LIN_MODE == _SLAVE_MODE_)
 
@@ -117,6 +120,9 @@ extern const l_u16 lin_max_frame_res_timeout_val[8];
 extern l_u8 lin_lld_response_buffer[10];
 
 extern uint8  Timer_4s;
+
+extern l_u8 diagnostic_Session,diagnostic_Session_flg;
+extern l_u16 diagnostic_Session_timer;
 
 /***** LOW-LEVEL API *****/
 
@@ -509,7 +515,7 @@ void lin_lld_uart_rx_isr
                     {
                     	Timer_4s = 0;
                         state = RECV_PID;
-                        Mcu_wakeup_state = 1;         //xujun 20181008
+                        bool_Mcu_wakeup_state = TRUE;         //xujun 20181008
                         Lin_Busy_Process();
                     }
                     else
@@ -596,7 +602,7 @@ void lin_lld_uart_rx_isr
                             		&&(response_buffer[4] == 0xff)&&(response_buffer[5] == 0xff)&&(response_buffer[5] == 0xff)\
                             		&&(response_buffer[7] == 0xff)&&(response_buffer[7] == 0xff))
                             {
-                            	u8_lin_cmd_sleep = 1 ;
+                            	bool_lin_cmd_sleep = TRUE ;
                             }
                         }
                     #if !defined(MCU_SKEAZN84) /* Not cover for KEA8 platform */

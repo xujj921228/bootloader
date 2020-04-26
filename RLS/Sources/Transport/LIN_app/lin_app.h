@@ -24,7 +24,7 @@
 
 
 
-struct BCM_Frame 
+typedef struct BCM_Frame 
 {
   uint8  BCM_WiperPosition     :1;
 
@@ -44,8 +44,20 @@ struct BCM_Frame
     
   uint8  BCM_Transmision880nm    ;
     
-};
+}BCM_Frame_t;
 
+
+typedef struct
+{
+  uint8  RS_Error              :1;
+  uint8  LS_Error              :1;
+  uint8  IR_Error              :1;
+  uint8  rsv0                  :5;
+  
+  uint8  RS_Error_Cnt[2];
+  uint8  LS_Error_Cnt ;
+  uint8  IR_Error_Cnt[2] ;
+} Rls_Error_t;
 
 extern uint8 Lin_Busy_Flag;
 extern uint8 Enter_Sleep_Flag;

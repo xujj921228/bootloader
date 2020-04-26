@@ -9,7 +9,7 @@
 "./Sources/Application/Battery/battery.o"
 "./Sources/Application/Config_parameters/config_parameter.o"
 "./Sources/Application/Diagnostic/lin_diagnostic_service.o"
-"./Sources/Application/RLS_app/rls_app.o"
+"./Sources/Application/Sleep/sleep.o"
 "./Sources/Application/humid_app/humid.o"
 "./Sources/Application/main.o"
 "./Sources/Driver/IIC/iic.o"
@@ -46,7 +46,7 @@
 -g
 -gdwarf-2
 -gstrict-dwarf
--T"C:/Users/Administrator/Desktop/QY120091-04-000PR-V1.0/RLS/Project_Settings/Linker_Files/SKEAZN64_flash.ld"
+-T"C:/Users/Administrator/Desktop/QY120081-04-000PR-V1.0/RLS/Project_Settings/Linker_Files/SKEAZN64_flash.ld"
 -Xlinker
 --gc-sections
 -L"D:/CW11.0/CW MCU v11.0/MCU/ARM_GCC_Support/ewl/lib/armv6-m"

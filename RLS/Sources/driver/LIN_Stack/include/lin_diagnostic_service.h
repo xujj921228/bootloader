@@ -63,6 +63,8 @@
 * @see  #lin_tl_make_slaveres_pdu
 * @see  #lin_process_parity
 *//*END*----------------------------------------------------------------------*/
+
+extern void Diagnostic_Var_init(void);
 void lin_diagservice_assign_frame_id_range(void);
 
 extern void lin_diagservice_session_state(void);
@@ -144,9 +146,6 @@ void lin_condittional_change_nad(void);
 extern void lin_diagservice_read_data_by_identifier(void);
 extern void lin_diagservice_write_data_by_identifier(void);
 
-
-extern l_u8 diagnostic_Session,diagnostic_Session_flg;
-extern l_u16 diagnostic_Session_timer;
 
 #endif /* End (LIN_PROTOCOL == PROTOCOL_21) */
 

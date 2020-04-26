@@ -34,7 +34,7 @@ RM := "$(GNU_Make_Install_DirEnv)/rm" -rf
 -include Sources/Driver/IIC/subdir.mk
 -include Sources/Application/subdir.mk
 -include Sources/Application/humid_app/subdir.mk
--include Sources/Application/RLS_app/subdir.mk
+-include Sources/Application/Sleep/subdir.mk
 -include Sources/Application/Diagnostic/subdir.mk
 -include Sources/Application/Config_parameters/subdir.mk
 -include Sources/Application/Battery/subdir.mk

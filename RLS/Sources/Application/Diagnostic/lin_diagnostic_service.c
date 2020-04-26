@@ -29,7 +29,6 @@
 
 #include "lin_commontl_proto.h"
 #include "lin_diagnostic_service.h"
-#include "rls_app.h"
 #include "eeprom.h"
 #include "local_eep_data.h"
 extern  local_info_t local_info;
@@ -49,6 +48,13 @@ extern  local_info_t local_info;
 
 l_u8 diagnostic_Session,diagnostic_Session_pre,diagnostic_Session_flg;
 l_u16 diagnostic_Session_timer;
+
+void Diagnostic_Var_init(void)
+{
+	diagnostic_Session = DIAGSRV_SESSION_DEFAULT;
+	diagnostic_Session_timer = 0 ;
+	diagnostic_Session_flg = 0;	
+}
 
 void lin_diagservice_session_state(void)
 {

@@ -1,11 +1,36 @@
 #include "mlx75308.h"
-
-
-
-
-
+#include "auto_wiper.h"
+#include "spi.h"
+#include "watchdog.h"
+#include "gpio.h"
+#include "clock.h"
 
 extern Main_Fsm_t  RLS_RunMode;
+
+tMlx75308_Config const Mlx75308_Config_Parameter =
+{
+       0x0b, //np
+       0x02, //t_dem
+       0x02, //t_dc
+       0x00, //bw_adj_a
+       0x00, //bw_adj_b
+       0x01, //gain_adj_a
+       0x01, //gain_adj_b
+       0x03, //bw_sel_lp_a
+       0x03, //bw_sel_lp_b
+       0x04, //rf
+       0x03, //dc_comp_ic1
+       0x05, //dc_comp_ic2
+       0x04, //dc_comp_ic3
+       0x02, //dc_comp_ic4
+       0x01, //dc_comp_ic5
+       0x01, //dc_comp_en
+       0xA8, //dac_a_default
+       0xA8  //dac_b_default
+} ;
+
+MLX75308_Frame_t       MLX75308_RxFrame;
+MLX75308_Mnrval_t      Mnrval;
 
 uint16 PD_WIN_AVG[CHAN_NUM][PD_WINDOW];
 uint8  MLX75308_A_Gain,MLX75308_B_Gain,MLX75308_A_Adc,MLX75308_B_Adc;
@@ -175,32 +200,32 @@ void MLX75308_Init(void)
     SPI_Wr_Reg(0xFF,addr_EnChan); //Ê¹ÄÜPDA B C D E
     Delay_Ms(5);
 
-    MLX75308_SetPara(NP, Mlx75308_Config_Parameter[0].np);   //24pluss
-    MLX75308_SetPara(Tdem, Mlx75308_Config_Parameter[0].t_dem); //the demodulator delay time in the rain channel 0.8us
-    MLX75308_SetPara(Tdc, Mlx75308_Config_Parameter[0].t_dc); //200us  default value
+    MLX75308_SetPara(NP, Mlx75308_Config_Parameter.np);   //24pluss
+    MLX75308_SetPara(Tdem, Mlx75308_Config_Parameter.t_dem); //the demodulator delay time in the rain channel 0.8us
+    MLX75308_SetPara(Tdc, Mlx75308_Config_Parameter.t_dc); //200us  default value
     
     /*****************anti-aliasing filter ****************/
-    MLX75308_SetPara(BW_ADJ_AA_A,Mlx75308_Config_Parameter[0].bw_adj_a);//4
-    MLX75308_SetPara(BW_ADJ_AA_B,Mlx75308_Config_Parameter[0].bw_adj_b);//4
+    MLX75308_SetPara(BW_ADJ_AA_A,Mlx75308_Config_Parameter.bw_adj_a);//4
+    MLX75308_SetPara(BW_ADJ_AA_B,Mlx75308_Config_Parameter.bw_adj_b);//4
     /*****************************************************/
-    MLX75308_SetPara(BW_SEL_LP_A,Mlx75308_Config_Parameter[0].bw_sel_lp_a);//2
+    MLX75308_SetPara(BW_SEL_LP_A,Mlx75308_Config_Parameter.bw_sel_lp_a);//2
     MLX75308_SetPara(DACA, MLX75308_A_Adc);
-    MLX75308_SetPara(GAIN_ADJ_AA_A,Mlx75308_Config_Parameter[0].gain_adj_a);
+    MLX75308_SetPara(GAIN_ADJ_AA_A,Mlx75308_Config_Parameter.gain_adj_a);
 
-    MLX75308_SetPara(BW_SEL_LP_B,Mlx75308_Config_Parameter[0].bw_sel_lp_b);//2              
+    MLX75308_SetPara(BW_SEL_LP_B,Mlx75308_Config_Parameter.bw_sel_lp_b);//2              
     MLX75308_SetPara(DACB, MLX75308_B_Adc);
-    MLX75308_SetPara(GAIN_ADJ_AA_B,Mlx75308_Config_Parameter[0].gain_adj_b);
+    MLX75308_SetPara(GAIN_ADJ_AA_B,Mlx75308_Config_Parameter.gain_adj_b);
 
-    MLX75308_SetPara(RF,Mlx75308_Config_Parameter[0].rf);  //69.4khz default value
+    MLX75308_SetPara(RF,Mlx75308_Config_Parameter.rf);  //69.4khz default value
     /*****************************************************/
 
-    MLX75308_SetPara(DC_COMP_IC1,Mlx75308_Config_Parameter[0].dc_comp_ic1);         
-    MLX75308_SetPara(DC_COMP_IC2,Mlx75308_Config_Parameter[0].dc_comp_ic2);
-    MLX75308_SetPara(DC_COMP_IC3,Mlx75308_Config_Parameter[0].dc_comp_ic3);  
-    MLX75308_SetPara(DC_COMP_IC4,Mlx75308_Config_Parameter[0].dc_comp_ic4); 
-    MLX75308_SetPara(DC_COMP_IC5,Mlx75308_Config_Parameter[0].dc_comp_ic5);
+    MLX75308_SetPara(DC_COMP_IC1,Mlx75308_Config_Parameter.dc_comp_ic1);         
+    MLX75308_SetPara(DC_COMP_IC2,Mlx75308_Config_Parameter.dc_comp_ic2);
+    MLX75308_SetPara(DC_COMP_IC3,Mlx75308_Config_Parameter.dc_comp_ic3);  
+    MLX75308_SetPara(DC_COMP_IC4,Mlx75308_Config_Parameter.dc_comp_ic4); 
+    MLX75308_SetPara(DC_COMP_IC5,Mlx75308_Config_Parameter.dc_comp_ic5);
 
-    MLX75308_SetPara(EN_DCCOMP,Mlx75308_Config_Parameter[0].dc_comp_en);
+    MLX75308_SetPara(EN_DCCOMP,Mlx75308_Config_Parameter.dc_comp_en);
    
    //------------------------------------------
     for(i = 0 ;i < PD_WINDOW; i++)   

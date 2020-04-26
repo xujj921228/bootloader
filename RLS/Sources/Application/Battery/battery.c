@@ -1,22 +1,21 @@
-
 #include "battery.h"
 
 
 
-
-
-
-
-
 uint16 u16_Battery_Volt;
-uint8  u8_Battery_Low_Cnt;
-uint8  u8_Battery_High_Cnt;
 uint8  u8_Battery_status;
 
 uint8 u8_low_voltage_cnt;
 uint8 u8_high_voltage_cnt;
 
-
+void Battery_Var_init(void)
+{
+	u16_Battery_Volt = 0;
+	u8_Battery_status = 0;
+	
+	u8_low_voltage_cnt = 0;
+	u8_high_voltage_cnt = 0;
+}
 /*******************************************************
  * FUNCTION NAME : LS_Battery_Measurement()
  *   DESCRIPTION : LS_Battery_Measurement  
@@ -29,7 +28,7 @@ void RLS_Battery_Measurement(void)
 {
     uint32 temp;
     temp = get_adc_times(VOLT_CH,MEAS_NUM); //V_VCC/1024 = x*(13/113)/3.3 
-    u16_Battery_Volt = ((temp*113*33/13)>>12) + 8;
+    u16_Battery_Volt = (uint16)((temp*113*33/13)>>12) + 8;
 }
 
 /*******************************************************
@@ -48,7 +47,7 @@ void RLS_Battery_State(void)
 	{
 		u8_high_voltage_cnt = 0;
 		u8_low_voltage_cnt++;
-		if(u8_low_voltage_cnt >= 20) //1s
+		if(u8_low_voltage_cnt >= 30) //1s
 		{
 			u8_Battery_status = VOLTAGE_LOW;
 		}
@@ -63,7 +62,7 @@ void RLS_Battery_State(void)
 	{
 		u8_low_voltage_cnt = 0;
 		u8_high_voltage_cnt++;
-		if(u8_high_voltage_cnt >= 20) //1s
+		if(u8_high_voltage_cnt >= 30) //1s
 		{
 			u8_Battery_status = VOLTAGE_HIGH;
 		}

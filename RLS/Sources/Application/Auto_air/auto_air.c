@@ -18,14 +18,22 @@ static uint32 Tab_AWG_Solar[Tab_IR_NUM]        = {21062,24500 ,25000,25245,25500
 static uint16 Tab_Brightness_Solar[Tab_IR_NUM] = { 0   , 10,    25,    40,    55,  70,   85,  100 , 115,  130,  145,  160,   180,   200,    220,    250}; 
 
 
-uint16 u16_solar_buffer[CHAN_NUM][SOLAR_WINDOW];
+uint16 u16_solar_buffer[SOLAR_CHAN_NUM][SOLAR_WINDOW];
 
-uint8  u8_Solar_l_value,u8_Solar_r_value;
+uint8  u8_Solar_l_value;
+uint8 u8_Solar_r_value;
+bool_t Frist_on_flag;
 
-extern struct MLX75308_Frame       MLX75308_RxFrame;
-extern struct MLX75308_Mnrval      Mnrval;
+extern  MLX75308_Frame_t       MLX75308_RxFrame;
+extern  MLX75308_Mnrval_t      Mnrval;
 
 
+void Auto_Air_Var_Init(void)
+{
+	u8_Solar_l_value = 0;
+	u8_Solar_r_value = 0;
+	Frist_on_flag = FALSE ;
+}
 
 
 /*******************************************************
@@ -103,7 +111,7 @@ void RLS_Auto_Solar_Task(void)
         uint32  sum_right = 0;
         uint16  avg_hud = 0;
         uint8 i;
-        for(i = 0; i < AVG_N; i++)
+        for(i = 0; i < SOLAR_AVG_N; i++)
         {
             MLX75308_Meansure(PDC | PDD |PDE);
             avg_hud +=  MLX75308_RxFrame.data_field[0];
@@ -111,30 +119,38 @@ void RLS_Auto_Solar_Task(void)
             avg_Solar_r_value +=  MLX75308_RxFrame.data_field[2];
         }
         
-        avg_hud = avg_hud / AVG_N;
-        avg_Solar_l_value = avg_Solar_l_value / AVG_N;
-        avg_Solar_r_value = avg_Solar_r_value / AVG_N;
+        avg_hud = avg_hud / SOLAR_AVG_N;
+        avg_Solar_l_value = avg_Solar_l_value / SOLAR_AVG_N;
+        avg_Solar_r_value = avg_Solar_r_value / SOLAR_AVG_N;
         
         Mnrval.Amb_C = (uint16)(avg_hud);
         Mnrval.Amb_D = (uint16)(avg_Solar_l_value);
         Mnrval.Amb_E = (uint16)(avg_Solar_r_value);
 	
-	for(i = 1;i <= SOLAR_WINDOW;i++)
-	{
-		u16_solar_buffer[CHAN_A][SOLAR_WINDOW - 1] = (uint16)(avg_Solar_l_value) ;
-		u16_solar_buffer[CHAN_B][SOLAR_WINDOW - 1] = (uint16)(avg_Solar_r_value) ;
-		
-		if(i < SOLAR_WINDOW)
+	for(i = 1;i < SOLAR_WINDOW;i++)
+	{	
+		if(Frist_on_flag == FALSE)
 		{
-			u16_solar_buffer[CHAN_A][i - 1] = u16_solar_buffer[CHAN_A][i];	
-			u16_solar_buffer[CHAN_B][i - 1] = u16_solar_buffer[CHAN_B][i];
+			u16_solar_buffer[SOLAR_CHAN_A][i - 1] = (uint16)(avg_Solar_l_value);
+		    u16_solar_buffer[SOLAR_CHAN_B][i - 1] = (uint16)(avg_Solar_r_value);
+		    if(i >= 7)
+		    {
+		    	Frist_on_flag = TRUE;	
+		    }
+		}
+		else
+		{
+			u16_solar_buffer[SOLAR_CHAN_A][i - 1] = u16_solar_buffer[SOLAR_CHAN_A][i];	
+			u16_solar_buffer[SOLAR_CHAN_B][i - 1] = u16_solar_buffer[SOLAR_CHAN_B][i];
 		}
 	}
+	u16_solar_buffer[SOLAR_CHAN_A][SOLAR_WINDOW - 1] = (uint16)(avg_Solar_l_value) ;
+	u16_solar_buffer[SOLAR_CHAN_B][SOLAR_WINDOW - 1] = (uint16)(avg_Solar_r_value) ;
 	
 	for(i = 0; i < SOLAR_WINDOW;i++)
 	{
-		sum_left += u16_solar_buffer[CHAN_A][i];
-		sum_right += u16_solar_buffer[CHAN_B][i];
+		sum_left += u16_solar_buffer[SOLAR_CHAN_A][i];
+		sum_right += u16_solar_buffer[SOLAR_CHAN_B][i];
 	}
 	
 	avg_Solar_l_value =  sum_left/SOLAR_WINDOW ;

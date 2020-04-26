@@ -11,10 +11,8 @@
 * @brief     Common LIN configuration, data structure
 *
 ******************************************************************************/
-#include "derivative.h" /* include peripheral declarations */
-#include "config_parameter.h"
+#include "auto_wiper.h"
 #include "adc.h"
-#include "rls_app.h"
 #include "lin_app.h"
 #include "lin.h"
 #include "lin_cfg.h"
@@ -26,16 +24,114 @@
 #include "ftm.h"
 #include "watchdog.h"
 #include "local_eep_data.h"
+#include "mlx75308.h"
 
-extern uint8  Timer_600ms;
-extern uint32  Timer_6h;
+
 extern Main_Fsm_t  RLS_RunMode;
+extern BCM_Frame_t            Lin_BCM_Frame;
+extern MLX75308_Frame_t       MLX75308_RxFrame;
+extern MLX75308_Mnrval_t      Mnrval;
+extern uint16 PD_WIN_AVG[CHAN_NUM][PD_WINDOW];
+extern uint16 u16_Delta_DC_bre_A,u16_Delta_DC_aft_A,u16_Delta_DC_bre_B,u16_Delta_DC_aft_B;
+extern uint16 u16_Ref_Adc_A,u16_Ref_Adc_B;
+extern uint8 MLX75308_A_Adc,MLX75308_B_Adc;;
+
+tRain_Stastegy_Config const  Rain_Stastegy_Parameter =
+{
+    	8400, //dc_stage1
+        8600, //dc_stage2
+        8900, //dc_stage3
+        9100, //dc_stage4
+        
+        100,  //stage_intensity1
+        120,  //stage_intensity2
+        160,  //stage_intensity3
+        250,  //stage_intensity4
+        300,  //stage_intensity5
+        
+        8, // meas_avg_cnt
+        
+        6,//park position  high_speed meas timer
+        12,//park position high_speed meas timer
+        6,// park position low_speed meas timer
+        20,//park position low_speed meas timer
+
+        80, // park_timer(u8_Rain_Sensitivity = 4)
+        3,  // park_enter_low_th;
+        4,  // park_enter_high_th;
+
+        60, // int_delay_timer;
+        
+        3,  // int_enter_period_cnt;
+        50, // int_enter_low_cnt; 
+         
+        10,  //period_enter_low_cnt; //25
+        4,  //period_enter_low_th;
+        
+        40, //low_delaytimer41;    (u8_Rain_Sensitivity = 4)
+        25, //low_enter_high_cnt41;
+        100, //low_delaytimer42;
+        30, //low_enter_high_cnt42;
+        120, //low_delaytimer43;
+        25, //low_enter_high_cnt43;
+        
+        40, //low_delaytimer31;    (u8_Rain_Sensitivity = 3)
+        25, //low_enter_high_cnt31;
+        100, //low_delaytimer32;
+        30, //low_enter_high_cnt32;
+        120, //low_delaytimer33;
+        28, //low_enter_high_cnt33;
+        
+        40, //low_delaytimer21;    (u8_Rain_Sensitivity = 2)
+        28, //low_enter_high_cnt21;
+        100, //low_delaytimer22;
+        32, //low_enter_high_cnt22;
+        120, //low_delaytimer23;
+        30, //low_enter_high_cnt23;
+        
+        40, //low_delaytimer11;    (u8_Rain_Sensitivity = 1)
+        28, //low_enter_high_cnt11;
+        100, //low_delaytimer12;
+        35, //low_enter_high_cnt12;
+        120, //low_delaytimer13;
+        32, //low_enter_high_cnt13;
+        
+        40, //high_delaytimer41;    (u8_Rain_Sensitivity = 4)
+        5, //high_hold_th41;
+        80, //high_delaytimer42;
+        5, //high_hold_th42;
+        100, //high_delaytimer43;
+        5, //high_hold_th43;
+        
+        40, //high_delaytimer31;    (u8_Rain_Sensitivity = 3)
+        5, //high_hold_th431;
+        80, //high_delaytimer32;
+        5, //high_hold_th32;
+        100, //high_delaytimer33;
+        5, //high_hold_th33;
+        
+        40, //high_delaytimer21;    (u8_Rain_Sensitivity = 2)
+        5, //high_hold_th21;
+        80, //high_delaytimer22;
+        5, //high_hold_th22;
+        100, //high_delaytimer23;
+        5,//high_hold_th23;
+        
+        40,// high_delaytimer11;    (u8_Rain_Sensitivity = 1)
+        5,// high_hold_th11;
+        80,// high_delaytimer12;
+        5,// high_hold_th12;
+        100,// high_delaytimer13;
+        5,// high_hold_th13; 
+} ;
+
+Rls_Error_t       App_Rls_Error;
 
 uint8  u8_Lin_Diag_Enable;
 uint8  u8_Lin_Diag_Enable_Cnt;
 uint16 u16_Solar_l_value_raw,u16_Solar_r_value_raw;
 uint16 u16_Solar_l_value_raw_temp,u16_Solar_r_value_raw_temp;
-uint8  u8_Rain_Sensitivity,Rain_Sensitivity;
+uint8  u8_Rain_Sensitivity;
 uint16 u16_SPD_Vehicle;
 
 uint8  u8_cnt_choose;
@@ -45,7 +141,7 @@ uint8  u8_Int_Time_pre;
 
 uint8 u8_enter_period_cnt;
 uint8 u8_enter_period_flg;
-uint8  u8_RLS_WindowCloseReq = 0;
+uint8  u8_RLS_WindowCloseReq;
 
 uint8  u8_Cmd_Execution;
 uint16 u16_Pd_Measure_Value;
@@ -97,7 +193,9 @@ uint16 u16_ExitLowSpeedTimer;
 uint8  u8_Splash_cnt;
 
 uint8  u8_Rain_Valid;
-uint8  u8_Rain_Value,u8_WiperSpeed_Expert,u8_WiperSpeed;
+uint8  u8_Rain_Value;
+uint8 u8_WiperSpeed_Expert;
+uint8 u8_WiperSpeed;
 uint8  u8_Rain_Flg;
 uint16 u16_RainWindow_Cnt;
 uint16 u16_IntWindow_Cnt;
@@ -117,31 +215,51 @@ uint8 u8_Rain_SensitivityPre;
 
 uint8 u8_IntSpeedFlgCnt;
 uint8 u8_IntSpeedFlg;
-
 uint8 u8_low_enter_high_timer;
-
-
-
 
 uint8 Brightness_Infrared_Percentage[1];
 
-
-
 uint8 u8_ls_error_cnt;
 
-uint8 u8_light_on_req,u8_light_on_invent_req,u8_twilight_on_req,u8_twilight_on_invent_req;
 
-uint8 u8_wakeup_timer,Mcu_wakeup_state;
-uint8 u8_lin_cmd_sleep,u8_auto_roof_rain_measure_sleep_flg,u8_wakeup_bcm_cnt_sleep_flg;
-uint8 u8_wakeup_bcm_1500ms_timer;
-uint16 u16_wakeup_bcm_1min_timer;
-
-
-struct BCM_Frame            Lin_BCM_Frame;
-struct MLX75308_Frame       MLX75308_RxFrame;
-struct MLX75308_Mnrval      Mnrval;
-struct Rls_Error            App_Rls_Error;
-
+void Auto_Wiper_Var_Init(void)
+{
+	
+    Lin_BCM_Frame.BCM_WiperSwitch = 4;
+    u8_Wipe_Automatic_On_Pre = 1;
+		
+	Lin_BCM_Frame.BCM_Ignition = 1;
+	u16_SPD_Vehicle =  0;
+		
+	u8_WiperSpeed = 0;
+	
+	    
+	
+	    
+	 Lin_Busy_Flag = 0;
+	    
+	 u8_Rain_Delta =  RAIN_DELTA;
+	    
+	 u8_Rain_Sensitivity = 7;
+	 u8_Rain_SensitivityPre = 7;
+	    
+		u8_IntSpeedCnt = 0;
+		u8_IntSpeedEnterCnt = 0;	
+		
+		
+		u16_RainWindow_Cnt = 0;
+		u8_enter_period_cnt = 0;
+		u8_enter_period_flg = 0;
+		u8_Rain_Flg = 0;
+		u8_Vehicle_State = 0;
+		u8_Vehicle_State_Pre = 0;
+		u16_IntWindow_Cnt = 0;
+		u8_Int_Cnt = 0;
+		
+		u8_Lin_Diag_Enable = 0;
+		u8_Lin_Diag_Enable_Cnt = 0;
+	
+}
 
 /*****NEW PCB**x37*********/
 
@@ -241,7 +359,7 @@ uint8 RLS_Get_Rain_State(uint8 PD_chan)
     uint8 i; 
     uint16 temp;
     
-    u16_Pd_Measure_Value = RLS_Rain_Get_Measure(PD_chan,Rain_Stastegy_Parameter[0].meas_avg_cnt,600);
+    u16_Pd_Measure_Value = RLS_Rain_Get_Measure(PD_chan,Rain_Stastegy_Parameter.meas_avg_cnt,600);
     
     RLS_Rain_Module_Fault_Process(PD_chan);
     
@@ -250,18 +368,12 @@ uint8 RLS_Get_Rain_State(uint8 PD_chan)
     {
         Mnrval.IR_A = u16_Pd_Measure_Value;
         
-        DC_WIN_BUFF[CHAN_A][DC_WINDOW - 1] = Mnrval.DC_bre_A ;
-        
-        for(i = 1;i <= DC_WINDOW;i++)
-        {
-             DC_WIN_BUFF[CHAN_A][DC_WINDOW - 1] = Mnrval.DC_bre_A ;
-            
-            if(i < DC_WINDOW)
-            {
+       
+        for(i = 1;i < DC_WINDOW;i++)
+        { 
                 DC_WIN_BUFF[CHAN_A][i - 1] = DC_WIN_BUFF[CHAN_A][i];
-               
-            }
         }
+        DC_WIN_BUFF[CHAN_A][DC_WINDOW - 1] = Mnrval.DC_bre_A ;
         
         if( u8_RLS_StopMsureFlg == 0 )
         {
@@ -273,31 +385,31 @@ uint8 RLS_Get_Rain_State(uint8 PD_chan)
                      PD_WIN_AVG[CHAN_A][i - 1] = PD_WIN_AVG[CHAN_A][i];
                 }
             }
-            if(Mnrval.DC_bre_A < Rain_Stastegy_Parameter[0].dc_stage1)
+            if(Mnrval.DC_bre_A < Rain_Stastegy_Parameter.dc_stage1)
             {
-                    temp =  Rain_Stastegy_Parameter[0].stage_intensity1;
+                    temp =  Rain_Stastegy_Parameter.stage_intensity1;
             }
-            else if(Mnrval.DC_bre_A < Rain_Stastegy_Parameter[0].dc_stage2)
+            else if(Mnrval.DC_bre_A < Rain_Stastegy_Parameter.dc_stage2)
             {
-                    temp =   Rain_Stastegy_Parameter[0].stage_intensity2;
+                    temp =   Rain_Stastegy_Parameter.stage_intensity2;
             }
-            else if(Mnrval.DC_bre_A < Rain_Stastegy_Parameter[0].dc_stage3)
+            else if(Mnrval.DC_bre_A < Rain_Stastegy_Parameter.dc_stage3)
             {
-                    temp =   Rain_Stastegy_Parameter[0].stage_intensity3;
+                    temp =   Rain_Stastegy_Parameter.stage_intensity3;
             }
-            else if(Mnrval.DC_bre_A < Rain_Stastegy_Parameter[0].dc_stage4)
+            else if(Mnrval.DC_bre_A < Rain_Stastegy_Parameter.dc_stage4)
             {
-                    temp =   Rain_Stastegy_Parameter[0].stage_intensity4;
+                    temp =   Rain_Stastegy_Parameter.stage_intensity4;
             }
             else
             {
-                    temp =   Rain_Stastegy_Parameter[0].stage_intensity5;
+                    temp =   Rain_Stastegy_Parameter.stage_intensity5;
             }     
             
             if(u8_Rain_Sensitivity == 4)  temp = temp ;
-            else if (u8_Rain_Sensitivity == 3)  temp = temp + 30 ;
-            else if (u8_Rain_Sensitivity == 2)  temp = temp + 70 ;
-            else                                temp = temp + 100 ;
+            else if (u8_Rain_Sensitivity == 3)  temp = temp + 20 ;
+            else if (u8_Rain_Sensitivity == 2)  temp = temp + 40 ;
+            else                                temp = temp + 80 ;
                
         } 
         else
@@ -365,31 +477,31 @@ uint8 RLS_Get_Rain_State(uint8 PD_chan)
                      PD_WIN_AVG[CHAN_B][i - 1] = PD_WIN_AVG[CHAN_B][i];
                 }
             }
-            if(Mnrval.DC_bre_B <  Rain_Stastegy_Parameter[0].dc_stage1)
+            if(Mnrval.DC_bre_B <  Rain_Stastegy_Parameter.dc_stage1)
 			{
-				temp =  Rain_Stastegy_Parameter[0].stage_intensity1;
+				temp =  Rain_Stastegy_Parameter.stage_intensity1;
 			}
-			else if(Mnrval.DC_bre_B <  Rain_Stastegy_Parameter[0].dc_stage2)
+			else if(Mnrval.DC_bre_B <  Rain_Stastegy_Parameter.dc_stage2)
 			{
-				temp =  Rain_Stastegy_Parameter[0].stage_intensity2;
+				temp =  Rain_Stastegy_Parameter.stage_intensity2;
 			}
-			else if(Mnrval.DC_bre_B <  Rain_Stastegy_Parameter[0].dc_stage3)
+			else if(Mnrval.DC_bre_B <  Rain_Stastegy_Parameter.dc_stage3)
 			{
-				temp =  Rain_Stastegy_Parameter[0].stage_intensity3;
+				temp =  Rain_Stastegy_Parameter.stage_intensity3;
 			}
-			else if(Mnrval.DC_bre_B <  Rain_Stastegy_Parameter[0].dc_stage4)
+			else if(Mnrval.DC_bre_B <  Rain_Stastegy_Parameter.dc_stage4)
 			{
-				temp =  Rain_Stastegy_Parameter[0].stage_intensity4;
+				temp =  Rain_Stastegy_Parameter.stage_intensity4;
 			}
 			else
 			{
-				temp =  Rain_Stastegy_Parameter[0].stage_intensity5;
+				temp =  Rain_Stastegy_Parameter.stage_intensity5;
 			}
             
-                        if(u8_Rain_Sensitivity == 4)  temp = temp ;
-                        else if (u8_Rain_Sensitivity == 3)  temp = temp + 30 ;
-                        else if (u8_Rain_Sensitivity == 2)  temp = temp + 70 ;
-                        else                                temp = temp + 100 ;
+			if(u8_Rain_Sensitivity == 4)  temp = temp ;
+			else if (u8_Rain_Sensitivity == 3)  temp = temp + 20 ;
+			else if (u8_Rain_Sensitivity == 2)  temp = temp + 40 ;
+			else                                temp = temp + 80 ;
         } 
         else
         {
@@ -701,7 +813,7 @@ uint8 RLS_Period_Mode(uint8 Int_Timer, uint8 Wiper_Timer)
 	}
 	else if((Wiper_Timer >= (Int_Timer - 10)) && (Wiper_Timer <= Int_Timer))
 	{
-		u8_WiperSpeed = 1;
+		u8_WiperSpeed = 2;
 	}
 	
 	if(Wiper_Timer >= (Int_Timer - 1))
@@ -728,23 +840,23 @@ void RLS_Rain_State_Mchaine(void)
         {
             if(u8_Rain_Sensitivity == 1)
             {
-                u8_Delaytimer = Rain_Stastegy_Parameter[0].park_timer ;
+                u8_Delaytimer = Rain_Stastegy_Parameter.park_timer ;
             }
             else if(u8_Rain_Sensitivity == 2)
             {
-                u8_Delaytimer = Rain_Stastegy_Parameter[0].park_timer ;
+                u8_Delaytimer = Rain_Stastegy_Parameter.park_timer ;
             }
             else if(u8_Rain_Sensitivity == 3)
             {
-                u8_Delaytimer = Rain_Stastegy_Parameter[0].park_timer + 20;
+                u8_Delaytimer = Rain_Stastegy_Parameter.park_timer + 20;
             }            
             else if(u8_Rain_Sensitivity == 4)
             {
-                u8_Delaytimer = Rain_Stastegy_Parameter[0].park_timer + 20; 
+                u8_Delaytimer = Rain_Stastegy_Parameter.park_timer + 20; 
             }
             else
             {
-                u8_Delaytimer = Rain_Stastegy_Parameter[0].park_timer + 20;
+                u8_Delaytimer = Rain_Stastegy_Parameter.park_timer + 20;
             }
                        
             
@@ -794,7 +906,7 @@ void RLS_Rain_State_Mchaine(void)
             }
             if(u8_enter_period_flg == 1)
             {
-            	u8_WiperSpeed = 1;
+            	u8_WiperSpeed = 2;
             	if(u8_enter_period_cnt >= 10)
             	{
             		u8_enter_period_cnt = 0;
@@ -829,27 +941,27 @@ void RLS_Rain_State_Mchaine(void)
                 
                 if(u8_Rain_Sensitivity == 4)
                 {
-                    temp =  Rain_Stastegy_Parameter[0].park_enter_low_th + 4;
+                    temp =  Rain_Stastegy_Parameter.park_enter_low_th + 4;
                     tempcnt = 1;
                 }
                 else if(u8_Rain_Sensitivity == 3)
                 {
-                    temp =  Rain_Stastegy_Parameter[0].park_enter_low_th + 4;
+                    temp =  Rain_Stastegy_Parameter.park_enter_low_th + 4;
                     tempcnt = 2;
                 }
                 else if(u8_Rain_Sensitivity == 2)
                 {
-                    temp =  Rain_Stastegy_Parameter[0].park_enter_low_th + 4;
+                    temp =  Rain_Stastegy_Parameter.park_enter_low_th + 4;
                     tempcnt = 2;
                 }
                 else if(u8_Rain_Sensitivity == 1)
                 {
-                    temp =  Rain_Stastegy_Parameter[0].park_enter_low_th + 4;
+                    temp =  Rain_Stastegy_Parameter.park_enter_low_th + 4;
                     tempcnt = 2;
                 }
                 else
                 {
-                    temp =  Rain_Stastegy_Parameter[0].park_enter_low_th + 4 ;
+                    temp =  Rain_Stastegy_Parameter.park_enter_low_th + 4 ;
                     tempcnt = 2;
                 }
                 
@@ -868,7 +980,7 @@ void RLS_Rain_State_Mchaine(void)
             
             }
             
-            if((u8_RainIntensity[CHAN_A] >= Rain_Stastegy_Parameter[0].park_enter_high_th)&&(u8_RainIntensity[CHAN_B]>= Rain_Stastegy_Parameter[0].park_enter_high_th)) 
+            if((u8_RainIntensity[CHAN_A] >= Rain_Stastegy_Parameter.park_enter_high_th)&&(u8_RainIntensity[CHAN_B]>= Rain_Stastegy_Parameter.park_enter_high_th)) 
             {
                     if(u8_Splash_cnt >= 20)
                     {
@@ -937,7 +1049,7 @@ void RLS_Rain_State_Mchaine(void)
             
         } break;
         
-        case INT_DELAY_MODE:
+      /*  case INT_DELAY_MODE:
         {
             u8_IntSpeedEnterCnt = 0;
             u8_ClearEnternIntSpeedCnt = 0;
@@ -947,12 +1059,12 @@ void RLS_Rain_State_Mchaine(void)
             
             u8_IntDelayTimer++;
             
-            if((u8_IntDelayTimer >= 0)&&(u8_IntDelayTimer < Rain_Stastegy_Parameter[0].int_delay_timer))
+            if((u8_IntDelayTimer >= 0)&&(u8_IntDelayTimer < Rain_Stastegy_Parameter.int_delay_timer))
             {
             	u8_WiperSpeed = 0;
             }
             
-            else if((u8_IntDelayTimer >= Rain_Stastegy_Parameter[0].int_delay_timer)&&(u8_IntDelayTimer < (Rain_Stastegy_Parameter[0].int_delay_timer + 10))) 
+            else if((u8_IntDelayTimer >= Rain_Stastegy_Parameter.int_delay_timer)&&(u8_IntDelayTimer < (Rain_Stastegy_Parameter.int_delay_timer + 10))) 
             {
             	u8_WiperSpeed = 1;
             }
@@ -973,7 +1085,7 @@ void RLS_Rain_State_Mchaine(void)
             }
 
             u8_Wiper_StatePre = INT_DELAY_MODE;
-        } break;
+        } break;*/
         
         case INT_SPEED_MODE:
         {
@@ -982,7 +1094,7 @@ void RLS_Rain_State_Mchaine(void)
             u8_IntDelayTimer = 0;
             u8_HighHoldCnt = 0;   
             u8_ExitLowSpeedCnt = 0;
-            u8_WiperSpeed = 1;
+            u8_WiperSpeed = 2;
             u8_IntSpeedCnt++;
             u8_EnterLowSpeedCnt = 0;
                                           
@@ -1002,14 +1114,14 @@ void RLS_Rain_State_Mchaine(void)
                 {
                     u8_LowSpeedCnt++;
                     
-                    if(u8_LowSpeedCnt > Rain_Stastegy_Parameter[0].int_enter_low_cnt)
+                    if(u8_LowSpeedCnt > Rain_Stastegy_Parameter.int_enter_low_cnt)
                     {
                         u8_LowSpeedCnt = 0;
                         u8_Wiper_State = LOW_SPEED_MODE; 
                     }
                 }
                 
-                if(u8_IntSpeedEnterCnt >= Rain_Stastegy_Parameter[0].int_enter_period_cnt)
+                if(u8_IntSpeedEnterCnt >= Rain_Stastegy_Parameter.int_enter_period_cnt)
                 {
                 	u8_Splash_cnt = 0;
                 	u8_IntSpeedEnterCnt = 0;
@@ -1023,14 +1135,14 @@ void RLS_Rain_State_Mchaine(void)
                 {
                     u8_LowSpeedCnt++;
                     
-                    if(u8_LowSpeedCnt > Rain_Stastegy_Parameter[0].int_enter_low_cnt)
+                    if(u8_LowSpeedCnt > Rain_Stastegy_Parameter.int_enter_low_cnt)
                     {
                         u8_LowSpeedCnt = 0;
                         u8_Wiper_State = LOW_SPEED_MODE; 
                     }
                 }
                 
-                if(u8_IntSpeedEnterCnt >= Rain_Stastegy_Parameter[0].int_enter_period_cnt)
+                if(u8_IntSpeedEnterCnt >= Rain_Stastegy_Parameter.int_enter_period_cnt)
                 {
                 	u8_Splash_cnt = 0;
                     u8_IntSpeedEnterCnt = 0;
@@ -1045,14 +1157,14 @@ void RLS_Rain_State_Mchaine(void)
                 {
                     u8_LowSpeedCnt++;
                     
-                    if(u8_LowSpeedCnt > Rain_Stastegy_Parameter[0].int_enter_low_cnt)
+                    if(u8_LowSpeedCnt > Rain_Stastegy_Parameter.int_enter_low_cnt)
                     {
                         u8_LowSpeedCnt = 0;
                         u8_Wiper_State = LOW_SPEED_MODE; 
                     }
                 }
                 
-                if(u8_IntSpeedEnterCnt >= Rain_Stastegy_Parameter[0].int_enter_period_cnt)
+                if(u8_IntSpeedEnterCnt >= Rain_Stastegy_Parameter.int_enter_period_cnt)
                 {
                 	u8_Splash_cnt = 0;
                     u8_IntSpeedEnterCnt = 0;
@@ -1066,14 +1178,14 @@ void RLS_Rain_State_Mchaine(void)
                 {
                     u8_LowSpeedCnt++;
                     
-                    if(u8_LowSpeedCnt > Rain_Stastegy_Parameter[0].int_enter_low_cnt)
+                    if(u8_LowSpeedCnt > Rain_Stastegy_Parameter.int_enter_low_cnt)
                     {
                         u8_LowSpeedCnt = 0;
                         u8_Wiper_State = LOW_SPEED_MODE; 
                     }
                 }
                 
-                if(u8_IntSpeedEnterCnt >= (Rain_Stastegy_Parameter[0].int_enter_period_cnt + 1))
+                if(u8_IntSpeedEnterCnt >= (Rain_Stastegy_Parameter.int_enter_period_cnt + 1))
                 {
                 	u8_Splash_cnt = 0;
                     u8_IntSpeedEnterCnt = 0;
@@ -1119,24 +1231,24 @@ void RLS_Rain_State_Mchaine(void)
         		if( u16_SPD_Vehicle < 10)
                         {
                                 u8_Int_Time = 80;
-                                temp_period_low_cnt = Rain_Stastegy_Parameter[0].period_enter_low_cnt + 10;
+                                temp_period_low_cnt = Rain_Stastegy_Parameter.period_enter_low_cnt + 10;
                         }
                         else if(u16_SPD_Vehicle < 50)
                         {
                                 u8_Int_Time = 80;
-                                temp_period_low_cnt = Rain_Stastegy_Parameter[0].period_enter_low_cnt + 5;
+                                temp_period_low_cnt = Rain_Stastegy_Parameter.period_enter_low_cnt + 5;
                         }
                         else if(u16_SPD_Vehicle < 80)
                         {
                                 u8_Int_Time = 60;
-                                temp_period_low_cnt = Rain_Stastegy_Parameter[0].period_enter_low_cnt + 2;
+                                temp_period_low_cnt = Rain_Stastegy_Parameter.period_enter_low_cnt + 2;
                         }
                         else
                         {
                                 u8_Int_Time = 40;
-                                temp_period_low_cnt = Rain_Stastegy_Parameter[0].period_enter_low_cnt;
+                                temp_period_low_cnt = Rain_Stastegy_Parameter.period_enter_low_cnt;
                         }
-        		temp_period_low_th = Rain_Stastegy_Parameter[0].period_enter_low_th ;
+        		temp_period_low_th = Rain_Stastegy_Parameter.period_enter_low_th ;
         		
         	}
         	else if(u8_Rain_Sensitivity == 3)
@@ -1157,25 +1269,25 @@ void RLS_Rain_State_Mchaine(void)
                         if( u16_SPD_Vehicle < 10)
                         {					
                                 u8_Int_Time = 80;
-                                temp_period_low_cnt = Rain_Stastegy_Parameter[0].period_enter_low_cnt + 15;
+                                temp_period_low_cnt = Rain_Stastegy_Parameter.period_enter_low_cnt + 15;
                         }
                         else if(u16_SPD_Vehicle < 50)
                         {
                                 u8_Int_Time = 100;
-                                temp_period_low_cnt = Rain_Stastegy_Parameter[0].period_enter_low_cnt + 10;
+                                temp_period_low_cnt = Rain_Stastegy_Parameter.period_enter_low_cnt + 10;
                         }
                         else if(u16_SPD_Vehicle < 80)
                         {
                                 u8_Int_Time = 80;
-                                temp_period_low_cnt = Rain_Stastegy_Parameter[0].period_enter_low_cnt + 7;
+                                temp_period_low_cnt = Rain_Stastegy_Parameter.period_enter_low_cnt + 7;
                         }
                         else
                         {
                                 u8_Int_Time = 60;
-                                temp_period_low_cnt = Rain_Stastegy_Parameter[0].period_enter_low_cnt + 5;
+                                temp_period_low_cnt = Rain_Stastegy_Parameter.period_enter_low_cnt + 5;
                         }
 				
-        		temp_period_low_th = Rain_Stastegy_Parameter[0].period_enter_low_th ;
+        		temp_period_low_th = Rain_Stastegy_Parameter.period_enter_low_th ;
         		
         	}
         	else if(u8_Rain_Sensitivity == 2)
@@ -1192,24 +1304,24 @@ void RLS_Rain_State_Mchaine(void)
                         if( u16_SPD_Vehicle < 10)
                         {					
                                 u8_Int_Time = 90;
-                                temp_period_low_cnt = Rain_Stastegy_Parameter[0].period_enter_low_cnt + 20;
+                                temp_period_low_cnt = Rain_Stastegy_Parameter.period_enter_low_cnt + 20;
                         }
                         else if(u16_SPD_Vehicle < 50)
                         {
                                 u8_Int_Time = 110;
-                                temp_period_low_cnt = Rain_Stastegy_Parameter[0].period_enter_low_cnt + 15;
+                                temp_period_low_cnt = Rain_Stastegy_Parameter.period_enter_low_cnt + 15;
                         }
                         else if(u16_SPD_Vehicle < 80)
                         {
                                 u8_Int_Time = 90;
-                                temp_period_low_cnt = Rain_Stastegy_Parameter[0].period_enter_low_cnt + 10;
+                                temp_period_low_cnt = Rain_Stastegy_Parameter.period_enter_low_cnt + 10;
                         }
                         else
                         {
                                 u8_Int_Time = 70;
-                                temp_period_low_cnt = Rain_Stastegy_Parameter[0].period_enter_low_cnt + 7;
+                                temp_period_low_cnt = Rain_Stastegy_Parameter.period_enter_low_cnt + 7;
                         }
-        		temp_period_low_th = Rain_Stastegy_Parameter[0].period_enter_low_th ;
+        		temp_period_low_th = Rain_Stastegy_Parameter.period_enter_low_th ;
         		
         	}
         	else 
@@ -1226,25 +1338,25 @@ void RLS_Rain_State_Mchaine(void)
                         if( u16_SPD_Vehicle < 10)
                         {					
                                 u8_Int_Time = 100;
-                                temp_period_low_cnt = Rain_Stastegy_Parameter[0].period_enter_low_cnt + 25;
+                                temp_period_low_cnt = Rain_Stastegy_Parameter.period_enter_low_cnt + 25;
                         }
                         else if(u16_SPD_Vehicle < 50)
                         {
                                 u8_Int_Time = 120;
-                                temp_period_low_cnt = Rain_Stastegy_Parameter[0].period_enter_low_cnt + 20;
+                                temp_period_low_cnt = Rain_Stastegy_Parameter.period_enter_low_cnt + 20;
                         }
                         else if(u16_SPD_Vehicle < 80)
                         {
                                 u8_Int_Time = 100;
-                                temp_period_low_cnt = Rain_Stastegy_Parameter[0].period_enter_low_cnt + 15;
+                                temp_period_low_cnt = Rain_Stastegy_Parameter.period_enter_low_cnt + 15;
                         }
                         else
                         {
                                 u8_Int_Time = 80;
-                                temp_period_low_cnt = Rain_Stastegy_Parameter[0].period_enter_low_cnt + 10;
+                                temp_period_low_cnt = Rain_Stastegy_Parameter.period_enter_low_cnt + 10;
                         }
 				
-        		temp_period_low_th = Rain_Stastegy_Parameter[0].period_enter_low_th ;
+        		temp_period_low_th = Rain_Stastegy_Parameter.period_enter_low_th ;
         		
         	}
         	
@@ -1338,7 +1450,7 @@ void RLS_Rain_State_Mchaine(void)
         		}
         	}
         	
-        	if((u8_RainIntensity[CHAN_A] >= Rain_Stastegy_Parameter[0].park_enter_high_th)&&(u8_RainIntensity[CHAN_B]>= Rain_Stastegy_Parameter[0].park_enter_high_th)) 
+        	if((u8_RainIntensity[CHAN_A] >= Rain_Stastegy_Parameter.park_enter_high_th)&&(u8_RainIntensity[CHAN_B]>= Rain_Stastegy_Parameter.park_enter_high_th)) 
 			{
 				if(u8_Splash_cnt >= 40)
 				{
@@ -1381,18 +1493,18 @@ void RLS_Rain_State_Mchaine(void)
             {
                 if(u16_SPD_Vehicle < 5)
                 {
-                     u8_Delaytimer = Rain_Stastegy_Parameter[0].low_delaytimer41;//40
-                     u8_rain_cnt = Rain_Stastegy_Parameter[0].low_enter_high_cnt41;
+                     u8_Delaytimer = Rain_Stastegy_Parameter.low_delaytimer41;//40
+                     u8_rain_cnt = Rain_Stastegy_Parameter.low_enter_high_cnt41;
                 }
                 else if(u16_SPD_Vehicle < 80)
                 {
-                     u8_Delaytimer = Rain_Stastegy_Parameter[0].low_delaytimer42;
-                     u8_rain_cnt = Rain_Stastegy_Parameter[0].low_enter_high_cnt42;
+                     u8_Delaytimer = Rain_Stastegy_Parameter.low_delaytimer42;
+                     u8_rain_cnt = Rain_Stastegy_Parameter.low_enter_high_cnt42;
                 }
                 else 
                 {
-                     u8_Delaytimer = Rain_Stastegy_Parameter[0].low_delaytimer43;
-                     u8_rain_cnt = Rain_Stastegy_Parameter[0].low_enter_high_cnt43;
+                     u8_Delaytimer = Rain_Stastegy_Parameter.low_delaytimer43;
+                     u8_rain_cnt = Rain_Stastegy_Parameter.low_enter_high_cnt43;
                 }
                 
                 if(u8_WiperSpeed_Expert < 4)
@@ -1429,18 +1541,18 @@ void RLS_Rain_State_Mchaine(void)
             {   
                 if(u16_SPD_Vehicle < 5)
                 {
-                     u8_Delaytimer = Rain_Stastegy_Parameter[0].low_delaytimer31;//40
-                     u8_rain_cnt = Rain_Stastegy_Parameter[0].low_enter_high_cnt31;
+                     u8_Delaytimer = Rain_Stastegy_Parameter.low_delaytimer31;//40
+                     u8_rain_cnt = Rain_Stastegy_Parameter.low_enter_high_cnt31;
                 }
                 else if(u16_SPD_Vehicle < 80)
                 {
-                     u8_Delaytimer = Rain_Stastegy_Parameter[0].low_delaytimer32;
-                     u8_rain_cnt = Rain_Stastegy_Parameter[0].low_enter_high_cnt32;
+                     u8_Delaytimer = Rain_Stastegy_Parameter.low_delaytimer32;
+                     u8_rain_cnt = Rain_Stastegy_Parameter.low_enter_high_cnt32;
                 }
                 else 
                 {
-                     u8_Delaytimer = Rain_Stastegy_Parameter[0].low_delaytimer33;
-                     u8_rain_cnt = Rain_Stastegy_Parameter[0].low_enter_high_cnt33;
+                     u8_Delaytimer = Rain_Stastegy_Parameter.low_delaytimer33;
+                     u8_rain_cnt = Rain_Stastegy_Parameter.low_enter_high_cnt33;
                 }
                  
                 if(u8_WiperSpeed_Expert < 4)
@@ -1477,18 +1589,18 @@ void RLS_Rain_State_Mchaine(void)
             {   
                 if(u16_SPD_Vehicle < 5)
                 {
-                     u8_Delaytimer = Rain_Stastegy_Parameter[0].low_delaytimer21;//40
-                     u8_rain_cnt = Rain_Stastegy_Parameter[0].low_enter_high_cnt21;
+                     u8_Delaytimer = Rain_Stastegy_Parameter.low_delaytimer21;//40
+                     u8_rain_cnt = Rain_Stastegy_Parameter.low_enter_high_cnt21;
                 }
                 else if(u16_SPD_Vehicle < 80)
                 {
-                     u8_Delaytimer = Rain_Stastegy_Parameter[0].low_delaytimer22;
-                     u8_rain_cnt = Rain_Stastegy_Parameter[0].low_enter_high_cnt22;
+                     u8_Delaytimer = Rain_Stastegy_Parameter.low_delaytimer22;
+                     u8_rain_cnt = Rain_Stastegy_Parameter.low_enter_high_cnt22;
                 }
                 else 
                 {
-                     u8_Delaytimer = Rain_Stastegy_Parameter[0].low_delaytimer23;
-                     u8_rain_cnt = Rain_Stastegy_Parameter[0].low_enter_high_cnt23;
+                     u8_Delaytimer = Rain_Stastegy_Parameter.low_delaytimer23;
+                     u8_rain_cnt = Rain_Stastegy_Parameter.low_enter_high_cnt23;
                 }
                 
                 if(u8_WiperSpeed_Expert < 4)
@@ -1525,18 +1637,18 @@ void RLS_Rain_State_Mchaine(void)
             {
                 if(u16_SPD_Vehicle < 5)
                 {
-                     u8_Delaytimer = Rain_Stastegy_Parameter[0].low_delaytimer11;//40
-                     u8_rain_cnt = Rain_Stastegy_Parameter[0].low_enter_high_cnt11;
+                     u8_Delaytimer = Rain_Stastegy_Parameter.low_delaytimer11;//40
+                     u8_rain_cnt = Rain_Stastegy_Parameter.low_enter_high_cnt11;
                 }
                 else if(u16_SPD_Vehicle < 80)
                 {
-                     u8_Delaytimer = Rain_Stastegy_Parameter[0].low_delaytimer12;
-                     u8_rain_cnt = Rain_Stastegy_Parameter[0].low_enter_high_cnt12;
+                     u8_Delaytimer = Rain_Stastegy_Parameter.low_delaytimer12;
+                     u8_rain_cnt = Rain_Stastegy_Parameter.low_enter_high_cnt12;
                 }
                 else 
                 {
-                     u8_Delaytimer = Rain_Stastegy_Parameter[0].low_delaytimer13;
-                     u8_rain_cnt = Rain_Stastegy_Parameter[0].low_enter_high_cnt13;
+                     u8_Delaytimer = Rain_Stastegy_Parameter.low_delaytimer13;
+                     u8_rain_cnt = Rain_Stastegy_Parameter.low_enter_high_cnt13;
                 }
                 
                 if(u8_WiperSpeed_Expert < 4)
@@ -1582,72 +1694,72 @@ void RLS_Rain_State_Mchaine(void)
             {
                 if(u16_SPD_Vehicle < 5)
                 {
-                     u8_Delaytimer = Rain_Stastegy_Parameter[0].high_delaytimer41;
-                     u8_rain_state_th = Rain_Stastegy_Parameter[0].high_hold_th41;
+                     u8_Delaytimer = Rain_Stastegy_Parameter.high_delaytimer41;
+                     u8_rain_state_th = Rain_Stastegy_Parameter.high_hold_th41;
                 }
                 else if(u16_SPD_Vehicle < 80)
                 {
-                     u8_Delaytimer = Rain_Stastegy_Parameter[0].high_delaytimer42;
-                     u8_rain_state_th = Rain_Stastegy_Parameter[0].high_hold_th42;
+                     u8_Delaytimer = Rain_Stastegy_Parameter.high_delaytimer42;
+                     u8_rain_state_th = Rain_Stastegy_Parameter.high_hold_th42;
                 }
                 else 
                 {
-                     u8_Delaytimer = Rain_Stastegy_Parameter[0].high_delaytimer43;
-                     u8_rain_state_th = Rain_Stastegy_Parameter[0].high_hold_th43;    
+                     u8_Delaytimer = Rain_Stastegy_Parameter.high_delaytimer43;
+                     u8_rain_state_th = Rain_Stastegy_Parameter.high_hold_th43;    
                 }
             }
             else if(u8_Rain_Sensitivity == 3)
             {
                 if(u16_SPD_Vehicle < 5)
                 {
-                     u8_Delaytimer = Rain_Stastegy_Parameter[0].high_delaytimer31;
-                     u8_rain_state_th = Rain_Stastegy_Parameter[0].high_hold_th31;
+                     u8_Delaytimer = Rain_Stastegy_Parameter.high_delaytimer31;
+                     u8_rain_state_th = Rain_Stastegy_Parameter.high_hold_th31;
                 }
                 else if(u16_SPD_Vehicle < 80)
                 {
-                     u8_Delaytimer = Rain_Stastegy_Parameter[0].high_delaytimer32;
-                     u8_rain_state_th = Rain_Stastegy_Parameter[0].high_hold_th32;
+                     u8_Delaytimer = Rain_Stastegy_Parameter.high_delaytimer32;
+                     u8_rain_state_th = Rain_Stastegy_Parameter.high_hold_th32;
                 }
                 else 
                 {
-                     u8_Delaytimer = Rain_Stastegy_Parameter[0].high_delaytimer33;
-                     u8_rain_state_th = Rain_Stastegy_Parameter[0].high_hold_th33;    
+                     u8_Delaytimer = Rain_Stastegy_Parameter.high_delaytimer33;
+                     u8_rain_state_th = Rain_Stastegy_Parameter.high_hold_th33;    
                 }
             }
             else if(u8_Rain_Sensitivity == 2)
             {
                 if(u16_SPD_Vehicle < 5)
                 {
-                     u8_Delaytimer = Rain_Stastegy_Parameter[0].high_delaytimer21;
-                     u8_rain_state_th = Rain_Stastegy_Parameter[0].high_hold_th21;
+                     u8_Delaytimer = Rain_Stastegy_Parameter.high_delaytimer21;
+                     u8_rain_state_th = Rain_Stastegy_Parameter.high_hold_th21;
                 }
                 else if(u16_SPD_Vehicle < 80)
                 {
-                     u8_Delaytimer = Rain_Stastegy_Parameter[0].high_delaytimer22;
-                     u8_rain_state_th = Rain_Stastegy_Parameter[0].high_hold_th22;
+                     u8_Delaytimer = Rain_Stastegy_Parameter.high_delaytimer22;
+                     u8_rain_state_th = Rain_Stastegy_Parameter.high_hold_th22;
                 }
                 else 
                 {
-                     u8_Delaytimer = Rain_Stastegy_Parameter[0].high_delaytimer23;
-                     u8_rain_state_th = Rain_Stastegy_Parameter[0].high_hold_th23;    
+                     u8_Delaytimer = Rain_Stastegy_Parameter.high_delaytimer23;
+                     u8_rain_state_th = Rain_Stastegy_Parameter.high_hold_th23;    
                 }
             }
             else
             {
                 if(u16_SPD_Vehicle < 5)
                 {
-                     u8_Delaytimer = Rain_Stastegy_Parameter[0].high_delaytimer11;
-                     u8_rain_state_th = Rain_Stastegy_Parameter[0].high_hold_th11;
+                     u8_Delaytimer = Rain_Stastegy_Parameter.high_delaytimer11;
+                     u8_rain_state_th = Rain_Stastegy_Parameter.high_hold_th11;
                 }
                 else if(u16_SPD_Vehicle < 80)
                 {
-                     u8_Delaytimer = Rain_Stastegy_Parameter[0].high_delaytimer12;
-                     u8_rain_state_th = Rain_Stastegy_Parameter[0].high_hold_th12;
+                     u8_Delaytimer = Rain_Stastegy_Parameter.high_delaytimer12;
+                     u8_rain_state_th = Rain_Stastegy_Parameter.high_hold_th12;
                 }
                 else 
                 {
-                     u8_Delaytimer = Rain_Stastegy_Parameter[0].high_delaytimer13;
-                     u8_rain_state_th = Rain_Stastegy_Parameter[0].high_hold_th13;    
+                     u8_Delaytimer = Rain_Stastegy_Parameter.high_delaytimer13;
+                     u8_rain_state_th = Rain_Stastegy_Parameter.high_hold_th13;    
                 }
             }           
           
@@ -1692,7 +1804,7 @@ void RLS_Wipe_Park_Process(void)
         u8_MeasureSureTime++;
         if(u8_Wiper_State == HIGH_SPEED_MODE)
         {            
-            if((u8_MeasureSureTime <= Rain_Stastegy_Parameter[0].park_high_meas_timer1))//||((u8_MeasureSureTime >= Rain_Stastegy_Parameter[0].park_high_meas_timer2)))//&&(u8_MeasureSureTime <= 20)))
+            if((u8_MeasureSureTime <= Rain_Stastegy_Parameter.park_high_meas_timer1))//||((u8_MeasureSureTime >= Rain_Stastegy_Parameter[0].park_high_meas_timer2)))//&&(u8_MeasureSureTime <= 20)))
             {
                 u8_RLS_StopMsureFlg = 0;
             }
@@ -1703,7 +1815,7 @@ void RLS_Wipe_Park_Process(void)
         }
         else
         {
-            if((u8_MeasureSureTime <= Rain_Stastegy_Parameter[0].park_low_meas_timer1))//||((u8_MeasureSureTime >= Rain_Stastegy_Parameter[0].park_low_meas_timer2)))//&&(u8_MeasureSureTime <= 30)))
+            if((u8_MeasureSureTime <= Rain_Stastegy_Parameter.park_low_meas_timer1))//||((u8_MeasureSureTime >= Rain_Stastegy_Parameter[0].park_low_meas_timer2)))//&&(u8_MeasureSureTime <= 30)))
             {
                 u8_RLS_StopMsureFlg = 0;
             }
@@ -1752,9 +1864,9 @@ void RLS_SelfAdaptTask(void)
    /* add intia*/
 
     u8_WiperSpeed = 0 ;
-    l_u8_wr_LI0_RLS_WiperRequest(u8_WiperSpeed);
+    //l_u8_wr_LI0_RLS_WiperRequest(u8_WiperSpeed);
     //l_bool_wr_LI0_RLS_RQ_LowBeam(0);
-    l_bool_wr_LI0_RLS_LightRequest(0);
+    //l_bool_wr_LI0_RLS_LightRequest(0);
 /******************Chanl A*********************/   
     for(i = 0; i < 20; i++)
     {
@@ -1910,7 +2022,7 @@ void RLS_Wipe_Auto_On_Function(void)
     
     if((u8_Wipe_Automatic_On_Flg == 1)&&(u8_Lin_Diag_Enable == 1))
     {
-    	u8_WiperSpeed = 1;
+    	u8_WiperSpeed = 2;
         u8_IntSpeedEnterCnt = 0;
         u8_Automatic_On_Cnt++;
         
@@ -1950,7 +2062,7 @@ void RLS_Wipe_Sensitivity_Up_Function(void)
     
     if((u8_SensitivityUpFlg == 1)&&((u8_Wiper_State == PARK_MODE)||(u8_Wiper_State == INT_SPEED_MODE))&&(u8_Lin_Diag_Enable == 1))
     {
-    	u8_WiperSpeed = 1;
+    	u8_WiperSpeed = 2;
         u8_IntSpeedEnterCnt = 0;
         u8_SensitivityUpCnt++;
         
@@ -1995,192 +2107,3 @@ void RLS_Lin_Diag_Fucntion(void)
     }
 }
 
-Auto_Roof_FSM_t  Auto_Roof_FSM;
-/*******************************************************
- * FUNCTION NAME : Auto_Roof_Process()
- *   DESCRIPTION : Auto_Roof_Process  
- *         INPUT : NONE
- *        OUTPUT : void  
- *        RETURN : NONE              
- *        OTHERS : NONE
- *******************************************************/ 
-void Auto_Roof_Process(void)
-{   
-	Timer_6h++;
-	
-	switch(Auto_Roof_FSM)
-	{
-		case Roof_RAIN_CHECK:
-		{
-                        RLS_Auto_Rain_Task();
-			if(u8_WiperSpeed != 0)
-			{			
-				Auto_Roof_FSM = Roof_Wake_Up;	
-				u8_wakeup_bcm_1500ms_timer = 0;
-				RTC_DisableInt();
-			}
-			else
-			{
-				if(Timer_6h >=(6*60*60*20)) //time out deep sleep
-				{
-					Auto_Roof_FSM = Roof_Wake_Up;
-					u8_wakeup_bcm_1500ms_timer = 0;
-				}
-			}	
-			if(Mcu_wakeup_state == 1)  //if BCM wake up RLS,  go to normal mode
-			{
-				u8_auto_roof_rain_measure_sleep_flg = 0;
-				RLS_RunMode =  MAIN_NORMAL;
-			}
-		}break;
-		
-		case Roof_Wake_Up:
-		{
-			Timer_600ms = 0;	
-			if(Mcu_wakeup_state == 1)
-			{
-				u16_wakeup_bcm_1min_timer = 0;
-				Auto_Roof_FSM = Roof_CLOSED_WINDOWS;
-			}
-			else
-			{
-				u8_wakeup_bcm_1500ms_timer++;
-							
-				if((u8_wakeup_bcm_1500ms_timer <= 9)&&
-					((u8_wakeup_bcm_1500ms_timer%3) == 0))//150ms一包三帧唤醒信号
-				{
-					Lin_RLS_Wakeup_BCM();							
-				}
-				
-				if(u8_wakeup_bcm_1500ms_timer >= 30)//间隔1500ms发送唤醒包
-				{	
-					u8_wakeup_bcm_1500ms_timer = 0;
-					u16_wakeup_bcm_1min_timer++;
-					
-					if(u16_wakeup_bcm_1min_timer >= 40)//1min
-					{
-						u16_wakeup_bcm_1min_timer = 0;
-						u8_wakeup_bcm_cnt_sleep_flg = 1;
-                                                Lin_BCM_Frame.BCM_WindowStatus = 0;
-					}
-				}		
-			}
-					
-		}break;
-		case Roof_CLOSED_WINDOWS:
-		{
-			Timer_600ms = 0;
-			u16_wakeup_bcm_1min_timer++;
-			u8_RLS_WindowCloseReq = 1 ; //send closed window
-			Lin_RLS_data();
-			if(u16_wakeup_bcm_1min_timer >= 1200) //120*50ms
-			{
-				u16_wakeup_bcm_1min_timer = 0;
-				u8_RLS_WindowCloseReq = 0 ;
-                                Lin_BCM_Frame.BCM_WindowStatus = 0;
-				RLS_RunMode =  MAIN_NORMAL;
-			}
-			
-			if(Lin_BCM_Frame.BCM_WindowStatus == 0)
-			{
-				u8_RLS_WindowCloseReq = 0;
-				RLS_RunMode =  MAIN_NORMAL;
-			}	
-		}break;
-		default:
-		{
-			Auto_Roof_FSM = Roof_RAIN_CHECK;
-		}break;
-		
-	}
-}
-/*******************************************************
- * FUNCTION NAME : Sleep_Process()
- *   DESCRIPTION : Sleep_Process  
- *         INPUT : NONE
- *        OUTPUT : void  
- *        RETURN : NONE              
- *        OTHERS : NONE
- *******************************************************/ 
-void Sleep_Process(void)
-{
-	uint8 i;
-	RLS_Disable_Light();
-	DISABLE_INTERRUPT;
-	
-	/******MLX75308进入休眠***********/
-	(void)SPI_Wr_Cmd(RSLP);    
-	(void)SPI_Wr_Cmd(CSLP);
-	SPI_Disable();
-	
-#ifdef ENABLE_AUTO_ROOF	
-	if(Lin_BCM_Frame.BCM_WindowStatus >= 1)
-	{
-		RTC_EnableInt();
-		RLS_RunMode =  MAIN_SLEEP_Mode;
-		Auto_Roof_FSM = Roof_RAIN_CHECK;
-	}
-	else
-	{
-		RTC_DisableInt();
-	}
-#endif
-	
-	UART0_S2 |=  UART_S2_RXEDGIF_MASK;   //去掉会产生错误帧
-	UART0_BDH  |=  UART_BDH_RXEDGIE_MASK; //去掉会产生错误帧
-	/******关闭LIN发送***********/ 
-	LIN_DISABLE ;//GPIOA_PCOR |= 0x00008000 ; //PTB7  LIN_EN
-	
-	for (i = 0;i < LIGHT_TYPE ; i++)
-	{
-		Light_on_cnt[i] = 0; 
-		Light_off_cnt[i] = 0;  
-	}
-			
-	u8_light_on_req = 0;     
-	u8_twilight_on_req = 0;
-	
-	Mcu_wakeup_state = 0;
-	u16_RainWindow_Cnt = 0;
-	u8_enter_period_cnt = 0;
-	u8_enter_period_flg = 0;
-	u8_Rain_Flg = 0;
-	u16_IntWindow_Cnt = 0;
-	u8_Int_Cnt = 0;
-	Lin_RLS_data();
-	
-	/* disable LVD in stop mode */
-	PMC_SPMSC1 &= ~(PMC_SPMSC1_LVDE_MASK | PMC_SPMSC1_LVDRE_MASK | PMC_SPMSC1_LVDSE_MASK);
-	/* Set the SLEEPDEEP bit to enable deep sleep mode (STOP) */
-	SCB_SCR |= SCB_SCR_SLEEPDEEP_MASK;
-	/* Not using KEIL's uVision, so use the standard assembly command */
-	ENABLE_INTERRUPT;	
-	asm("WFI");
-	
-	RTC_DisableInt();
-}
-
-/*******************************************************
- * FUNCTION NAME : Recover_Process()
- *   DESCRIPTION : Recover_Process  
- *         INPUT : NONE
- *        OUTPUT : void  
- *        RETURN : NONE              
- *        OTHERS : NONE
- *******************************************************/ 
-void Recover_Process(void)
-{
-	LIN_ENABLE ;// LIN_EN
-	Timer_6h = Timer_6h + (5 * 20);//every 5s wake up
-#ifdef ENABLE_SOLAR
-	RLS_Enable_Light();
-#endif
-	u8_Lin_Diag_Enable = 0;
-	u8_Lin_Diag_Enable_Cnt = 0;
-	l_sys_init();
-	l_ifc_init(LI0);
-	SPI_Enable();
-	FTM0_Init();
-	
-    (void)SPI_Wr_Cmd(NRM); 
-}

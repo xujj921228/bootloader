@@ -30,10 +30,13 @@
 #include "lin_commontl_proto.h"
 #include "lin_diagnostic_service.h"
 #include "config_parameter.h"
-#include "rls_app.h"
 #include "spi.h"
 #include "local_eep_data.h"
+
+
 extern  local_info_t local_info;
+extern MLX75308_Mnrval_t      Mnrval;
+extern l_u8 diagnostic_Session;
 
 /* multi frame support */
 #if (_TL_FRAME_SUPPORT_ == _TL_MULTI_FRAME_)
@@ -51,6 +54,8 @@ extern  local_info_t local_info;
 #if (_LIN_GPIO_ == 0) && !defined(_MC9S08SC4_H) && !defined(MCU_SKEAZN84)
 /*************************** FUNCTIONS *******************/
 
+extern const  uint8 Software_Versions[3];
+extern const  uint8 Hardware_Versions[3];
 extern uint8 boot_seed[4];
 extern Boot_Fsm_t boot_status_flag;
 void lin_tl_make_slaveres_pdu
@@ -210,8 +215,8 @@ void lin_tl_make_slaveres_pdu
 					/* Get Identifier infor */
 					lin_tl_pdu[3] = (LIN_RAIN_ADC_A_PARAM>>8) ;
 					lin_tl_pdu[4] = (l_u8)(LIN_RAIN_ADC_A_PARAM&0xFF);
-					lin_tl_pdu[5] = (l_u8)(Mnrval.IR_A>>8);
-					lin_tl_pdu[6] = (l_u8)(Mnrval.IR_A);
+					lin_tl_pdu[5] = (l_u8)(Mnrval.IR_A);
+					lin_tl_pdu[6] = (l_u8)(Mnrval.IR_A>>8);
 				}
 				else if (error_code == (LIN_RAIN_ADC_B_PARAM&0xFF))
 				{
@@ -220,8 +225,8 @@ void lin_tl_make_slaveres_pdu
 					/* Get Identifier infor */
 					lin_tl_pdu[3] = (LIN_RAIN_ADC_B_PARAM>>8) ;
 					lin_tl_pdu[4] = (l_u8)(LIN_RAIN_ADC_B_PARAM&0xFF);
-					lin_tl_pdu[5] = (l_u8)(Mnrval.IR_B>>8);
-					lin_tl_pdu[6] = (l_u8)(Mnrval.IR_B);
+					lin_tl_pdu[5] = (l_u8)(Mnrval.IR_B);
+					lin_tl_pdu[6] = (l_u8)(Mnrval.IR_B>>8);
 				}
 				else if (error_code >= LIN_READ_USR_DEF_MIN && error_code <= LIN_READ_USR_DEF_MAX)
 				{

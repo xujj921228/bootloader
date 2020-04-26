@@ -4,22 +4,22 @@
  */
 #include "derivative.h" /* include peripheral declarations */
 #include "config_parameter.h"
-#include "lin_diagnostic_service.h"
-#include "clock.h"
-#include "lin.h"
-#include "adc.h"
-#include "gpio.h"
 #include "eeprom.h"
+#include "clock.h"
+#include "pmc.h"
 #include "ftm.h"
+#include "gpio.h"
+#include "RTC.h"
 #include "watchdog.h"
 #include "spi.h"
-#include "pmc.h"
-#include "rtc.h"
-#include "watchdog.h"
 #include "lin_app.h"
-#include "iic.h"
-#include "humid.h"
+#include "mlx75308.h"
 
+#include "sleep.h"
+#include "auto_air.h"
+#include "auto_light.h"
+#include "battery.h"
+#include "lin_diagnostic_service.h"
 
 /************gloable  var*****************/
 uint8  Timer_50ms;
@@ -28,11 +28,12 @@ uint8  Timer_500ms;
 uint8  Timer_600ms;
 uint8  Timer_4s;
 uint32  Timer_6h;
-
 uint8  Timer_10ms_flag;
 uint8  Timer_50ms_flag;
 uint8  Timer_100ms_flag;
 uint8  Timer_500ms_flag;
+
+extern bool_t bool_auto_roof_rain_measure_sleep_flg;
 
 
 Main_Fsm_t  RLS_RunMode;
@@ -50,6 +51,15 @@ void Gloable_Var_Init(void)
     Timer_50ms_flag = 0;
     Timer_100ms_flag = 0;
     Timer_500ms_flag = 0;
+    
+    RLS_RunMode = MAIN_SLEFADAPT;
+    
+    Sleep_Var_Init();//var for sleep 
+    Auto_Air_Var_Init();//var for Solar
+    Auto_light_Var_Init();//var for light
+    Battery_Var_init();//var for battery
+    Auto_Wiper_Var_Init();//var for rain
+    Diagnostic_Var_init();//var for Diagnostic
 }
 /***********************************************************************************************
 *
@@ -85,22 +95,8 @@ void main(void)
 		 * ************************************************************************************************************************
 		 * ************************************************************************************************************************
 		 * ************************************************************************************************************************/
-		if((Timer_4s >= 8) //no lin data for 4s
-			||(u8_lin_cmd_sleep == TRUE)  //recive the signal of sleep from BCM
-			||(u8_auto_roof_rain_measure_sleep_flg == TRUE)
-			||(u8_wakeup_bcm_cnt_sleep_flg == TRUE))
-		{
-			u8_lin_cmd_sleep = 0;
-			u8_auto_roof_rain_measure_sleep_flg = 0;
-			u8_wakeup_bcm_cnt_sleep_flg = 0;
-			Timer_4s = 0;
+		Sleep_check();
 				
-			Sleep_Process();
-			Recover_Process();
-			Gloable_Var_Init();
-		}
-		
-					
 		switch(RLS_RunMode)
 		{
 		/***********RLS NORMAL MODE*************************************************************************************************
@@ -110,21 +106,21 @@ void main(void)
 		  case MAIN_NORMAL:
 		  {    
 		    Timer_6h = 0;
-                        if(Timer_10ms_flag == 1)
-                        {
-                          Timer_10ms_flag = 0;
-                          lin_diagservice_session_state();   
-                        }
-                         if(Timer_50ms_flag == 1)
-                        {
-                          Timer_50ms_flag = 0;
-                          RLS_Auto_Rain_Task();
-                          Lin_RLS_data();
-                        }
-                         if(Timer_100ms_flag == 1)
-                        {
-                          Timer_100ms_flag = 0;
-                          RLS_Battery_State();
+			if(Timer_10ms_flag == 1)
+			{
+			  Timer_10ms_flag = 0;
+			  lin_diagservice_session_state();   
+			}
+			 if(Timer_50ms_flag == 1)
+			{
+			  Timer_50ms_flag = 0;
+			  RLS_Auto_Rain_Task();
+			  Lin_RLS_data();
+			}
+			 if(Timer_100ms_flag == 1)
+			{
+			  Timer_100ms_flag = 0;
+			  RLS_Battery_State();
 			  RLS_Auto_Light_Task();
 			  RLS_Lin_Diag_Fucntion();
 #ifdef ENABLE_SOLAR
@@ -163,7 +159,7 @@ void main(void)
                        if(Timer_600ms >= 12) //   600ms Task
                         {
                                 Timer_600ms = 0;
-                                u8_auto_roof_rain_measure_sleep_flg = 1;
+                                bool_auto_roof_rain_measure_sleep_flg = TRUE;
                         }
 		  }break;
 		  

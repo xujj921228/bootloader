@@ -13,7 +13,6 @@
 ******************************************************************************/
 #include "derivative.h" /* include peripheral declarations */
 #include "config_parameter.h"
-#include "rls_app.h"
 #include "lin_app.h"
 #include "lin.h"
 #include "lin_cfg.h"
@@ -21,14 +20,21 @@
 #include "spi.h"
 #include "humid.h"
 #include "battery.h"
+#include "auto_wiper.h"
 
-uint8 u8_MsgCounter;
 uint8 Lin_Busy_Flag;
 uint8 Enter_Sleep_Flag;
+extern uint16 u16_SPD_Vehicle;
 extern uint8 u8_RLS_WindowCloseReq;
 extern uint8  u8_Solar_r_value;
 extern uint8  u8_Solar_l_value;
-extern struct BCM_Frame         Lin_BCM_Frame;
+extern uint8  u8_Rain_Sensitivity;
+extern uint8  u8_Rain_Delta;
+extern uint8  u8_Battery_status;
+extern uint8 u8_WiperSpeed;
+extern uint8  u8_Lin_Diag_Enable;
+BCM_Frame_t         Lin_BCM_Frame;
+extern  MLX75308_Mnrval_t      Mnrval;
 /*******************************************************
  * FUNCTION NAME : Lin_Sys_Init()
  *   DESCRIPTION : Lin_Sys_Init  

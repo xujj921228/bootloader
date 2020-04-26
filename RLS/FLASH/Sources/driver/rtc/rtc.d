@@ -3,8 +3,8 @@ Sources/Driver/rtc/rtc.o: ../Sources/Driver/rtc/rtc.c \
  D:/CW11.0/CW\ MCU\ v11.0/MCU/ARM_GCC_Support/ewl/EWL_C/include/common.prefix \
  D:/CW11.0/CW\ MCU\ v11.0/MCU/ARM_GCC_Support/ewl/EWL_C/include/ewl_c_version.h \
  ../Sources/Driver/rtc/RTC.h \
- C:/Users/Administrator/Desktop/QY120091-04-000PR-V1.0/RLS/Project_Headers/derivative.h \
- C:/Users/Administrator/Desktop/QY120091-04-000PR-V1.0/RLS/Project_Headers/SKEAZN642.h \
+ C:/Users/Administrator/Desktop/QY120081-04-000PR-V1.0/RLS/Project_Headers/derivative.h \
+ C:/Users/Administrator/Desktop/QY120081-04-000PR-V1.0/RLS/Project_Headers/SKEAZN642.h \
  D:/CW11.0/CW\ MCU\ v11.0/MCU/ARM_GCC_Support/ewl/EWL_C/include/stdint.h \
  D:/CW11.0/CW\ MCU\ v11.0/MCU/ARM_GCC_Support/ewl/EWL_C/include/ansi_parms.h \
  D:/CW11.0/CW\ MCU\ v11.0/MCU/ARM_GCC_Support/ewl/EWL_C/include/ewlGlobals.h \
@@ -22,9 +22,9 @@ D:/CW11.0/CW\ MCU\ v11.0/MCU/ARM_GCC_Support/ewl/EWL_C/include/ewl_c_version.h:
 
 ../Sources/Driver/rtc/RTC.h:
 
-C:/Users/Administrator/Desktop/QY120091-04-000PR-V1.0/RLS/Project_Headers/derivative.h:
+C:/Users/Administrator/Desktop/QY120081-04-000PR-V1.0/RLS/Project_Headers/derivative.h:
 
-C:/Users/Administrator/Desktop/QY120091-04-000PR-V1.0/RLS/Project_Headers/SKEAZN642.h:
+C:/Users/Administrator/Desktop/QY120081-04-000PR-V1.0/RLS/Project_Headers/SKEAZN642.h:
 
 D:/CW11.0/CW\ MCU\ v11.0/MCU/ARM_GCC_Support/ewl/EWL_C/include/stdint.h:
 

@@ -1,304 +1,269 @@
-
-#include "derivative.h" /* include peripheral declarations */
-#include "config_parameter.h"
-//#include <math.h> 
-#include "clock.h"
-#include "iic.h"
-#include "humid.h"
+#include "sleep.h"
 #include "lin_app.h"
+#include "spi.h"
+#include "RTC.h"
+#include "gpio.h"
+#include "ftm.h"
+#include "lin_common_api.h"
+#include "auto_light.h"
 
 
-uint16   Temp_measure_TP,Hum_measure_TP;
-uint8    Temp_measure;
-uint8    Hum_measure;
-//float    f_Dew_Point,f_acture_temp,f_acture_hum;
-uint16   Dew_Point;
-uint8    Humid_buffer[HUMID_NUM],Humid_Avg ;
-uint8    Temp_buffer[TEMP_NUM],Temp_Avg;  
-uint16   Temp_error_cnt,Hum_error_cnt,iic_error_cnt;
+extern uint8  Timer_4s;
+extern uint8  Timer_600ms;
+extern uint32  Timer_6h;
 
-uint8 Humid_Temp_Error;
-/****************************************************************************************************
- * FUNCTION NAME : crc8()
- *   DESCRIPTION : crc8校验
- *         INPUT : NONE
- *        OUTPUT : NONE  
- *        RETURN : 校验和                
- *        OTHERS : NONE
- ****************************************************************************************************/
- 
-unsigned char  crc8(unsigned char *ptr,unsigned char len) // ptr 为数据指针，len 为数据长度
+extern uint8  u8_RLS_WindowCloseReq;
+extern uint8 u8_WiperSpeed;
+extern uint16 u16_RainWindow_Cnt;
+
+extern uint8  Light_on_cnt[LIGHT_TYPE];
+extern uint8  Light_off_cnt[LIGHT_TYPE];
+extern uint8 u8_light_on_req;
+extern uint8  u8_twilight_on_req;
+extern uint8 u8_enter_period_cnt;
+extern uint8 u8_enter_period_flg;
+extern uint8  u8_Rain_Flg;
+extern uint16 u16_IntWindow_Cnt;
+extern uint8  u8_Int_Cnt;
+extern uint8  u8_Lin_Diag_Enable;
+extern uint8  u8_Lin_Diag_Enable_Cnt;
+
+extern Main_Fsm_t  RLS_RunMode;
+extern  BCM_Frame_t  Lin_BCM_Frame;
+
+/*********
+ * cmd for sleep
+ * *********/
+bool_t bool_lin_cmd_sleep;
+bool_t bool_auto_roof_rain_measure_sleep_flg;
+bool_t bool_wakeup_bcm_cnt_sleep_flg;
+
+bool_t bool_Mcu_wakeup_state;
+
+uint8 u8_wakeup_bcm_1500ms_timer;
+uint8 u8_wakeup_bcm_1min_timer;
+
+Auto_Roof_FSM_t  Auto_Roof_FSM;
+
+void Sleep_Var_Init(void)
 {
-    unsigned char i,crc;
-
-    crc = 0xff;
-    while(len--)
-    {
-      	for(i=0x80; i!=0; i>>=1)
-      	{
-        		if((crc&0x80)!=0) 
-        		{
-        			crc<<=1; 
-        			crc^=G_Poly;
-        		} 
-        		else 
-        			crc<<=1;
-        		
-        		if((*ptr & i)!=0) 
-        			crc ^= G_Poly; 
-      	}
-      	ptr++;
-    }
-    return(crc);
-}
-
-/****************************************************************************************************
- * FUNCTION NAME : FUNC_HUM_RESET()
- *   DESCRIPTION : 湿度重启
- *         INPUT : NONE
- *        OUTPUT : NONE  
- *        RETURN : uint8         TRUE：重启成功    FALSE：重启失败              
- *        OTHERS : NONE
- ****************************************************************************************************/
-static uint8 FUNC_HUM_RESET(void)                    
-{
-    uint8 ret = FALSE;
-    
-    DRV_IIC_Init();
-    DRV_IIC_START();                      //start I2C
-    if(DRV_IIC_WRITE_BYTE(SHT30_ADDR << 1) == ACK)  //I2C address + write
-    {
-        (void)DRV_IIC_WRITE_BYTE(SHT30_RESET_CMD_H);
-        (void)DRV_IIC_WRITE_BYTE(SHT30_RESET_CMD_L);
-        ret = TRUE;                         //soft reset
-    }
-    
-    DRV_IIC_STOP();                       //stop I2C
-    
-    return ret;
-}
-
-/****************************************************************************************************
- * FUNCTION NAME : FUNC_HUM_SETTING()
- *   DESCRIPTION : 湿度设置
- *         INPUT : NONE
- *        OUTPUT : NONE  
- *        RETURN : uint8                    
- *        OTHERS : NONE
- ****************************************************************************************************/
-uint8 FUNC_HUM_SETTING(uint16 cmd)
-{
-    DRV_IIC_START();
-    if(DRV_IIC_WRITE_BYTE(SHT30_ADDR << 1)==ACK)
-    {
-        if(DRV_IIC_WRITE_BYTE(cmd>>8)==ACK)                      //Command
-        {
-            if(DRV_IIC_WRITE_BYTE(cmd&0xFF)==ACK)
-            {
-               return 1 ;
-            }
-            else
-            {
-               return 0 ;
-            }
-        }
-        else
-        {
-            return 0 ;
-        }
-    }
-    else
-    {   
-        return 0 ;
-    }
-    DRV_IIC_STOP();
+	bool_lin_cmd_sleep = FALSE;
+	bool_auto_roof_rain_measure_sleep_flg = FALSE;
+	bool_wakeup_bcm_cnt_sleep_flg = FALSE;
+	bool_Mcu_wakeup_state = FALSE;
+	
+	u8_wakeup_bcm_1500ms_timer = 0;
+	u8_wakeup_bcm_1min_timer = 0;
+	Auto_Roof_FSM = Roof_RAIN_CHECK;
+	
 }
 
 
-/****************************************************************************************************
- * FUNCTION NAME : FUNC_READ_HUMDATA()
- *   DESCRIPTION : 湿度温度读取
- *         INPUT : cmd，
- *        OUTPUT : Temp_measure,Hum_measure 
- *        RETURN : uint8                    
- *        OTHERS : NONE
- ****************************************************************************************************/
-void FUNC_READ_HUMDATA(uint16 cmd)
+void Sleep_check(void)
 {
-        unsigned char Temper[2],TempCrc,HumCrc;
-        unsigned long temp = 0;
-        unsigned char i = 0 ;
-       
-
-        DRV_IIC_START();
-        if(DRV_IIC_WRITE_BYTE(SHT30_ADDR << 1)==ACK)                  //I2C address + write + ACK
-        {        
-            if(DRV_IIC_WRITE_BYTE(cmd>>8)==ACK)                      //Command
-            {
-                if(DRV_IIC_WRITE_BYTE(cmd&0xFF)==ACK)
-                {
-                	iic_error_cnt = 0;
-                	
-                    do
-                    {
-                        Delay_Nus(200);
-                        DRV_IIC_START();
-                        Delay_Nus(1);  
-                        i++;
-                        if(i >= 100) break;
-                    }while(DRV_IIC_WRITE_BYTE(((SHT30_ADDR<<1)|0x01))==NACK);     //I2C address + read        + NACK 
-
-                    Temper[0] = DRV_IIC_READ_BYTE(ACK);                                              //Data(MSB)
-                    Temper[1] = DRV_IIC_READ_BYTE(ACK);
-                    TempCrc = DRV_IIC_READ_BYTE(ACK);
-                    
-                    if(TempCrc == crc8(Temper,2))
-                    {
-						Temp_error_cnt = 0;
-						Temp_measure_TP = Temper[0]<<8|Temper[1];
-						temp         = (unsigned long)Temp_measure_TP*175;
-#if 0
-						f_acture_temp =  (float)(temp/65534 - 45); //f_acture_temp
-#endif						
-						Temp_measure = (uint16)(temp/65534 + 5 ); 
-						
-						if(Temp_measure >= 254)  Temp_measure = 254;
-						
-                    }
-                    else
-                    {
-                          Temp_error_cnt++ ;  
-                          if(Temp_error_cnt == 4) Temp_error_cnt = 4;
-                    }
-                    
-                    Temper[0] = DRV_IIC_READ_BYTE(ACK);                      //Data(MSB)
-                    Temper[1] = DRV_IIC_READ_BYTE(ACK);
-                    HumCrc = DRV_IIC_READ_BYTE(ACK);                                              
-                    
-                    if(HumCrc == crc8(Temper,2))                   
-                    {
-                          Hum_error_cnt = 0;
-                          Hum_measure_TP =  Temper[0]<<8|Temper[1];
-                          temp = (unsigned long)Hum_measure_TP*100;                    
-                          Hum_measure = temp/65534;
-#if 0
-                          f_acture_hum =  (float)(temp/65534);
-#endif	                         
-                    }
-                    else
-                    {
-                          Hum_error_cnt++;  
-                          if(Hum_error_cnt == 4) Hum_error_cnt = 4;
-                    }
-                    
-                    DRV_IIC_READ_BYTE(NACK);                                                          //Checksum  + NACK 
-                    DRV_IIC_STOP();                                                                              //Stop I2C
-                    
-                }
-                else
-                {
-                	iic_error_cnt++;
-                }
-                
-                if((Hum_error_cnt >= 4)||(Temp_error_cnt >= 4))
-                {
-                    Humid_Temp_Error = 1;
-                    FUNC_HUM_RESET();
-                }
-                else
-                {
-                    Humid_Temp_Error = 0;
-                }
-                
-            }
-            else
-            {
-            	iic_error_cnt++ ;
-            }
-        }
-        else
-        {
-        	iic_error_cnt++;
-        }
-        
-        if(iic_error_cnt >= 4)
-        {
-        	iic_error_cnt = 4;
-        	Humid_Temp_Error = 1;
-        	FUNC_HUM_RESET();
-        }
-        
-        DRV_IIC_STOP();
-        
-}
-
-/****************************************************************************************************
- * FUNCTION NAME : Humid_Avg_Function()
- *   DESCRIPTION : 湿度平均
- *         INPUT : cmd，
- *        OUTPUT : Temp_measure,Hum_measure 
- *        RETURN : uint8                    
- *        OTHERS : NONE
- ****************************************************************************************************/
-void  Humid_Avg_Function(void)
-{
-    uint8 i ;
-    uint16 sum = 0;
-    for(i = 1;i <= HUMID_NUM;i++)
-    {      
-        Humid_buffer[HUMID_NUM - 1] =  Hum_measure;
-        if(i < HUMID_NUM)   Humid_buffer[i - 1] = Humid_buffer[i] ;
-    }
-    
-    for(i = 0;i < HUMID_NUM;i++)
-    {
-         sum += Humid_buffer[i] ;
-    }
-    Humid_Avg = sum / HUMID_NUM;    
-}
-
-/****************************************************************************************************
- * FUNCTION NAME : Temp_Avg_Function()
- *   DESCRIPTION : 温度平均
- *         INPUT : cmd，
- *        OUTPUT : Temp_measure,Hum_measure 
- *        RETURN : uint8                    
- *        OTHERS : NONE
- ****************************************************************************************************/
-void  Temp_Avg_Function(void)
-{
-    uint8 i ;
-    uint32 sum = 0;
-    for(i = 1;i <= TEMP_NUM;i++)
-    {      
-        Temp_buffer[TEMP_NUM - 1] =  Temp_measure;
-        if(i < TEMP_NUM)   Temp_buffer[i - 1] = Temp_buffer[i] ;
-    }
-    
-    for(i = 0;i < TEMP_NUM;i++)
-    {
-         sum += Temp_buffer[i] ;
-    }
-    Temp_Avg = sum / TEMP_NUM;   
-}
-
-/****************************************************************************************************
- * FUNCTION NAME : float Dew_Point_Cal(float temp , float hum)
- *   DESCRIPTION : 露点计算
- *         INPUT : cmd，
- *        OUTPUT : Temp_measure,Hum_measure 
- *        RETURN : uint8                    
- *        OTHERS : NONE
- ****************************************************************************************************/
-#if 0
-	float Dew_Point_Cal(float temp , float hum)
+	if((Timer_4s >= 8) //no lin data for 4s
+		||(bool_lin_cmd_sleep == TRUE)  //recive the signal of sleep from BCM
+		||(bool_auto_roof_rain_measure_sleep_flg == TRUE)
+		||(bool_wakeup_bcm_cnt_sleep_flg == TRUE))
 	{
-		float h_temp,rt_value;
+		bool_lin_cmd_sleep = FALSE;
+		bool_auto_roof_rain_measure_sleep_flg = FALSE;
+		bool_wakeup_bcm_cnt_sleep_flg = FALSE;
+		Timer_4s = 0;
+			
+		Sleep_Process();
+		Recover_Process();
+	}
+	
+}
+
+
+
+/*******************************************************
+ * FUNCTION NAME : Auto_Roof_Process()
+ *   DESCRIPTION : Auto_Roof_Process  
+ *         INPUT : NONE
+ *        OUTPUT : void  
+ *        RETURN : NONE              
+ *        OTHERS : NONE
+ *******************************************************/ 
+void Auto_Roof_Process(void)
+{   
+	Timer_6h++;
+	
+	switch(Auto_Roof_FSM)
+	{
+		case Roof_RAIN_CHECK:
+		{
+            RLS_Auto_Rain_Task();
+			if(u8_WiperSpeed != 0)
+			{			
+				Auto_Roof_FSM = Roof_Wake_Up;	
+				u8_wakeup_bcm_1500ms_timer = 0;
+				RTC_DisableInt();
+			}
+			else
+			{
+				if(Timer_6h >=(6*60*60*20)) //time out deep sleep
+				{
+					Auto_Roof_FSM = Roof_Wake_Up;
+					u8_wakeup_bcm_1500ms_timer = 0;
+				}
+			}	
+			if(bool_Mcu_wakeup_state == TRUE)  //if BCM wake up RLS,  go to normal mode
+			{
+				bool_auto_roof_rain_measure_sleep_flg = FALSE;
+				RLS_RunMode =  MAIN_NORMAL;
+			}
+		}break;
 		
-		h_temp =  (log10f(hum) - 2.0) / 0.4343 + (17.62 * temp)/(243.12 + temp) ;
+		case Roof_Wake_Up:
+		{
+			Timer_600ms = 0;	
+			if(bool_Mcu_wakeup_state == TRUE)
+			{
+				u8_wakeup_bcm_1min_timer = 0;
+				Auto_Roof_FSM = Roof_CLOSED_WINDOWS;
+			}
+			else
+			{
+				u8_wakeup_bcm_1500ms_timer++;
+							
+				if((u8_wakeup_bcm_1500ms_timer <= 9)&&
+					((u8_wakeup_bcm_1500ms_timer%3) == 0))//150ms一包三帧唤醒信号
+				{
+					Lin_RLS_Wakeup_BCM();							
+				}
+				
+				if(u8_wakeup_bcm_1500ms_timer >= 30)//间隔1500ms发送唤醒包
+				{	
+					u8_wakeup_bcm_1500ms_timer = 0;
+					u8_wakeup_bcm_1min_timer++;
+					
+					if(u8_wakeup_bcm_1min_timer >= 40)//1min
+					{
+						u8_wakeup_bcm_1min_timer = 0;
+						bool_wakeup_bcm_cnt_sleep_flg = TRUE;
+                        Lin_BCM_Frame.BCM_WindowStatus = 0;
+					}
+				}		
+			}
+					
+		}break;
+		case Roof_CLOSED_WINDOWS:
+		{
+			Timer_600ms = 0;
+			u8_wakeup_bcm_1min_timer++;
+			u8_RLS_WindowCloseReq = 1 ; //send closed window
+			Lin_RLS_data();
+			if(u8_wakeup_bcm_1min_timer >= 1200) //120*50ms
+			{
+				u8_wakeup_bcm_1min_timer = 0;
+				u8_RLS_WindowCloseReq = 0 ;
+                                Lin_BCM_Frame.BCM_WindowStatus = 0;
+				RLS_RunMode =  MAIN_NORMAL;
+			}
+			
+			if(Lin_BCM_Frame.BCM_WindowStatus == 0)
+			{
+				u8_RLS_WindowCloseReq = 0;
+				RLS_RunMode =  MAIN_NORMAL;
+			}	
+		}break;
+		default:
+		{
+			Auto_Roof_FSM = Roof_RAIN_CHECK;
+		}break;
 		
-		rt_value = (243.12 *  h_temp)/(17.62 - h_temp) ;
-		
-		return   rt_value ;
+	}
+}
+/*******************************************************
+ * FUNCTION NAME : Sleep_Process()
+ *   DESCRIPTION : Sleep_Process  
+ *         INPUT : NONE
+ *        OUTPUT : void  
+ *        RETURN : NONE              
+ *        OTHERS : NONE
+ *******************************************************/ 
+void Sleep_Process(void)
+{
+	uint8 i;
+	RLS_Disable_Light();
+	DISABLE_INTERRUPT;
+	
+	/******MLX75308进入休眠***********/
+	(void)SPI_Wr_Cmd(RSLP);    
+	(void)SPI_Wr_Cmd(CSLP);
+	SPI_Disable();
+	
+#ifdef ENABLE_AUTO_ROOF	
+	if(Lin_BCM_Frame.BCM_WindowStatus >= 1)
+	{
+		RTC_EnableInt();
+		RLS_RunMode =  MAIN_SLEEP_Mode;
+		Auto_Roof_FSM = Roof_RAIN_CHECK;
+	}
+	else
+	{
+		RTC_DisableInt();
 	}
 #endif
+	
+	UART0_S2 |=  UART_S2_RXEDGIF_MASK;   //去掉会产生错误帧
+	UART0_BDH  |=  UART_BDH_RXEDGIE_MASK; //去掉会产生错误帧
+	/******关闭LIN发送***********/ 
+	LIN_DISABLE ;//GPIOA_PCOR |= 0x00008000 ; //PTB7  LIN_EN
+	
+	for (i = 0;i < LIGHT_TYPE ; i++)
+	{
+		Light_on_cnt[i] = 0; 
+		Light_off_cnt[i] = 0;  
+	}
+			
+	u8_light_on_req = 0;     
+	u8_twilight_on_req = 0;
+	
+	bool_Mcu_wakeup_state = FALSE;
+	u16_RainWindow_Cnt = 0;
+	u8_enter_period_cnt = 0;
+	u8_enter_period_flg = 0;
+	u8_Rain_Flg = 0;
+	u16_IntWindow_Cnt = 0;
+	u8_Int_Cnt = 0;
+	Lin_RLS_data();
+	
+	/* disable LVD in stop mode */
+	PMC_SPMSC1 &= ~(PMC_SPMSC1_LVDE_MASK | PMC_SPMSC1_LVDRE_MASK | PMC_SPMSC1_LVDSE_MASK);
+	/* Set the SLEEPDEEP bit to enable deep sleep mode (STOP) */
+	SCB_SCR |= SCB_SCR_SLEEPDEEP_MASK;
+	/* Not using KEIL's uVision, so use the standard assembly command */
+	ENABLE_INTERRUPT;	
+	asm("WFI");
+	
+	RTC_DisableInt();
+}
+
+/*******************************************************
+ * FUNCTION NAME : Recover_Process()
+ *   DESCRIPTION : Recover_Process  
+ *         INPUT : NONE
+ *        OUTPUT : void  
+ *        RETURN : NONE              
+ *        OTHERS : NONE
+ *******************************************************/ 
+void Recover_Process(void)
+{
+	LIN_ENABLE ;// LIN_EN
+	Timer_6h = Timer_6h + (5 * 20);//every 5s wake up
+#ifdef ENABLE_SOLAR
+	RLS_Enable_Light();
+#endif
+	u8_Lin_Diag_Enable = 0;
+	u8_Lin_Diag_Enable_Cnt = 0;
+	l_sys_init();
+	l_ifc_init(LI0);
+	SPI_Enable();
+	FTM0_Init();
+	
+    (void)SPI_Wr_Cmd(NRM); 
+}

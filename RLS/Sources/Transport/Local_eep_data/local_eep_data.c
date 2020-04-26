@@ -24,7 +24,6 @@ bool_t Set_Data_To_EEPROM(uint32 startAddr,uint8 *p_data,uint16 len)
 {
     uint8 add;
     int16 cn;
-    bool_t res;
     local_info_t local_info_Compare;
     
     add = (uint8)(startAddr - EEPROM_SERIAL_NUMBER0_ADDR);

@@ -4,8 +4,10 @@
 #include "clock.h"
 #include "spi.h"
 #include "lin.h"
-#include "rls_app.h"
 
+
+extern  MLX75308_Mnrval_t     Mnrval;
+extern  MLX75308_Frame_t       MLX75308_RxFrame;
 
 void SPI_SetBaudRate(uint32_t u32BusClock,uint32_t u32Bps);
 extern void WDOG_Feed(void);
@@ -185,7 +187,7 @@ uint8 SPI_Rd_Reg(uint8 Addr)
     uint32 Cmd = 0;
     uint32 RDBUF = 0, SPI_RD = 0;
     uint8  Data;               //the content of the register
-    uint8  i;
+   
 
     Cmd = (((((Cmd << 4) | Addr) << 12) | 0x8e0000));
     WDOG_Feed();

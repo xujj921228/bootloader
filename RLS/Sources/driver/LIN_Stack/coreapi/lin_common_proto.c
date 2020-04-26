@@ -31,7 +31,6 @@
 #include "lin_lin21_proto.h"
 #include "lin_j2602_proto.h"
 #include "lin_common_api.h"
-#include "rls_app.h"
 /* Unuse for GPIO */
 #if ( _LIN_GPIO_ == 0 ) && !defined(_MC9S08SC4_H) && !defined(MCU_SKEAZN84)
 #include "lin_commontl_proto.h"
@@ -44,6 +43,7 @@
  * frame or signal error
  */
 l_u8 frame_signal_error;
+extern l_u8 u8_Lin_Diag_Enable;
 
 /* ---------------------------- For 1 interface ----------------------------------- */
 #if LIN_MODE == _SLAVE_MODE_

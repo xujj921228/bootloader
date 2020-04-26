@@ -239,16 +239,16 @@ struct MLX75308_Parameter
 
  
 
-struct MLX75308_Frame 
+typedef struct  
 {
   uint8  StateFlag;
   uint8  CtrlByte1;
   uint16 data_field[10];
   uint8  CRC;
-};
+}MLX75308_Frame_t;
 
 //MLX75308 Measure Parameter
-struct MLX75308_Mnrval
+typedef struct 
 {
   uint16 Temperature;
   uint16 Amb_C;
@@ -260,12 +260,9 @@ struct MLX75308_Mnrval
   uint16 IR_B;
   uint16 DC_aft_A;
   uint16 DC_aft_B;  
-};
+}MLX75308_Mnrval_t;
 
  
-extern struct MLX75308_Mnrval     Mnrval;
-extern struct MLX75308_Frame       MLX75308_RxFrame;
-
 
 
 extern uint8 SPI_Rd_Reg(uint8 Addr);
