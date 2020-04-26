@@ -10,6 +10,10 @@
 		<item value="227191" key="searchFlags"/>
 		<item value="false" key="caseSensitive"/>
 		<list key="previousPatterns">
+			<item value="u8_Battery_High_Cnt"/>
+			<item value="u16_Battery_Volt"/>
+			<item value="Rls_Error"/>
+			<item value="u8_Cmd_Execution"/>
 			<item value="u8_RLS_StopMsureFlg"/>
 			<item value="Sensor_status4"/>
 		</list>
