@@ -113,6 +113,13 @@ typedef struct
 }tRain_Stastegy_Config;
 
 
+typedef enum
+{
+   RLS_Continue_Msure                 = 0,
+   RLS_Stop_Msure                     = 1
+}RLS_StopMsureFlg_t;
+
+
 
 /************RAIN_INVALID***********/   
 #define   DC_bef_dtTH           200     //300
@@ -134,12 +141,12 @@ typedef struct
 #define   HIGH_SPEED_MODE   5
 
 
+#define   RAIN_DELTA          80
+
 
 
 
 extern void Auto_Wiper_Var_Init(void);
-extern void RLS_Enable_Light(void);
-extern void RLS_Disable_Light(void);
 extern void RLS_Rain_Module_Fault_Process(uint8 chan);
 extern uint8 RLS_Get_Rain_State(uint8 PD_chan);
 extern void RLS_Get_Rain_ExpectStage(uint8 PD_chan);
@@ -150,8 +157,7 @@ extern void RLS_Rain_State_Mchaine(void);
 extern void RLS_Wipe_Park_Process(void);
 extern void RLS_Auto_Rain_Task(void);
 extern void RLS_SelfAdaptTask(void);
-extern void RLS_Wipe_Auto_On_Function(void);
-extern void RLS_Wipe_Sensitivity_Up_Function(void);
+extern void RLS_Single_Wipe_Function(void);
 extern void RLS_Lin_Diag_Fucntion(void);
 
 

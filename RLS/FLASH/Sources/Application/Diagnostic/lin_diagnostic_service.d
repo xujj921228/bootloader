@@ -22,7 +22,8 @@ Sources/Application/Diagnostic/lin_diagnostic_service.o: \
  C:/Users/Administrator/Desktop/QY120081-04-000PR-V1.0/RLS/Sources/Driver/LIN_Stack/include/lin_diagnostic_service.h \
  C:/Users/Administrator/Desktop/QY120081-04-000PR-V1.0/RLS/Sources/Driver/eeprom/eeprom.h \
  C:/Users/Administrator/Desktop/QY120081-04-000PR-V1.0/RLS/Sources/Application/Config_parameters/config_parameter.h \
- C:/Users/Administrator/Desktop/QY120081-04-000PR-V1.0/RLS/Sources/Transport/Local_eep_data/local_eep_data.h
+ C:/Users/Administrator/Desktop/QY120081-04-000PR-V1.0/RLS/Sources/Transport/Local_eep_data/local_eep_data.h \
+ C:/Users/Administrator/Desktop/QY120081-04-000PR-V1.0/RLS/Sources/Transport/LIN_app/lin_app.h
 
 D:/CW11.0/CW\ MCU\ v11.0/MCU/ARM_GCC_Support/ewl/EWL_C/include/lib_ewl.prefix:
 
@@ -69,3 +70,5 @@ C:/Users/Administrator/Desktop/QY120081-04-000PR-V1.0/RLS/Sources/Driver/eeprom/
 C:/Users/Administrator/Desktop/QY120081-04-000PR-V1.0/RLS/Sources/Application/Config_parameters/config_parameter.h:
 
 C:/Users/Administrator/Desktop/QY120081-04-000PR-V1.0/RLS/Sources/Transport/Local_eep_data/local_eep_data.h:
+
+C:/Users/Administrator/Desktop/QY120081-04-000PR-V1.0/RLS/Sources/Transport/LIN_app/lin_app.h:

@@ -22,6 +22,7 @@ Sources/Driver/LIN_Stack/coreapi/lin_common_proto.o: \
  C:/Users/Administrator/Desktop/QY120081-04-000PR-V1.0/RLS/Sources/Driver/LIN_Stack/include/lin_lin21_proto.h \
  C:/Users/Administrator/Desktop/QY120081-04-000PR-V1.0/RLS/Sources/Driver/LIN_Stack/include/lin_j2602_proto.h \
  C:/Users/Administrator/Desktop/QY120081-04-000PR-V1.0/RLS/Sources/Driver/LIN_Stack/include/lin_common_api.h \
+ C:/Users/Administrator/Desktop/QY120081-04-000PR-V1.0/RLS/Sources/Application/Config_parameters/config_parameter.h \
  C:/Users/Administrator/Desktop/QY120081-04-000PR-V1.0/RLS/Sources/Driver/LIN_Stack/include/lin_commontl_proto.h \
  C:/Users/Administrator/Desktop/QY120081-04-000PR-V1.0/RLS/Sources/Driver/LIN_Stack/include/lin_lin21tl_api.h \
  C:/Users/Administrator/Desktop/QY120081-04-000PR-V1.0/RLS/Sources/Driver/LIN_Stack/include/lin_j2602tl_api.h
@@ -69,6 +70,8 @@ C:/Users/Administrator/Desktop/QY120081-04-000PR-V1.0/RLS/Sources/Driver/LIN_Sta
 C:/Users/Administrator/Desktop/QY120081-04-000PR-V1.0/RLS/Sources/Driver/LIN_Stack/include/lin_j2602_proto.h:
 
 C:/Users/Administrator/Desktop/QY120081-04-000PR-V1.0/RLS/Sources/Driver/LIN_Stack/include/lin_common_api.h:
+
+C:/Users/Administrator/Desktop/QY120081-04-000PR-V1.0/RLS/Sources/Application/Config_parameters/config_parameter.h:
 
 C:/Users/Administrator/Desktop/QY120081-04-000PR-V1.0/RLS/Sources/Driver/LIN_Stack/include/lin_commontl_proto.h:
 

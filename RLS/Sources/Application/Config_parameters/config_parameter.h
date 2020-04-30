@@ -66,11 +66,6 @@ typedef enum
  
 
 /************DC_COMP***********/
-#define   DC_COMP_TH0             8100
-#define   SOFT_DC_COMP_VALUE0      300 
-
-#define   RAIN_DELTA          80
-
 #define   DtABS_MAX    5000
 
 

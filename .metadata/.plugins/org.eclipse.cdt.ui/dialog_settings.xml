@@ -10,6 +10,7 @@
 		<item value="227191" key="searchFlags"/>
 		<item value="false" key="caseSensitive"/>
 		<list key="previousPatterns">
+			<item value="FUNC_READ_HUMDATA"/>
 			<item value="u8_Battery_High_Cnt"/>
 			<item value="u16_Battery_Volt"/>
 			<item value="Rls_Error"/>

@@ -25,6 +25,8 @@ typedef struct
     
 } tMlx75308_Config;
 
+#define   SOFT_DC_COMP_VALUE0      300 
+#define   DC_COMP_TH0             8100
 
 #define   CHAN_NUM 2
 #define   CHAN_A 0

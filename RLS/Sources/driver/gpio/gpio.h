@@ -166,6 +166,20 @@ PTH7,
 #define   DR              ((GPIOA_PDIR&0x00004000)>>14) //PTB6-intput  DR    //
 #define   MR              ((GPIOA_PDIR&0x08000000)>>27) //PTD3-intput  MR    //
 
+#define RLS_Enable_Light()\
+{\
+GPIOA_PDDR|=0x00000002;\
+GPIOA_PSOR|=0x00000002;\
+GPIOA_PDDR|=0x00040000;\
+GPIOA_PSOR|=0x00040000;}
+
+#define RLS_Disable_Light()\
+{\
+GPIOA_PDDR|=0x00000002;\
+GPIOA_PCOR|=0x00000002;\ 
+GPIOA_PDDR|=0x00040000;\ 
+GPIOA_PCOR|=0x00040000;}   
+
 
 extern void GPIO_Init(void);
 

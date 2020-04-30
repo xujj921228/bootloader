@@ -38,6 +38,10 @@
 #include "ftm.h"
 
 
+//this frame is for APP 
+extern RLS_APP_Value_t     RLS_APP_Value;
+extern BCM_APP_Value_t     BCM_APP_Value;
+
 extern bool_t bool_Mcu_wakeup_state;
 extern bool_t bool_lin_cmd_sleep;
 extern uint8  u8_Cmd_Execution;
@@ -538,7 +542,7 @@ void lin_lld_uart_rx_isr
                     if((current_id == 0x3C)||(current_id == 0x3D))
                     {
                     	diagnostic_Session_timer = 0;
-                    	diagnostic_Session_flg = 1;
+                    	RLS_APP_Value.APP_DiagnnosticReq = APP_Diagnnostic_Req;
                     }
                     
                     if (current_id != 0xFF)

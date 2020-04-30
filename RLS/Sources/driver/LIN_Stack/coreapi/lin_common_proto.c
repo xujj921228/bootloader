@@ -31,6 +31,7 @@
 #include "lin_lin21_proto.h"
 #include "lin_j2602_proto.h"
 #include "lin_common_api.h"
+#include "config_parameter.h"
 /* Unuse for GPIO */
 #if ( _LIN_GPIO_ == 0 ) && !defined(_MC9S08SC4_H) && !defined(MCU_SKEAZN84)
 #include "lin_commontl_proto.h"
@@ -43,7 +44,7 @@
  * frame or signal error
  */
 l_u8 frame_signal_error;
-extern l_u8 u8_Lin_Diag_Enable;
+extern bool_t Lin_Diag_Enable;
 
 /* ---------------------------- For 1 interface ----------------------------------- */
 #if LIN_MODE == _SLAVE_MODE_
@@ -321,7 +322,7 @@ void lin_handle_error
         case LIN_LLD_READBACK_ERR:
         case LIN_LLD_NODATA_TIMEOUT:
             /* Set response error */
-        	if(u8_Lin_Diag_Enable == 0)
+        	if(Lin_Diag_Enable == FALSE)
         	{
         		lin_error_in_response = 0;
         	}

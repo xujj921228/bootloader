@@ -269,11 +269,11 @@ void  Temp_Avg_Function(void)
 {
     uint8 i ;
     uint32 sum = 0;
-    for(i = 1;i <= TEMP_NUM;i++)
+    for(i = 1;i < TEMP_NUM;i++)
     {      
-        Temp_buffer[TEMP_NUM - 1] =  Temp_measure;
-        if(i < TEMP_NUM)   Temp_buffer[i - 1] = Temp_buffer[i] ;
+        Temp_buffer[i - 1] = Temp_buffer[i] ;
     }
+    Temp_buffer[TEMP_NUM - 1] =  Temp_measure;
     
     for(i = 0;i < TEMP_NUM;i++)
     {

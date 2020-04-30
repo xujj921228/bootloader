@@ -1,5 +1,6 @@
 #include "auto_air.h"
 #include "spi.h"
+#include "lin_app.h"
 
 /****************************************
  * var
@@ -20,18 +21,19 @@ static uint16 Tab_Brightness_Solar[Tab_IR_NUM] = { 0   , 10,    25,    40,    55
 
 uint16 u16_solar_buffer[SOLAR_CHAN_NUM][SOLAR_WINDOW];
 
-uint8  u8_Solar_l_value;
-uint8 u8_Solar_r_value;
 bool_t Frist_on_flag;
 
 extern  MLX75308_Frame_t       MLX75308_RxFrame;
 extern  MLX75308_Mnrval_t      Mnrval;
 
+//this frame is for APP 
+extern RLS_APP_Value_t     RLS_APP_Value;
+extern BCM_APP_Value_t     BCM_APP_Value;
 
 void Auto_Air_Var_Init(void)
 {
-	u8_Solar_l_value = 0;
-	u8_Solar_r_value = 0;
+	RLS_APP_Value.u8_Solar_l_value = 0;
+	RLS_APP_Value.u8_Solar_r_value = 0;
 	Frist_on_flag = FALSE ;
 }
 
@@ -160,9 +162,9 @@ void RLS_Auto_Solar_Task(void)
 	avg_Solar_r_value = Search_Table(avg_Solar_r_value,Tab_AWG_Solar, Tab_Brightness_Solar, 16);
 	
 	
-	if(avg_Solar_l_value >= 250) u8_Solar_l_value =  250;
-	else                         u8_Solar_l_value =  avg_Solar_l_value;
+	if(avg_Solar_l_value >= 250) RLS_APP_Value.u8_Solar_l_value =  250;
+	else                         RLS_APP_Value.u8_Solar_l_value =  avg_Solar_l_value;
 	
-	if(avg_Solar_r_value >= 250) u8_Solar_r_value =  250;
-	else                         u8_Solar_r_value =  avg_Solar_r_value;
+	if(avg_Solar_r_value >= 250) RLS_APP_Value.u8_Solar_r_value =  250;
+	else                         RLS_APP_Value.u8_Solar_r_value =  avg_Solar_r_value;
 }

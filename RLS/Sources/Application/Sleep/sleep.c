@@ -13,7 +13,6 @@ extern uint8  Timer_600ms;
 extern uint32  Timer_6h;
 
 extern uint8  u8_RLS_WindowCloseReq;
-extern uint8 u8_WiperSpeed;
 extern uint16 u16_RainWindow_Cnt;
 
 extern uint8  Light_on_cnt[LIGHT_TYPE];
@@ -25,11 +24,14 @@ extern uint8 u8_enter_period_flg;
 extern uint8  u8_Rain_Flg;
 extern uint16 u16_IntWindow_Cnt;
 extern uint8  u8_Int_Cnt;
-extern uint8  u8_Lin_Diag_Enable;
+extern bool_t  Lin_Diag_Enable;
 extern uint8  u8_Lin_Diag_Enable_Cnt;
 
 extern Main_Fsm_t  RLS_RunMode;
-extern  BCM_Frame_t  Lin_BCM_Frame;
+
+//this frame is for APP 
+extern RLS_APP_Value_t     RLS_APP_Value;
+extern BCM_APP_Value_t     BCM_APP_Value;
 
 /*********
  * cmd for sleep
@@ -96,7 +98,7 @@ void Auto_Roof_Process(void)
 		case Roof_RAIN_CHECK:
 		{
             RLS_Auto_Rain_Task();
-			if(u8_WiperSpeed != 0)
+			if(RLS_APP_Value.RLS_APP_WiperSpeed != WiperSpeed_High)
 			{			
 				Auto_Roof_FSM = Roof_Wake_Up;	
 				u8_wakeup_bcm_1500ms_timer = 0;
@@ -144,7 +146,7 @@ void Auto_Roof_Process(void)
 					{
 						u8_wakeup_bcm_1min_timer = 0;
 						bool_wakeup_bcm_cnt_sleep_flg = TRUE;
-                        Lin_BCM_Frame.BCM_WindowStatus = 0;
+						BCM_APP_Value.BCM_WindowStatus = BCM_Window_All_closed;
 					}
 				}		
 			}
@@ -160,11 +162,11 @@ void Auto_Roof_Process(void)
 			{
 				u8_wakeup_bcm_1min_timer = 0;
 				u8_RLS_WindowCloseReq = 0 ;
-                                Lin_BCM_Frame.BCM_WindowStatus = 0;
+				BCM_APP_Value.BCM_WindowStatus = BCM_Window_All_closed;
 				RLS_RunMode =  MAIN_NORMAL;
 			}
 			
-			if(Lin_BCM_Frame.BCM_WindowStatus == 0)
+			if(BCM_APP_Value.BCM_WindowStatus == BCM_Window_All_closed)
 			{
 				u8_RLS_WindowCloseReq = 0;
 				RLS_RunMode =  MAIN_NORMAL;
@@ -197,7 +199,7 @@ void Sleep_Process(void)
 	SPI_Disable();
 	
 #ifdef ENABLE_AUTO_ROOF	
-	if(Lin_BCM_Frame.BCM_WindowStatus >= 1)
+	if(BCM_APP_Value.BCM_WindowStatus != BCM_Window_All_closed)
 	{
 		RTC_EnableInt();
 		RLS_RunMode =  MAIN_SLEEP_Mode;
@@ -220,8 +222,8 @@ void Sleep_Process(void)
 		Light_off_cnt[i] = 0;  
 	}
 			
-	u8_light_on_req = 0;     
-	u8_twilight_on_req = 0;
+	RLS_APP_Value.light_on_req = Light_Off;  
+	RLS_APP_Value.twilight_on_req = Light_Off;
 	
 	bool_Mcu_wakeup_state = FALSE;
 	u16_RainWindow_Cnt = 0;
@@ -258,7 +260,7 @@ void Recover_Process(void)
 #ifdef ENABLE_SOLAR
 	RLS_Enable_Light();
 #endif
-	u8_Lin_Diag_Enable = 0;
+	Lin_Diag_Enable = FALSE;
 	u8_Lin_Diag_Enable_Cnt = 0;
 	l_sys_init();
 	l_ifc_init(LI0);

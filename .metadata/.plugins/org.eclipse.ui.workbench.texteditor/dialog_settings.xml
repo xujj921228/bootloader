@@ -2,29 +2,33 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
 		<item value="273" key="DIALOG_WIDTH"/>
-		<item value="169" key="DIALOG_Y_ORIGIN"/>
+		<item value="213" key="DIALOG_Y_ORIGIN"/>
+		<item value="965" key="DIALOG_X_ORIGIN"/>
 		<item value="400" key="DIALOG_HEIGHT"/>
-		<item value="1081" key="DIALOG_X_ORIGIN"/>
 		<item value="1|Microsoft YaHei UI|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|Microsoft YaHei UI" key="DIALOG_FONT_NAME"/>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="true" key="wrap"/>
-		<item value="false" key="isRegEx"/>
 		<item value="false" key="casesensitive"/>
+		<item value="false" key="isRegEx"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wholeword"/>
-		<item value="err" key="selection"/>
+		<item value="WiperRequest_t" key="selection"/>
 		<list key="findhistory">
-			<item value="err"/>
-			<item value="boot_jump_to_APP"/>
-			<item value="u16_Pd_Measure_Value"/>
-			<item value="MLX75308_Meansure"/>
-			<item value="rt_value"/>
-			<item value="i"/>
-			<item value="uart_flag_sr1"/>
-			<item value="B_RAIN_ADC_EEPdtata"/>
+			<item value="WiperRequest_t"/>
+			<item value="APP_WiperRequest_t"/>
+			<item value="u8_Automatic_On_Cnt"/>
+			<item value="Wipe_Automatic_On_Flg"/>
+			<item value="Light_on_cnt"/>
+			<item value="Lin_Diag_Enable"/>
+			<item value="u8_Lin_Diag_Enable"/>
+			<item value="WindowStatus"/>
 		</list>
 		<list key="replacehistory">
 		</list>
+	</section>
+	<section name="org.eclipse.ui.texteditor.GotoLineAction$GotoLineDialog_dialogBounds">
+		<item value="234" key="DIALOG_Y_ORIGIN"/>
+		<item value="452" key="DIALOG_X_ORIGIN"/>
 	</section>
 </section>

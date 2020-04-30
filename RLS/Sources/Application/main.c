@@ -60,6 +60,7 @@ void Gloable_Var_Init(void)
     Battery_Var_init();//var for battery
     Auto_Wiper_Var_Init();//var for rain
     Diagnostic_Var_init();//var for Diagnostic
+    Lin_Var_Init();//var for lin
 }
 /***********************************************************************************************
 *

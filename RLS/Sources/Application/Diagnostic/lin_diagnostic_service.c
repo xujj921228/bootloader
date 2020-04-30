@@ -31,7 +31,11 @@
 #include "lin_diagnostic_service.h"
 #include "eeprom.h"
 #include "local_eep_data.h"
+#include "lin_app.h"
 extern  local_info_t local_info;
+//this frame is for APP 
+extern RLS_APP_Value_t     RLS_APP_Value;
+extern BCM_APP_Value_t     BCM_APP_Value;
 
 /* Define functionality */
 #ifndef MULTI_PDU_SUPPORT
@@ -46,24 +50,24 @@ extern  local_info_t local_info;
 #if LIN_PROTOCOL == PROTOCOL_21
 
 
-l_u8 diagnostic_Session,diagnostic_Session_pre,diagnostic_Session_flg;
+l_u8 diagnostic_Session,diagnostic_Session_pre;
 l_u16 diagnostic_Session_timer;
 
 void Diagnostic_Var_init(void)
 {
 	diagnostic_Session = DIAGSRV_SESSION_DEFAULT;
 	diagnostic_Session_timer = 0 ;
-	diagnostic_Session_flg = 0;	
+	RLS_APP_Value.APP_DiagnnosticReq = APP_NO_Diagnnostic_Req;	
 }
 
 void lin_diagservice_session_state(void)
 {
-	if(diagnostic_Session_flg == 1)
+	if(RLS_APP_Value.APP_DiagnnosticReq == APP_Diagnnostic_Req)
 	{
 		if(diagnostic_Session_timer >= 500) //5s
 		{
 			diagnostic_Session =  DIAGSRV_SESSION_DEFAULT;
-			diagnostic_Session_flg = 0;
+			RLS_APP_Value.APP_DiagnnosticReq = APP_NO_Diagnnostic_Req;
 			diagnostic_Session_timer = 0;
 		}
 		else
@@ -88,6 +92,7 @@ void boot_jump_to_APP(uint16 *address)
 	JumpToPtr	pJumpTo;
 	pJumpTo = (JumpToPtr)(*pNewAppEntry);
 	pJumpTo();
+	RLS_APP_Value.APP_Reset == TRUE;
 	for(;;) { ; }
 }
 
