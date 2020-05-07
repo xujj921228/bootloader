@@ -22,7 +22,78 @@
 
 #include "config_parameter.h"
 
+/*****************************
+ * config of BCM
+ * * *******************************************************************************
+ * *******************************************************************************
+ * *******************************************************************************
+ * *******************************************************************************
+ * ***********************/
+typedef enum
+{
+   WiperPosition_Not_Parked             = 0,
+   WiperPosition_Parked                 = 1
+}WiperPosition_t;
 
+typedef enum
+{
+   BCM_Not_Washering                 = 0,
+   BCM_Washering                     = 1
+}BCM_Washer_t;
+
+typedef enum
+{
+   BCM_Amb_LV_Unknown       = 0,
+   BCM_Amb_LV_Night         = 1,
+   BCM_Amb_LV_Day           = 2,
+   BCM_Amb_LV_NOT_Use       = 3  
+}BCM_Amb_LV_t;
+
+typedef enum
+{
+   RainSensitivity_Off       = 0,
+   RainSensitivity_LV1       = 1,   
+   RainSensitivity_LV2       = 2,
+   RainSensitivity_LV3       = 3,
+   RainSensitivity_LV4       = 4,
+   RainSensitivity_LV5       = 5,
+   RainSensitivity_Low       = 6,
+   RainSensitivity_High      = 7
+}RainSensitivity_t;
+
+typedef struct  
+{
+	   
+  WiperPosition_t                  BCM_WiperPosition ;
+    
+  BCM_Washer_t                     BCM_Washer ;
+    
+  BCM_Amb_LV_t                     BCM_Amb_LV ;
+   
+  RainSensitivity_t                BCM_RainSensitivity  ;
+    
+  uint8                            BCM_VehicleSpeed     ;
+      
+}BCM_Frame_t;
+
+
+
+
+
+
+
+
+
+
+
+
+/*****************************
+ * config of RLS
+ * * *******************************************************************************
+ * *******************************************************************************
+ * *******************************************************************************
+ * *******************************************************************************
+ * ***********************/
 
 typedef enum
 {
@@ -125,54 +196,98 @@ typedef struct
 }RLS1_Frame_t;
 
 
-typedef enum
-{
-   WiperPosition_Not_Parked             = 0,
-   WiperPosition_Parked                 = 1
-}WiperPosition_t;
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*****************************
+ * config of RLHS
+ * * *******************************************************************************
+ * *******************************************************************************
+ * *******************************************************************************
+ * *******************************************************************************
+ * ***********************/
 
 typedef enum
 {
-   BCM_Not_Washering                 = 0,
-   BCM_Washering                     = 1
-}BCM_Washer_t;
+   Validity    = 0,
+   Invalidity  = 1
+}Validity_t;
 
-typedef enum
-{
-   BCM_Amb_LV_Unknown       = 0,
-   BCM_Amb_LV_Night         = 1,
-   BCM_Amb_LV_Day           = 2,
-   BCM_Amb_LV_NOT_Use       = 3  
-}BCM_Amb_LV_t;
-
-typedef enum
-{
-   RainSensitivity_Off       = 0,
-   RainSensitivity_LV1       = 1,   
-   RainSensitivity_LV2       = 2,
-   RainSensitivity_LV3       = 3,
-   RainSensitivity_LV4       = 4,
-   RainSensitivity_LV5       = 5,
-   RainSensitivity_Low       = 6,
-   RainSensitivity_High      = 7
-}RainSensitivity_t;
 
 typedef struct  
 {
-	   
-  WiperPosition_t                  BCM_WiperPosition ;
-    
-  BCM_Washer_t                     BCM_Washer ;
-    
-  BCM_Amb_LV_t                     BCM_Amb_LV ;
-   
-  RainSensitivity_t                BCM_RainSensitivity  ;
-    
-  uint8                            BCM_VehicleSpeed     ;
-      
-}BCM_Frame_t;
+	ContinuteReq_t                 RLHS_COM_Continue_req;
+	DiagnnosticReq_t               RLHS_Diagnostic_Req;
+	AppResetStatus_t               RLHS_APP_Reset_Atatus;
+	AppConfigurationStatus_t       RLHS_APP_Configuration;
+	AppStatus_t                    RLHS_APP_Status;
+	LinComStatus_t                 RLHS_Comunicate_Status;
+	uint16                         RLHS_Humidity_Temp;
+	Validity_t                     RLHS_Humidity_Temp_Validity;
+	RainSensorError_t              RLHS_Sensor_Fault;
+	uint8                          RLHS_Unused_bit;
+	Validity_t                     RLHS_Sensor_Humidity_Validity;
+	uint8                          RLHS_Humindity_Value;
+}RLHS_Frame_t;
 
 
+
+
+
+
+
+
+
+/*****************************
+ * config of RLHS01
+ * * *******************************************************************************
+ * *******************************************************************************
+ * *******************************************************************************
+ * *******************************************************************************
+ * ***********************/
+
+typedef struct  
+{
+	ContinuteReq_t                 RLHS01_Continue_Req;
+	DiagnnosticReq_t               RLHS01_Diagnostic_Req;
+	AppResetStatus_t               RLHS01_APP_Reset;
+	AppConfigurationStatus_t       RLHS01_APP_configuration;
+	AppStatus_t                    RLHS01_APP_Status;
+	LinComStatus_t                 RLHS01_Comunication_Status;
+	uint16                         RLHS01_Temp01;
+	Validity_t                     RLHS01_Sensor_Vaility;
+	uint8                          RLHS01_Unused;
+}RLHS01_Frame_t;
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*****************************
+ * config of lin_error
+ * * *******************************************************************************
+ * *******************************************************************************
+ * *******************************************************************************
+ * *******************************************************************************
+ * ***********************/
 typedef struct
 {
   uint8  RS_Error              :1;
@@ -184,6 +299,11 @@ typedef struct
   uint8  LS_Error_Cnt ;
   uint8  IR_Error_Cnt[2] ;
 } Rls_Error_t;
+
+
+
+
+
 
 
 
@@ -255,6 +375,16 @@ typedef struct
   bool_t  APP_Reset;
 }RLS_APP_Value_t;
 
+
+
+
+
+
+
+
+
+
+
 /******************************RLS_APP_GET_DATA_FROM_BCM
  * *******************************************************************************
  * *******************************************************************************
@@ -307,12 +437,25 @@ typedef struct
   
 }BCM_APP_Value_t;
 
+
+
+
+
+
+
+
+
+
 extern void Lin_Var_Init(void);
 extern void Lin_Sys_Init(void);
 extern void Lin_Busy_Process(void);
-extern void message_cnt(void);
 extern void RLS_Analysis_Master_Data(void);
+extern void message_cnt(void);
+extern void RLS_APP_Send_data(void);
+extern void RLHS_APP_Send_data(void);
+extern void RLHS01_APP_Send_data(void);
 extern void Lin_RLS_data(void);
+extern void RLS_APP_Get_Data(void);
 extern void MLX75308_Init(void);
 extern void Lin_RLS_Wakeup_BCM(void);
 

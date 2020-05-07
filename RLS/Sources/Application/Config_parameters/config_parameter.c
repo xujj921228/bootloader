@@ -35,8 +35,6 @@ const  uint8 Hardware_Versions[3] = {0x00, 0x01, 0x00};
 
 void Globle_parameter_Init(void)
 {
-	
-	 
  	Get_All_data_From_EEPROM();
  	while(local_info.EEPmark != EEPromMark)
  	{
@@ -44,7 +42,7 @@ void Globle_parameter_Init(void)
  		local_info.NUMBER1 = 0xF186;                                              //3.4.5
  		local_info.NUMBER2 = 0xF187;                                              //6.7.8
  		local_info.NUMBER3 = 0xF188;                                              //9.10.11
- 		local_info.Brightness_Light_Percentage = 100;;                            //12
+ 		local_info.Brightness_Light_Percentage = 100;                            //12
  		local_info.Brightness_Infrared_Percentage = 100;                          //13
  		local_info.A_DAC_EEPdtata = Mlx75308_Config_Parameter.dac_a_default;   //14
  		local_info.B_DAC_EEPdtata = Mlx75308_Config_Parameter.dac_b_default;   //15
@@ -54,16 +52,5 @@ void Globle_parameter_Init(void)
  		
  		Set_Data_To_EEPROM(EEPROM_SERIAL_NUMBER0_ADDR,local_info.array,LOCAL_SIZE);
  		Get_All_data_From_EEPROM();
- 	}
-	
-	/**************Set ProType and Param****************************/
-	    	
-			   
-	//l_bool_wr_LI0_RLS_LightRequest(u8_light_on_req);
-	
-	//l_bool_wr_LI0_RLS_RainSensorError(0);
-	//l_bool_wr_LI0_RLS_LightSensorError(0);
-	//l_u8_wr_LI0_RLS_VotalgeError(0);
-	
-
+ 	}	
 }

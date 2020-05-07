@@ -10,7 +10,6 @@
 "./Sources/Application/Config_parameters/config_parameter.o"
 "./Sources/Application/Diagnostic/lin_diagnostic_service.o"
 "./Sources/Application/Sleep/sleep.o"
-"./Sources/Application/humid_app/humid.o"
 "./Sources/Application/main.o"
 "./Sources/Driver/IIC/iic.o"
 "./Sources/Driver/LIN_Stack/bsp/UART/lin_lld_uart.o"

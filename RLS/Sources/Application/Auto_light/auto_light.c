@@ -31,16 +31,10 @@ uint8  Light_on_cnt[LIGHT_TYPE];
 uint8  Light_off_cnt[LIGHT_TYPE];
 
 
-
 void Auto_light_Var_Init(void)
 {
 	uint8 i;
 	
-	for (i = 0;i < LIGHT_TYPE ; i++)
-	{
-		Light_on_cnt[i] = 0; 
-		Light_off_cnt[i] = 0;  
-	}
 	RLS_APP_Value.light_on_req = Light_Off;  
 	RLS_APP_Value.twilight_on_req = Light_Off;
 }

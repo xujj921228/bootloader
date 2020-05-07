@@ -47,7 +47,7 @@
 -I"C:/Users/Administrator/Desktop/QY120081-04-000PR-V1.0/RLS/Sources/LIN_Stack/lowlevel"
 -I"C:/Users/Administrator/Desktop/QY120081-04-000PR-V1.0/RLS/Sources/Transport/lin_transport"
 -I"C:/Users/Administrator/Desktop/QY120081-04-000PR-V1.0/RLS/Sources/Transport/lin_cfg"
--O0
+-Os
 -ffunction-sections
 -fdata-sections
 -Wall

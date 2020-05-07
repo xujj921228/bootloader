@@ -47,8 +47,6 @@ typedef enum
 
  
  
- 
- 
 //#define FOUR_TO_ONE
 #define ENABLE_AUTO_ROOF  //使能自动开天窗功能
 #define ENABLE_SOLAR

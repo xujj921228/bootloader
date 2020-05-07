@@ -34,6 +34,27 @@ Signals {
    RLS_HumiditySensorInstalled   :  1,        0x0,                  RLS, BCM;
    RLS_Amb_Value                 :  8,        0x0,                  RLS, BCM;
    RLS_FW_Value                  :  8,        0x0,                  RLS, BCM;
+   RLHS_COM_Continue_req         :  1,        0x0,                  RLS, BCM;
+   RLHS_Diagnostic_Req           :  1,        0x0,                  RLS, BCM;
+   RLHS_APP_Reset_Atatus         :  1,        0x0,                  RLS, BCM;
+   RLHS_APP_Configuration        :  1,        0x0,                  RLS, BCM;
+   RLHS_APP_Status               :  1,        0x0,                  RLS, BCM;
+   RLHS_Comunicate_Status        :  3,        0x0,                  RLS, BCM;
+   RLHS_Humidity_Temp            : 10,        0x0,                  RLS, BCM;
+   RLHS_Humidity_Temp_Validity   :  1,        0x0,                  RLS, BCM;
+   RLHS_Sensor_Fault             :  1,        0x0,                  RLS, BCM;
+   RLHS_Unused_bit               :  3,        0x0,                  RLS, BCM;
+   RLHS_Sensor_Humidity_Validity :  1,        0x0,                  RLS, BCM;
+   RLHS_Humindity_Value          :  8,        0x0,                  RLS, BCM;
+   RLHS01_Continue_Req           :  1,        0x0,                  RLS, BCM;
+   RLHS01_Diagnostic_Req         :  1,        0x0,                  RLS, BCM;
+   RLHS01_APP_Reset              :  1,        0x0,                  RLS, BCM;
+   RLHS01_APP_configuration      :  1,        0x0,                  RLS, BCM;
+   RLHS01_APP_Status             :  1,        0x0,                  RLS, BCM;
+   RLHS01_Comunication_Status    :  3,        0x0,                  RLS, BCM;
+   RLHS01_Temp01                 : 10,        0x0,                  RLS, BCM;
+   RLHS01_Sensor_Vaility         :  1,        0x0,                  RLS, BCM;
+   RLHS01_Unused                 :  5,        0x0,                  RLS, BCM;
 }
 /* ----------DIAGNOSTIC SIGNAL DEFINITIONS---------- */
 Diagnostic_signals {
@@ -58,7 +79,7 @@ Diagnostic_signals {
 }
 /* ----------UNCONDITIONAL FRAME DEFINITIONS---------- */
 Frames {
-   RLS_01              : 0x29, RLS                 ,    8 {
+   RLS_01              : 0x29, RLS                 ,    4 {
       RLS_ContinuteReq    , 0;
       RLS_AppResetStatus  , 1;
       RLS_DiagnnosticReq  , 2;
@@ -74,12 +95,37 @@ Frames {
       RLS_Amb_Value       , 16;
       RLS_FW_Value        , 24;
    }
-   BCM_01              : 0x28, BCM                 ,    8 {
+   BCM_01              : 0x28, BCM                 ,    2 {
       BCM_WiperPosition   , 0;
       BCM_Washer          , 1;
       BCM_Amb_LV          , 2;
       BCM_RainSensitivity , 4;
       BCM_VehicleSpeed    , 8;
+   }
+   RLHS                : 0x2a, RLS                 ,    4 {
+      RLHS_COM_Continue_req, 0;
+      RLHS_Diagnostic_Req , 1;
+      RLHS_APP_Reset_Atatus, 2;
+      RLHS_APP_Configuration, 3;
+      RLHS_APP_Status     , 4;
+      RLHS_Comunicate_Status, 5;
+      RLHS_Humidity_Temp  , 8;
+      RLHS_Humidity_Temp_Validity, 18;
+      RLHS_Sensor_Fault   , 19;
+      RLHS_Unused_bit     , 20;
+      RLHS_Sensor_Humidity_Validity, 23;
+      RLHS_Humindity_Value, 24;
+   }
+   RLHS01              : 0x2b, RLS                 ,    3 {
+      RLHS01_Continue_Req , 0;
+      RLHS01_Diagnostic_Req, 1;
+      RLHS01_APP_Reset    , 2;
+      RLHS01_APP_configuration, 3;
+      RLHS01_APP_Status   , 4;
+      RLHS01_Comunication_Status, 5;
+      RLHS01_Temp01       , 8;
+      RLHS01_Sensor_Vaility, 18;
+      RLHS01_Unused       , 19;
    }
 }
 /* ----------DIAGNOSTIC FRAME DEFINITIONS---------- */
@@ -109,8 +155,8 @@ Diagnostic_frames {
 Node_attributes {
    RLS {
       LIN_protocol               = "2.1";                    /* Node protocol version */
-      configured_NAD             = 0x29;                     /* configured NAD of node (1-125) */
-      initial_NAD                = 0x29;                     /* initial NAD of node (1-125) */
+      configured_NAD             = 0x16;                     /* configured NAD of node (1-125) */
+      initial_NAD                = 0x10;                     /* initial NAD of node (1-125) */
       product_id                 =   0x66,    0x0,   0xff;   /* Product id */
       response_error             = RLS_RainSensorError;      /* Response error signal */
       P2_min                     = 50 ms;                    /* P2_min */
@@ -120,6 +166,8 @@ Node_attributes {
       configurable_frames {
          BCM_01;
          RLS_01;
+         RLHS;
+         RLHS01;
       }
    }
 }
@@ -144,7 +192,8 @@ Schedule_tables {
    NormalTable {
       BCM_01                              delay 10.0 ms;
       RLS_01                              delay 25.0 ms;
-      RLS_01                              delay 10.0 ms;
+      RLHS                                delay 25.0 ms;
+      RLHS01                              delay 25.0 ms;
    }
 }
 

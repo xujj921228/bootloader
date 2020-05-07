@@ -22,7 +22,7 @@ network {
    diagnostic_class              = 2;
    resynchronization_support     = no;
    autobaud_support              = no;
-   max_message_length            = 8;
+   max_message_length            = 4;
    LI0 {
       node                       = RLS;                      /* Name of node described in LDF (must check consistence with LDF) */
       file                       = "Demo_Cluster2.ldf";      /* Name of LDF file */
@@ -32,10 +32,10 @@ network {
          ASSIGN_FRAME_ID_RANGE   = 0xb7;
          READ_DATA_BY_IDENTIFIER = 0x22;
          CONDITIONAL_CHANGE_NAD  = 0xb3;
-         ASSIGN_NAD              = 0xb0;
          SAVE_CONFIGURATION      = 0xb6;
          DATA_DUMP               = 0xb4;
          WRITE_DATA_BY_IDENTIFIER = 0x2e;
+         ASSIGN_NAD              = 0xb0;
       }
    }
 }

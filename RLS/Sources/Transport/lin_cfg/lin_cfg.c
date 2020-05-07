@@ -43,29 +43,31 @@ l_u8    lin_pFrameBuf[LIN_FRAME_BUF_SIZE] =
   0x80 /* 0 : 10000000 */ /* start of frame LI0_BCM_01 */
 
   ,0x00 /* 1 : 00000000 */
-  ,0xff /* 2 : 11111111 */
-  ,0xff /* 3 : 11111111 */
-  ,0xff /* 4 : 11111111 */
-  ,0xff /* 5 : 11111111 */
-  ,0xff /* 6 : 11111111 */
-  ,0xff /* 7 : 11111111 */
 
 
-  ,0x00 /* 8 : 00000000 */ /* start of frame LI0_RLS_01 */
+  ,0x00 /* 2 : 00000000 */ /* start of frame LI0_RLS_01 */
 
+  ,0x00 /* 3 : 00000000 */
+  
+  ,0x00 /* 4 : 00000000 */
+  
+  ,0x00 /* 5 : 00000000 */
+  
+
+  ,0x00 /* 6 : 00000000 */ /* start of frame LI0_RLHS */
+
+  ,0x00 /* 7 : 00000000 */
+  
+  ,0x00 /* 8 : 00000000 */
+  
   ,0x00 /* 9 : 00000000 */
   
-  ,0x00 /* 10 : 00000000 */
-  
+
+  ,0x00 /* 10 : 00000000 */ /* start of frame LI0_RLHS01 */
+
   ,0x00 /* 11 : 00000000 */
   
-  ,0xff /* 12 : 11111111 */
-  
-  ,0xff /* 13 : 11111111 */
-  
-  ,0xff /* 14 : 11111111 */
-  
-  ,0xff /* 15 : 11111111 */
+  ,0x00 /* 12 : 00000000 */
   
 };
 
@@ -82,6 +84,16 @@ l_u8    lin_flag_handle_tbl[LIN_FLAG_BUF_SIZE] =
 
   ,0x00 /* 2: */
   
+
+  ,0x00 /* 3: start of flag frame LI0_RLHS */
+
+  ,0x00 /* 4: */
+  
+
+  ,0x00 /* 5: start of flag frame LI0_RLHS01 */
+
+  ,0x00 /* 6: */
+  
 };
 
 /*************************** Flag set when signal is updated ******************/
@@ -92,9 +104,13 @@ l_u8 lin_diag_signal_tbl[16];
 /**********************************  Frame table **********************************/
 const lin_frame_struct lin_frame_tbl[LIN_NUM_OF_FRMS] ={
 
-    { LIN_FRM_UNCD, 8, LIN_RES_SUB, 0, 0, 1   , (l_u8*)0 }
+    { LIN_FRM_UNCD, 2, LIN_RES_SUB, 0, 0, 1   , (l_u8*)0 }
 
-   ,{ LIN_FRM_UNCD, 8, LIN_RES_PUB, 8, 1, 2 , (l_u8*)&LI0_response_error_signal }
+   ,{ LIN_FRM_UNCD, 4, LIN_RES_PUB, 2, 1, 2 , (l_u8*)&LI0_response_error_signal }
+  
+   ,{ LIN_FRM_UNCD, 4, LIN_RES_PUB, 6, 3, 2 , (l_u8*)0 }
+  
+   ,{ LIN_FRM_UNCD, 3, LIN_RES_PUB, 10, 5, 2 , (l_u8*)0 }
   
    ,{ LIN_FRM_DIAG, 8, LIN_RES_SUB, 0, 0, 0 , (l_u8*)0 }
   
@@ -103,7 +119,7 @@ const lin_frame_struct lin_frame_tbl[LIN_NUM_OF_FRMS] ={
 };
 
 /*********************************** Frame flag Initialization **********************/
-l_bool lin_frame_flag_tbl[LIN_NUM_OF_FRMS] = {0, 0, 0, 0};
+l_bool lin_frame_flag_tbl[LIN_NUM_OF_FRMS] = {0, 0, 0, 0, 0, 0};
 
 /**************************** Lin configuration Initialization ***********************/
 /* max_response_frame_timeout = round((1.4x(10+Nx10)xTbit)/Tbase_period) + 3 */
@@ -115,13 +131,13 @@ const l_u16 lin_max_frame_res_timeout_val[8]={
 };
 
 
-l_u8 lin_configuration_RAM[LIN_SIZE_OF_CFG]= {0x00, 0x28, 0x29, 0x3C, 0x3D ,0xFF};
-const l_u16  lin_configuration_ROM[LIN_SIZE_OF_CFG]= {0x00, 0x28, 0x29, 0x3C, 0x3D ,0xFFFF};
+l_u8 lin_configuration_RAM[LIN_SIZE_OF_CFG]= {0x00, 0x28, 0x29, 0x2A, 0x2B, 0x3C, 0x3D ,0xFF};
+const l_u16  lin_configuration_ROM[LIN_SIZE_OF_CFG]= {0x00, 0x28, 0x29, 0x2A, 0x2B, 0x3C, 0x3D ,0xFFFF};
 
 /***************************************** Node Attribute*****************************************/
 
-l_u8 lin_configured_NAD = 0x29;    /*<configured_NAD>*/
-const l_u8 lin_initial_NAD    =0x29;    /*<initial_NAD>*/
+l_u8 lin_configured_NAD = 0x16;    /*<configured_NAD>*/
+const l_u8 lin_initial_NAD    =0x10;    /*<initial_NAD>*/
 const lin_product_id product_id = {0x0066, 0x0000, 0x00FF };  /* {<supplier_id>,<function_id>,<variant>} */
 const l_signal_handle response_error =  LI0_RLS_RainSensorError;
 

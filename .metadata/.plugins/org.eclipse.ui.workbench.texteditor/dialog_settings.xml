@@ -2,8 +2,8 @@
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
 		<item value="273" key="DIALOG_WIDTH"/>
-		<item value="213" key="DIALOG_Y_ORIGIN"/>
-		<item value="965" key="DIALOG_X_ORIGIN"/>
+		<item value="156" key="DIALOG_Y_ORIGIN"/>
+		<item value="1087" key="DIALOG_X_ORIGIN"/>
 		<item value="400" key="DIALOG_HEIGHT"/>
 		<item value="1|Microsoft YaHei UI|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|Microsoft YaHei UI" key="DIALOG_FONT_NAME"/>
 	</section>
@@ -13,16 +13,16 @@
 		<item value="false" key="isRegEx"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wholeword"/>
-		<item value="WiperRequest_t" key="selection"/>
+		<item value="WiperPosition_t" key="selection"/>
 		<list key="findhistory">
-			<item value="WiperRequest_t"/>
-			<item value="APP_WiperRequest_t"/>
-			<item value="u8_Automatic_On_Cnt"/>
-			<item value="Wipe_Automatic_On_Flg"/>
-			<item value="Light_on_cnt"/>
-			<item value="Lin_Diag_Enable"/>
-			<item value="u8_Lin_Diag_Enable"/>
-			<item value="WindowStatus"/>
+			<item value="WiperPosition_t"/>
+			<item value="DC_cancel_th"/>
+			<item value="n"/>
+			<item value="Output_Nbr"/>
+			<item value="mtb"/>
+			<item value="rodata"/>
+			<item value="19200"/>
+			<item value="temp_light_off_th"/>
 		</list>
 		<list key="replacehistory">
 		</list>

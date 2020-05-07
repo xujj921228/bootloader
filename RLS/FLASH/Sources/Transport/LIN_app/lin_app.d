@@ -22,7 +22,7 @@ Sources/Transport/LIN_app/lin_app.o: \
  C:/Users/Administrator/Desktop/QY120081-04-000PR-V1.0/RLS/Sources/Driver/LIN_Stack/bsp/UART/lin_reg.h \
  C:/Users/Administrator/Desktop/QY120081-04-000PR-V1.0/RLS/Sources/Driver/ftm/ftm.h \
  C:/Users/Administrator/Desktop/QY120081-04-000PR-V1.0/RLS/Sources/Driver/SPI/spi.h \
- C:/Users/Administrator/Desktop/QY120081-04-000PR-V1.0/RLS/Sources/Application/humid_app/humid.h \
+ C:/Users/Administrator/Desktop/QY120081-04-000PR-V1.0/RLS/Sources/Application/Auto_humid/auto_humid.h \
  C:/Users/Administrator/Desktop/QY120081-04-000PR-V1.0/RLS/Sources/Application/Battery/battery.h \
  C:/Users/Administrator/Desktop/QY120081-04-000PR-V1.0/RLS/Sources/Driver/adc/adc.h \
  C:/Users/Administrator/Desktop/QY120081-04-000PR-V1.0/RLS/Sources/Application/Auto_wiper/auto_wiper.h
@@ -71,7 +71,7 @@ C:/Users/Administrator/Desktop/QY120081-04-000PR-V1.0/RLS/Sources/Driver/ftm/ftm
 
 C:/Users/Administrator/Desktop/QY120081-04-000PR-V1.0/RLS/Sources/Driver/SPI/spi.h:
 
-C:/Users/Administrator/Desktop/QY120081-04-000PR-V1.0/RLS/Sources/Application/humid_app/humid.h:
+C:/Users/Administrator/Desktop/QY120081-04-000PR-V1.0/RLS/Sources/Application/Auto_humid/auto_humid.h:
 
 C:/Users/Administrator/Desktop/QY120081-04-000PR-V1.0/RLS/Sources/Application/Battery/battery.h:
 
