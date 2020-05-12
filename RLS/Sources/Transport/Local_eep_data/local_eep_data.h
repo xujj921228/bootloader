@@ -24,8 +24,7 @@ typedef union
         uint8 NUMBER3[3];                   //9.10.11
         uint8 Brightness_Light_Percentage;         //12
         uint8 Brightness_Infrared_Percentage;      //13
-        uint8 A_DAC_EEPdtata;                      //14
-        uint8 B_DAC_EEPdtata;                      //15
+        uint8 DAC_EEPdtata[2];                      //14.15
         uint16 A_RAIN_ADC_EEPdtata;                //16.17
         uint16 B_RAIN_ADC_EEPdtata;                //18.19
         uint16 EEPmark;                            //20.21

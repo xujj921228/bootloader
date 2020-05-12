@@ -9,4 +9,5 @@
 #define   ADAPT_VALUE_DAC_LOW     0x10
 #define   ADAPT_VALUE_DAC_HIGH    0xF0
 
+extern void RLS_Chan_Self_Adapt(uint8 PD_Chan);
 extern void RLS_SelfAdaptTask(void);

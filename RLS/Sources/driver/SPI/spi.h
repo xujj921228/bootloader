@@ -251,15 +251,10 @@ typedef struct
 typedef struct 
 {
   uint16 Temperature;
-  uint16 Amb_C;
-  uint16 Amb_D;        //Brightness_FW
-  uint16 Amb_E;        //Brightness_IR
-  uint16 DC_bre_A;
-  uint16 DC_bre_B;
-  uint16 IR_A;
-  uint16 IR_B;
-  uint16 DC_aft_A;
-  uint16 DC_aft_B;  
+  uint16 Amb_[3];         /*C.D.E    Brightness_FW    Brightness_IR*/
+  uint16 DC_bre_[2];      /*A.B*/
+  uint16 IR_[2];          /*A.B*/
+  uint16 DC_aft_[2];      /*A.B*/
 }MLX75308_Mnrval_t;
 
  

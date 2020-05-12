@@ -120,35 +120,34 @@ typedef enum
 }RLS_StopMsureFlg_t;
 
 
+typedef enum
+{
+	PARK_MODE            = 0,
+	INT_SPEED_MODE       = 1,   
+	PERIOD_SPEED_MODE    = 2,
+	INT_DELAY_MODE       = 3,
+	LOW_SPEED_MODE       = 4,
+	HIGH_SPEED_MODE      = 5
+
+}RLS_Wiper_State_FSM_t;
 
 /************RAIN_INVALID***********/   
 #define   DC_bef_dtTH           200     //300
 #define   DC_aft_dtTH           200     //300
 #define   DC_CHANGE_TH          300     //300
 
-#define   Mnrval(n)  \
-	if(n == 0 )Mnrval.IR_A;\
-else  Mnrval.IR_B;
 
 
-
-#define   RAIN_INVALID_NUM     1
 
 #define   PERIOD_SPEED_TIMER   30   //3S
 
 #define   DC_WINDOW   20
 #define   Rain_WINDOW  3
 
-#define   PARK_MODE         0
-#define   INT_SPEED_MODE    1
-#define   PERIOD_SPEED_MODE 2
-#define   INT_DELAY_MODE    3
-#define   LOW_SPEED_MODE    4
-#define   HIGH_SPEED_MODE   5
-
 
 #define   RAIN_DELTA          80
 
+#define   PD_WINDOW   6
 
 
 
@@ -160,6 +159,7 @@ extern void RLS_Get_Rain_ExpectStage(uint8 PD_chan);
 extern void RLS_Mask_False_Operation(void);
 extern void RLS_Invalid_DataProcess(void);
 extern uint8 RLS_Period_Mode(uint8 Int_Timer, uint8 Wiper_Timer);
+extern uint8 RLS_Park_Mode_DelayTime(void);
 extern void RLS_Rain_State_Mchaine(void);
 extern void RLS_Wipe_Park_Process(void);
 extern void RLS_Auto_Rain_Task(void);

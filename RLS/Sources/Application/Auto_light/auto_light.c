@@ -152,7 +152,7 @@ void RLS_AutoLightControl(void)
 
 void RLS_Light_Module_Fault_Process(void)
 {
-	if(Mnrval.Amb_C == 0xFFFF)    //light
+	if(Mnrval.Amb_[0] == 0xFFFF)    //light
 	{
 		App_Rls_Error.LS_Error_Cnt++;
 		if(App_Rls_Error.LS_Error_Cnt >= 50)
@@ -170,7 +170,7 @@ void RLS_Light_Module_Fault_Process(void)
 		App_Rls_Error.LS_Error = 0;
 	}
 				
-	if(Mnrval.Amb_D == 0)  //IR
+	if(Mnrval.Amb_[1] == 0)  //IR
 	{
 		App_Rls_Error.IR_Error_Cnt[0]++;
 		if(App_Rls_Error.IR_Error_Cnt[0] >= 50)

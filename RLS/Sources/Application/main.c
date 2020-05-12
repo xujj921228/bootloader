@@ -82,11 +82,11 @@ void main(void)
 #ifdef FOUR_TO_ONE 
 	DRV_IIC_Init();
 #endif	
+	Gloable_Var_Init();  /*init all var for all task*/
+	Globle_Eep_parameter_Init();/*read all eep data for all task */
 	Lin_Sys_Init();
 	MLX75308_Init();	
 	RTC_Init();
-	Gloable_Var_Init();  /*init all var for all task*/
-	Globle_Eep_parameter_Init();/*read all eep data for all task */
 	
 	for(;;) 
 	{			

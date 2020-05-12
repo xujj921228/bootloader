@@ -261,8 +261,8 @@ void RLS_APP_Send_data(void)
 	{
 		Lin_RLS1_frame.RLS_WiperRequest = Wiper_Request_High;
 	}
-	if((Mnrval.IR_A >= 0xFFFF) ||
-			(Mnrval.IR_B >= 0xFFFF)||
+	if((Mnrval.IR_[0] >= 0xFFFF) ||
+			(Mnrval.IR_[1] >= 0xFFFF)||
 			(RLS_APP_Value.Battery_status == VOLTAGE_LOW)||
 			(Lin_Diag_Enable == 0) ||
 			(Lin_BCM_Frame.BCM_Washer == BCM_Washering))

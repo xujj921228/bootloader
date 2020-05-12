@@ -363,6 +363,12 @@ typedef enum
   APP_LinComStatus_ID_parity_error              = 7
 }APP_LinComStatus_t;
 
+typedef enum
+{
+	APP_Rain_Invalid   = 0,
+    APP_Rain_Valid      = 1
+}APP_Rain_Valid_t;
+
 typedef struct  
 {
   WiperSpeed_t	  RLS_APP_WiperSpeed ;
@@ -373,6 +379,7 @@ typedef struct
   uint8 u8_Solar_r_value;
   APP_DiagnnosticReq_t  APP_DiagnnosticReq;
   bool_t  APP_Reset;
+  APP_Rain_Valid_t  Rain_Valid;
 }RLS_APP_Value_t;
 
 

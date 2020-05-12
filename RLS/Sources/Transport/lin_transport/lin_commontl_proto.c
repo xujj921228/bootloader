@@ -215,8 +215,8 @@ void lin_tl_make_slaveres_pdu
 					/* Get Identifier infor */
 					lin_tl_pdu[3] = (LIN_RAIN_ADC_A_PARAM>>8) ;
 					lin_tl_pdu[4] = (l_u8)(LIN_RAIN_ADC_A_PARAM&0xFF);
-					lin_tl_pdu[5] = (l_u8)(Mnrval.IR_A);
-					lin_tl_pdu[6] = (l_u8)(Mnrval.IR_A>>8);
+					lin_tl_pdu[5] = (l_u8)(Mnrval.IR_[0]);
+					lin_tl_pdu[6] = (l_u8)(Mnrval.IR_[0]>>8);
 				}
 				else if (error_code == (LIN_RAIN_ADC_B_PARAM&0xFF))
 				{
@@ -225,8 +225,8 @@ void lin_tl_make_slaveres_pdu
 					/* Get Identifier infor */
 					lin_tl_pdu[3] = (LIN_RAIN_ADC_B_PARAM>>8) ;
 					lin_tl_pdu[4] = (l_u8)(LIN_RAIN_ADC_B_PARAM&0xFF);
-					lin_tl_pdu[5] = (l_u8)(Mnrval.IR_B);
-					lin_tl_pdu[6] = (l_u8)(Mnrval.IR_B>>8);
+					lin_tl_pdu[5] = (l_u8)(Mnrval.IR_[1]);
+					lin_tl_pdu[6] = (l_u8)(Mnrval.IR_[1]>>8);
 				}
 				else if (error_code >= LIN_READ_USR_DEF_MIN && error_code <= LIN_READ_USR_DEF_MAX)
 				{

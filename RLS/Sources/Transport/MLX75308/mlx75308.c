@@ -36,8 +36,8 @@ MLX75308_Mnrval_t      Mnrval;
 
 uint8  MLX75308_A_Gain,MLX75308_B_Gain;
 uint16 u16_DC_checkValue,u16_DC_comp_value;
-uint16 u16_Save_DC_bre_A,u16_Save_DC_aft_A,u16_Save_DC_bre_B,u16_Save_DC_aft_B;
-uint16 u16_Delta_DC_bre_A,u16_Delta_DC_aft_A,u16_Delta_DC_bre_B,u16_Delta_DC_aft_B;
+uint16 u16_Save_DC_bre_[2],u16_Save_DC_aft_[2];
+uint16 u16_Delta_DC_bre_[2],u16_Delta_DC_aft_[2];
 
 /*******************************************************
  * FUNCTION NAME : RLS_Rain_Get_Measure()
@@ -50,8 +50,10 @@ uint16 u16_Delta_DC_bre_A,u16_Delta_DC_aft_A,u16_Delta_DC_bre_B,u16_Delta_DC_aft
 uint16 RLS_Rain_Get_Measure(uint8 PD_chan,uint8 n,uint16 DC_cancel_th)
 {   
    uint32 sum,sum_DC[2];
-   uint16 PDavage,DC_chk,temp;
+   uint16 PDavage,DC_chk;
    uint8 i,mtime;
+   uint8 Chan_Temp = CHAN_A;
+   if(PD_chan == PDB) Chan_Temp = CHAN_B;
    
    mtime = 0;
    sum = 0;
@@ -103,34 +105,19 @@ uint16 RLS_Rain_Get_Measure(uint8 PD_chan,uint8 n,uint16 DC_cancel_th)
       }
    }
    
-   if(PD_chan == PDA) 
-   {
+
         sum_DC[0] = sum_DC[0] / mtime;
-        Mnrval.DC_bre_A = (uint16)(sum_DC[0]);
-        Mnrval.DC_aft_A = (uint16)(sum_DC[1] / mtime);
+        Mnrval.DC_bre_[Chan_Temp] = (uint16)(sum_DC[0]);
+        Mnrval.DC_aft_[Chan_Temp] = (uint16)(sum_DC[1] / mtime);
         
-        u16_Delta_DC_bre_A =  (u16_Save_DC_bre_A >= Mnrval.DC_bre_A)?(u16_Save_DC_bre_A - Mnrval.DC_bre_A):(Mnrval.DC_bre_A - u16_Save_DC_bre_A);
-        u16_Delta_DC_aft_A =  (u16_Save_DC_aft_A >= Mnrval.DC_aft_A)?(u16_Save_DC_aft_A - Mnrval.DC_aft_A):(Mnrval.DC_aft_A - u16_Save_DC_aft_A);
+        u16_Delta_DC_bre_[Chan_Temp]=  (u16_Save_DC_bre_[Chan_Temp] >= Mnrval.DC_bre_[Chan_Temp])?(u16_Save_DC_bre_[Chan_Temp] - Mnrval.DC_bre_[Chan_Temp]):(Mnrval.DC_bre_[Chan_Temp] - u16_Save_DC_bre_[Chan_Temp]);
+        u16_Delta_DC_aft_[Chan_Temp] =  (u16_Save_DC_aft_[Chan_Temp] >= Mnrval.DC_aft_[Chan_Temp])?(u16_Save_DC_aft_[Chan_Temp] - Mnrval.DC_aft_[Chan_Temp]):(Mnrval.DC_aft_[Chan_Temp]- u16_Save_DC_aft_[Chan_Temp]);
         
-        u16_Save_DC_bre_A  =  Mnrval.DC_bre_A;
-        u16_Save_DC_aft_A  =  Mnrval.DC_aft_A;
+        u16_Save_DC_bre_[Chan_Temp]  =  Mnrval.DC_bre_[Chan_Temp];
+        u16_Save_DC_aft_[Chan_Temp]  =  Mnrval.DC_aft_[Chan_Temp];
         
-        if((u16_Delta_DC_bre_A > DC_bef_dtTH) || (u16_Delta_DC_aft_A > DC_aft_dtTH))    return 0; 
-   }
-   if(PD_chan == PDB) 
-   {  
-        sum_DC[0] = sum_DC[0] / mtime;
-        Mnrval.DC_bre_B = (uint16)(sum_DC[0]);
-        Mnrval.DC_aft_B = (uint16)(sum_DC[1] / mtime);
-        
-        u16_Delta_DC_bre_B =  (u16_Save_DC_bre_B >= Mnrval.DC_bre_B)?(u16_Save_DC_bre_B - Mnrval.DC_bre_B):(Mnrval.DC_bre_B - u16_Save_DC_bre_B);
-        u16_Delta_DC_aft_B =  (u16_Save_DC_aft_B >= Mnrval.DC_aft_B)?(u16_Save_DC_aft_B - Mnrval.DC_aft_B):(Mnrval.DC_aft_B - u16_Save_DC_aft_B);
-       
-        u16_Save_DC_bre_B  =  Mnrval.DC_bre_B;
-        u16_Save_DC_aft_B  =  Mnrval.DC_aft_B;
-        
-        if((u16_Delta_DC_bre_B > DC_bef_dtTH) || (u16_Delta_DC_aft_B > DC_aft_dtTH))   return 0;
-    }
+        if((u16_Delta_DC_bre_[Chan_Temp] > DC_bef_dtTH) || (u16_Delta_DC_aft_[Chan_Temp]> DC_aft_dtTH))    return 0; 
+
     
     sum = sum / mtime;
    
@@ -142,37 +129,17 @@ uint16 RLS_Rain_Get_Measure(uint8 PD_chan,uint8 n,uint16 DC_cancel_th)
     }
     else 
     {
-        if(PD_chan == PDA)
-        {
-            if(Mnrval.DC_aft_A <= DC_COMP_TH0)
-            {   
-                PDavage = sum ; 
-            }
-            else
-            {
-               // temp =  Mnrval.DC_aft_A - DC_COMP_TH0 ;
-               // u16_DC_Comp_Value[0] = temp*10/ SOFT_DC_COMP_VALUE0;
-                //PDavage = sum - u16_DC_Comp_Value[0];
-              PDavage = sum ;
-            }
-        }
-        else if(PD_chan == PDB)
-        {
-            if(Mnrval.DC_aft_B <= DC_COMP_TH0)
-            {   
-                PDavage = sum ; 
-            }        
-            else 
-            {   
-               // temp =  Mnrval.DC_aft_B - DC_COMP_TH0 ;
-               // u16_DC_Comp_Value[1] = temp*10/ SOFT_DC_COMP_VALUE0; 
-               // PDavage = sum - u16_DC_Comp_Value[1];   
-              PDavage = sum ;
-            }
-        }
-        else
-        {
-        }
+		if(Mnrval.DC_aft_[Chan_Temp]<= DC_COMP_TH0)
+		{   
+			PDavage = sum ; 
+		}
+		else
+		{
+		   // temp =  Mnrval.DC_aft_A - DC_COMP_TH0 ;
+		   // u16_DC_Comp_Value[0] = temp*10/ SOFT_DC_COMP_VALUE0;
+			//PDavage = sum - u16_DC_Comp_Value[0];
+		  PDavage = sum ;
+		}
     }
    
     return (PDavage); 
@@ -190,7 +157,6 @@ uint16 RLS_Rain_Get_Measure(uint8 PD_chan,uint8 n,uint16 DC_cancel_th)
  *******************************************************/
 void MLX75308_Init(void)
 {
-    uint8 i;
     
     (void)SPI_Wr_Cmd(CR);
     WDOG_Feed();
@@ -210,11 +176,11 @@ void MLX75308_Init(void)
     MLX75308_SetPara(BW_ADJ_AA_B,Mlx75308_Config_Parameter.bw_adj_b);//4
     /*****************************************************/
     MLX75308_SetPara(BW_SEL_LP_A,Mlx75308_Config_Parameter.bw_sel_lp_a);//2
-    MLX75308_SetPara(DACA, local_info.A_DAC_EEPdtata);
+    MLX75308_SetPara(DACA, local_info.DAC_EEPdtata[0]);
     MLX75308_SetPara(GAIN_ADJ_AA_A,Mlx75308_Config_Parameter.gain_adj_a);
 
     MLX75308_SetPara(BW_SEL_LP_B,Mlx75308_Config_Parameter.bw_sel_lp_b);//2              
-    MLX75308_SetPara(DACB, local_info.B_DAC_EEPdtata);
+    MLX75308_SetPara(DACB, local_info.DAC_EEPdtata[1]);
     MLX75308_SetPara(GAIN_ADJ_AA_B,Mlx75308_Config_Parameter.gain_adj_b);
 
     MLX75308_SetPara(RF,Mlx75308_Config_Parameter.rf);  //69.4khz default value

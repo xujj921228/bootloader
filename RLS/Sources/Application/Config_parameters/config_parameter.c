@@ -56,8 +56,8 @@ void Globle_Eep_parameter_Init(void)
  		
  		local_info.Brightness_Light_Percentage = 100; /*12     */
  		local_info.Brightness_Infrared_Percentage = 100;/*13     */
- 		local_info.A_DAC_EEPdtata = Mlx75308_Config_Parameter.dac_a_default; /*14     */
- 		local_info.B_DAC_EEPdtata = Mlx75308_Config_Parameter.dac_b_default; /*15     */
+ 		local_info.DAC_EEPdtata[0] = Mlx75308_Config_Parameter.dac_a_default; /*14     */
+ 		local_info.DAC_EEPdtata[1] = Mlx75308_Config_Parameter.dac_b_default; /*15     */
  		//local_info.A_RAIN_ADC_EEPdtata;  /*16.17    */
  		//local_info.B_RAIN_ADC_EEPdtata; /*18.19    */
  		local_info.EEPmark = EEPromMark;  /*20.21 */

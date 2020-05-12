@@ -38,9 +38,8 @@ extern MLX75308_Frame_t       MLX75308_RxFrame;
 extern MLX75308_Mnrval_t      Mnrval;
 
 uint16 PD_WIN_AVG[CHAN_NUM][PD_WINDOW];
-extern uint16 u16_Delta_DC_bre_A,u16_Delta_DC_aft_A,u16_Delta_DC_bre_B,u16_Delta_DC_aft_B;
-extern uint16 u16_Ref_Adc_B;
-extern uint8 MLX75308_A_Adc,MLX75308_B_Adc;
+extern uint16 u16_Delta_DC_bre_[2],u16_Delta_DC_aft_[2];
+uint16 PD_WIN_AVG[CHAN_NUM][PD_WINDOW];
 uint16 u16_Ref_Adc_A;
 
 tRain_Stastegy_Config const  Rain_Stastegy_Parameter =
@@ -157,18 +156,20 @@ uint8  u8_RLS_WindowCloseReq;
 
 uint8  u8_Cmd_Execution;
 uint16 u16_Pd_Measure_Value;
-uint8  u8_Wiper_State,u8_Wiper_StatePre;
+RLS_Wiper_State_FSM_t  Wiper_State_Fsm;
+RLS_Wiper_State_FSM_t  Wiper_State_FsmPre;
+uint8 Wiper_Park_Fsm;
+uint8 Wiper_Fsm_Cn;
+
+
 uint8  u8_Vehicle_State,u8_Vehicle_State_Pre;
 uint8  u8_Rain_SensitivityLowValue;
-
-uint8  u8_Wiper_StatePre_Int,u8_Wiper_StatePre_Int_Cnt;
 
 
 
 
 
 uint16 DC_WIN_BUFF[CHAN_NUM][DC_WINDOW];
-uint16 u16_DC_PD_dt[CHAN_NUM];
 
 
 uint8  u8_RainIntensity_Win[Rain_WINDOW];
@@ -188,7 +189,6 @@ uint8  u8_RainIntensity[CHAN_NUM];
 uint8  u8_RainIntensityPre[CHAN_NUM];
 
 uint8  u8_RainIntensity_Max;
-uint8  u8_Rain_Invalid_Cnt;
 
 uint8  u8_ClearEnternIntSpeedCnt;
 uint8  u8_IntSpeedEnterCnt,u8_LowSpeedCnt;
@@ -201,7 +201,6 @@ uint16 u16_ExitLowSpeedTimer;
 
 uint8  u8_Splash_cnt;
 
-uint8  u8_Rain_Valid;
 uint8  u8_Rain_Value;
 uint8 u8_WiperSpeed_Expert;
 
@@ -223,6 +222,9 @@ uint8 u8_ls_error_cnt;
 
 void Auto_Wiper_Var_Init(void)
 {
+	Wiper_State_Fsm =  PARK_MODE;
+	Wiper_State_FsmPre = PARK_MODE;
+	
 	u8_MeasureSureTime = 0;
 	RLS_StopMsureFlg = RLS_Continue_Msure;
 	
@@ -260,46 +262,26 @@ void Auto_Wiper_Var_Init(void)
  *******************************************************/
 void RLS_Rain_Module_Fault_Process(uint8 chan)
 {
+	uint8 Chan_Temp = CHAN_A;
+	
+	if(chan == PDB) Chan_Temp = CHAN_B;
 	App_Rls_Error.RS_Error = 0;
-	if(chan == PDA) 
+	
+	
+	if (u16_Pd_Measure_Value == 0) 
 	{
-	    if (u16_Pd_Measure_Value == 0) 
+		if(App_Rls_Error.RS_Error_Cnt[Chan_Temp] >= 100)   
 		{
-			if(App_Rls_Error.RS_Error_Cnt[0] >= 100)   
-			{
-				App_Rls_Error.RS_Error = 1 ;
-			}
-			else
-			{
-				App_Rls_Error.RS_Error_Cnt[0]++;
-			}
-		} 
-		else 
-		{
-			App_Rls_Error.RS_Error_Cnt[0] = 0;
+			App_Rls_Error.RS_Error = 1 ;
 		}
-	}
-	else if(chan == PDB) 
-	{
-	    if (u16_Pd_Measure_Value == 0) 
+		else
 		{
-			if(App_Rls_Error.RS_Error_Cnt[1] >= 100)   
-			{
-				App_Rls_Error.RS_Error = 1 ;
-			}
-			else
-			{
-				App_Rls_Error.RS_Error_Cnt[1]++;	
-			}
-		} 
-		else 
-		{
-			App_Rls_Error.RS_Error_Cnt[1] = 0;
+			App_Rls_Error.RS_Error_Cnt[Chan_Temp]++;
 		}
-	}
-	else
+	} 
+	else 
 	{
-		
+		App_Rls_Error.RS_Error_Cnt[Chan_Temp] = 0;
 	}
 }
 
@@ -327,79 +309,79 @@ uint8 RLS_Get_Rain_State(uint8 PD_chan)
     if(PD_chan == PDB) Chan_Temp  = CHAN_B;
     
     
-        Mnrval.IR_A = u16_Pd_Measure_Value;
-        
-       
-        for(i = 1;i < DC_WINDOW;i++)
-        { 
-                DC_WIN_BUFF[CHAN_A][i - 1] = DC_WIN_BUFF[CHAN_A][i];
-        }
-        DC_WIN_BUFF[CHAN_A][DC_WINDOW - 1] = Mnrval.DC_bre_A ;
-        
-        
-        if( RLS_StopMsureFlg == RLS_Continue_Msure )
-        {
-            for(i = 1;i < PD_WINDOW;i++)
-            {
-                 PD_WIN_AVG[CHAN_A][i - 1] = PD_WIN_AVG[CHAN_A][i];
-            }
-            PD_WIN_AVG[CHAN_A][PD_WINDOW - 1] = Mnrval.IR_A ;
-            if(Mnrval.DC_bre_A < Rain_Stastegy_Parameter.dc_stage1)
-            {
-                    temp =  Rain_Stastegy_Parameter.stage_intensity1;
-            }
-            else if(Mnrval.DC_bre_A < Rain_Stastegy_Parameter.dc_stage2)
-            {
-                    temp =   Rain_Stastegy_Parameter.stage_intensity2;
-            }
-            else if(Mnrval.DC_bre_A < Rain_Stastegy_Parameter.dc_stage3)
-            {
-                    temp =   Rain_Stastegy_Parameter.stage_intensity3;
-            }
-            else if(Mnrval.DC_bre_A < Rain_Stastegy_Parameter.dc_stage4)
-            {
-                    temp =   Rain_Stastegy_Parameter.stage_intensity4;
-            }
-            else
-            {
-                    temp =   Rain_Stastegy_Parameter.stage_intensity5;
-            }     
-            
-            if(BCM_APP_Value.BCM_RainSensitivity == APP_RainSensitivityAPP_LV1)  temp = temp ;
-            else if (BCM_APP_Value.BCM_RainSensitivity == APP_RainSensitivityAPP_LV3)  temp = temp + 20 ;
-            else if (BCM_APP_Value.BCM_RainSensitivity == APP_RainSensitivityAPP_LV2)  temp = temp + 40 ;
-            else                                temp = temp + 80 ;
-               
-        } 
-        else
-        {
-        	temp = 3000;
-        }
+	Mnrval.IR_[Chan_Temp] = u16_Pd_Measure_Value;
+	
    
-                
-        u16_PDA_Wmax = PD_WIN_AVG[CHAN_A][0];                        //A通道最大值赋值
-        if(PD_WIN_AVG[CHAN_A][PD_WINDOW - 1] >= u16_PDA_Wmax) 
-        {                           //当前值大于前PD_WINDOW-1个采集值时，返回无雨量
-            u8_PD_State[CHAN_A] = 0;
-            if((PD_WIN_AVG[CHAN_A][PD_WINDOW - 1] - PD_WIN_AVG[CHAN_A][0]) > DtABS_MAX) 
-            	PD_WIN_AVG[CHAN_A][PD_WINDOW - 1] = PD_WIN_AVG[CHAN_A][PD_WINDOW - 2];
-        }
-        else
-        {
-            u16_Dt_PD[CHAN_A] = PD_WIN_AVG[CHAN_A][0] - PD_WIN_AVG[CHAN_A][PD_WINDOW - 1];
-            if((u16_Dt_PD[CHAN_A] > DtABS_MAX)||(u16_Dt_PD[CHAN_A] < temp)) 
-            {                  
-              PD_WIN_AVG[CHAN_A][PD_WINDOW - 1] = PD_WIN_AVG[CHAN_A][PD_WINDOW - 2];
-              u8_PD_State[CHAN_A] = 0;          
-            }
-            else 
-            {
-                u8_PD_State[CHAN_A] = (u16_Dt_PD[CHAN_A] / RAIN_DELTA);
-            }
-        }
+	for(i = 1;i < DC_WINDOW;i++)
+	{ 
+		DC_WIN_BUFF[Chan_Temp][i - 1] = DC_WIN_BUFF[Chan_Temp][i];
+	}
+	DC_WIN_BUFF[Chan_Temp][DC_WINDOW - 1] = Mnrval.DC_bre_[Chan_Temp] ;
         
         
-        return (u8_PD_State[CHAN_A]);
+	if( RLS_StopMsureFlg == RLS_Continue_Msure )
+	{
+		for(i = 1;i < PD_WINDOW;i++)
+		{
+			 PD_WIN_AVG[Chan_Temp][i - 1] = PD_WIN_AVG[Chan_Temp][i];
+		}
+		PD_WIN_AVG[Chan_Temp][PD_WINDOW - 1] = Mnrval.IR_[Chan_Temp] ;
+		if(Mnrval.DC_bre_[Chan_Temp] < Rain_Stastegy_Parameter.dc_stage1)
+		{
+				temp =  Rain_Stastegy_Parameter.stage_intensity1;
+		}
+		else if(Mnrval.DC_bre_[Chan_Temp] < Rain_Stastegy_Parameter.dc_stage2)
+		{
+				temp =   Rain_Stastegy_Parameter.stage_intensity2;
+		}
+		else if(Mnrval.DC_bre_[Chan_Temp] < Rain_Stastegy_Parameter.dc_stage3)
+		{
+				temp =   Rain_Stastegy_Parameter.stage_intensity3;
+		}
+		else if(Mnrval.DC_bre_[Chan_Temp] < Rain_Stastegy_Parameter.dc_stage4)
+		{
+				temp =   Rain_Stastegy_Parameter.stage_intensity4;
+		}
+		else
+		{
+				temp =   Rain_Stastegy_Parameter.stage_intensity5;
+		}     
+		
+		if(BCM_APP_Value.BCM_RainSensitivity == APP_RainSensitivityAPP_LV1)  temp = temp ;
+		else if (BCM_APP_Value.BCM_RainSensitivity == APP_RainSensitivityAPP_LV3)  temp = temp + 20 ;
+		else if (BCM_APP_Value.BCM_RainSensitivity == APP_RainSensitivityAPP_LV2)  temp = temp + 40 ;
+		else                                temp = temp + 80 ;
+		   
+	} 
+	else
+	{
+		temp = 3000;
+	}
+   
+			
+	u16_PDA_Wmax = PD_WIN_AVG[Chan_Temp][0];                        //通道最早值赋值
+	if(PD_WIN_AVG[Chan_Temp][PD_WINDOW - 1] >= u16_PDA_Wmax) 
+	{                           //当前值大于前PD_WINDOW-1个采集值时，返回无雨量
+		u8_PD_State[Chan_Temp] = 0;
+		if((PD_WIN_AVG[Chan_Temp][PD_WINDOW - 1] - PD_WIN_AVG[Chan_Temp][0]) > DtABS_MAX) 
+			PD_WIN_AVG[Chan_Temp][PD_WINDOW - 1] = PD_WIN_AVG[Chan_Temp][PD_WINDOW - 2];
+	}
+	else
+	{
+		u16_Dt_PD[Chan_Temp] = PD_WIN_AVG[Chan_Temp][0] - PD_WIN_AVG[Chan_Temp][PD_WINDOW - 1];
+		if((u16_Dt_PD[Chan_Temp] > DtABS_MAX)||(u16_Dt_PD[Chan_Temp] < temp)) 
+		{                  
+		  PD_WIN_AVG[Chan_Temp][PD_WINDOW - 1] = PD_WIN_AVG[Chan_Temp][PD_WINDOW - 2];
+		  u8_PD_State[Chan_Temp] = 0;          
+		}
+		else 
+		{
+			u8_PD_State[Chan_Temp] = (u16_Dt_PD[Chan_Temp] / RAIN_DELTA);
+		}
+	}
+	
+	
+	return (u8_PD_State[Chan_Temp]);
 }
 
 /*******************************************************
@@ -459,63 +441,36 @@ void RLS_Get_Rain_ExpectStage(uint8 PD_chan)
  *******************************************************/
 void RLS_Mask_False_Operation(void)
 {
-    uint8 i;
-    if(Mnrval.DC_bre_A > Mnrval.DC_aft_A) 
-        u16_DC_PD_dt[CHAN_A] =  Mnrval.DC_bre_A  - Mnrval.DC_aft_A; 
+    uint8 i,j;
     
-    else                                  
-        u16_DC_PD_dt[CHAN_A] =  Mnrval.DC_aft_A  - Mnrval.DC_bre_A;
-    
-    if(Mnrval.DC_bre_B > Mnrval.DC_aft_B) 
-        u16_DC_PD_dt[CHAN_B] =  Mnrval.DC_bre_B  - Mnrval.DC_aft_B; 
-    
-    else                                  
-        u16_DC_PD_dt[CHAN_B] =  Mnrval.DC_aft_B  - Mnrval.DC_bre_B;
-    
-    if((u16_Delta_DC_bre_A > DC_bef_dtTH) || (u16_Delta_DC_aft_A > DC_aft_dtTH)\
-        ||(u16_Delta_DC_bre_B > DC_bef_dtTH) || (u16_Delta_DC_aft_B > DC_aft_dtTH))
-    {
-        u8_Rain_Valid = 0;
-    }
-    else
-    {
-        u8_Rain_Valid = 1;
-    }
-    
-    for(i = 0;i < DC_WINDOW;i++)  //  CHAN_A
-    {
-        if(DC_WIN_BUFF[CHAN_A][0] > DC_WIN_BUFF[CHAN_A][i])
-        {
-            if((DC_WIN_BUFF[CHAN_A][0] - DC_WIN_BUFF[CHAN_A][i]) >  DC_CHANGE_TH)
-            {
-                u8_Rain_Valid = 0;
-            }
-        }
+    for(j = 0;j < CHAN_NUM; j++)
+    {      
+        if((u16_Delta_DC_bre_[j] > DC_bef_dtTH) || (u16_Delta_DC_aft_[j] > DC_aft_dtTH))
+		{
+        	RLS_APP_Value.Rain_Valid = APP_Rain_Invalid;
+		}
         else
         {
-            if((DC_WIN_BUFF[CHAN_A][i] - DC_WIN_BUFF[CHAN_A][0]) >  DC_CHANGE_TH)
-            {
-                u8_Rain_Valid = 0;
-            }
+        	RLS_APP_Value.Rain_Valid = APP_Rain_Valid;
         }
-    }
-    
-    for(i = 0;i < DC_WINDOW  ;i++)  //  CHAN_B
-    {
-        if(DC_WIN_BUFF[CHAN_B][0] > DC_WIN_BUFF[CHAN_B][i])
-        {
-            if((DC_WIN_BUFF[CHAN_B][0] - DC_WIN_BUFF[CHAN_B][i]) >  DC_CHANGE_TH)
-            {
-                u8_Rain_Valid = 0;
-            }
-        }
-        else
-        {
-            if((DC_WIN_BUFF[CHAN_B][i] - DC_WIN_BUFF[CHAN_B][0]) >  DC_CHANGE_TH)
-            {
-                u8_Rain_Valid = 0;
-            }
-        }
+        
+        for(i = 0;i < DC_WINDOW;i++)  //  CHAN_A
+           {
+               if(DC_WIN_BUFF[j][0] > DC_WIN_BUFF[j][i])
+               {
+                   if((DC_WIN_BUFF[j][0] - DC_WIN_BUFF[j][i]) >  DC_CHANGE_TH)
+                   {
+                	   RLS_APP_Value.Rain_Valid = APP_Rain_Invalid;
+                   }
+               }
+               else
+               {
+                   if((DC_WIN_BUFF[j][i] - DC_WIN_BUFF[j][0]) >  DC_CHANGE_TH)
+                   {
+                	   RLS_APP_Value.Rain_Valid = APP_Rain_Invalid;
+                   }
+               }
+           }
     }
 }
 
@@ -530,13 +485,13 @@ void RLS_Mask_False_Operation(void)
 void RLS_Invalid_DataProcess(void)
 {
     uint8 i;
-    if(u8_Rain_Valid == 1)
+    if(RLS_APP_Value.Rain_Valid == APP_Rain_Valid)
     {
         u8_Rain_Value = u8_RainIntensity_Win[0];
         
-        for(i = 0;i < (Rain_WINDOW - 1) ;i ++) 
+        for(i = 1;i < Rain_WINDOW  ;i ++) 
         {
-            u8_RainIntensity_Win[i] = u8_RainIntensity_Win[i + 1];
+            u8_RainIntensity_Win[i - 1] = u8_RainIntensity_Win[i];
         }  
 
         if(u8_RainIntensity[CHAN_B] > u8_RainIntensity[CHAN_A]) 
@@ -544,67 +499,35 @@ void RLS_Invalid_DataProcess(void)
         else  
             u8_RainIntensity_Win[Rain_WINDOW - 1] = u8_RainIntensity[CHAN_A];
         
-        if(u8_Cmd_Execution == 0) 
+        if(u8_Rain_Value <= u8_RainIntensity_Max)
         {
-            if(u8_Rain_Value < 5)
-            {
-                u8_WiperSpeed_Expert = u8_Rain_Value;
-            }
-            else
-            {
-                switch(u8_Rain_Value)
-                {
-                    case 5:
-                    case 6: 
-                    case 7:
-                        u8_WiperSpeed_Expert   = 5;                     
-                    case 8:
-                    case 9: 
-                        u8_WiperSpeed_Expert   = 6;
-                    break;
-                    
-                    case 10:
-                        u8_WiperSpeed_Expert   = 6;
-                    break;                    
-                    default: 
-                        u8_WiperSpeed_Expert   = 6;
-                    break;
-                }
-            }
-            
-            u8_RainIntensity_Max = u8_Rain_Value; 
-            u8_Cmd_Execution = 1;
-        
+        	
         }
-        else if(u8_Rain_Value > u8_RainIntensity_Max)
+        else
         {
-            if(u8_Rain_Value < 5)
-            {
-                u8_WiperSpeed_Expert = u8_Rain_Value;
-            }
-            else
-            {
-                switch(u8_Rain_Value)
-                {
-                    case 5:
-                    case 6: 
-                    case 7:
-                        u8_WiperSpeed_Expert   = 5;                     
-                    case 8:
-                    case 9: 
-                        u8_WiperSpeed_Expert   = 6;
-                    break;
-                    
-                    case 10:
-                        u8_WiperSpeed_Expert   = 6;
-                    break;                    
-                    default: 
-                        u8_WiperSpeed_Expert   = 6;
-                    break;
-                }
-            }
-            u8_RainIntensity_Max = u8_Rain_Value;
+        	switch(u8_Rain_Value)
+			{
+				case 0:
+				case 1:
+				case 2: 
+				case 3:
+				case 4: u8_WiperSpeed_Expert = u8_Rain_Value;
+					break;
+				case 5:
+				case 6: 
+				case 7:
+					u8_WiperSpeed_Expert   = 5; 
+				break;
+				default:
+				case 8:
+				case 9: 
+				case 10:
+					u8_WiperSpeed_Expert   = 6;
+				break;                    
+			}        
+		    u8_RainIntensity_Max = u8_Rain_Value;
         }
+        if(u8_Cmd_Execution == 0) u8_Cmd_Execution = 1;
     }
     else
     {
@@ -621,24 +544,21 @@ void RLS_Invalid_DataProcess(void)
         for(i = 0;i < Rain_WINDOW ;i++) 
         {
             u8_RainIntensity_Win[i] = 0;
-            if(u8_Rain_Invalid_Cnt >= RAIN_INVALID_NUM) 
-            {
-                u8_Rain_Invalid_Cnt = 0;
-
-                if(u8_WiperSpeed_Expert >= 2)
-                {
-                    u8_WiperSpeed_Expert = u8_WiperSpeed_Expert - 2;      
-                }
-                else if(u8_WiperSpeed_Expert > 0) //当雨量数据无效时，将雨刮速度降低一级，直至降到0
-                {
-                    u8_WiperSpeed_Expert--;
-                }        
-            } 
-            else 
-            {
-                u8_Rain_Invalid_Cnt ++;        
-            }
         }
+        
+        if(u8_WiperSpeed_Expert >= 2)
+		{
+			u8_WiperSpeed_Expert = u8_WiperSpeed_Expert - 2;      
+		}
+		else if(u8_WiperSpeed_Expert > 0) //当雨量数据无效时，将雨刮速度降低一级，直至降到0
+		{
+			u8_WiperSpeed_Expert--;
+		}    
+		else
+		{
+			
+		}
+                   
     }
 }
 
@@ -670,6 +590,31 @@ uint8 RLS_Period_Mode(uint8 Int_Timer, uint8 Wiper_Timer)
 		return 0;
 	}
 }
+uint8 RLS_Park_Mode_DelayTime(void)
+{
+	uint8 Time_Temp;
+	if(BCM_APP_Value.BCM_RainSensitivity == APP_RainSensitivityAPP_LV1)
+	{
+		Time_Temp = Rain_Stastegy_Parameter.park_timer ;
+	}
+	else if(BCM_APP_Value.BCM_RainSensitivity == APP_RainSensitivityAPP_LV2)
+	{
+		Time_Temp =  Rain_Stastegy_Parameter.park_timer ;
+	}
+	else if(BCM_APP_Value.BCM_RainSensitivity == APP_RainSensitivityAPP_LV3)
+	{
+		Time_Temp =  (Rain_Stastegy_Parameter.park_timer + 20);
+	}            
+	else if(BCM_APP_Value.BCM_RainSensitivity == APP_RainSensitivityAPP_LV4)
+	{
+		Time_Temp =  Rain_Stastegy_Parameter.park_timer + 20; 
+	}
+	else
+	{
+		Time_Temp =  (Rain_Stastegy_Parameter.park_timer + 20);
+	}
+	return Time_Temp;
+}
 
 void RLS_Rain_State_Mchaine(void)
 {
@@ -679,76 +624,72 @@ void RLS_Rain_State_Mchaine(void)
     uint8  temp_period_low_cnt;
     uint8  u8_temp_rcv;
     uint8  temp_period_low_timer;
-    switch(u8_Wiper_State)
+    switch(Wiper_State_Fsm)
     {
         case PARK_MODE:
         {
-            if(BCM_APP_Value.BCM_RainSensitivity == APP_RainSensitivityAPP_LV1)
-            {
-                u8_Delaytimer = Rain_Stastegy_Parameter.park_timer ;
-            }
-            else if(BCM_APP_Value.BCM_RainSensitivity == APP_RainSensitivityAPP_LV2)
-            {
-                u8_Delaytimer = Rain_Stastegy_Parameter.park_timer ;
-            }
-            else if(BCM_APP_Value.BCM_RainSensitivity == APP_RainSensitivityAPP_LV3)
-            {
-                u8_Delaytimer = Rain_Stastegy_Parameter.park_timer + 20;
-            }            
-            else if(BCM_APP_Value.BCM_RainSensitivity == APP_RainSensitivityAPP_LV4)
-            {
-                u8_Delaytimer = Rain_Stastegy_Parameter.park_timer + 20; 
-            }
-            else
-            {
-                u8_Delaytimer = Rain_Stastegy_Parameter.park_timer + 20;
-            }
-                       
+        	u8_Delaytimer = RLS_Park_Mode_DelayTime();    
+        	
+        	switch(Wiper_Park_Fsm)
+        	{
+        	 case 0:
+        	 {
+        		 
+        		 
+        		 if(u8_ClearEnternIntSpeedCnt >= u8_Delaytimer) 
+        		 {
+        		     u8_Splash_cnt = 0;
+					 u8_ClearEnternIntSpeedCnt = 0;
+					 u8_IntSpeedEnterCnt = 0;
+				 }
+				 else
+				 {
+					 u8_ClearEnternIntSpeedCnt++;
+				 }
+        		 
+        		 
+        		 if(Wiper_State_FsmPre != PARK_MODE)
+        		 {
+    				 for(i = 0;i < (PD_WINDOW - 1); i++) 
+    				 {                   
+    					 //将窗口中的历史数据全部刷成当前采集值
+    					 PD_WIN_AVG[CHAN_A][i] = Mnrval.IR_[CHAN_A] ;//PD_WIN_AVG[CHAN_A][0];
+    					 PD_WIN_AVG[CHAN_B][i] = Mnrval.IR_[CHAN_B] ;//PD_WIN_AVG[CHAN_B][0];
+    				 } 
+    				 Wiper_Fsm_Cn = 0;
+        			 Wiper_Park_Fsm  = 1;
+        		 }
+        		 
+        	 }break;
+        	 case 1:
+			 {
+				 RLS_APP_Value.RLS_APP_WiperSpeed = WiperSpeed_Off;
+				                 	 
+				 if(Wiper_Fsm_Cn >= 20)//1s
+				 {                    
+					 Wiper_Fsm_Cn = 0;
+					 Wiper_Park_Fsm  = 0;
+				 }
+				 else
+				 {
+					 Wiper_Fsm_Cn++;
+				 } 
+				 
+			 }break;
+        	 case 2:
+			 {
+				 
+			 }break
+        	 case 3:
+			 {
+				 
+			 }break;
+        	 
+        	}
             
-            if(u8_Wiper_StatePre != PARK_MODE)
-            {
-                u8_Wiper_StatePre_Int  = 1;
-            }
-            
-            if(u8_Wiper_StatePre_Int  == 1)
-            {
-            	RLS_APP_Value.RLS_APP_WiperSpeed = WiperSpeed_Off;
-                
-                for(i = 0;i < (PD_WINDOW - 1); i++) 
-                {                   
-                    //将窗口中的历史数据全部刷成当前采集值
-                    PD_WIN_AVG[CHAN_A][i] = Mnrval.IR_A ;//PD_WIN_AVG[CHAN_A][0];
-                    PD_WIN_AVG[CHAN_B][i] = Mnrval.IR_B ;//PD_WIN_AVG[CHAN_B][0];
-                } 
-                
-                for(i = 0;i < Rain_WINDOW ;i++) 
-                {
-                    u8_RainIntensity_Win[i] = 0;
-                }
-                u8_WiperSpeed_Expert = 0;
-                
-                if(u8_Wiper_StatePre_Int_Cnt >= 20)//1s
-                {                    
-                    u8_Wiper_StatePre_Int_Cnt = 0;
-                    u8_Wiper_StatePre_Int = 0;
-                }
-                else
-                {
-                    u8_Wiper_StatePre_Int_Cnt++;
-                }    
-            }
             
             
-            if(u8_ClearEnternIntSpeedCnt >= u8_Delaytimer) 
-            {
-            	u8_Splash_cnt = 0;
-            	u8_ClearEnternIntSpeedCnt = 0;
-                u8_IntSpeedEnterCnt = 0;
-            }
-            else
-            {
-                u8_ClearEnternIntSpeedCnt++;
-            }
+           
             if(u8_enter_period_flg == 1)
             {
             	RLS_APP_Value.RLS_APP_WiperSpeed = WiperSpeed_Single;
@@ -756,7 +697,7 @@ void RLS_Rain_State_Mchaine(void)
             	{
             		u8_enter_period_cnt = 0;
             		u8_enter_period_flg = 0;
-            		u8_Wiper_State = PERIOD_SPEED_MODE;
+            		Wiper_State_Fsm = PERIOD_SPEED_MODE;
             	}
             	else
             	{
@@ -776,7 +717,7 @@ void RLS_Rain_State_Mchaine(void)
                 u8_IntSpeedCnt = 0;
                 if(u8_Rain_Flg == 0)
                 {
-                	u8_Wiper_State = INT_SPEED_MODE;
+                	Wiper_State_Fsm = INT_SPEED_MODE;
                 }
                 else 
                 {                	
@@ -812,12 +753,12 @@ void RLS_Rain_State_Mchaine(void)
                 
                 if((u8_RainIntensity[CHAN_A] >= temp)&&(u8_RainIntensity[CHAN_B]>= temp)&&(u8_IntSpeedEnterCnt > tempcnt))
                 {
-                        u8_Wiper_State = LOW_SPEED_MODE;
-                        u8_Rain_Flg = 1;
-                        u16_RainWindow_Cnt = 0;
-                        u16_IntWindow_Cnt = 0;
-                        u8_Int_Cnt = 0;
-                        u8_low_enter_high_timer = 0;
+                	Wiper_State_Fsm = LOW_SPEED_MODE;
+                    u8_Rain_Flg = 1;
+                    u16_RainWindow_Cnt = 0;
+					u16_IntWindow_Cnt = 0;
+					u8_Int_Cnt = 0;
+					u8_low_enter_high_timer = 0;
                 }								
             }
             else
@@ -834,7 +775,7 @@ void RLS_Rain_State_Mchaine(void)
                             u16_RainWindow_Cnt = 0;
                             u16_IntWindow_Cnt = 0;
                             u8_Int_Cnt = 0;
-                            u8_Wiper_State = HIGH_SPEED_MODE;
+                            Wiper_State_Fsm = HIGH_SPEED_MODE;
                     }
                     else
                     {
@@ -853,7 +794,7 @@ void RLS_Rain_State_Mchaine(void)
             
             if((u8_Vehicle_State > u8_Vehicle_State_Pre)&&(u8_Rain_Flg == 1))
             {
-            	u8_Wiper_State =  INT_SPEED_MODE ;
+            	Wiper_State_Fsm =  INT_SPEED_MODE ;
             	u8_IntSpeedEnterCnt = 0;
             }
             if(u16_RainWindow_Cnt >= 800)
@@ -889,7 +830,7 @@ void RLS_Rain_State_Mchaine(void)
             		u8_Int_Cnt = 0;
             	}
             }
-            u8_Wiper_StatePre = PARK_MODE;
+            Wiper_State_FsmPre = PARK_MODE;
             u8_Vehicle_State_Pre =  u8_Vehicle_State;
             
         } break;
@@ -948,7 +889,7 @@ void RLS_Rain_State_Mchaine(void)
             	u8_enter_period_cnt = 0;
             	u8_enter_period_flg = 0;
             	RLS_APP_Value.RLS_APP_WiperSpeed = WiperSpeed_Off;
-                u8_Wiper_State = PARK_MODE;
+            	Wiper_State_Fsm = PARK_MODE;
                 u8_IntSpeedEnterCnt++;
                 u8_Int_Cnt++;
             } 
@@ -962,7 +903,7 @@ void RLS_Rain_State_Mchaine(void)
                     if(u8_LowSpeedCnt > Rain_Stastegy_Parameter.int_enter_low_cnt)
                     {
                         u8_LowSpeedCnt = 0;
-                        u8_Wiper_State = LOW_SPEED_MODE; 
+                        Wiper_State_Fsm = LOW_SPEED_MODE; 
                     }
                 }
                 
@@ -970,7 +911,7 @@ void RLS_Rain_State_Mchaine(void)
                 {
                 	u8_Splash_cnt = 0;
                 	u8_IntSpeedEnterCnt = 0;
-                    u8_Wiper_State = PERIOD_SPEED_MODE;
+                	Wiper_State_Fsm = PERIOD_SPEED_MODE;
                     u8_IntDelayTimer = 0;
                 }
             }
@@ -983,7 +924,7 @@ void RLS_Rain_State_Mchaine(void)
                     if(u8_LowSpeedCnt > Rain_Stastegy_Parameter.int_enter_low_cnt)
                     {
                         u8_LowSpeedCnt = 0;
-                        u8_Wiper_State = LOW_SPEED_MODE; 
+                        Wiper_State_Fsm = LOW_SPEED_MODE; 
                     }
                 }
                 
@@ -991,7 +932,7 @@ void RLS_Rain_State_Mchaine(void)
                 {
                 	u8_Splash_cnt = 0;
                     u8_IntSpeedEnterCnt = 0;
-                    u8_Wiper_State = PERIOD_SPEED_MODE;
+                    Wiper_State_Fsm = PERIOD_SPEED_MODE;
                     u8_IntDelayTimer = 0;
                 }
             }
@@ -1005,7 +946,7 @@ void RLS_Rain_State_Mchaine(void)
                     if(u8_LowSpeedCnt > Rain_Stastegy_Parameter.int_enter_low_cnt)
                     {
                         u8_LowSpeedCnt = 0;
-                        u8_Wiper_State = LOW_SPEED_MODE; 
+                        Wiper_State_Fsm = LOW_SPEED_MODE; 
                     }
                 }
                 
@@ -1013,7 +954,7 @@ void RLS_Rain_State_Mchaine(void)
                 {
                 	u8_Splash_cnt = 0;
                     u8_IntSpeedEnterCnt = 0;
-                    u8_Wiper_State = PERIOD_SPEED_MODE;
+                    Wiper_State_Fsm = PERIOD_SPEED_MODE;
                     u8_IntDelayTimer = 0;
                 }
             }
@@ -1026,7 +967,7 @@ void RLS_Rain_State_Mchaine(void)
                     if(u8_LowSpeedCnt > Rain_Stastegy_Parameter.int_enter_low_cnt)
                     {
                         u8_LowSpeedCnt = 0;
-                        u8_Wiper_State = LOW_SPEED_MODE; 
+                        Wiper_State_Fsm = LOW_SPEED_MODE; 
                     }
                 }
                 
@@ -1034,12 +975,12 @@ void RLS_Rain_State_Mchaine(void)
                 {
                 	u8_Splash_cnt = 0;
                     u8_IntSpeedEnterCnt = 0;
-                    u8_Wiper_State = PERIOD_SPEED_MODE;
+                    Wiper_State_Fsm = PERIOD_SPEED_MODE;
                     u8_IntDelayTimer = 0;
                 }
             }
             
-            u8_Wiper_StatePre = INT_SPEED_MODE;
+            Wiper_State_FsmPre = INT_SPEED_MODE;
         } break;
         case PERIOD_SPEED_MODE:
         {
@@ -1215,7 +1156,7 @@ void RLS_Rain_State_Mchaine(void)
         	if(u8_cnt_choose_pre)
         	{
         		u8_temp_rcv = RLS_Period_Mode(u8_Int_Time_pre, u8_IntDelayTimer);
-        		u8_Wiper_State = PERIOD_SPEED_MODE;
+        		Wiper_State_Fsm = PERIOD_SPEED_MODE;
         	}
         	else 
         	{
@@ -1234,7 +1175,7 @@ void RLS_Rain_State_Mchaine(void)
             		u8_Int_Time_pre = 0;
             		u8_Int_Time = 0;
             		u8_cnt_choose = 0;
-            		u8_Wiper_State = PARK_MODE;
+            		Wiper_State_Fsm = PARK_MODE;
         		}
         	}
         	else
@@ -1251,7 +1192,7 @@ void RLS_Rain_State_Mchaine(void)
         				u8_Int_Time_pre   = u8_Int_Time;
         			}
         		}
-        		u8_Wiper_State = PERIOD_SPEED_MODE;
+				Wiper_State_Fsm = PERIOD_SPEED_MODE;
         	}
                 	        	
         	if(BCM_APP_Value.BCM_RainSensitivity == APP_RainSensitivityAPP_LV4)
@@ -1282,7 +1223,7 @@ void RLS_Rain_State_Mchaine(void)
 					u8_cnt_choose = 0;
 					u8_IntDelayTimer = 0;
 					u8_EnterLowSpeedCnt = 0;                    
-					u8_Wiper_State = LOW_SPEED_MODE;					
+					Wiper_State_Fsm = LOW_SPEED_MODE;					
                 }
             }
         	else
@@ -1304,14 +1245,14 @@ void RLS_Rain_State_Mchaine(void)
 					u8_Int_Time = 0;
 					u8_cnt_choose = 0;
 					u8_Splash_cnt = 0;
-					u8_Wiper_State = HIGH_SPEED_MODE;
+					Wiper_State_Fsm = HIGH_SPEED_MODE;
 				}
 				else
 				{
 					u8_Splash_cnt++;
 				}								
 			}
-            u8_Wiper_StatePre = PERIOD_SPEED_MODE;  
+        	Wiper_State_FsmPre = PERIOD_SPEED_MODE;  
         } break;
         
         case LOW_SPEED_MODE:
@@ -1358,7 +1299,7 @@ void RLS_Rain_State_Mchaine(void)
                     {
                         u8_ExitLowSpeedCnt = 0;
                         u8_IntDelayTimer = 0;
-                        u8_Wiper_State =  PERIOD_SPEED_MODE;
+                        Wiper_State_Fsm =  PERIOD_SPEED_MODE;
                     }
                     else
                     {
@@ -1373,7 +1314,7 @@ void RLS_Rain_State_Mchaine(void)
                     if(u8_HighHoldCnt >= u8_rain_cnt)   
                     {                
                        u8_HighHoldCnt = 0;
-                       u8_Wiper_State =  HIGH_SPEED_MODE;               
+                       Wiper_State_Fsm =  HIGH_SPEED_MODE;               
                     } 
                 } 
                 
@@ -1406,7 +1347,7 @@ void RLS_Rain_State_Mchaine(void)
                     {
                         u8_ExitLowSpeedCnt = 0;
                         u8_IntDelayTimer = 0;
-                        u8_Wiper_State =  PERIOD_SPEED_MODE;
+                        Wiper_State_Fsm =  PERIOD_SPEED_MODE;
                     }
                     else
                     {
@@ -1421,7 +1362,7 @@ void RLS_Rain_State_Mchaine(void)
                     if(u8_HighHoldCnt >= u8_rain_cnt)   
                     {                
                        u8_HighHoldCnt = 0;
-                       u8_Wiper_State =  HIGH_SPEED_MODE;               
+                       Wiper_State_Fsm =  HIGH_SPEED_MODE;               
                     } 
                 } 
                 
@@ -1454,7 +1395,7 @@ void RLS_Rain_State_Mchaine(void)
                     {
                         u8_ExitLowSpeedCnt = 0;
                         u8_IntDelayTimer = 0;
-                        u8_Wiper_State =  PERIOD_SPEED_MODE;
+                        Wiper_State_Fsm =  PERIOD_SPEED_MODE;
                     }
                     else
                     {
@@ -1469,7 +1410,7 @@ void RLS_Rain_State_Mchaine(void)
                     if(u8_HighHoldCnt >= u8_rain_cnt)   
                     {                
                        u8_HighHoldCnt = 0;
-                       u8_Wiper_State =  HIGH_SPEED_MODE;               
+                       Wiper_State_Fsm =  HIGH_SPEED_MODE;               
                     } 
                 } 
                 
@@ -1502,7 +1443,7 @@ void RLS_Rain_State_Mchaine(void)
                     {
                         u8_ExitLowSpeedCnt = 0;
                         u8_IntDelayTimer = 0;
-                        u8_Wiper_State =  PERIOD_SPEED_MODE;
+                        Wiper_State_Fsm =  PERIOD_SPEED_MODE;
                     }
                     else
                     {
@@ -1517,7 +1458,7 @@ void RLS_Rain_State_Mchaine(void)
                     if(u8_HighHoldCnt >= u8_rain_cnt)   
                     {                
                         u8_HighHoldCnt = 0;
-                        u8_Wiper_State =  HIGH_SPEED_MODE;               
+                        Wiper_State_Fsm =  HIGH_SPEED_MODE;               
                     } 
                 }
                 
@@ -1527,7 +1468,7 @@ void RLS_Rain_State_Mchaine(void)
                 }
             }
           
-            u8_Wiper_StatePre =  u8_Wiper_State;
+            Wiper_State_FsmPre =  Wiper_State_Fsm;
         } break;
         
         case HIGH_SPEED_MODE:
@@ -1614,7 +1555,7 @@ void RLS_Rain_State_Mchaine(void)
             
             if(u8_HighSpeedHoldCnt >= u8_Delaytimer)
             {             
-                u8_Wiper_State = LOW_SPEED_MODE;
+            	Wiper_State_Fsm = LOW_SPEED_MODE;
                 u8_HighSpeedHoldCnt = 0;                     
             }
             else
@@ -1626,11 +1567,11 @@ void RLS_Rain_State_Mchaine(void)
                 }
             }
             
-            u8_Wiper_StatePre = u8_Wiper_State;
+            Wiper_State_FsmPre = Wiper_State_Fsm;
         } break;
         
         default:  
-            u8_Wiper_State = PARK_MODE; 
+        	Wiper_State_Fsm = PARK_MODE; 
     }
 }
 
@@ -1647,7 +1588,7 @@ void RLS_Wipe_Park_Process(void)
     if(BCM_APP_Value.BCM_WiperPosition == APP_WiperPosition_Not_Parked)   //0为park点
     {
         u8_MeasureSureTime++;
-        if(u8_Wiper_State == HIGH_SPEED_MODE)
+        if(Wiper_State_Fsm == HIGH_SPEED_MODE)
         {            
             if((u8_MeasureSureTime > Rain_Stastegy_Parameter.park_high_meas_timer1))//||((u8_MeasureSureTime >= Rain_Stastegy_Parameter[0].park_high_meas_timer2)))//&&(u8_MeasureSureTime <= 20)))
             {
@@ -1697,7 +1638,7 @@ void RLS_Single_Wipe_Function(void)
 {
 	uint8 i;
 	if((BCM_APP_Value.Single_Wipe_flag == TRUE)&&
-			((u8_Wiper_State == PARK_MODE)||(u8_Wiper_State == INT_SPEED_MODE))
+			((Wiper_State_Fsm == PARK_MODE)||(Wiper_State_Fsm == INT_SPEED_MODE))
 			&&(Lin_Diag_Enable == TRUE)
 			&&(BCM_APP_Value.BCM_WiperPosition == APP_WiperPosition_Parked ))
 	{
@@ -1715,8 +1656,8 @@ void RLS_Single_Wipe_Function(void)
 		{
 			u8_RainIntensity_Win[i] = 0;
 		}
-		u8_Wiper_StatePre = INT_SPEED_MODE;
-		u8_Wiper_State = PARK_MODE;
+		Wiper_State_FsmPre = INT_SPEED_MODE;
+		Wiper_State_Fsm = PARK_MODE;
 	}
 	
 	else

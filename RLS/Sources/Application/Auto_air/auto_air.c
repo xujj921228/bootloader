@@ -125,9 +125,9 @@ void RLS_Auto_Solar_Task(void)
         avg_Solar_l_value = avg_Solar_l_value / SOLAR_AVG_N;
         avg_Solar_r_value = avg_Solar_r_value / SOLAR_AVG_N;
         
-        Mnrval.Amb_C = (uint16)(avg_hud);
-        Mnrval.Amb_D = (uint16)(avg_Solar_l_value);
-        Mnrval.Amb_E = (uint16)(avg_Solar_r_value);
+        Mnrval.Amb_[0] = (uint16)(avg_hud);
+        Mnrval.Amb_[1] = (uint16)(avg_Solar_l_value);
+        Mnrval.Amb_[2] = (uint16)(avg_Solar_r_value);
 	
 	for(i = 1;i < SOLAR_WINDOW;i++)
 	{	
