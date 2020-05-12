@@ -13,22 +13,22 @@
 #include "eeprom.h"
 
 #define EEPromMark 0x5aa5
-#define LOCAL_SIZE 26
+#define LOCAL_SIZE 22
 typedef union
 {   
  struct
  {
-        uint32 NUMBER0;                         //0.1.2.3
-        uint32 NUMBER1;                         //4.5.6.7
-        uint32 NUMBER2;                         //8.9.10.11
-        uint32 NUMBER3;                         //12.13.14.15
-        uint8 Brightness_Light_Percentage;         //16
-        uint8 Brightness_Infrared_Percentage;      //17
-        uint8 A_DAC_EEPdtata;                      //18
-        uint8 B_DAC_EEPdtata;                      //19
-        uint16 A_RAIN_ADC_EEPdtata;                //20.21
-        uint16 B_RAIN_ADC_EEPdtata;                //22.23
-        uint16 EEPmark;                            //24.25
+        uint8 NUMBER0[3];                   //0.1.2
+        uint8 NUMBER1[3];                   //3.4.5
+        uint8 NUMBER2[3];                   //6.7.8
+        uint8 NUMBER3[3];                   //9.10.11
+        uint8 Brightness_Light_Percentage;         //12
+        uint8 Brightness_Infrared_Percentage;      //13
+        uint8 A_DAC_EEPdtata;                      //14
+        uint8 B_DAC_EEPdtata;                      //15
+        uint16 A_RAIN_ADC_EEPdtata;                //16.17
+        uint16 B_RAIN_ADC_EEPdtata;                //18.19
+        uint16 EEPmark;                            //20.21
  };
   uint8 array[LOCAL_SIZE];
 }local_info_t;

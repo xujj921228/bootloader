@@ -67,17 +67,11 @@ typedef enum
 #define   DtABS_MAX    5000
 
 
-/************ADAPT******************/
-#define   CALI_PARAM_HIGH        45500
-#define   CALI_PARAM_LOW         44500
-#define   ADAPT_MEAS_CNT             3
-#define   ADAPT_VALUE_DAC_LOW     0x10
-#define   ADAPT_VALUE_DAC_HIGH    0xF0
 
 
 
 
 
 
-extern void Globle_parameter_Init(void);
+extern void Globle_Eep_parameter_Init(void);
 #endif    /* _ADC_H_ */

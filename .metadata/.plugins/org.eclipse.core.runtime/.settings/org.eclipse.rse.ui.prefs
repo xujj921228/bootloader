@@ -1,2 +1,2 @@
 eclipse.preferences.version=1
-org.eclipse.rse.preferences.order.connections=xj-PC.Local;xj-PC.RLS_FLASH_OSJTAG;xj-PC.RLS_FLASH_PnE U-MultiLink;xj-PC.RLS_FLASH_Segger J-Link_Trace;xj-PC.RLS_FLASH_OSJTAG Target;xj-PC.RLS_FLASH_PnE Cyclone MAX;xj-PC.RLS_FLASH_PnE Cyclone MAX Target;xj-PC.RLS_FLASH_PnE U-MultiLink Target;xj-PC.RLS_FLASH_Segger J-Link_Trace Target
+org.eclipse.rse.preferences.order.connections=xj-PC.Local;xj-PC.RLS_FLASH_PnE Cyclone MAX;xj-PC.RLS_FLASH_PnE U-MultiLink;xj-PC.RLS_FLASH_Segger J-Link_Trace;xj-PC.RLS_FLASH_OSJTAG;xj-PC.RLS_FLASH_OSJTAG Target;xj-PC.RLS_FLASH_PnE Cyclone MAX Target;xj-PC.RLS_FLASH_PnE U-MultiLink Target;xj-PC.RLS_FLASH_Segger J-Link_Trace Target

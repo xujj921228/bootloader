@@ -2,7 +2,7 @@
 # Automatically-generated file. Do not edit!
 ################################################################################
 
-#Progress monitor hint: 41
+#Progress monitor hint: 42
 first : all
 -include ../makefile.init
 
@@ -31,16 +31,17 @@ RM := "$(GNU_Make_Install_DirEnv)/rm" -rf
 -include Sources/Driver/LIN_Stack/lowlevel/subdir.mk
 -include Sources/Driver/LIN_Stack/coreapi/subdir.mk
 -include Sources/Driver/LIN_Stack/bsp/UART/subdir.mk
+-include Sources/Driver/LIN_Stack/Diagnostic/subdir.mk
 -include Sources/Driver/IIC/subdir.mk
 -include Sources/Application/subdir.mk
 -include Sources/Application/Sleep/subdir.mk
--include Sources/Application/Diagnostic/subdir.mk
+-include Sources/Application/Self_Adapt/subdir.mk
 -include Sources/Application/Config_parameters/subdir.mk
 -include Sources/Application/Battery/subdir.mk
 -include Sources/Application/Auto_wiper/subdir.mk
 -include Sources/Application/Auto_light/subdir.mk
 -include Sources/Application/Auto_humid/subdir.mk
--include Sources/Application/Auto_fog/subdir.mk
+-include Sources/Application/Auto_hud/subdir.mk
 -include Sources/Application/Auto_air/subdir.mk
 -include Project_Settings/Startup_Code/subdir.mk
 -include objects.mk
@@ -94,14 +95,14 @@ all: warning-messages explicit-dependencies RLS.elf secondary-outputs
 # Tool invocations
 RLS.elf: $(OBJS) $(USER_OBJS) ../Project_Settings/Linker_Files/SKEAZN64_flash.ld
 	@echo 'Building target: $@'
-	@echo 'Executing target #42 $@'
+	@echo 'Executing target #43 $@'
 	@echo 'Invoking: ARM Ltd Windows GCC C Linker'
 	"$(ARMSourceryDirEnv)/arm-none-eabi-gcc"  $(USER_OBJS_QUOTED) $(LIBS_QUOTED) @"RLS.args" -o"RLS.elf"
 	@echo 'Finished building target: $@'
 	@echo ' '
 
 RLS.hex: RLS.elf
-	@echo 'Executing target #43 $@'
+	@echo 'Executing target #44 $@'
 	@echo 'Invoking: ARM Ltd Windows GNU Create Flash Image'
 	"$(ARMSourceryDirEnv)/arm-none-eabi-objcopy"  -O srec RLS.elf "RLS.hex"
 	@echo 'Finished building: $@'
@@ -109,7 +110,7 @@ RLS.hex: RLS.elf
 
 # Other Targets
 clean:
-	-$(RM) $(S_DEPS_QUOTED) $(SECONDARY_FLASH_QUOTED) "./*/*/*.o" "./*/*/*/*.o" "./*/*/*/*/*/*.o" "./*/*/*/*/*.o"  $(S_UPPER_DEPS_QUOTED) $(ASM_DEPS_QUOTED) $(ASM_UPPER_DEPS_QUOTED) $(SX_DEPS_QUOTED) $(EXECUTABLES_QUOTED) "./*/*/*.d" "./*/*/*/*.d" "./*/*/*/*/*/*.d" "./*/*/*/*/*.d"  $(ProjDirPath)/FLASH/RLS.elf
+	-$(RM) $(S_DEPS_QUOTED) $(SECONDARY_FLASH_QUOTED) "./*/*/*.o" "./*/*/*/*.o" "./*/*/*/*/*.o" "./*/*/*/*/*/*.o"  $(S_UPPER_DEPS_QUOTED) $(ASM_DEPS_QUOTED) $(ASM_UPPER_DEPS_QUOTED) $(SX_DEPS_QUOTED) $(EXECUTABLES_QUOTED) "./*/*/*.d" "./*/*/*/*.d" "./*/*/*/*/*.d" "./*/*/*/*/*/*.d"  $(ProjDirPath)/FLASH/RLS.elf
 	-@echo ' '
 
 secondary-outputs: $(SECONDARY_FLASH)

@@ -20,6 +20,7 @@
 #include "auto_light.h"
 #include "battery.h"
 #include "lin_diagnostic_service.h"
+#include "self_adapt.h"
 
 /************gloable  var*****************/
 uint8  Timer_50ms;
@@ -34,7 +35,6 @@ uint8  Timer_100ms_flag;
 uint8  Timer_500ms_flag;
 
 extern bool_t bool_auto_roof_rain_measure_sleep_flg;
-
 
 Main_Fsm_t  RLS_RunMode;
 /*****************************************
@@ -62,6 +62,7 @@ void Gloable_Var_Init(void)
     Diagnostic_Var_init();//var for Diagnostic
     Lin_Var_Init();//var for lin
 }
+
 /***********************************************************************************************
 *
 * @brief    main - Initialize 
@@ -81,12 +82,11 @@ void main(void)
 #ifdef FOUR_TO_ONE 
 	DRV_IIC_Init();
 #endif	
-	Globle_parameter_Init();
-	Gloable_Var_Init();
 	Lin_Sys_Init();
 	MLX75308_Init();	
 	RTC_Init();
-	
+	Gloable_Var_Init();  /*init all var for all task*/
+	Globle_Eep_parameter_Init();/*read all eep data for all task */
 	
 	for(;;) 
 	{			

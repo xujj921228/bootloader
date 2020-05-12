@@ -145,9 +145,9 @@ void lin_tl_make_slaveres_pdu
 					/* Get Identifier infor */
 					lin_tl_pdu[3] = (LIN_PRODUCT_SERIAL_NUMBER1>>8) ;
 					lin_tl_pdu[4] = (l_u8)(LIN_PRODUCT_SERIAL_NUMBER1&0xFF);
-					lin_tl_pdu[5] = (l_u8)(local_info.array[3]);
-					lin_tl_pdu[6] = (l_u8)(local_info.array[4]);
-					lin_tl_pdu[7] = (l_u8)(local_info.array[5]);					
+					lin_tl_pdu[5] = (l_u8)(local_info.NUMBER1[0]);
+					lin_tl_pdu[6] = (l_u8)(local_info.NUMBER1[1]);
+					lin_tl_pdu[7] = (l_u8)(local_info.NUMBER1[2]);					
 	
 				}
 				else if (error_code == (LIN_PRODUCT_SERIAL_NUMBER2&0xFF))
@@ -169,9 +169,9 @@ void lin_tl_make_slaveres_pdu
 					/* Get Identifier infor */
 					lin_tl_pdu[3] = (LIN_PRODUCT_SERIAL_NUMBER3>>8) ;
 					lin_tl_pdu[4] = (l_u8)(LIN_PRODUCT_SERIAL_NUMBER3&0xFF);
-					lin_tl_pdu[5] = (l_u8)(local_info.array[9]);
-					lin_tl_pdu[6] = (l_u8)(local_info.array[10]);
-					lin_tl_pdu[7] = (l_u8)(local_info.array[11]);					
+					lin_tl_pdu[5] = (l_u8)(local_info.NUMBER3[0]);
+					lin_tl_pdu[6] = (l_u8)(local_info.NUMBER3[1]);
+					lin_tl_pdu[7] = (l_u8)(local_info.NUMBER3[2]);					
 	
 				}
 				else if (error_code == (LIN_LS_FW_PARAM&0xFF))

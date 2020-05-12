@@ -126,6 +126,12 @@ typedef enum
 #define   DC_aft_dtTH           200     //300
 #define   DC_CHANGE_TH          300     //300
 
+#define   Mnrval(n)  \
+	if(n == 0 )Mnrval.IR_A;\
+else  Mnrval.IR_B;
+
+
+
 #define   RAIN_INVALID_NUM     1
 
 #define   PERIOD_SPEED_TIMER   30   //3S
@@ -149,6 +155,7 @@ typedef enum
 extern void Auto_Wiper_Var_Init(void);
 extern void RLS_Rain_Module_Fault_Process(uint8 chan);
 extern uint8 RLS_Get_Rain_State(uint8 PD_chan);
+extern void RLS_Get_Rain_RainIntensity(uint8 PD_chan);
 extern void RLS_Get_Rain_ExpectStage(uint8 PD_chan);
 extern void RLS_Mask_False_Operation(void);
 extern void RLS_Invalid_DataProcess(void);
@@ -156,7 +163,6 @@ extern uint8 RLS_Period_Mode(uint8 Int_Timer, uint8 Wiper_Timer);
 extern void RLS_Rain_State_Mchaine(void);
 extern void RLS_Wipe_Park_Process(void);
 extern void RLS_Auto_Rain_Task(void);
-extern void RLS_SelfAdaptTask(void);
 extern void RLS_Single_Wipe_Function(void);
 extern void RLS_Lin_Diag_Fucntion(void);
 

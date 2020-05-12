@@ -25,6 +25,7 @@
 #include "watchdog.h"
 #include "local_eep_data.h"
 #include "mlx75308.h"
+#include "self_adapt.h"
 
 
 extern Main_Fsm_t             RLS_RunMode;
@@ -36,10 +37,11 @@ extern RLS_APP_Value_t     RLS_APP_Value;
 extern MLX75308_Frame_t       MLX75308_RxFrame;
 extern MLX75308_Mnrval_t      Mnrval;
 
-extern uint16 PD_WIN_AVG[CHAN_NUM][PD_WINDOW];
+uint16 PD_WIN_AVG[CHAN_NUM][PD_WINDOW];
 extern uint16 u16_Delta_DC_bre_A,u16_Delta_DC_aft_A,u16_Delta_DC_bre_B,u16_Delta_DC_aft_B;
-extern uint16 u16_Ref_Adc_A,u16_Ref_Adc_B;
-extern uint8 MLX75308_A_Adc,MLX75308_B_Adc;;
+extern uint16 u16_Ref_Adc_B;
+extern uint8 MLX75308_A_Adc,MLX75308_B_Adc;
+uint16 u16_Ref_Adc_A;
 
 tRain_Stastegy_Config const  Rain_Stastegy_Parameter =
 {
@@ -176,8 +178,7 @@ uint16 u16_Dt_PD[CHAN_NUM];
 
 uint16 u16_PDA_Wmax,u16_PDB_Wmax;
 
-uint16 PD_Meas_Comp_Ref[CHAN_NUM] ;
-uint16 PD_Meas_Comp_Ref_Pre[CHAN_NUM];
+
 uint8  u8_Juge_Rain_Cnt[CHAN_NUM] ;
 
 uint16 u16_DC_Comp_Value[CHAN_NUM];
@@ -209,7 +210,6 @@ uint16 u16_RainWindow_Cnt;
 uint16 u16_IntWindow_Cnt;
 uint8  u8_Int_Cnt;
 
-uint8  u8_Rain_Delta;
 
 
 uint8 u8_IntSpeedFlgCnt;
@@ -230,8 +230,6 @@ void Auto_Wiper_Var_Init(void)
 
 	BCM_APP_Value.Single_Wipe_flag = FALSE;
 	    
-	    
-	 u8_Rain_Delta =  RAIN_DELTA;
 	    
 	    
 		u8_IntSpeedCnt = 0;
@@ -262,15 +260,18 @@ void Auto_Wiper_Var_Init(void)
  *******************************************************/
 void RLS_Rain_Module_Fault_Process(uint8 chan)
 {
+	App_Rls_Error.RS_Error = 0;
 	if(chan == PDA) 
 	{
 	    if (u16_Pd_Measure_Value == 0) 
 		{
-			App_Rls_Error.RS_Error_Cnt[0]++;
 			if(App_Rls_Error.RS_Error_Cnt[0] >= 100)   
 			{
-				App_Rls_Error.RS_Error_Cnt[0] = 100;
 				App_Rls_Error.RS_Error = 1 ;
+			}
+			else
+			{
+				App_Rls_Error.RS_Error_Cnt[0]++;
 			}
 		} 
 		else 
@@ -282,11 +283,13 @@ void RLS_Rain_Module_Fault_Process(uint8 chan)
 	{
 	    if (u16_Pd_Measure_Value == 0) 
 		{
-			App_Rls_Error.RS_Error_Cnt[1]++;
 			if(App_Rls_Error.RS_Error_Cnt[1] >= 100)   
 			{
-				App_Rls_Error.RS_Error_Cnt[1] = 100;
 				App_Rls_Error.RS_Error = 1 ;
+			}
+			else
+			{
+				App_Rls_Error.RS_Error_Cnt[1]++;	
 			}
 		} 
 		else 
@@ -294,10 +297,9 @@ void RLS_Rain_Module_Fault_Process(uint8 chan)
 			App_Rls_Error.RS_Error_Cnt[1] = 0;
 		}
 	}
-	
-	if((App_Rls_Error.RS_Error_Cnt[0] < 100)&&(App_Rls_Error.RS_Error_Cnt[1] < 100))
+	else
 	{
-		App_Rls_Error.RS_Error = 0;
+		
 	}
 }
 
@@ -314,14 +316,17 @@ uint8 RLS_Get_Rain_State(uint8 PD_chan)
 {
     uint8 i; 
     uint16 temp;
+    uint8 Chan_Temp  = CHAN_A;
     
     u16_Pd_Measure_Value = RLS_Rain_Get_Measure(PD_chan,Rain_Stastegy_Parameter.meas_avg_cnt,600);
     
     RLS_Rain_Module_Fault_Process(PD_chan);
     
+    if(u16_Pd_Measure_Value == 0) return 0;
     
-    if((PD_chan == PDA)&&(u16_Pd_Measure_Value!=0)) 
-    {
+    if(PD_chan == PDB) Chan_Temp  = CHAN_B;
+    
+    
         Mnrval.IR_A = u16_Pd_Measure_Value;
         
        
@@ -331,16 +336,14 @@ uint8 RLS_Get_Rain_State(uint8 PD_chan)
         }
         DC_WIN_BUFF[CHAN_A][DC_WINDOW - 1] = Mnrval.DC_bre_A ;
         
+        
         if( RLS_StopMsureFlg == RLS_Continue_Msure )
         {
-            for(i = 1;i <= PD_WINDOW;i++)
+            for(i = 1;i < PD_WINDOW;i++)
             {
-                PD_WIN_AVG[CHAN_A][PD_WINDOW - 1] = Mnrval.IR_A ;
-                if(i < PD_WINDOW)
-                {
-                     PD_WIN_AVG[CHAN_A][i - 1] = PD_WIN_AVG[CHAN_A][i];
-                }
+                 PD_WIN_AVG[CHAN_A][i - 1] = PD_WIN_AVG[CHAN_A][i];
             }
+            PD_WIN_AVG[CHAN_A][PD_WINDOW - 1] = Mnrval.IR_A ;
             if(Mnrval.DC_bre_A < Rain_Stastegy_Parameter.dc_stage1)
             {
                     temp =  Rain_Stastegy_Parameter.stage_intensity1;
@@ -372,25 +375,18 @@ uint8 RLS_Get_Rain_State(uint8 PD_chan)
         {
         	temp = 3000;
         }
-        
-        if(BCM_APP_Value.BCM_WiperPosition == APP_WiperPosition_Not_Parked)
-        { 
-            PD_Meas_Comp_Ref[CHAN_A] =  PD_WIN_AVG[CHAN_A][0] ;            
-        }
-        else
-        {
-            
-        }
+   
                 
         u16_PDA_Wmax = PD_WIN_AVG[CHAN_A][0];                        //A通道最大值赋值
-        if(Mnrval.IR_A >= u16_PDA_Wmax) 
+        if(PD_WIN_AVG[CHAN_A][PD_WINDOW - 1] >= u16_PDA_Wmax) 
         {                           //当前值大于前PD_WINDOW-1个采集值时，返回无雨量
             u8_PD_State[CHAN_A] = 0;
-            if((Mnrval.IR_A - u16_PDA_Wmax) > DtABS_MAX) PD_WIN_AVG[CHAN_A][PD_WINDOW - 1] = PD_WIN_AVG[CHAN_A][PD_WINDOW - 2];
+            if((PD_WIN_AVG[CHAN_A][PD_WINDOW - 1] - PD_WIN_AVG[CHAN_A][0]) > DtABS_MAX) 
+            	PD_WIN_AVG[CHAN_A][PD_WINDOW - 1] = PD_WIN_AVG[CHAN_A][PD_WINDOW - 2];
         }
         else
         {
-            u16_Dt_PD[CHAN_A] = u16_PDA_Wmax - Mnrval.IR_A;
+            u16_Dt_PD[CHAN_A] = PD_WIN_AVG[CHAN_A][0] - PD_WIN_AVG[CHAN_A][PD_WINDOW - 1];
             if((u16_Dt_PD[CHAN_A] > DtABS_MAX)||(u16_Dt_PD[CHAN_A] < temp)) 
             {                  
               PD_WIN_AVG[CHAN_A][PD_WINDOW - 1] = PD_WIN_AVG[CHAN_A][PD_WINDOW - 2];
@@ -398,110 +394,45 @@ uint8 RLS_Get_Rain_State(uint8 PD_chan)
             }
             else 
             {
-                u8_PD_State[CHAN_A] = (u16_Dt_PD[CHAN_A] / u8_Rain_Delta);
+                u8_PD_State[CHAN_A] = (u16_Dt_PD[CHAN_A] / RAIN_DELTA);
             }
         }
         
-        PD_Meas_Comp_Ref_Pre[CHAN_A] =  PD_Meas_Comp_Ref[CHAN_A];
         
         return (u8_PD_State[CHAN_A]);
-    }
-    else if((PD_chan == PDB)&&(u16_Pd_Measure_Value!=0))
-    {
-        Mnrval.IR_B = u16_Pd_Measure_Value;
-        
-        DC_WIN_BUFF[CHAN_B][DC_WINDOW - 1] = Mnrval.DC_bre_B ;
-        
-        for(i = 1;i <= DC_WINDOW;i++)
-        {
-             DC_WIN_BUFF[CHAN_B][DC_WINDOW - 1] = Mnrval.DC_bre_B ;
-            
-            if(i < DC_WINDOW)
-            {
-                DC_WIN_BUFF[CHAN_B][i - 1] = DC_WIN_BUFF[CHAN_B][i];
-               
-            }
-        }
-        
-        if(RLS_StopMsureFlg == RLS_Continue_Msure )
-        {
-            for(i = 1;i <= PD_WINDOW;i++)
-            {
-                PD_WIN_AVG[CHAN_B][PD_WINDOW - 1] = Mnrval.IR_B ;
-                if(i < PD_WINDOW)
-                {
-                     PD_WIN_AVG[CHAN_B][i - 1] = PD_WIN_AVG[CHAN_B][i];
-                }
-            }
-            if(Mnrval.DC_bre_B <  Rain_Stastegy_Parameter.dc_stage1)
-			{
-				temp =  Rain_Stastegy_Parameter.stage_intensity1;
-			}
-			else if(Mnrval.DC_bre_B <  Rain_Stastegy_Parameter.dc_stage2)
-			{
-				temp =  Rain_Stastegy_Parameter.stage_intensity2;
-			}
-			else if(Mnrval.DC_bre_B <  Rain_Stastegy_Parameter.dc_stage3)
-			{
-				temp =  Rain_Stastegy_Parameter.stage_intensity3;
-			}
-			else if(Mnrval.DC_bre_B <  Rain_Stastegy_Parameter.dc_stage4)
-			{
-				temp =  Rain_Stastegy_Parameter.stage_intensity4;
-			}
-			else
-			{
-				temp =  Rain_Stastegy_Parameter.stage_intensity5;
-			}
-            
-			if(BCM_APP_Value.BCM_RainSensitivity == APP_RainSensitivityAPP_LV4)  temp = temp ;
-			else if (BCM_APP_Value.BCM_RainSensitivity == APP_RainSensitivityAPP_LV3)  temp = temp + 20 ;
-			else if (BCM_APP_Value.BCM_RainSensitivity == APP_RainSensitivityAPP_LV2)  temp = temp + 40 ;
-			else                                temp = temp + 80 ;
-        } 
-        else
-        {
-        	temp = 3000;
-        }
-        
-        if(BCM_APP_Value.BCM_WiperPosition == APP_WiperPosition_Not_Parked)
-        { 
-            PD_Meas_Comp_Ref[CHAN_B] =  PD_WIN_AVG[CHAN_B][0] ;
-            
-        }
-        else
-        {
-            
-        }
-                
-        u16_PDB_Wmax = PD_WIN_AVG[CHAN_B][0];                        //A通道最大值赋值
-        if(Mnrval.IR_B >= u16_PDB_Wmax) 
-        {                           //当前值大于前PD_WINDOW-1个采集值时，返回无雨量
-            u8_PD_State[CHAN_B] = 0;
-            if((Mnrval.IR_B - u16_PDB_Wmax) > DtABS_MAX) PD_WIN_AVG[CHAN_B][PD_WINDOW - 1] = PD_WIN_AVG[CHAN_B][PD_WINDOW - 2];
-        }
-        else
-        {
-            u16_Dt_PD[CHAN_B] = u16_PDB_Wmax - Mnrval.IR_B;
-            if((u16_Dt_PD[CHAN_B] > DtABS_MAX)||(u16_Dt_PD[CHAN_B] < temp)) 
-            {                  
-              PD_WIN_AVG[CHAN_B][PD_WINDOW - 1] = PD_WIN_AVG[CHAN_B][PD_WINDOW - 2];
-              u8_PD_State[CHAN_B] = 0;          
-            }
-            else 
-            {
-                u8_PD_State[CHAN_B] = (u16_Dt_PD[CHAN_B] / u8_Rain_Delta);
-            }
-        }
-        
-        PD_Meas_Comp_Ref_Pre[CHAN_B] =  PD_Meas_Comp_Ref[CHAN_B];
-        
-        return (u8_PD_State[CHAN_B]);
-    }
-    else
-    {
-    	return 0 ;
-    }
+}
+
+/*******************************************************
+ * FUNCTION NAME : RLS_Get_Rain_ExpectStage()
+ *   DESCRIPTION : RLS_Get_Rain_ExpectStage function 
+ *         INPUT : PD_chan
+ *        OUTPUT : void  
+ *        RETURN : NONE              
+ *        OTHERS : NONE
+ *******************************************************/
+void RLS_Get_Rain_RainIntensity(uint8 PD_chan)
+{
+	uint8  Rain_temp = 0;
+	uint8 Chan_Temp = CHAN_A;
+	
+	
+	Rain_temp = RLS_Get_Rain_State(PD_chan);
+	if(PD_chan == PDB) Chan_Temp = CHAN_B;
+			       
+	if(Rain_temp == 0)                            u8_RainIntensity[Chan_Temp]  = 0;
+	else if((Rain_temp >= 1)&&(Rain_temp <= 3))   u8_RainIntensity[Chan_Temp]  = 1;
+	else if((Rain_temp >= 4)&&(Rain_temp <= 5))   u8_RainIntensity[Chan_Temp]  = 2;
+	else if((Rain_temp >= 6)&&(Rain_temp <= 7))   u8_RainIntensity[Chan_Temp]  = 3;
+	else if((Rain_temp >= 8)&&(Rain_temp <= 9))   u8_RainIntensity[Chan_Temp]  = 4;
+	else if((Rain_temp >= 10)&&(Rain_temp <= 10)) u8_RainIntensity[Chan_Temp]  = 5;
+	else if((Rain_temp >= 11)&&(Rain_temp <= 14)) u8_RainIntensity[Chan_Temp]  = 6;
+	else if((Rain_temp >= 15)&&(Rain_temp <= 17)) u8_RainIntensity[Chan_Temp]  = 7;
+	else if((Rain_temp >= 18)&&(Rain_temp <= 18)) u8_RainIntensity[Chan_Temp]  = 8;
+	else if((Rain_temp >= 19)&&(Rain_temp <= 19)) u8_RainIntensity[Chan_Temp]  = 9;
+	else if((Rain_temp >= 20)&&(Rain_temp <= 35)) u8_RainIntensity[Chan_Temp]  = 10;
+	else                                            u8_RainIntensity[Chan_Temp]  = 11;
+
+	u8_RainIntensityPre[Chan_Temp] = u8_RainIntensity[Chan_Temp];
 }
 
 /*******************************************************
@@ -514,50 +445,8 @@ uint8 RLS_Get_Rain_State(uint8 PD_chan)
  *******************************************************/
 void RLS_Get_Rain_ExpectStage(uint8 PD_chan)
 {
-    uint8  Rain_temp_A = 0, Rain_temp_B = 0;
-    
-    if((PD_chan & PDB) == PDB) 
-    {
-                        
-        Rain_temp_B = RLS_Get_Rain_State(PDB);
-       
-        if(Rain_temp_B == 0)                              u8_RainIntensity[CHAN_B]  = 0;
-        else if((Rain_temp_B >= 1)&&(Rain_temp_B <= 3))   u8_RainIntensity[CHAN_B]  = 1;
-        else if((Rain_temp_B >= 4)&&(Rain_temp_B <= 5))   u8_RainIntensity[CHAN_B]  = 2;
-        else if((Rain_temp_B >= 6)&&(Rain_temp_B <= 7))   u8_RainIntensity[CHAN_B]  = 3;
-        else if((Rain_temp_B >= 8)&&(Rain_temp_B <= 9))   u8_RainIntensity[CHAN_B]  = 4;
-        else if((Rain_temp_B >= 10)&&(Rain_temp_B <= 10)) u8_RainIntensity[CHAN_B]  = 5;
-        else if((Rain_temp_B >= 11)&&(Rain_temp_B <= 14)) u8_RainIntensity[CHAN_B]  = 6;
-        else if((Rain_temp_B >= 15)&&(Rain_temp_B <= 17)) u8_RainIntensity[CHAN_B]  = 7;
-        else if((Rain_temp_B >= 18)&&(Rain_temp_B <= 18)) u8_RainIntensity[CHAN_B]  = 8;
-        else if((Rain_temp_B >= 19)&&(Rain_temp_B <= 19)) u8_RainIntensity[CHAN_B]  = 9;
-        else if((Rain_temp_B >= 20)&&(Rain_temp_B <= 35)) u8_RainIntensity[CHAN_B]  = 10;
-        else                                              u8_RainIntensity[CHAN_B]  = 11;
-
-        u8_RainIntensityPre[CHAN_B] = u8_RainIntensity[CHAN_B];
-    }
-           
-    if((PD_chan & PDA) == PDA)
-    {
-
-        Rain_temp_A = RLS_Get_Rain_State(PDA);          
-        
-        if(Rain_temp_A == 0)                              u8_RainIntensity[CHAN_A]  = 0;
-        else if((Rain_temp_A >= 1)&&(Rain_temp_A <= 3))   u8_RainIntensity[CHAN_A]  = 1;
-        else if((Rain_temp_A >= 4)&&(Rain_temp_A <= 5))   u8_RainIntensity[CHAN_A]  = 2;
-        else if((Rain_temp_A >= 6)&&(Rain_temp_A <= 7))   u8_RainIntensity[CHAN_A]  = 3;
-        else if((Rain_temp_A >= 8)&&(Rain_temp_A <= 9))   u8_RainIntensity[CHAN_A]  = 4;
-        else if((Rain_temp_A >= 10)&&(Rain_temp_A <= 10)) u8_RainIntensity[CHAN_A]  = 5;
-        else if((Rain_temp_A >= 11)&&(Rain_temp_A <= 14)) u8_RainIntensity[CHAN_A]  = 6;
-        else if((Rain_temp_A >= 15)&&(Rain_temp_A <= 17)) u8_RainIntensity[CHAN_A]  = 7;
-        else if((Rain_temp_A >= 18)&&(Rain_temp_A <= 18)) u8_RainIntensity[CHAN_A]  = 8;
-        else if((Rain_temp_A >= 19)&&(Rain_temp_A <= 19)) u8_RainIntensity[CHAN_A]  = 9;
-        else if((Rain_temp_A >= 20)&&(Rain_temp_A <= 35)) u8_RainIntensity[CHAN_A]  = 10;
-        else                                              u8_RainIntensity[CHAN_A]  = 11;
-
-
-        u8_RainIntensityPre[CHAN_A] = u8_RainIntensity[CHAN_A];
-    } 
+    if((PD_chan & PDB) == PDB) RLS_Get_Rain_RainIntensity(PDB);     
+    if((PD_chan & PDA) == PDA) RLS_Get_Rain_RainIntensity(PDA);  
 } 
 
 /*******************************************************
@@ -1794,155 +1683,6 @@ void RLS_Auto_Rain_Task(void)
     RLS_Mask_False_Operation();
     RLS_Invalid_DataProcess(); 
     RLS_Rain_State_Mchaine();   
-}
-
-/*******************************************************
- * FUNCTION NAME : RLS_SelfAdaptTask()
- *   DESCRIPTION : RLS_SelfAdaptTask function 
- *         INPUT : NONE
- *        OUTPUT : void  
- *        RETURN : NONE              
- *        OTHERS : NONE
- *******************************************************/       
-void RLS_SelfAdaptTask(void)
-{
-    uint8   i;
-    uint8   temp_data[2] ;
-
-   /* add intia*/
-
-/******************Chanl A*********************/   
-    for(i = 0; i < 20; i++)
-    {
-    	WDOG_Feed();
-        u16_Pd_Measure_Value = RLS_Rain_Get_Measure(PDA, 1, 600);
-        if(0 != u16_Pd_Measure_Value) 
-            break;
-    }
-
-    if(u16_Pd_Measure_Value < CALI_PARAM_LOW)
-    {
-        for(i = 0; i < 254; i++)
-        {
-        	WDOG_Feed();
-            MLX75308_A_Adc = MLX75308_A_Adc + 1;
-                                                           
-            MLX75308_SetPara(DACA, MLX75308_A_Adc);
-            Delay_Ms(5);
-            u16_Pd_Measure_Value = RLS_Rain_Get_Measure(PDA,ADAPT_MEAS_CNT, 1000);
-             
-            if(((u16_Pd_Measure_Value >= CALI_PARAM_LOW) && (u16_Pd_Measure_Value <= CALI_PARAM_HIGH)) || (MLX75308_A_Adc >=ADAPT_VALUE_DAC_HIGH)) 
-                break;
-        }
-        
-        if(MLX75308_A_Adc >= ADAPT_VALUE_DAC_HIGH)    
-            MLX75308_A_Adc = ADAPT_VALUE_DAC_HIGH;
-    
-        MLX75308_SetPara(DACA, MLX75308_A_Adc);
-    }
-    
-    else if(u16_Pd_Measure_Value > CALI_PARAM_HIGH)
-    {
-        for(i = 0;i < 254;i++)
-        {
-        	WDOG_Feed();
-            MLX75308_A_Adc = MLX75308_A_Adc - 1;
-            MLX75308_SetPara(DACA, MLX75308_A_Adc);
-            Delay_Ms(5);
-            u16_Pd_Measure_Value = RLS_Rain_Get_Measure(PDA,ADAPT_MEAS_CNT, 1000);
-             
-            if(((u16_Pd_Measure_Value >= CALI_PARAM_LOW) && (u16_Pd_Measure_Value <= CALI_PARAM_HIGH)) || (MLX75308_A_Adc <= ADAPT_VALUE_DAC_LOW))  
-                break;
-        }
-        
-        if(MLX75308_A_Adc <= ADAPT_VALUE_DAC_LOW)   
-            MLX75308_A_Adc = ADAPT_VALUE_DAC_LOW;
-        
-        MLX75308_SetPara(DACA, MLX75308_A_Adc);
-    }
-    
-    u16_Ref_Adc_A = u16_Pd_Measure_Value;
-    
-    for(i = 0;i < PD_WINDOW;i++) 
-    {                   
-        //将最新的数据压入滑动窗口             
-        PD_WIN_AVG[CHAN_A][i] = u16_Pd_Measure_Value;            
-    }
-    
-    temp_data[0] = MLX75308_A_Adc;
-    
-    Set_Data_To_EEPROM(EEPROM_A_DAC_ADDR,temp_data,EEPROM_A_DAC_ADDR_LENTH);
-
-/******************Chanl B*********************/ 
-   
-    for(i = 0 ;i < 20;i++)
-    {
-    	WDOG_Feed();
-        u16_Pd_Measure_Value =  RLS_Rain_Get_Measure(PDB, 1, 1000);
-        if(0 != u16_Pd_Measure_Value) 
-            break;
-    }
-      
-    if(u16_Pd_Measure_Value < CALI_PARAM_LOW)
-    {
-        for(i = 0;i < 254;i++)
-        {
-        	WDOG_Feed();
-            MLX75308_B_Adc = MLX75308_B_Adc + 1;
-            MLX75308_SetPara(DACB, MLX75308_B_Adc);
-            Delay_Ms(5);
-            u16_Pd_Measure_Value = RLS_Rain_Get_Measure(PDB,ADAPT_MEAS_CNT,1000);
-             
-            if(((u16_Pd_Measure_Value >= CALI_PARAM_LOW) && (u16_Pd_Measure_Value <= CALI_PARAM_HIGH)) || (MLX75308_B_Adc >= ADAPT_VALUE_DAC_HIGH)) 
-                break;         
-        }
-        
-        if(MLX75308_B_Adc >= ADAPT_VALUE_DAC_HIGH)  
-            MLX75308_B_Adc = ADAPT_VALUE_DAC_HIGH;                                     
-        
-        MLX75308_SetPara(DACB, MLX75308_B_Adc);
-    }
-    
-    else if(u16_Pd_Measure_Value > CALI_PARAM_HIGH)
-    {
-        for(i = 0;i < 254;i++)
-        {
-        	WDOG_Feed();
-            MLX75308_B_Adc  = MLX75308_B_Adc - 1;
-            MLX75308_SetPara(DACB, MLX75308_B_Adc);
-            Delay_Ms(5);
-            u16_Pd_Measure_Value = RLS_Rain_Get_Measure(PDB,ADAPT_MEAS_CNT,1000);
-             
-            if(((u16_Pd_Measure_Value >= CALI_PARAM_LOW) && (u16_Pd_Measure_Value <= CALI_PARAM_HIGH)) || (MLX75308_B_Adc <= ADAPT_VALUE_DAC_LOW)) 
-                break;
-        }
-        
-        if(MLX75308_B_Adc <= ADAPT_VALUE_DAC_LOW)  
-            MLX75308_B_Adc = ADAPT_VALUE_DAC_LOW;
-        
-        MLX75308_SetPara(DACB, MLX75308_B_Adc);
-    }
-       
-    u16_Ref_Adc_B = u16_Pd_Measure_Value ;
-    
-    for(i = 0;i < PD_WINDOW;i++) 
-    {   
-        //将最新的数据压入滑动窗口             
-        PD_WIN_AVG[CHAN_B][i] = u16_Pd_Measure_Value;            
-    }
-    
-    temp_data[0] = MLX75308_B_Adc;
-    Set_Data_To_EEPROM(EEPROM_B_DAC_ADDR,temp_data,EEPROM_B_DAC_ADDR_LENTH);
-   
-/*********MODE CHANGE TO NORMAL*******************/
-    for(i = 0;i < Rain_WINDOW ;i ++) 
-    {
-        u8_RainIntensity_Win[i] = 0;
-    }
-    
-    RLS_RunMode = MAIN_NORMAL;
-    u8_IntSpeedEnterCnt = 0;
-    u8_LowSpeedCnt = 0;      
 }
 
 /*******************************************************

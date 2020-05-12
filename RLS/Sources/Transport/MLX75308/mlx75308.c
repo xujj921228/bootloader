@@ -4,8 +4,10 @@
 #include "watchdog.h"
 #include "gpio.h"
 #include "clock.h"
+#include "local_eep_data.h"
 
 extern Main_Fsm_t  RLS_RunMode;
+extern local_info_t local_info;
 
 tMlx75308_Config const Mlx75308_Config_Parameter =
 {
@@ -32,9 +34,8 @@ tMlx75308_Config const Mlx75308_Config_Parameter =
 MLX75308_Frame_t       MLX75308_RxFrame;
 MLX75308_Mnrval_t      Mnrval;
 
-uint16 PD_WIN_AVG[CHAN_NUM][PD_WINDOW];
-uint8  MLX75308_A_Gain,MLX75308_B_Gain,MLX75308_A_Adc,MLX75308_B_Adc;
-uint16 u16_DC_checkValue,u16_DC_comp_value,u16_Ref_Adc_A,u16_Ref_Adc_B;
+uint8  MLX75308_A_Gain,MLX75308_B_Gain;
+uint16 u16_DC_checkValue,u16_DC_comp_value;
 uint16 u16_Save_DC_bre_A,u16_Save_DC_aft_A,u16_Save_DC_bre_B,u16_Save_DC_aft_B;
 uint16 u16_Delta_DC_bre_A,u16_Delta_DC_aft_A,u16_Delta_DC_bre_B,u16_Delta_DC_aft_B;
 
@@ -209,11 +210,11 @@ void MLX75308_Init(void)
     MLX75308_SetPara(BW_ADJ_AA_B,Mlx75308_Config_Parameter.bw_adj_b);//4
     /*****************************************************/
     MLX75308_SetPara(BW_SEL_LP_A,Mlx75308_Config_Parameter.bw_sel_lp_a);//2
-    MLX75308_SetPara(DACA, MLX75308_A_Adc);
+    MLX75308_SetPara(DACA, local_info.A_DAC_EEPdtata);
     MLX75308_SetPara(GAIN_ADJ_AA_A,Mlx75308_Config_Parameter.gain_adj_a);
 
     MLX75308_SetPara(BW_SEL_LP_B,Mlx75308_Config_Parameter.bw_sel_lp_b);//2              
-    MLX75308_SetPara(DACB, MLX75308_B_Adc);
+    MLX75308_SetPara(DACB, local_info.B_DAC_EEPdtata);
     MLX75308_SetPara(GAIN_ADJ_AA_B,Mlx75308_Config_Parameter.gain_adj_b);
 
     MLX75308_SetPara(RF,Mlx75308_Config_Parameter.rf);  //69.4khz default value
@@ -227,12 +228,6 @@ void MLX75308_Init(void)
 
     MLX75308_SetPara(EN_DCCOMP,Mlx75308_Config_Parameter.dc_comp_en);
    
-   //------------------------------------------
-    for(i = 0 ;i < PD_WINDOW; i++)   
-    {
-        PD_WIN_AVG[CHAN_A][i] =  RLS_Rain_Get_Measure(PDA,3,1000); 
-        PD_WIN_AVG[CHAN_B][i] =  RLS_Rain_Get_Measure(PDB,3,1000);
-    }
 }
 
 

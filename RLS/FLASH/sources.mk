@@ -82,16 +82,17 @@ Sources/Driver/SPI \
 Sources/Driver/LIN_Stack/lowlevel \
 Sources/Driver/LIN_Stack/coreapi \
 Sources/Driver/LIN_Stack/bsp/UART \
+Sources/Driver/LIN_Stack/Diagnostic \
 Sources/Driver/IIC \
 Sources/Application \
 Sources/Application/Sleep \
-Sources/Application/Diagnostic \
+Sources/Application/Self_Adapt \
 Sources/Application/Config_parameters \
 Sources/Application/Battery \
 Sources/Application/Auto_wiper \
 Sources/Application/Auto_light \
 Sources/Application/Auto_humid \
-Sources/Application/Auto_fog \
+Sources/Application/Auto_hud \
 Sources/Application/Auto_air \
 Project_Settings/Startup_Code \
 
