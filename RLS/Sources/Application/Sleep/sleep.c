@@ -19,9 +19,7 @@ extern uint8  Light_on_cnt[LIGHT_TYPE];
 extern uint8  Light_off_cnt[LIGHT_TYPE];
 extern uint8 u8_light_on_req;
 extern uint8  u8_twilight_on_req;
-extern uint8 u8_enter_period_cnt;
-extern uint8 u8_enter_period_flg;
-extern uint8  u8_Rain_Flg;
+extern bool_t Rain_Flg;
 extern uint16 u16_IntWindow_Cnt;
 extern uint8  u8_Int_Cnt;
 extern bool_t  Lin_Diag_Enable;
@@ -226,12 +224,7 @@ void Sleep_Process(void)
 	RLS_APP_Value.twilight_on_req = Light_Off;
 	
 	bool_Mcu_wakeup_state = FALSE;
-	u16_RainWindow_Cnt = 0;
-	u8_enter_period_cnt = 0;
-	u8_enter_period_flg = 0;
-	u8_Rain_Flg = 0;
-	u16_IntWindow_Cnt = 0;
-	u8_Int_Cnt = 0;
+
 	Lin_RLS_data();
 	
 	/* disable LVD in stop mode */

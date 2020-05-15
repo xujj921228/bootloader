@@ -40,7 +40,11 @@ extern MLX75308_Mnrval_t      Mnrval;
 uint16 PD_WIN_AVG[CHAN_NUM][PD_WINDOW];
 extern uint16 u16_Delta_DC_bre_[2],u16_Delta_DC_aft_[2];
 uint16 PD_WIN_AVG[CHAN_NUM][PD_WINDOW];
-uint16 u16_Ref_Adc_A;
+
+uint8 FSM_Timer_Cn; /**雨量状态机主计时器0**/
+uint16 FSM_Timer_Cn1; /**雨量状态机主计时器1**/
+uint16 FSM_Timer_Cn2; /**雨量状态机主计时器2**/
+uint8  u8_Splash_cnt;/********雨量状态机泼溅计数************/
 
 tRain_Stastegy_Config const  Rain_Stastegy_Parameter =
 {
@@ -62,74 +66,76 @@ tRain_Stastegy_Config const  Rain_Stastegy_Parameter =
         6,// park position low_speed meas timer
         20,//park position low_speed meas timer
 
-        80, // park_timer(u8_Rain_Sensitivity = 4)
+        {100,80,80,100,100}, // park_timer(u8_Rain_Sensitivity = 4)
         3,  // park_enter_low_th;
         4,  // park_enter_high_th;
 
         60, // int_delay_timer;
         
-        3,  // int_enter_period_cnt;
-        50, // int_enter_low_cnt; 
+        {4,4,3,3,3},  // int_enter_period_cnt;
+        5, // int_enter_low_cnt; 
          
-        10,  //period_enter_low_cnt; //25
+        
+        {{3,3,3,3},/*u8_cnt_choose*/
+		{3,3,3,3},
+		{3,4,4,4},
+		{3,4,4,4},
+		{3,4,4,5}},
+        
+        {{100,120,100,80},/*u8_Int_Time*/
+		{100,120,100,80},
+		{90,110,90,70},
+		{80,100,80,60},
+		{80,80,60,40}},
+        
+        
+        {{35,30,25,20},/*period_enter_low_cnt*/
+		{35,30,25,20},
+		{30,25,20,17},
+		{25,15,17,15},
+		{20,15,12,10}},
+        
+        
+        
+        
         4,  //period_enter_low_th;
+       
+        {{40,100,120},/**low_delaytimer**/
+        {40,100,120},
+        {40,100,120},
+        {40,100,120},
+        {40,100,120}},
         
-        40, //low_delaytimer41;    (u8_Rain_Sensitivity = 4)
-        25, //low_enter_high_cnt41;
-        100, //low_delaytimer42;
-        30, //low_enter_high_cnt42;
-        120, //low_delaytimer43;
-        25, //low_enter_high_cnt43;
+        {{25,30,25},/*low_enter_high_cnt*/
+        {25,30,25},
+        {25,30,28},
+        {28,32,20},
+        {28,35,32}},
+          
         
-        40, //low_delaytimer31;    (u8_Rain_Sensitivity = 3)
-        25, //low_enter_high_cnt31;
-        100, //low_delaytimer32;
-        30, //low_enter_high_cnt32;
-        120, //low_delaytimer33;
-        28, //low_enter_high_cnt33;
-        
-        40, //low_delaytimer21;    (u8_Rain_Sensitivity = 2)
-        28, //low_enter_high_cnt21;
-        100, //low_delaytimer22;
-        32, //low_enter_high_cnt22;
-        120, //low_delaytimer23;
-        30, //low_enter_high_cnt23;
-        
-        40, //low_delaytimer11;    (u8_Rain_Sensitivity = 1)
-        28, //low_enter_high_cnt11;
-        100, //low_delaytimer12;
-        35, //low_enter_high_cnt12;
-        120, //low_delaytimer13;
-        32, //low_enter_high_cnt13;
-        
-        40, //high_delaytimer41;    (u8_Rain_Sensitivity = 4)
-        5, //high_hold_th41;
-        80, //high_delaytimer42;
-        5, //high_hold_th42;
-        100, //high_delaytimer43;
-        5, //high_hold_th43;
-        
-        40, //high_delaytimer31;    (u8_Rain_Sensitivity = 3)
-        5, //high_hold_th431;
-        80, //high_delaytimer32;
-        5, //high_hold_th32;
-        100, //high_delaytimer33;
-        5, //high_hold_th33;
-        
-        40, //high_delaytimer21;    (u8_Rain_Sensitivity = 2)
-        5, //high_hold_th21;
-        80, //high_delaytimer22;
-        5, //high_hold_th22;
-        100, //high_delaytimer23;
-        5,//high_hold_th23;
-        
-        40,// high_delaytimer11;    (u8_Rain_Sensitivity = 1)
-        5,// high_hold_th11;
-        80,// high_delaytimer12;
-        5,// high_hold_th12;
-        100,// high_delaytimer13;
-        5,// high_hold_th13; 
+        {{40,80,100},/*high_delaytimer*/
+		{40,80,100},
+		{40,80,100},
+		{40,80,100},
+		{40,80,100}},
+    	
+    	{{5,5,5},/*high_hold_th*/
+		{5,5,5},
+		{5,5,5},
+		{5,5,5},
+		{5,5,5}},
 } ;
+
+uint8 Period_Mode_Timer[5]= 
+		{
+		    160,
+		    160,
+		    140,
+		    125,
+		    120		
+		};
+
+
 
 uint8  u8_MeasureSureTime;
 RLS_StopMsureFlg_t RLS_StopMsureFlg;
@@ -144,25 +150,18 @@ uint8 u8_Sigle_Wipe_Cnt;
 uint16 u16_Solar_l_value_raw,u16_Solar_r_value_raw;
 uint16 u16_Solar_l_value_raw_temp,u16_Solar_r_value_raw_temp;
 
-
-uint8  u8_cnt_choose;
+uint8  u8_Int_Time_now;
+uint8  u8_cnt_choose_now;
 uint8  u8_cnt_choose_pre;
-uint8  u8_Int_Time;
-uint8  u8_Int_Time_pre;
 
-uint8 u8_enter_period_cnt;
-uint8 u8_enter_period_flg;
 uint8  u8_RLS_WindowCloseReq;
 
 uint8  u8_Cmd_Execution;
 uint16 u16_Pd_Measure_Value;
 RLS_Wiper_State_FSM_t  Wiper_State_Fsm;
 RLS_Wiper_State_FSM_t  Wiper_State_FsmPre;
-uint8 Wiper_Park_Fsm;
-uint8 Wiper_Fsm_Cn;
 
 
-uint8  u8_Vehicle_State,u8_Vehicle_State_Pre;
 uint8  u8_Rain_SensitivityLowValue;
 
 
@@ -186,34 +185,20 @@ uint16 u16_DC_Comp_Value[CHAN_NUM];
 
 
 uint8  u8_RainIntensity[CHAN_NUM];
-uint8  u8_RainIntensityPre[CHAN_NUM];
 
 uint8  u8_RainIntensity_Max;
 
-uint8  u8_ClearEnternIntSpeedCnt;
-uint8  u8_IntSpeedEnterCnt,u8_LowSpeedCnt;
+uint8  u8_IntSpeedEnterCnt;
 
-uint8  u8_ExitLowSpeedCnt,u8_IntSpeedCnt,u8_IntDelayTimer,u8_HighHoldCnt;
-uint8  u8_HighSpeedHoldCnt;
 
-uint8  u8_EnterLowSpeedCnt;
-uint16 u16_ExitLowSpeedTimer;
-
-uint8  u8_Splash_cnt;
 
 uint8  u8_Rain_Value;
 uint8 u8_WiperSpeed_Expert;
 
-uint8  u8_Rain_Flg;
-uint16 u16_RainWindow_Cnt;
-uint16 u16_IntWindow_Cnt;
-uint8  u8_Int_Cnt;
-
-
 
 uint8 u8_IntSpeedFlgCnt;
 uint8 u8_IntSpeedFlg;
-uint8 u8_low_enter_high_timer;
+
 
 uint8 Brightness_Infrared_Percentage[1];
 
@@ -231,24 +216,13 @@ void Auto_Wiper_Var_Init(void)
 	BCM_APP_Value.BCM_RainSensitivity = APP_RainSensitivityAPP_LV4;
 
 	BCM_APP_Value.Single_Wipe_flag = FALSE;
-	    
-	    
-	    
-		u8_IntSpeedCnt = 0;
-		u8_IntSpeedEnterCnt = 0;	
-		
-		
-		u16_RainWindow_Cnt = 0;
-		u8_enter_period_cnt = 0;
-		u8_enter_period_flg = 0;
-		u8_Rain_Flg = 0;
-		u8_Vehicle_State = 0;
-		u8_Vehicle_State_Pre = 0;
-		u16_IntWindow_Cnt = 0;
-		u8_Int_Cnt = 0;
-		
-		Lin_Diag_Enable = FALSE;
-		u8_Lin_Diag_Enable_Cnt = 0;
+
+	u8_IntSpeedEnterCnt = 0;	
+	
+
+	
+	Lin_Diag_Enable = FALSE;
+	u8_Lin_Diag_Enable_Cnt = 0;
 	
 }
 
@@ -412,9 +386,8 @@ void RLS_Get_Rain_RainIntensity(uint8 PD_chan)
 	else if((Rain_temp >= 18)&&(Rain_temp <= 18)) u8_RainIntensity[Chan_Temp]  = 8;
 	else if((Rain_temp >= 19)&&(Rain_temp <= 19)) u8_RainIntensity[Chan_Temp]  = 9;
 	else if((Rain_temp >= 20)&&(Rain_temp <= 35)) u8_RainIntensity[Chan_Temp]  = 10;
-	else                                            u8_RainIntensity[Chan_Temp]  = 11;
+	else                                          u8_RainIntensity[Chan_Temp]  = 11;
 
-	u8_RainIntensityPre[Chan_Temp] = u8_RainIntensity[Chan_Temp];
 }
 
 /*******************************************************
@@ -499,11 +472,7 @@ void RLS_Invalid_DataProcess(void)
         else  
             u8_RainIntensity_Win[Rain_WINDOW - 1] = u8_RainIntensity[CHAN_A];
         
-        if(u8_Rain_Value <= u8_RainIntensity_Max)
-        {
-        	
-        }
-        else
+        if(u8_Cmd_Execution == 0)
         {
         	switch(u8_Rain_Value)
 			{
@@ -511,7 +480,8 @@ void RLS_Invalid_DataProcess(void)
 				case 1:
 				case 2: 
 				case 3:
-				case 4: u8_WiperSpeed_Expert = u8_Rain_Value;
+				case 4:
+					u8_WiperSpeed_Expert = u8_Rain_Value;
 					break;
 				case 5:
 				case 6: 
@@ -525,9 +495,39 @@ void RLS_Invalid_DataProcess(void)
 					u8_WiperSpeed_Expert   = 6;
 				break;                    
 			}        
-		    u8_RainIntensity_Max = u8_Rain_Value;
+			u8_RainIntensity_Max = u8_Rain_Value;
+			u8_Cmd_Execution = 1;
         }
-        if(u8_Cmd_Execution == 0) u8_Cmd_Execution = 1;
+        else if(u8_Rain_Value > u8_RainIntensity_Max)
+        {
+        	switch(u8_Rain_Value)
+			{
+				case 0:
+				case 1:
+				case 2: 
+				case 3:
+				case 4:
+					u8_WiperSpeed_Expert = u8_Rain_Value;
+					break;
+				case 5:
+				case 6: 
+				case 7:
+					u8_WiperSpeed_Expert   = 5; 
+				break;
+				default:
+				case 8:
+				case 9: 
+				case 10:
+					u8_WiperSpeed_Expert   = 6;
+				break;                    
+			}        
+			u8_RainIntensity_Max = u8_Rain_Value;
+        }
+        else
+        {
+        	
+        }
+        
     }
     else
     {
@@ -562,688 +562,252 @@ void RLS_Invalid_DataProcess(void)
     }
 }
 
-/*******************************************************
- * FUNCTION NAME : RLS_Invalid_DataProcess()
- *   DESCRIPTION : RLS_Rain_State_Mchaine function 
- *         INPUT : NONE
- *        OUTPUT : void  
- *        RETURN : NONE              
- *        OTHERS : NONE
- *******************************************************/
-uint8 RLS_Period_Mode(uint8 Int_Timer, uint8 Wiper_Timer)
+uint8 RLS_Period_Time_Choose()
 {
-	if((Wiper_Timer >= 0) && (Wiper_Timer < (Int_Timer - 10)))
+   uint8 Temp_Cn;
+   if( BCM_APP_Value.u16_SPD_Vehicle < 10)
 	{
-		RLS_APP_Value.RLS_APP_WiperSpeed = WiperSpeed_Off;
+	   u8_cnt_choose_now = Rain_Stastegy_Parameter.u8_cnt_choose[BCM_APP_Value.BCM_RainSensitivity][0];
+	   u8_Int_Time_now = Rain_Stastegy_Parameter.u8_Int_Time[BCM_APP_Value.BCM_RainSensitivity][0];
+	   Temp_Cn = Rain_Stastegy_Parameter.period_enter_low_cnt[BCM_APP_Value.BCM_RainSensitivity][0];
 	}
-	else if((Wiper_Timer >= (Int_Timer - 10)) && (Wiper_Timer <= Int_Timer))
+	else if(BCM_APP_Value.u16_SPD_Vehicle < 50)
 	{
-		 RLS_APP_Value.RLS_APP_WiperSpeed = WiperSpeed_Single;
+	   u8_cnt_choose_now = Rain_Stastegy_Parameter.u8_cnt_choose[BCM_APP_Value.BCM_RainSensitivity][1];
+	   u8_Int_Time_now = Rain_Stastegy_Parameter.u8_Int_Time[BCM_APP_Value.BCM_RainSensitivity][1];
+	   Temp_Cn = Rain_Stastegy_Parameter.period_enter_low_cnt[BCM_APP_Value.BCM_RainSensitivity][1];
 	}
-	
-	if(Wiper_Timer >= (Int_Timer - 1))
+	else if(BCM_APP_Value.u16_SPD_Vehicle < 80)
 	{
-		return 1;
-	}
-	else 
-	{
-		return 0;
-	}
-}
-uint8 RLS_Park_Mode_DelayTime(void)
-{
-	uint8 Time_Temp;
-	if(BCM_APP_Value.BCM_RainSensitivity == APP_RainSensitivityAPP_LV1)
-	{
-		Time_Temp = Rain_Stastegy_Parameter.park_timer ;
-	}
-	else if(BCM_APP_Value.BCM_RainSensitivity == APP_RainSensitivityAPP_LV2)
-	{
-		Time_Temp =  Rain_Stastegy_Parameter.park_timer ;
-	}
-	else if(BCM_APP_Value.BCM_RainSensitivity == APP_RainSensitivityAPP_LV3)
-	{
-		Time_Temp =  (Rain_Stastegy_Parameter.park_timer + 20);
-	}            
-	else if(BCM_APP_Value.BCM_RainSensitivity == APP_RainSensitivityAPP_LV4)
-	{
-		Time_Temp =  Rain_Stastegy_Parameter.park_timer + 20; 
+	   u8_cnt_choose_now = Rain_Stastegy_Parameter.u8_cnt_choose[BCM_APP_Value.BCM_RainSensitivity][20];
+	   u8_Int_Time_now = Rain_Stastegy_Parameter.u8_Int_Time[BCM_APP_Value.BCM_RainSensitivity][2];
+	   Temp_Cn = Rain_Stastegy_Parameter.period_enter_low_cnt[BCM_APP_Value.BCM_RainSensitivity][2];
 	}
 	else
 	{
-		Time_Temp =  (Rain_Stastegy_Parameter.park_timer + 20);
+	   u8_cnt_choose_now =  Rain_Stastegy_Parameter.u8_cnt_choose[BCM_APP_Value.BCM_RainSensitivity][3];
+	   u8_Int_Time_now = Rain_Stastegy_Parameter.u8_Int_Time[BCM_APP_Value.BCM_RainSensitivity][3];
+	   Temp_Cn = Rain_Stastegy_Parameter.period_enter_low_cnt[BCM_APP_Value.BCM_RainSensitivity][3];
 	}
-	return Time_Temp;
+    return Temp_Cn;
 }
-
 void RLS_Rain_State_Mchaine(void)
 {
-    uint8  u8_Delaytimer,i,u8_rain_state_th,u8_rain_cnt;
-    uint8  temp,tempcnt;
-    uint8  temp_period_low_th;
-    uint8  temp_period_low_cnt;
-    uint8  u8_temp_rcv;
-    uint8  temp_period_low_timer;
+    uint8  u8_Delaytimer,i,u8_rain_Temp_Cnt;
+    uint8  temp_cnt;
+    uint8  temp_timer;
+    
+    
     switch(Wiper_State_Fsm)
     {
         case PARK_MODE:
-        {
-        	u8_Delaytimer = RLS_Park_Mode_DelayTime();    
+        {  	
+        	/***parkmode得让雨刷off****/
+            RLS_APP_Value.RLS_APP_WiperSpeed = WiperSpeed_Off;
+        	        	
+        	/****
+        	 * park_mode 变量
+        	 * 1     bool_Wiper_StatePre_flag       在parkmode自己用的变量自己初始化，自己清理
+        	 * 2     u8_WiperSpeed_Expert      输入全局变量，雨量等级，only read
+        	 * 5     FSM_Timer_Cn              主计时器，点刮连续计数器，有雨模式下清零，非有雨下开始计时
+        	 * 6     u8_Splash_cnt             泼溅模式，在park模式自己清理
+        	 * *****/
         	
-        	switch(Wiper_Park_Fsm)
+        	u8_Delaytimer = Rain_Stastegy_Parameter.park_timer[BCM_APP_Value.BCM_RainSensitivity];
+        	/***************点刮是否连续判断***********************************/
+        	if(FSM_Timer_Cn >= u8_Delaytimer) /******有雨连续时间到，清除标志位**********/
+			{
+        	   FSM_Timer_Cn = 0;
+			   u8_Splash_cnt = 0;
+			   u8_IntSpeedEnterCnt = 0;/*有雨连续时间到，清除进入点刮次数计数*/
+			}
+        	else/******************点刮连续时间未到**************************/
         	{
-        	 case 0:
-        	 {
-        		 
-        		 
-        		 if(u8_ClearEnternIntSpeedCnt >= u8_Delaytimer) 
-        		 {
-        		     u8_Splash_cnt = 0;
-					 u8_ClearEnternIntSpeedCnt = 0;
-					 u8_IntSpeedEnterCnt = 0;
-				 }
-				 else
+        		FSM_Timer_Cn++;/**点刮计时*/
+		 
+				 if(Wiper_State_FsmPre != PARK_MODE)/*上次状态不为park*/
 				 {
-					 u8_ClearEnternIntSpeedCnt++;
+					 u8_Splash_cnt = 0;
+					 for(i = 0;i < (PD_WINDOW - 1); i++) 
+					 {                   
+						 //将窗口中的历史数据全部刷成当前采集值
+						 PD_WIN_AVG[CHAN_A][i] = Mnrval.IR_[CHAN_A] ;//PD_WIN_AVG[CHAN_A][0];
+						 PD_WIN_AVG[CHAN_B][i] = Mnrval.IR_[CHAN_B] ;//PD_WIN_AVG[CHAN_B][0];
+					 } 
 				 }
-        		 
-        		 
-        		 if(Wiper_State_FsmPre != PARK_MODE)
-        		 {
-    				 for(i = 0;i < (PD_WINDOW - 1); i++) 
-    				 {                   
-    					 //将窗口中的历史数据全部刷成当前采集值
-    					 PD_WIN_AVG[CHAN_A][i] = Mnrval.IR_[CHAN_A] ;//PD_WIN_AVG[CHAN_A][0];
-    					 PD_WIN_AVG[CHAN_B][i] = Mnrval.IR_[CHAN_B] ;//PD_WIN_AVG[CHAN_B][0];
-    				 } 
-    				 Wiper_Fsm_Cn = 0;
-        			 Wiper_Park_Fsm  = 1;
-        		 }
-        		 
-        	 }break;
-        	 case 1:
-			 {
-				 RLS_APP_Value.RLS_APP_WiperSpeed = WiperSpeed_Off;
-				                 	 
-				 if(Wiper_Fsm_Cn >= 20)//1s
-				 {                    
-					 Wiper_Fsm_Cn = 0;
-					 Wiper_Park_Fsm  = 0;
-				 }
-				 else
-				 {
-					 Wiper_Fsm_Cn++;
-				 } 
-				 
-			 }break;
-        	 case 2:
-			 {
-				 
-			 }break
-        	 case 3:
-			 {
-				 
-			 }break;
-        	 
-        	}
-            
-            
-            
-           
-            if(u8_enter_period_flg == 1)
-            {
-            	RLS_APP_Value.RLS_APP_WiperSpeed = WiperSpeed_Single;
-            	if(u8_enter_period_cnt >= 10)
-            	{
-            		u8_enter_period_cnt = 0;
-            		u8_enter_period_flg = 0;
-            		Wiper_State_Fsm = PERIOD_SPEED_MODE;
-            	}
-            	else
-            	{
-            		u8_enter_period_cnt++;
-            	}            	
-            }
-            else
-            {
-            	RLS_APP_Value.RLS_APP_WiperSpeed = WiperSpeed_Off;;
-            }
-            u8_IntDelayTimer = 0;
-            u8_EnterLowSpeedCnt = 0;           
-            
-            if(u8_WiperSpeed_Expert != 0)
-            {
-                u8_ClearEnternIntSpeedCnt = 0;
-                u8_IntSpeedCnt = 0;
-                if(u8_Rain_Flg == 0)
-                {
-                	Wiper_State_Fsm = INT_SPEED_MODE;
-                }
-                else 
-                {                	
-                	u16_RainWindow_Cnt = 0;
-                	u8_enter_period_flg = 1;
-                }
-                
-                if(BCM_APP_Value.BCM_RainSensitivity == APP_RainSensitivityAPP_LV4)
-                {
-                    temp =  Rain_Stastegy_Parameter.park_enter_low_th + 4;
-                    tempcnt = 1;
-                }
-                else if(BCM_APP_Value.BCM_RainSensitivity == APP_RainSensitivityAPP_LV3)
-                {
-                    temp =  Rain_Stastegy_Parameter.park_enter_low_th + 4;
-                    tempcnt = 2;
-                }
-                else if(BCM_APP_Value.BCM_RainSensitivity == APP_RainSensitivityAPP_LV2)
-                {
-                    temp =  Rain_Stastegy_Parameter.park_enter_low_th + 4;
-                    tempcnt = 2;
-                }
-                else if(BCM_APP_Value.BCM_RainSensitivity == APP_RainSensitivityAPP_LV1)
-                {
-                    temp =  Rain_Stastegy_Parameter.park_enter_low_th + 4;
-                    tempcnt = 2;
-                }
-                else
-                {
-                    temp =  Rain_Stastegy_Parameter.park_enter_low_th + 4 ;
-                    tempcnt = 2;
-                }
-                
-                if((u8_RainIntensity[CHAN_A] >= temp)&&(u8_RainIntensity[CHAN_B]>= temp)&&(u8_IntSpeedEnterCnt > tempcnt))
-                {
-                	Wiper_State_Fsm = LOW_SPEED_MODE;
-                    u8_Rain_Flg = 1;
-                    u16_RainWindow_Cnt = 0;
-					u16_IntWindow_Cnt = 0;
-					u8_Int_Cnt = 0;
-					u8_low_enter_high_timer = 0;
-                }								
-            }
-            else
-            {  
-            
-            }
-            
-            if((u8_RainIntensity[CHAN_A] >= Rain_Stastegy_Parameter.park_enter_high_th)&&(u8_RainIntensity[CHAN_B]>= Rain_Stastegy_Parameter.park_enter_high_th)) 
-            {
-                    if(u8_Splash_cnt >= 20)
-                    {
-                            u8_Splash_cnt = 0;
-                            u8_Rain_Flg = 1;
-                            u16_RainWindow_Cnt = 0;
-                            u16_IntWindow_Cnt = 0;
-                            u8_Int_Cnt = 0;
-                            Wiper_State_Fsm = HIGH_SPEED_MODE;
-                    }
-                    else
-                    {
-                            u8_Splash_cnt++;
-                    }										
-            }
-            
-            if(BCM_APP_Value.u16_SPD_Vehicle == 0)
-            {
-            	u8_Vehicle_State = 0;
-            }
-            else
-            {
-            	u8_Vehicle_State = 1;
-            }
-            
-            if((u8_Vehicle_State > u8_Vehicle_State_Pre)&&(u8_Rain_Flg == 1))
-            {
-            	Wiper_State_Fsm =  INT_SPEED_MODE ;
-            	u8_IntSpeedEnterCnt = 0;
-            }
-            if(u16_RainWindow_Cnt >= 800)
-            {
-            	u16_RainWindow_Cnt = 0;
-            	u8_Rain_Flg = 0;
-                u16_IntWindow_Cnt = 0;
-                u8_Int_Cnt = 0;
-            }
-            else 
-            {
-            	u16_RainWindow_Cnt++;
-            }
-            
-             if((u8_Rain_Flg == 0)&&(u8_Int_Cnt == 0))
-            {
-            	u16_IntWindow_Cnt = 0;
-            }
-            
-            if((u16_IntWindow_Cnt <= 800) && (u8_Int_Cnt >= 2))
-            {
-            	u16_IntWindow_Cnt = 0;
-            	u8_Int_Cnt = 0;
-            	u16_RainWindow_Cnt = 0;
-            	u8_Rain_Flg = 1;
-            }
-            else 
-            {
-            	u16_IntWindow_Cnt++;
-            	if(u16_IntWindow_Cnt > 800)
-            	{
-            		u16_IntWindow_Cnt = 0;
-            		u8_Int_Cnt = 0;
-            	}
-            }
-            Wiper_State_FsmPre = PARK_MODE;
-            u8_Vehicle_State_Pre =  u8_Vehicle_State;
-            
-        } break;
-        
-      /*  case INT_DELAY_MODE:
-        {
-            u8_IntSpeedEnterCnt = 0;
-            u8_ClearEnternIntSpeedCnt = 0;
-            u8_LowSpeedCnt = 0;
-            u8_HighHoldCnt = 0; 
-            u8_EnterLowSpeedCnt = 0;
-            
-            u8_IntDelayTimer++;
-            
-            if((u8_IntDelayTimer >= 0)&&(u8_IntDelayTimer < Rain_Stastegy_Parameter.int_delay_timer))
-            {
-            	u8_WiperSpeed = 0;
-            }
-            
-            else if((u8_IntDelayTimer >= Rain_Stastegy_Parameter.int_delay_timer)&&(u8_IntDelayTimer < (Rain_Stastegy_Parameter.int_delay_timer + 10))) 
-            {
-            	u8_WiperSpeed = 1;
-            }
-            
-            else if((u8_IntDelayTimer >= 70)&&(u8_IntDelayTimer < 130)) 
-            {
-            	u8_WiperSpeed = 0;
-            }
-            
-            else if((u8_IntDelayTimer >= 130)&&(u8_IntDelayTimer < 140)) 
-            {
-            	u8_WiperSpeed = 1;
-            }           
-            else
-            {
-            	u8_WiperSpeed = 0;
-                u8_Wiper_State = PARK_MODE;
-            }
+				 /**非park等待时间，开始检测雨量**/
+				 if((Wiper_State_FsmPre == PARK_MODE)&&(FSM_Timer_Cn > 20))
+				 {		
+					 if(u8_WiperSpeed_Expert != 0)/*检测到有雨*/
+					 {
+						 FSM_Timer_Cn = 0;/**检测到有雨，重新开始计数有雨模式*/
+						 Wiper_State_Fsm = INT_SPEED_MODE;/*检测到有雨就进入点刮*/
+					 }
+				   }
 
-            u8_Wiper_StatePre = INT_DELAY_MODE;
-        } break;*/
-        
+			}
+        	
+			/***************
+			 * 泼溅模式
+			 * 不受Pre_Park_Mode等待时间影响，直接进入，
+			 * 但是第一次点刮会继续
+			 * 也就是从第一次点刮完成后开始计数，
+			 * 雨量不大就清除计数，或者推出有雨状态就停止计数
+			 * *********************/
+			 if((u8_RainIntensity[CHAN_A] >= Rain_Stastegy_Parameter.park_enter_high_th)
+			   &&(u8_RainIntensity[CHAN_B]>= Rain_Stastegy_Parameter.park_enter_high_th)) 
+			{
+				u8_Splash_cnt++;
+				if(u8_Splash_cnt >= 20)
+				{
+					u8_Splash_cnt = 0;
+		
+					Wiper_State_Fsm = HIGH_SPEED_MODE;
+				}										
+			}
+			else
+		    {
+				u8_Splash_cnt = 0;	 
+		    }
+
+            
+        } break;  
         case INT_SPEED_MODE:
         {
-            u16_RainWindow_Cnt = 0;
-            u8_low_enter_high_timer = 0;
-            u8_IntDelayTimer = 0;
-            u8_HighHoldCnt = 0;   
-            u8_ExitLowSpeedCnt = 0;
-            RLS_APP_Value.RLS_APP_WiperSpeed = WiperSpeed_Single;
-            u8_IntSpeedCnt++;
-            u8_EnterLowSpeedCnt = 0;
-                                          
-            if(u8_IntSpeedCnt >= 10)
+        	/**
+        	 * 1、   FSM_Timer_Cn     点刮周期计数,从别的mode进入的时候清除计数器，当点刮周期满了就得跳出点刮模式，进入其他模式
+        	 * 2、  u8_IntSpeedEnterCnt    该变量只在park 和 点刮模式用  当进入周期刮     或     慢刮  就得清除掉  
+        	 * **/
+        	
+        	
+        	/********
+        	 * 进入点刮模式就直接发送点刮模式
+        	 * ******/
+        	RLS_APP_Value.RLS_APP_WiperSpeed = WiperSpeed_Single;
+        	
+        	 /*从其他状态进入点刮模式就清除点刮计数器*/
+        	 if(Wiper_State_FsmPre != INT_SPEED_MODE) 
+        		 FSM_Timer_Cn = 0;
+        	
+        	/*********
+        	 * 进入点刮连续发500ms点刮
+        	 * 发完点刮回parkmode
+        	 * *************/
+        	 FSM_Timer_Cn++;/**/
+            if(FSM_Timer_Cn >= 10)
             {
-            	u8_enter_period_cnt = 0;
-            	u8_enter_period_flg = 0;
-            	RLS_APP_Value.RLS_APP_WiperSpeed = WiperSpeed_Off;
+            	FSM_Timer_Cn = 0;/*再清理一下计数器，保险一些*/
             	Wiper_State_Fsm = PARK_MODE;
                 u8_IntSpeedEnterCnt++;
-                u8_Int_Cnt++;
             } 
             
-            if(BCM_APP_Value.BCM_RainSensitivity == APP_RainSensitivityAPP_LV4)
-            {
-                if(u8_WiperSpeed_Expert > 4)
-                {
-                    u8_LowSpeedCnt++;
-                    
-                    if(u8_LowSpeedCnt > Rain_Stastegy_Parameter.int_enter_low_cnt)
-                    {
-                        u8_LowSpeedCnt = 0;
-                        Wiper_State_Fsm = LOW_SPEED_MODE; 
-                    }
-                }
-                
-                if(u8_IntSpeedEnterCnt >= Rain_Stastegy_Parameter.int_enter_period_cnt)
-                {
-                	u8_Splash_cnt = 0;
-                	u8_IntSpeedEnterCnt = 0;
-                	Wiper_State_Fsm = PERIOD_SPEED_MODE;
-                    u8_IntDelayTimer = 0;
-                }
-            }
-            else if(BCM_APP_Value.BCM_RainSensitivity == APP_RainSensitivityAPP_LV3)
-            {
-                if(u8_WiperSpeed_Expert > 4)
-                {
-                    u8_LowSpeedCnt++;
-                    
-                    if(u8_LowSpeedCnt > Rain_Stastegy_Parameter.int_enter_low_cnt)
-                    {
-                        u8_LowSpeedCnt = 0;
-                        Wiper_State_Fsm = LOW_SPEED_MODE; 
-                    }
-                }
-                
-                if(u8_IntSpeedEnterCnt >= Rain_Stastegy_Parameter.int_enter_period_cnt)
-                {
-                	u8_Splash_cnt = 0;
-                    u8_IntSpeedEnterCnt = 0;
-                    Wiper_State_Fsm = PERIOD_SPEED_MODE;
-                    u8_IntDelayTimer = 0;
-                }
-            }
-            else if (BCM_APP_Value.BCM_RainSensitivity == APP_RainSensitivityAPP_LV2 ) 
-            {
-                
-                if(u8_WiperSpeed_Expert > 4)
-                {
-                    u8_LowSpeedCnt++;
-                    
-                    if(u8_LowSpeedCnt > Rain_Stastegy_Parameter.int_enter_low_cnt)
-                    {
-                        u8_LowSpeedCnt = 0;
-                        Wiper_State_Fsm = LOW_SPEED_MODE; 
-                    }
-                }
-                
-                if(u8_IntSpeedEnterCnt >= Rain_Stastegy_Parameter.int_enter_period_cnt)
-                {
-                	u8_Splash_cnt = 0;
-                    u8_IntSpeedEnterCnt = 0;
-                    Wiper_State_Fsm = PERIOD_SPEED_MODE;
-                    u8_IntDelayTimer = 0;
-                }
-            }
-            else
-            {
-                if(u8_WiperSpeed_Expert > 4)
-                {
-                    u8_LowSpeedCnt++;
-                    
-                    if(u8_LowSpeedCnt > Rain_Stastegy_Parameter.int_enter_low_cnt)
-                    {
-                        u8_LowSpeedCnt = 0;
-                        Wiper_State_Fsm = LOW_SPEED_MODE; 
-                    }
-                }
-                
-                if(u8_IntSpeedEnterCnt >= (Rain_Stastegy_Parameter.int_enter_period_cnt + 1))
-                {
-                	u8_Splash_cnt = 0;
-                    u8_IntSpeedEnterCnt = 0;
-                    Wiper_State_Fsm = PERIOD_SPEED_MODE;
-                    u8_IntDelayTimer = 0;
-                }
-            }
+            /*******************以上为点刮循环*****************************/
+
+                          
             
-            Wiper_State_FsmPre = INT_SPEED_MODE;
+            /****************************进入慢刮*********************************************************/
+        	if(u8_WiperSpeed_Expert > 4)/*连续点刮且，wiperSpeed大于4 进入低速刮刷*/
+			{			
+				if(u8_IntSpeedEnterCnt > 2)/**/
+				{
+					u8_IntSpeedEnterCnt = 0;
+					Wiper_State_Fsm = LOW_SPEED_MODE; 
+				}
+			}
+        	/****************************进入周期刮*********************************************************/
+        	else                     /*连续点刮，进入周期刮*/
+        	{
+				if(u8_IntSpeedEnterCnt >= Rain_Stastegy_Parameter.int_enter_period_cnt[BCM_APP_Value.BCM_RainSensitivity])
+				{
+					Wiper_State_Fsm = PERIOD_SPEED_MODE;
+					u8_IntSpeedEnterCnt = 0;
+				}
+        	}
+
         } break;
         case PERIOD_SPEED_MODE:
         {
-        	u8_Rain_Flg = 1;
-            u8_LowSpeedCnt = 0;
-            u8_HighHoldCnt = 0;
-            u8_IntSpeedEnterCnt = 0;
-            u8_IntDelayTimer++; 
-            u8_ExitLowSpeedCnt = 0; 
-            u8_low_enter_high_timer = 0;
-			u16_RainWindow_Cnt = 0;
-			u8_enter_period_cnt = 0;
-			u8_enter_period_flg = 0;
-			u16_IntWindow_Cnt = 0;
-			u8_Int_Cnt = 0;
-                  	
+        	/***********
+        	 * 1、FSM_Timer_Cn      主计时器，只在本模式下做判断，进入模式开始计数
+        	 * 2、FSM_Timer_Cn1              主计时器1，进入低速计时，只在本模式下做判断，进入模式开始计数
+        	 * 3、FSM_Timer_Cn1             主计时器2，清除低速计时，维持周期刮    只在本模式下做判断，进入模式开始计数
+        	 * 4、u8_cnt_choose_pre        周期刮的计数器，在雨量过大的时候会赋初值
+        	 */
+        	
         	//灵敏度选择时间间隔
-
-        	if(BCM_APP_Value.BCM_RainSensitivity == APP_RainSensitivityAPP_LV4)
-        	{
-        		if( BCM_APP_Value.u16_SPD_Vehicle < 10)
-				{
-					u8_cnt_choose = 3;
-				}
-				else if(BCM_APP_Value.u16_SPD_Vehicle < 80)
-				{
-					u8_cnt_choose = 4;
-				}
-				else
-				{
-					u8_cnt_choose = 5;
-				}
-        		
-        		if( BCM_APP_Value.u16_SPD_Vehicle < 10)
-                        {
-                                u8_Int_Time = 80;
-                                temp_period_low_cnt = Rain_Stastegy_Parameter.period_enter_low_cnt + 10;
-                        }
-                        else if(BCM_APP_Value.u16_SPD_Vehicle < 50)
-                        {
-                                u8_Int_Time = 80;
-                                temp_period_low_cnt = Rain_Stastegy_Parameter.period_enter_low_cnt + 5;
-                        }
-                        else if(BCM_APP_Value.u16_SPD_Vehicle < 80)
-                        {
-                                u8_Int_Time = 60;
-                                temp_period_low_cnt = Rain_Stastegy_Parameter.period_enter_low_cnt + 2;
-                        }
-                        else
-                        {
-                                u8_Int_Time = 40;
-                                temp_period_low_cnt = Rain_Stastegy_Parameter.period_enter_low_cnt;
-                        }
-        		temp_period_low_th = Rain_Stastegy_Parameter.period_enter_low_th ;
-        		
-        	}
-        	else if(BCM_APP_Value.BCM_RainSensitivity == APP_RainSensitivityAPP_LV3)
-        	{
-                        if( BCM_APP_Value.u16_SPD_Vehicle < 10)
-                        {
-                                u8_cnt_choose = 3;
-                        }
-                        else if(BCM_APP_Value.u16_SPD_Vehicle < 80)
-                        {
-                                u8_cnt_choose = 4;
-                        }
-                        else
-                        {
-                                u8_cnt_choose = 4;
-                        }
-                        
-                        if( BCM_APP_Value.u16_SPD_Vehicle < 10)
-                        {					
-                                u8_Int_Time = 80;
-                                temp_period_low_cnt = Rain_Stastegy_Parameter.period_enter_low_cnt + 15;
-                        }
-                        else if(BCM_APP_Value.u16_SPD_Vehicle < 50)
-                        {
-                                u8_Int_Time = 100;
-                                temp_period_low_cnt = Rain_Stastegy_Parameter.period_enter_low_cnt + 10;
-                        }
-                        else if(BCM_APP_Value.u16_SPD_Vehicle < 80)
-                        {
-                                u8_Int_Time = 80;
-                                temp_period_low_cnt = Rain_Stastegy_Parameter.period_enter_low_cnt + 7;
-                        }
-                        else
-                        {
-                                u8_Int_Time = 60;
-                                temp_period_low_cnt = Rain_Stastegy_Parameter.period_enter_low_cnt + 5;
-                        }
+        	temp_timer = Period_Mode_Timer[BCM_APP_Value.BCM_RainSensitivity];
+        	temp_cnt = RLS_Period_Time_Choose();
+			/*从其他状态进入周期刮模式就清除周期刮计数器*/
+		    if(Wiper_State_FsmPre != PERIOD_SPEED_MODE)
+		    {
+		    	FSM_Timer_Cn = 0;
+		    	FSM_Timer_Cn1 = 0;
+		    	FSM_Timer_Cn2 = 0;
+		    	u8_Splash_cnt = 0;
+		    	u8_cnt_choose_pre = u8_cnt_choose_now;
+		    }
+		    FSM_Timer_Cn++;/********主机计时器开始计数***********/
+		    
+		    /*********************以下为周期刮************************************/
+		
+			if((FSM_Timer_Cn >= 0) && (FSM_Timer_Cn < (u8_Int_Time_now - 10)))
+			{
+				RLS_APP_Value.RLS_APP_WiperSpeed = WiperSpeed_Off;
+			}
+			else if((FSM_Timer_Cn >= (u8_Int_Time_now - 10)) && (FSM_Timer_Cn <= u8_Int_Time_now))
+			{
+				 RLS_APP_Value.RLS_APP_WiperSpeed = WiperSpeed_Single;
+			}
+			else
+			{
+				FSM_Timer_Cn = 0;/***********周期到清除计数***************/
 				
-        		temp_period_low_th = Rain_Stastegy_Parameter.period_enter_low_th ;
-        		
-        	}
-        	else if(BCM_APP_Value.BCM_RainSensitivity == APP_RainSensitivityAPP_LV2)
-        	{
-                        if( BCM_APP_Value.u16_SPD_Vehicle < 10)
-                        {
-                                u8_cnt_choose = 3;
-                        }
-                        else
-                        {
-                                u8_cnt_choose = 4;
-                        }
-                        
-                        if( BCM_APP_Value.u16_SPD_Vehicle < 10)
-                        {					
-                                u8_Int_Time = 90;
-                                temp_period_low_cnt = Rain_Stastegy_Parameter.period_enter_low_cnt + 20;
-                        }
-                        else if(BCM_APP_Value.u16_SPD_Vehicle < 50)
-                        {
-                                u8_Int_Time = 110;
-                                temp_period_low_cnt = Rain_Stastegy_Parameter.period_enter_low_cnt + 15;
-                        }
-                        else if(BCM_APP_Value.u16_SPD_Vehicle < 80)
-                        {
-                                u8_Int_Time = 90;
-                                temp_period_low_cnt = Rain_Stastegy_Parameter.period_enter_low_cnt + 10;
-                        }
-                        else
-                        {
-                                u8_Int_Time = 70;
-                                temp_period_low_cnt = Rain_Stastegy_Parameter.period_enter_low_cnt + 7;
-                        }
-        		temp_period_low_th = Rain_Stastegy_Parameter.period_enter_low_th ;
-        		
-        	}
-        	else 
-        	{
-                        if( BCM_APP_Value.u16_SPD_Vehicle < 10)
-                        {
-                                u8_cnt_choose = 3;
-                        }
-                        else
-                        {
-                                u8_cnt_choose = 3;
-                        }
-                        
-                        if( BCM_APP_Value.u16_SPD_Vehicle < 10)
-                        {					
-                                u8_Int_Time = 100;
-                                temp_period_low_cnt = Rain_Stastegy_Parameter.period_enter_low_cnt + 25;
-                        }
-                        else if(BCM_APP_Value.u16_SPD_Vehicle < 50)
-                        {
-                                u8_Int_Time = 120;
-                                temp_period_low_cnt = Rain_Stastegy_Parameter.period_enter_low_cnt + 20;
-                        }
-                        else if(BCM_APP_Value.u16_SPD_Vehicle < 80)
-                        {
-                                u8_Int_Time = 100;
-                                temp_period_low_cnt = Rain_Stastegy_Parameter.period_enter_low_cnt + 15;
-                        }
-                        else
-                        {
-                                u8_Int_Time = 80;
-                                temp_period_low_cnt = Rain_Stastegy_Parameter.period_enter_low_cnt + 10;
-                        }
-				
-        		temp_period_low_th = Rain_Stastegy_Parameter.period_enter_low_th ;
-        		
-        	}
-        	
-           	//一个周期为单位 清零
-                if(u8_Int_Time_pre <= u8_IntDelayTimer)
-                {
-                        u8_IntDelayTimer = 0;
-                }
-        	
+				u8_cnt_choose_pre--;
+				/*****在周期刮的结尾判断周期刮的次数是否结束，结束则退回到parkmode********/
+				if(u8_cnt_choose_pre == 0)
+				{
+					Wiper_State_Fsm = PARK_MODE;
+				}
+			}
 			
-        	if(u8_cnt_choose_pre)
-        	{
-        		u8_temp_rcv = RLS_Period_Mode(u8_Int_Time_pre, u8_IntDelayTimer);
-        		Wiper_State_Fsm = PERIOD_SPEED_MODE;
-        	}
-        	else 
-        	{
-        		u8_cnt_choose_pre = u8_cnt_choose;
-        		u8_Int_Time_pre   = u8_Int_Time;
-        	}
-        	
-        	if(u8_temp_rcv)
-        	{
-        		u8_cnt_choose_pre--;
-        		if(u8_cnt_choose_pre == 0)
-        		{
-        			u8_Splash_cnt = 0;
-        			RLS_APP_Value.RLS_APP_WiperSpeed = WiperSpeed_Off;
-            		u8_cnt_choose_pre = 0;
-            		u8_Int_Time_pre = 0;
-            		u8_Int_Time = 0;
-            		u8_cnt_choose = 0;
-            		Wiper_State_Fsm = PARK_MODE;
-        		}
-        	}
-        	else
-        	{
-				if(u8_WiperSpeed_Expert > 3)
-        		{
-        			if(BCM_APP_Value.u16_SPD_Vehicle >= 5)
-        			{
-						u8_cnt_choose_pre = u8_cnt_choose;
-						u8_Int_Time_pre   = u8_Int_Time;
-        			}
-        			else 
-        			{
-        				u8_Int_Time_pre   = u8_Int_Time;
-        			}
-        		}
-				Wiper_State_Fsm = PERIOD_SPEED_MODE;
-        	}
-                	        	
-        	if(BCM_APP_Value.BCM_RainSensitivity == APP_RainSensitivityAPP_LV4)
-        	{
-        		temp_period_low_timer = 120 ;   
-        	}
-        	else if(BCM_APP_Value.BCM_RainSensitivity == APP_RainSensitivityAPP_LV3)
-        	{
-        		temp_period_low_timer = 125 ; 
-        	}
-        	else if(BCM_APP_Value.BCM_RainSensitivity == APP_RainSensitivityAPP_LV2)
+			/****************周期刮的情况下遇到以下情况延长周期刮的时间*****************************/
+			if(u8_WiperSpeed_Expert > 3)
 			{
-        		temp_period_low_timer = 140 ; 
+				if(BCM_APP_Value.u16_SPD_Vehicle >= 5)
+				{
+					u8_cnt_choose_pre = u8_cnt_choose_now;
+				}
 			}
-        	else 
-			{
-        		temp_period_low_timer = 160 ; 
-			}
-        	if(u8_WiperSpeed_Expert >= temp_period_low_th)
+
+   	
+        	/*************************周期刮进低速刮*******************************/
+        	if(u8_WiperSpeed_Expert >= Rain_Stastegy_Parameter.period_enter_low_th)
             {
-                u8_EnterLowSpeedCnt++;
-                u16_ExitLowSpeedTimer = 0;
-                if(u8_EnterLowSpeedCnt >= temp_period_low_cnt)
+        		FSM_Timer_Cn1++;/***********此处用来计数来低速计时********/
+        		FSM_Timer_Cn2 = 0;
+                if(FSM_Timer_Cn1 >= temp_cnt)
                 {
-					u8_cnt_choose_pre = 0;
-					u8_Int_Time_pre = 0;
-					u8_Int_Time = 0;
-					u8_cnt_choose = 0;
-					u8_IntDelayTimer = 0;
-					u8_EnterLowSpeedCnt = 0;                    
+                	FSM_Timer_Cn1 = 0;                    
 					Wiper_State_Fsm = LOW_SPEED_MODE;					
                 }
             }
+        	/***********清除低速计时，维持周期刮****************/
         	else
         	{
-        		u16_ExitLowSpeedTimer++;
-        		if(u16_ExitLowSpeedTimer >= temp_period_low_timer)
+        		FSM_Timer_Cn2++;
+        		if(FSM_Timer_Cn2 >= temp_timer)
         		{
-        			u16_ExitLowSpeedTimer = 0;
-        			u8_EnterLowSpeedCnt = 0;
+        			FSM_Timer_Cn2 = 0;
+        			FSM_Timer_Cn1 = 0;
         		}
         	}
         	
-        	if((u8_RainIntensity[CHAN_A] >= Rain_Stastegy_Parameter.park_enter_high_th)&&(u8_RainIntensity[CHAN_B]>= Rain_Stastegy_Parameter.park_enter_high_th)) 
+        	/*****************周期刮刷内的大雨模式****************************/
+        	if((u8_RainIntensity[CHAN_A] >= Rain_Stastegy_Parameter.park_enter_high_th)
+        			&&(u8_RainIntensity[CHAN_B]>= Rain_Stastegy_Parameter.park_enter_high_th)) 
 			{
 				if(u8_Splash_cnt >= 40)
 				{
-					u8_cnt_choose_pre = 0;
-					u8_Int_Time_pre = 0;
-					u8_Int_Time = 0;
-					u8_cnt_choose = 0;
 					u8_Splash_cnt = 0;
 					Wiper_State_Fsm = HIGH_SPEED_MODE;
 				}
@@ -1251,330 +815,140 @@ void RLS_Rain_State_Mchaine(void)
 				{
 					u8_Splash_cnt++;
 				}								
-			}
-        	Wiper_State_FsmPre = PERIOD_SPEED_MODE;  
+			} 
         } break;
         
         case LOW_SPEED_MODE:
-        {
-        	u8_Rain_Flg = 1;
-        	u8_Splash_cnt = 0;
-            u8_IntSpeedCnt = 0;
-            u8_IntDelayTimer = 0;
-            u8_IntSpeedEnterCnt = 0;
-            u8_HighSpeedHoldCnt = 0;
-            RLS_APP_Value.RLS_APP_WiperSpeed = WiperSpeed_Low;
-            
-            if(u8_low_enter_high_timer >= 200)
+        {        	
+         /***********
+    	 * 1、FSM_Timer_Cn              低速模式主计时器，进入模式开始计数
+    	 * 2、FSM_Timer_Cn1                                    在此用作低速模式退出计时进入模式开始计数
+    	 * 3、FSM_Timer_Cn2                                    再次用作进快刮hold计数，进入模式开始计数
+    	 */
+        	
+        	
+        	/**************慢刮，进入慢刮一直发送慢刮******************/
+        	RLS_APP_Value.RLS_APP_WiperSpeed = WiperSpeed_Low;
+        	
+        	/*从其他状态进入慢刮模式就清除慢刮计数器*/
+			if(Wiper_State_FsmPre != LOW_SPEED_MODE)
 			{
-				u8_low_enter_high_timer = 0;
-				u8_HighHoldCnt = 0;
+				FSM_Timer_Cn = 0;
+				FSM_Timer_Cn1 = 0;
+				FSM_Timer_Cn2 = 0;
 			}
-			else
+
+
+			FSM_Timer_Cn++;/*********模式主计时器*************/
+            if(FSM_Timer_Cn >= 200)
 			{
-				u8_low_enter_high_timer++;
+            	FSM_Timer_Cn = 0;/***********模式计时器清零*******************/
+            	FSM_Timer_Cn2 = 0;
 			}
+
+            /**************本处只做赋值处理*******************************/
             
-            if(BCM_APP_Value.BCM_RainSensitivity == APP_RainSensitivityAPP_LV4)
-            {
-                if(BCM_APP_Value.u16_SPD_Vehicle < 5)
+
+			if(BCM_APP_Value.u16_SPD_Vehicle < 5)
+			{
+				 u8_Delaytimer = Rain_Stastegy_Parameter.low_delaytimer[BCM_APP_Value.BCM_RainSensitivity][0];//40
+				 u8_rain_Temp_Cnt = Rain_Stastegy_Parameter.low_enter_high_cnt[BCM_APP_Value.BCM_RainSensitivity][0];
+			}
+			else if(BCM_APP_Value.u16_SPD_Vehicle < 80)
+			{
+				 u8_Delaytimer = Rain_Stastegy_Parameter.low_delaytimer[BCM_APP_Value.BCM_RainSensitivity][1];
+				 u8_rain_Temp_Cnt = Rain_Stastegy_Parameter.low_enter_high_cnt[BCM_APP_Value.BCM_RainSensitivity][1];
+			}
+			else 
+			{
+				 u8_Delaytimer = Rain_Stastegy_Parameter.low_delaytimer[BCM_APP_Value.BCM_RainSensitivity][2];
+				 u8_rain_Temp_Cnt = Rain_Stastegy_Parameter.low_enter_high_cnt[BCM_APP_Value.BCM_RainSensitivity][2];
+			}  
+            
+            if(u8_WiperSpeed_Expert < 4)/*********当雨量偏小时，从低速退出到周期刮*************/
+            {        
+            	FSM_Timer_Cn1++;
+                if(FSM_Timer_Cn1 >= u8_Delaytimer)
                 {
-                     u8_Delaytimer = Rain_Stastegy_Parameter.low_delaytimer41;//40
-                     u8_rain_cnt = Rain_Stastegy_Parameter.low_enter_high_cnt41;
-                }
-                else if(BCM_APP_Value.u16_SPD_Vehicle < 80)
-                {
-                     u8_Delaytimer = Rain_Stastegy_Parameter.low_delaytimer42;
-                     u8_rain_cnt = Rain_Stastegy_Parameter.low_enter_high_cnt42;
-                }
-                else 
-                {
-                     u8_Delaytimer = Rain_Stastegy_Parameter.low_delaytimer43;
-                     u8_rain_cnt = Rain_Stastegy_Parameter.low_enter_high_cnt43;
-                }
-                
-                if(u8_WiperSpeed_Expert < 4)
-                {              
-                    if(u8_ExitLowSpeedCnt >= u8_Delaytimer) 
-                    {
-                        u8_ExitLowSpeedCnt = 0;
-                        u8_IntDelayTimer = 0;
-                        Wiper_State_Fsm =  PERIOD_SPEED_MODE;
-                    }
-                    else
-                    {
-                        u8_ExitLowSpeedCnt++;
-                    }                   
-                }
-                else if(u8_WiperSpeed_Expert >= 4)
-                {   
-                    u8_HighHoldCnt++;
-                    u8_ExitLowSpeedCnt = 0;
-                    
-                    if(u8_HighHoldCnt >= u8_rain_cnt)   
-                    {                
-                       u8_HighHoldCnt = 0;
-                       Wiper_State_Fsm =  HIGH_SPEED_MODE;               
-                    } 
-                } 
-                
-                if(u8_WiperSpeed_Expert >= 2)
-                {
-                    u8_ExitLowSpeedCnt = 0;
-                }
+                	FSM_Timer_Cn1 = 0;
+                    Wiper_State_Fsm =  PERIOD_SPEED_MODE;
+                }                                   
             }
-            else if(BCM_APP_Value.BCM_RainSensitivity == APP_RainSensitivityAPP_LV3)
-            {   
-                if(BCM_APP_Value.u16_SPD_Vehicle < 5)
-                {
-                     u8_Delaytimer = Rain_Stastegy_Parameter.low_delaytimer31;//40
-                     u8_rain_cnt = Rain_Stastegy_Parameter.low_enter_high_cnt31;
-                }
-                else if(BCM_APP_Value.u16_SPD_Vehicle < 80)
-                {
-                     u8_Delaytimer = Rain_Stastegy_Parameter.low_delaytimer32;
-                     u8_rain_cnt = Rain_Stastegy_Parameter.low_enter_high_cnt32;
-                }
-                else 
-                {
-                     u8_Delaytimer = Rain_Stastegy_Parameter.low_delaytimer33;
-                     u8_rain_cnt = Rain_Stastegy_Parameter.low_enter_high_cnt33;
-                }
-                 
-                if(u8_WiperSpeed_Expert < 4)
-                {              
-                    if(u8_ExitLowSpeedCnt >= u8_Delaytimer) 
-                    {
-                        u8_ExitLowSpeedCnt = 0;
-                        u8_IntDelayTimer = 0;
-                        Wiper_State_Fsm =  PERIOD_SPEED_MODE;
-                    }
-                    else
-                    {
-                        u8_ExitLowSpeedCnt++;
-                    }                   
-                }
-                else if(u8_WiperSpeed_Expert >= 4)
-                {   
-                    u8_HighHoldCnt++;
-                    u8_ExitLowSpeedCnt = 0;
-                    
-                    if(u8_HighHoldCnt >= u8_rain_cnt)   
-                    {                
-                       u8_HighHoldCnt = 0;
-                       Wiper_State_Fsm =  HIGH_SPEED_MODE;               
-                    } 
-                } 
-                
-                if(u8_WiperSpeed_Expert >= 2)
-                {
-                    u8_ExitLowSpeedCnt = 0;
-                }
-            }
-            else if(BCM_APP_Value.BCM_RainSensitivity == APP_RainSensitivityAPP_LV2)
-            {   
-                if(BCM_APP_Value.u16_SPD_Vehicle < 5)
-                {
-                     u8_Delaytimer = Rain_Stastegy_Parameter.low_delaytimer21;//40
-                     u8_rain_cnt = Rain_Stastegy_Parameter.low_enter_high_cnt21;
-                }
-                else if(BCM_APP_Value.u16_SPD_Vehicle < 80)
-                {
-                     u8_Delaytimer = Rain_Stastegy_Parameter.low_delaytimer22;
-                     u8_rain_cnt = Rain_Stastegy_Parameter.low_enter_high_cnt22;
-                }
-                else 
-                {
-                     u8_Delaytimer = Rain_Stastegy_Parameter.low_delaytimer23;
-                     u8_rain_cnt = Rain_Stastegy_Parameter.low_enter_high_cnt23;
-                }
-                
-                if(u8_WiperSpeed_Expert < 4)
-                {              
-                    if(u8_ExitLowSpeedCnt >= u8_Delaytimer) //6s
-                    {
-                        u8_ExitLowSpeedCnt = 0;
-                        u8_IntDelayTimer = 0;
-                        Wiper_State_Fsm =  PERIOD_SPEED_MODE;
-                    }
-                    else
-                    {
-                        u8_ExitLowSpeedCnt++;
-                    }                   
-                }
-                else if(u8_WiperSpeed_Expert >= 4)
-                {   
-                    u8_HighHoldCnt++;
-                    u8_ExitLowSpeedCnt = 0;
-                    
-                    if(u8_HighHoldCnt >= u8_rain_cnt)   
-                    {                
-                       u8_HighHoldCnt = 0;
-                       Wiper_State_Fsm =  HIGH_SPEED_MODE;               
-                    } 
-                } 
-                
-                if(u8_WiperSpeed_Expert >= 2)
-                {
-                    u8_ExitLowSpeedCnt = 0;
-                }
-            }
+            /**************雨量偏大，进入快刮******************/
             else
-            {
-                if(BCM_APP_Value.u16_SPD_Vehicle < 5)
-                {
-                     u8_Delaytimer = Rain_Stastegy_Parameter.low_delaytimer11;//40
-                     u8_rain_cnt = Rain_Stastegy_Parameter.low_enter_high_cnt11;
-                }
-                else if(BCM_APP_Value.u16_SPD_Vehicle < 80)
-                {
-                     u8_Delaytimer = Rain_Stastegy_Parameter.low_delaytimer12;
-                     u8_rain_cnt = Rain_Stastegy_Parameter.low_enter_high_cnt12;
-                }
-                else 
-                {
-                     u8_Delaytimer = Rain_Stastegy_Parameter.low_delaytimer13;
-                     u8_rain_cnt = Rain_Stastegy_Parameter.low_enter_high_cnt13;
-                }
-                
-                if(u8_WiperSpeed_Expert < 4)
-                {              
-                    if(u8_ExitLowSpeedCnt >= u8_Delaytimer)
-                    {
-                        u8_ExitLowSpeedCnt = 0;
-                        u8_IntDelayTimer = 0;
-                        Wiper_State_Fsm =  PERIOD_SPEED_MODE;
-                    }
-                    else
-                    {
-                        u8_ExitLowSpeedCnt++;
-                    }                                     
-                }
-                else if(u8_WiperSpeed_Expert >= 4)
-                {   
-                    u8_HighHoldCnt++;
-                    u8_ExitLowSpeedCnt = 0;
-                    
-                    if(u8_HighHoldCnt >= u8_rain_cnt)   
-                    {                
-                        u8_HighHoldCnt = 0;
-                        Wiper_State_Fsm =  HIGH_SPEED_MODE;               
-                    } 
-                }
-                
-                if(u8_WiperSpeed_Expert >= 2)
-                {
-                    u8_ExitLowSpeedCnt = 0;
-                }
+            {   
+            	FSM_Timer_Cn2++;
+                if(FSM_Timer_Cn2 >= u8_rain_Temp_Cnt)   
+                {                
+                	FSM_Timer_Cn2 = 0;
+                    Wiper_State_Fsm =  HIGH_SPEED_MODE;               
+                } 
             }
-          
-            Wiper_State_FsmPre =  Wiper_State_Fsm;
+            
+            if(u8_WiperSpeed_Expert >= 2)
+            {
+            	FSM_Timer_Cn1 = 0;/****当雨量偏大时，清除退出低速计数*******/
+            }
+            
+     
+            
         } break;
         
         case HIGH_SPEED_MODE:
         {
-            u8_Rain_Flg = 1;
+        	/*********
+        	 * 1,  FSM_Timer_Cn 模式下主计时器，进模式开始计数
+        	 * ************/
+        	/***************快刮模式下，必须发送快刮*******************************/
             RLS_APP_Value.RLS_APP_WiperSpeed = WiperSpeed_High;
-            u8_low_enter_high_timer = 0;
-            if(BCM_APP_Value.BCM_RainSensitivity == APP_RainSensitivityAPP_LV4)
-            {
-                if(BCM_APP_Value.u16_SPD_Vehicle < 5)
-                {
-                     u8_Delaytimer = Rain_Stastegy_Parameter.high_delaytimer41;
-                     u8_rain_state_th = Rain_Stastegy_Parameter.high_hold_th41;
-                }
-                else if(BCM_APP_Value.u16_SPD_Vehicle < 80)
-                {
-                     u8_Delaytimer = Rain_Stastegy_Parameter.high_delaytimer42;
-                     u8_rain_state_th = Rain_Stastegy_Parameter.high_hold_th42;
-                }
-                else 
-                {
-                     u8_Delaytimer = Rain_Stastegy_Parameter.high_delaytimer43;
-                     u8_rain_state_th = Rain_Stastegy_Parameter.high_hold_th43;    
-                }
-            }
-            else if(BCM_APP_Value.BCM_RainSensitivity == APP_RainSensitivityAPP_LV3)
-            {
-                if(BCM_APP_Value.u16_SPD_Vehicle < 5)
-                {
-                     u8_Delaytimer = Rain_Stastegy_Parameter.high_delaytimer31;
-                     u8_rain_state_th = Rain_Stastegy_Parameter.high_hold_th31;
-                }
-                else if(BCM_APP_Value.u16_SPD_Vehicle < 80)
-                {
-                     u8_Delaytimer = Rain_Stastegy_Parameter.high_delaytimer32;
-                     u8_rain_state_th = Rain_Stastegy_Parameter.high_hold_th32;
-                }
-                else 
-                {
-                     u8_Delaytimer = Rain_Stastegy_Parameter.high_delaytimer33;
-                     u8_rain_state_th = Rain_Stastegy_Parameter.high_hold_th33;    
-                }
-            }
-            else if(BCM_APP_Value.BCM_RainSensitivity == APP_RainSensitivityAPP_LV2)
-            {
-                if(BCM_APP_Value.u16_SPD_Vehicle < 5)
-                {
-                     u8_Delaytimer = Rain_Stastegy_Parameter.high_delaytimer21;
-                     u8_rain_state_th = Rain_Stastegy_Parameter.high_hold_th21;
-                }
-                else if(BCM_APP_Value.u16_SPD_Vehicle < 80)
-                {
-                     u8_Delaytimer = Rain_Stastegy_Parameter.high_delaytimer22;
-                     u8_rain_state_th = Rain_Stastegy_Parameter.high_hold_th22;
-                }
-                else 
-                {
-                     u8_Delaytimer = Rain_Stastegy_Parameter.high_delaytimer23;
-                     u8_rain_state_th = Rain_Stastegy_Parameter.high_hold_th23;    
-                }
-            }
-            else
-            {
-                if(BCM_APP_Value.u16_SPD_Vehicle < 5)
-                {
-                     u8_Delaytimer = Rain_Stastegy_Parameter.high_delaytimer11;
-                     u8_rain_state_th = Rain_Stastegy_Parameter.high_hold_th11;
-                }
-                else if(BCM_APP_Value.u16_SPD_Vehicle < 80)
-                {
-                     u8_Delaytimer = Rain_Stastegy_Parameter.high_delaytimer12;
-                     u8_rain_state_th = Rain_Stastegy_Parameter.high_hold_th12;
-                }
-                else 
-                {
-                     u8_Delaytimer = Rain_Stastegy_Parameter.high_delaytimer13;
-                     u8_rain_state_th = Rain_Stastegy_Parameter.high_hold_th13;    
-                }
-            }           
-          
-            u8_ExitLowSpeedCnt = 0;
-            u8_HighHoldCnt = 0;
-            u8_HighSpeedHoldCnt++;
             
-            if(u8_HighSpeedHoldCnt >= u8_Delaytimer)
+            
+            /*从其他状态进入快刮模式就清除快刮计数器*/
+			if(Wiper_State_FsmPre != HIGH_SPEED_MODE)
+			{
+				FSM_Timer_Cn = 0;
+
+			}
+            
+
+			if(BCM_APP_Value.u16_SPD_Vehicle < 5)
+			{
+				 u8_Delaytimer = Rain_Stastegy_Parameter.high_delaytimer[BCM_APP_Value.BCM_RainSensitivity][0];
+				 u8_rain_Temp_Cnt = Rain_Stastegy_Parameter.high_hold_th[BCM_APP_Value.BCM_RainSensitivity][0];
+			}
+			else if(BCM_APP_Value.u16_SPD_Vehicle < 80)
+			{
+				 u8_Delaytimer = Rain_Stastegy_Parameter.high_delaytimer[BCM_APP_Value.BCM_RainSensitivity][1];
+				 u8_rain_Temp_Cnt = Rain_Stastegy_Parameter.high_hold_th[BCM_APP_Value.BCM_RainSensitivity][1];
+			}
+			else 
+			{
+				 u8_Delaytimer = Rain_Stastegy_Parameter.high_delaytimer[BCM_APP_Value.BCM_RainSensitivity][2];
+				 u8_rain_Temp_Cnt = Rain_Stastegy_Parameter.high_hold_th[BCM_APP_Value.BCM_RainSensitivity][2];    
+			}  
+			
+            FSM_Timer_Cn++;
+            
+            if(FSM_Timer_Cn >= u8_Delaytimer)
             {             
             	Wiper_State_Fsm = LOW_SPEED_MODE;
-                u8_HighSpeedHoldCnt = 0;                     
+            	FSM_Timer_Cn = 0;                     
             }
             else
             {
-                if(u8_WiperSpeed_Expert >= u8_rain_state_th) 
+                if(u8_WiperSpeed_Expert >= u8_rain_Temp_Cnt) 
                 {
-                	RLS_APP_Value.RLS_APP_WiperSpeed = WiperSpeed_High;
-                    u8_HighSpeedHoldCnt = 0;
+                	FSM_Timer_Cn = 0;
                 }
             }
-            
-            Wiper_State_FsmPre = Wiper_State_Fsm;
         } break;
         
         default:  
         	Wiper_State_Fsm = PARK_MODE; 
     }
+    
+    Wiper_State_FsmPre = Wiper_State_Fsm;
 }
-
 /*******************************************************
  * FUNCTION NAME : RLS_Wipe_Park_Process()
  *   DESCRIPTION : RLS_Wipe_Park_Process function 

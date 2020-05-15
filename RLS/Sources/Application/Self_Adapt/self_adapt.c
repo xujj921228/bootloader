@@ -11,7 +11,7 @@ extern local_info_t local_info;
 extern uint16 u16_Pd_Measure_Value;
 extern uint16 PD_WIN_AVG[CHAN_NUM][PD_WINDOW];
 extern uint8  u8_RainIntensity_Win[Rain_WINDOW];
-extern uint8  u8_IntSpeedEnterCnt,u8_LowSpeedCnt;
+extern uint8  u8_IntSpeedEnterCnt;
 /*****************************************************
  *      self_adpt
  * 
@@ -103,6 +103,5 @@ void RLS_SelfAdaptTask(void)
     }
     
     RLS_RunMode = MAIN_NORMAL;
-    u8_IntSpeedEnterCnt = 0;
-    u8_LowSpeedCnt = 0;      
+    u8_IntSpeedEnterCnt = 0;      
 }
