@@ -30,7 +30,7 @@ void Battery_Var_init(void)
 void RLS_Battery_Measurement(void)
 {
     uint32 temp;
-    temp = get_adc_times(VOLT_CH,MEAS_NUM); //V_VCC/1024 = x*(13/113)/3.3 
+    temp = get_adc_times(VOLT_CH,3); //V_VCC/1024 = x*(13/113)/3.3 
     u16_Battery_Volt = (uint16)((temp*113*33/13)>>12) + 8;
 }
 

@@ -12,7 +12,6 @@ extern uint8  Timer_4s;
 extern uint8  Timer_600ms;
 extern uint32  Timer_6h;
 
-extern uint8  u8_RLS_WindowCloseReq;
 extern uint16 u16_RainWindow_Cnt;
 
 extern uint8  Light_on_cnt[LIGHT_TYPE];
@@ -39,6 +38,7 @@ bool_t bool_auto_roof_rain_measure_sleep_flg;
 bool_t bool_wakeup_bcm_cnt_sleep_flg;
 
 bool_t bool_Mcu_wakeup_state;
+uint8  u8_RLS_WindowCloseReq;
 
 uint8 u8_wakeup_bcm_1500ms_timer;
 uint8 u8_wakeup_bcm_1min_timer;

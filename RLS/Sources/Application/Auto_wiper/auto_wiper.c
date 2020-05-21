@@ -37,13 +37,12 @@ extern RLS_APP_Value_t     RLS_APP_Value;
 extern MLX75308_Frame_t       MLX75308_RxFrame;
 extern MLX75308_Mnrval_t      Mnrval;
 
-uint16 PD_WIN_AVG[CHAN_NUM][PD_WINDOW];
 extern uint16 u16_Delta_DC_bre_[2],u16_Delta_DC_aft_[2];
 uint16 PD_WIN_AVG[CHAN_NUM][PD_WINDOW];
 
 uint8 FSM_Timer_Cn; /**雨量状态机主计时器0**/
-uint16 FSM_Timer_Cn1; /**雨量状态机主计时器1**/
-uint16 FSM_Timer_Cn2; /**雨量状态机主计时器2**/
+uint8 FSM_Timer_Cn1; /**雨量状态机主计时器1**/
+uint8 FSM_Timer_Cn2; /**雨量状态机主计时器2**/
 uint8  u8_Splash_cnt;/********雨量状态机泼溅计数************/
 
 tRain_Stastegy_Config const  Rain_Stastegy_Parameter =
@@ -135,74 +134,35 @@ uint8 Period_Mode_Timer[5]=
 		    120		
 		};
 
-
-
 uint8  u8_MeasureSureTime;
 RLS_StopMsureFlg_t RLS_StopMsureFlg;
-
-
 Rls_Error_t       App_Rls_Error;
-
 bool_t Lin_Diag_Enable;
 uint8  u8_Lin_Diag_Enable_Cnt;
 uint8 u8_Sigle_Wipe_Cnt;
-
-uint16 u16_Solar_l_value_raw,u16_Solar_r_value_raw;
-uint16 u16_Solar_l_value_raw_temp,u16_Solar_r_value_raw_temp;
 
 uint8  u8_Int_Time_now;
 uint8  u8_cnt_choose_now;
 uint8  u8_cnt_choose_pre;
 
-uint8  u8_RLS_WindowCloseReq;
 
 uint8  u8_Cmd_Execution;
 uint16 u16_Pd_Measure_Value;
+
 RLS_Wiper_State_FSM_t  Wiper_State_Fsm;
 RLS_Wiper_State_FSM_t  Wiper_State_FsmPre;
 
-
-uint8  u8_Rain_SensitivityLowValue;
-
-
-
-
-
 uint16 DC_WIN_BUFF[CHAN_NUM][DC_WINDOW];
-
-
 uint8  u8_RainIntensity_Win[Rain_WINDOW];
-uint16 u16_PD_Win_Max[CHAN_NUM]; 
 uint8  u8_PD_State[CHAN_NUM];
 uint16 u16_Dt_PD[CHAN_NUM];
-
-uint16 u16_PDA_Wmax,u16_PDB_Wmax;
-
-
-uint8  u8_Juge_Rain_Cnt[CHAN_NUM] ;
-
 uint16 u16_DC_Comp_Value[CHAN_NUM];
-
-
 uint8  u8_RainIntensity[CHAN_NUM];
-
 uint8  u8_RainIntensity_Max;
-
 uint8  u8_IntSpeedEnterCnt;
-
-
-
 uint8  u8_Rain_Value;
 uint8 u8_WiperSpeed_Expert;
 
-
-uint8 u8_IntSpeedFlgCnt;
-uint8 u8_IntSpeedFlg;
-
-
-uint8 Brightness_Infrared_Percentage[1];
-
-uint8 u8_ls_error_cnt;
 
 
 void Auto_Wiper_Var_Init(void)
@@ -333,8 +293,7 @@ uint8 RLS_Get_Rain_State(uint8 PD_chan)
 	}
    
 			
-	u16_PDA_Wmax = PD_WIN_AVG[Chan_Temp][0];                        //通道最早值赋值
-	if(PD_WIN_AVG[Chan_Temp][PD_WINDOW - 1] >= u16_PDA_Wmax) 
+	if(PD_WIN_AVG[Chan_Temp][PD_WINDOW - 1] >= PD_WIN_AVG[Chan_Temp][0]) 
 	{                           //当前值大于前PD_WINDOW-1个采集值时，返回无雨量
 		u8_PD_State[Chan_Temp] = 0;
 		if((PD_WIN_AVG[Chan_Temp][PD_WINDOW - 1] - PD_WIN_AVG[Chan_Temp][0]) > DtABS_MAX) 
@@ -593,9 +552,9 @@ uint8 RLS_Period_Time_Choose()
 }
 void RLS_Rain_State_Mchaine(void)
 {
-    uint8  u8_Delaytimer,i,u8_rain_Temp_Cnt;
+    uint8  i;
     uint8  temp_cnt;
-    uint8  temp_timer;
+    uint16  temp_timer;
     
     
     switch(Wiper_State_Fsm)
@@ -612,10 +571,17 @@ void RLS_Rain_State_Mchaine(void)
         	 * 5     FSM_Timer_Cn              主计时器，点刮连续计数器，有雨模式下清零，非有雨下开始计时
         	 * 6     u8_Splash_cnt             泼溅模式，在park模式自己清理
         	 * *****/
-        	
-        	u8_Delaytimer = Rain_Stastegy_Parameter.park_timer[BCM_APP_Value.BCM_RainSensitivity];
+        	if(u8_IntSpeedEnterCnt < 2)/**连续两次进入有雨模式，延长park等待时间**/
+        	{
+        		temp_timer = Rain_Stastegy_Parameter.park_timer[BCM_APP_Value.BCM_RainSensitivity];
+        	}
+        	else
+        	{
+        		temp_timer = 800;
+        	}
+
         	/***************点刮是否连续判断***********************************/
-        	if(FSM_Timer_Cn >= u8_Delaytimer) /******有雨连续时间到，清除标志位**********/
+        	if(FSM_Timer_Cn >= temp_timer) /******有雨连续时间到，清除标志位**********/
 			{
         	   FSM_Timer_Cn = 0;
 			   u8_Splash_cnt = 0;
@@ -670,7 +636,7 @@ void RLS_Rain_State_Mchaine(void)
 				u8_Splash_cnt = 0;	 
 		    }
 
-            
+			 Wiper_State_FsmPre =  PARK_MODE;
         } break;  
         case INT_SPEED_MODE:
         {
@@ -723,7 +689,7 @@ void RLS_Rain_State_Mchaine(void)
 					u8_IntSpeedEnterCnt = 0;
 				}
         	}
-
+        	Wiper_State_FsmPre =  INT_SPEED_MODE;
         } break;
         case PERIOD_SPEED_MODE:
         {
@@ -816,6 +782,7 @@ void RLS_Rain_State_Mchaine(void)
 					u8_Splash_cnt++;
 				}								
 			} 
+        	Wiper_State_FsmPre =  PERIOD_SPEED_MODE;
         } break;
         
         case LOW_SPEED_MODE:
@@ -851,24 +818,24 @@ void RLS_Rain_State_Mchaine(void)
 
 			if(BCM_APP_Value.u16_SPD_Vehicle < 5)
 			{
-				 u8_Delaytimer = Rain_Stastegy_Parameter.low_delaytimer[BCM_APP_Value.BCM_RainSensitivity][0];//40
-				 u8_rain_Temp_Cnt = Rain_Stastegy_Parameter.low_enter_high_cnt[BCM_APP_Value.BCM_RainSensitivity][0];
+				temp_timer = Rain_Stastegy_Parameter.low_delaytimer[BCM_APP_Value.BCM_RainSensitivity][0];//40
+				 temp_cnt = Rain_Stastegy_Parameter.low_enter_high_cnt[BCM_APP_Value.BCM_RainSensitivity][0];
 			}
 			else if(BCM_APP_Value.u16_SPD_Vehicle < 80)
 			{
-				 u8_Delaytimer = Rain_Stastegy_Parameter.low_delaytimer[BCM_APP_Value.BCM_RainSensitivity][1];
-				 u8_rain_Temp_Cnt = Rain_Stastegy_Parameter.low_enter_high_cnt[BCM_APP_Value.BCM_RainSensitivity][1];
+				temp_timer = Rain_Stastegy_Parameter.low_delaytimer[BCM_APP_Value.BCM_RainSensitivity][1];
+				 temp_cnt = Rain_Stastegy_Parameter.low_enter_high_cnt[BCM_APP_Value.BCM_RainSensitivity][1];
 			}
 			else 
 			{
-				 u8_Delaytimer = Rain_Stastegy_Parameter.low_delaytimer[BCM_APP_Value.BCM_RainSensitivity][2];
-				 u8_rain_Temp_Cnt = Rain_Stastegy_Parameter.low_enter_high_cnt[BCM_APP_Value.BCM_RainSensitivity][2];
+				temp_timer = Rain_Stastegy_Parameter.low_delaytimer[BCM_APP_Value.BCM_RainSensitivity][2];
+				 temp_cnt = Rain_Stastegy_Parameter.low_enter_high_cnt[BCM_APP_Value.BCM_RainSensitivity][2];
 			}  
             
             if(u8_WiperSpeed_Expert < 4)/*********当雨量偏小时，从低速退出到周期刮*************/
             {        
             	FSM_Timer_Cn1++;
-                if(FSM_Timer_Cn1 >= u8_Delaytimer)
+                if(FSM_Timer_Cn1 >= temp_timer)
                 {
                 	FSM_Timer_Cn1 = 0;
                     Wiper_State_Fsm =  PERIOD_SPEED_MODE;
@@ -878,7 +845,7 @@ void RLS_Rain_State_Mchaine(void)
             else
             {   
             	FSM_Timer_Cn2++;
-                if(FSM_Timer_Cn2 >= u8_rain_Temp_Cnt)   
+                if(FSM_Timer_Cn2 >= temp_cnt)   
                 {                
                 	FSM_Timer_Cn2 = 0;
                     Wiper_State_Fsm =  HIGH_SPEED_MODE;               
@@ -889,9 +856,7 @@ void RLS_Rain_State_Mchaine(void)
             {
             	FSM_Timer_Cn1 = 0;/****当雨量偏大时，清除退出低速计数*******/
             }
-            
-     
-            
+            Wiper_State_FsmPre =  LOW_SPEED_MODE;
         } break;
         
         case HIGH_SPEED_MODE:
@@ -913,41 +878,43 @@ void RLS_Rain_State_Mchaine(void)
 
 			if(BCM_APP_Value.u16_SPD_Vehicle < 5)
 			{
-				 u8_Delaytimer = Rain_Stastegy_Parameter.high_delaytimer[BCM_APP_Value.BCM_RainSensitivity][0];
-				 u8_rain_Temp_Cnt = Rain_Stastegy_Parameter.high_hold_th[BCM_APP_Value.BCM_RainSensitivity][0];
+				temp_timer = Rain_Stastegy_Parameter.high_delaytimer[BCM_APP_Value.BCM_RainSensitivity][0];
+				 temp_cnt = Rain_Stastegy_Parameter.high_hold_th[BCM_APP_Value.BCM_RainSensitivity][0];
 			}
 			else if(BCM_APP_Value.u16_SPD_Vehicle < 80)
 			{
-				 u8_Delaytimer = Rain_Stastegy_Parameter.high_delaytimer[BCM_APP_Value.BCM_RainSensitivity][1];
-				 u8_rain_Temp_Cnt = Rain_Stastegy_Parameter.high_hold_th[BCM_APP_Value.BCM_RainSensitivity][1];
+				temp_timer = Rain_Stastegy_Parameter.high_delaytimer[BCM_APP_Value.BCM_RainSensitivity][1];
+				 temp_cnt = Rain_Stastegy_Parameter.high_hold_th[BCM_APP_Value.BCM_RainSensitivity][1];
 			}
 			else 
 			{
-				 u8_Delaytimer = Rain_Stastegy_Parameter.high_delaytimer[BCM_APP_Value.BCM_RainSensitivity][2];
-				 u8_rain_Temp_Cnt = Rain_Stastegy_Parameter.high_hold_th[BCM_APP_Value.BCM_RainSensitivity][2];    
+				temp_timer = Rain_Stastegy_Parameter.high_delaytimer[BCM_APP_Value.BCM_RainSensitivity][2];
+				 temp_cnt = Rain_Stastegy_Parameter.high_hold_th[BCM_APP_Value.BCM_RainSensitivity][2];    
 			}  
 			
             FSM_Timer_Cn++;
             
-            if(FSM_Timer_Cn >= u8_Delaytimer)
+            if(FSM_Timer_Cn >= temp_timer)
             {             
             	Wiper_State_Fsm = LOW_SPEED_MODE;
             	FSM_Timer_Cn = 0;                     
             }
             else
             {
-                if(u8_WiperSpeed_Expert >= u8_rain_Temp_Cnt) 
+                if(u8_WiperSpeed_Expert >= temp_cnt) 
                 {
                 	FSM_Timer_Cn = 0;
                 }
             }
+            Wiper_State_FsmPre =  HIGH_SPEED_MODE;
         } break;
         
         default:  
-        	Wiper_State_Fsm = PARK_MODE; 
+        {
+        	Wiper_State_Fsm = PARK_MODE;
+        	Wiper_State_FsmPre = PARK_MODE;
+        }break;
     }
-    
-    Wiper_State_FsmPre = Wiper_State_Fsm;
 }
 /*******************************************************
  * FUNCTION NAME : RLS_Wipe_Park_Process()

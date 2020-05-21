@@ -75,47 +75,47 @@ void RLS_AutoLightControl(void)
 	}
 	else if (u16_Brightness_UP <= 150)
 	{
-            temp_light_on_th =  Light_Stastegy_Parameter.Lowbean_on_th + 25;
+        temp_light_on_th =  Light_Stastegy_Parameter.Lowbean_on_th + 25;
 	    temp_light_off_th =  Light_Stastegy_Parameter.Lowbean_off_th + 25;
 	}
 	else 
 	{
-            temp_light_on_th =  Light_Stastegy_Parameter.Lowbean_on_th + 50;
+        temp_light_on_th =  Light_Stastegy_Parameter.Lowbean_on_th + 50;
 	    temp_light_off_th =  Light_Stastegy_Parameter.Lowbean_off_th + 50;
 	}
 	
 	if(App_Rls_Error.IR_Error == 0)
-        {
-                    if((u16_Brightness_FW <= temp_light_on_th )&&(u16_Brightness_UP <= 150))
-                    {
-                             Light_off_cnt[LIGHT] = 0;
-                             if(Light_on_cnt[LIGHT] >= u8_LightOnTimer)
-                             {
-                            	 RLS_APP_Value.light_on_req = Light_On;     
-                             }
-                             else
-                             {
-                                    Light_on_cnt[LIGHT]++ ;
-                             }
-                    } 		
-                    else if(((u16_Brightness_FW > temp_light_off_th )&&(u16_Brightness_UP > 250))||(u16_Brightness_FW > 1500))
-                    {	
-                             Light_on_cnt[LIGHT] = 0;
-                             if(Light_off_cnt[LIGHT] >= Light_Stastegy_Parameter.off_timer)
-                             {
-                            	 RLS_APP_Value.light_on_req = Light_Off;     
-                             }
-                             else
-                             {
-                                    Light_off_cnt[LIGHT]++ ;
-                             }
-                    }	
-                    else
-                    {
-                            Light_on_cnt[LIGHT] = 0;
-                            Light_off_cnt[LIGHT] = 0;
-                    }
-        }
+    {
+		if((u16_Brightness_FW <= temp_light_on_th )&&(u16_Brightness_UP <= 150))
+		{
+			 Light_off_cnt[LIGHT] = 0;
+			 if(Light_on_cnt[LIGHT] >= u8_LightOnTimer)
+			 {
+				 RLS_APP_Value.light_on_req = Light_On;     
+			 }
+			 else
+			 {
+					Light_on_cnt[LIGHT]++ ;
+			 }
+		} 		
+		else if(((u16_Brightness_FW > temp_light_off_th )&&(u16_Brightness_UP > 250))||(u16_Brightness_FW > 1500))
+		{	
+			 Light_on_cnt[LIGHT] = 0;
+			 if(Light_off_cnt[LIGHT] >= Light_Stastegy_Parameter.off_timer)
+			 {
+				 RLS_APP_Value.light_on_req = Light_Off;     
+			 }
+			 else
+			 {
+				 Light_off_cnt[LIGHT]++ ;
+			 }
+		}	
+		else
+		{
+			Light_on_cnt[LIGHT] = 0;
+			Light_off_cnt[LIGHT] = 0;
+		}
+    }
 	else
 	{
 		if(u16_Brightness_FW <= temp_light_on_th )
@@ -162,12 +162,8 @@ void RLS_Light_Module_Fault_Process(void)
 	}
 	else
 	{
-		App_Rls_Error.LS_Error_Cnt = 0;
-	}
-	
-	if(App_Rls_Error.LS_Error_Cnt < 50)
-	{
 		App_Rls_Error.LS_Error = 0;
+		App_Rls_Error.LS_Error_Cnt = 0;
 	}
 				
 	if(Mnrval.Amb_[1] == 0)  //IR
@@ -180,27 +176,9 @@ void RLS_Light_Module_Fault_Process(void)
 	}
 	else
 	{
+		App_Rls_Error.IR_Error = 0;
 		App_Rls_Error.IR_Error_Cnt[0] = 0;
 	}
-	
-	/*if(Mnrval.Amb_E < 2000)  //IR
-	{
-		App_Rls_Error.IR_Error_Cnt[1]++;
-		if(App_Rls_Error.IR_Error_Cnt[1] >= 20)
-		{
-			App_Rls_Error.IR_Error = 1;
-		}
-	}
-	else
-	{
-		App_Rls_Error.IR_Error_Cnt[1] = 0;
-	}*/
-	
-	if(App_Rls_Error.IR_Error_Cnt[0] < 50)
-	{
-		App_Rls_Error.IR_Error = 0;
-	}
-	
 }
 
 /*******************************************************
@@ -227,14 +205,8 @@ void RLS_Auto_Light_Task(void)
     if(avg_ir > 0xFFE)         u16_Brightness_UP = 0xFFE;
     else                       u16_Brightness_UP = avg_ir;
         
-    if(avg_fw > 0xFFE)     
-    {
-    	u16_Brightness_FW = 0xFFE;
-    }
-    else                 
-    {
-    	u16_Brightness_FW = avg_fw;
-    }
+    if(avg_fw > 0xFFE) u16_Brightness_FW = 0xFFE;
+    else u16_Brightness_FW = avg_fw;
      
     RLS_Light_Module_Fault_Process();
     RLS_AutoLightControl();                

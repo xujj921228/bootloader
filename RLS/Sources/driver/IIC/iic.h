@@ -53,6 +53,7 @@
 #define IIC_SCL_High()      GPIOA_PSOR |= 0x00000008
 #define IIC_SCL_Low()       GPIOA_PCOR |= 0x00000008
 
+extern uint8 FUNC_HUM_SETTING(uint16 cmd);
 extern void  DRV_IIC_Init(void);
 
 extern void  DRV_IIC_START(void);

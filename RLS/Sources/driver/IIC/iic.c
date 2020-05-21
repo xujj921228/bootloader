@@ -40,7 +40,42 @@
 #include "IIC.h"
 
 
-extern uint8 FUNC_HUM_SETTING(uint16 cmd);
+/****************************************************************************************************
+ * FUNCTION NAME : FUNC_HUM_SETTING()
+ *   DESCRIPTION :  ™∂»…Ë÷√
+ *         INPUT : NONE
+ *        OUTPUT : NONE  
+ *        RETURN : uint8                    
+ *        OTHERS : NONE
+ ****************************************************************************************************/
+uint8 FUNC_HUM_SETTING(uint16 cmd)
+{
+    DRV_IIC_START();
+    if(DRV_IIC_WRITE_BYTE(SHT30_ADDR << 1)==ACK)
+    {
+        if(DRV_IIC_WRITE_BYTE(cmd>>8)==ACK)                      //Command
+        {
+            if(DRV_IIC_WRITE_BYTE(cmd&0xFF)==ACK)
+            {
+               return 1 ;
+            }
+            else
+            {
+               return 0 ;
+            }
+        }
+        else
+        {
+            return 0 ;
+        }
+    }
+    else
+    {   
+        return 0 ;
+    }
+    DRV_IIC_STOP();
+}
+
 /*******************************************************
  * FUNCTION NAME : DRV_IIC_Init()
  *   DESCRIPTION : Initialize the IO port used by the IIC

@@ -10,6 +10,9 @@ typedef struct
 }tLight_Stastegy_Config;
 
 
+#define MEAS_NUM 3
+#define   AVG_N  2
+
 #define   AMB_FW_CH   9
 #define   AMB_UP_CH   8
 

@@ -20,6 +20,7 @@ Sources/Application/main.o: ../Sources/Application/main.c \
  C:/Users/Administrator/Desktop/120092-04-000PR-V1.0/RLS/Sources/Driver/gpio/gpio.h \
  C:/Users/Administrator/Desktop/120092-04-000PR-V1.0/RLS/Sources/Driver/rtc/RTC.h \
  C:/Users/Administrator/Desktop/120092-04-000PR-V1.0/RLS/Sources/Driver/watchdog/watchdog.h \
+ C:/Users/Administrator/Desktop/120092-04-000PR-V1.0/RLS/Sources/Driver/IIC/iic.h \
  C:/Users/Administrator/Desktop/120092-04-000PR-V1.0/RLS/Sources/Driver/SPI/spi.h \
  C:/Users/Administrator/Desktop/120092-04-000PR-V1.0/RLS/Sources/Transport/LIN_app/lin_app.h \
  C:/Users/Administrator/Desktop/120092-04-000PR-V1.0/RLS/Sources/Transport/MLX75308/mlx75308.h \
@@ -78,6 +79,8 @@ C:/Users/Administrator/Desktop/120092-04-000PR-V1.0/RLS/Sources/Driver/gpio/gpio
 C:/Users/Administrator/Desktop/120092-04-000PR-V1.0/RLS/Sources/Driver/rtc/RTC.h:
 
 C:/Users/Administrator/Desktop/120092-04-000PR-V1.0/RLS/Sources/Driver/watchdog/watchdog.h:
+
+C:/Users/Administrator/Desktop/120092-04-000PR-V1.0/RLS/Sources/Driver/IIC/iic.h:
 
 C:/Users/Administrator/Desktop/120092-04-000PR-V1.0/RLS/Sources/Driver/SPI/spi.h:
 

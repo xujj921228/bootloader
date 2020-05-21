@@ -3,26 +3,26 @@
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
 		<item value="273" key="DIALOG_WIDTH"/>
 		<item value="177" key="DIALOG_Y_ORIGIN"/>
-		<item value="400" key="DIALOG_HEIGHT"/>
 		<item value="1008" key="DIALOG_X_ORIGIN"/>
+		<item value="400" key="DIALOG_HEIGHT"/>
 		<item value="1|Microsoft YaHei UI|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|Microsoft YaHei UI" key="DIALOG_FONT_NAME"/>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="true" key="wrap"/>
-		<item value="false" key="isRegEx"/>
 		<item value="false" key="casesensitive"/>
+		<item value="false" key="isRegEx"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wholeword"/>
-		<item value="DC_WIN_BUFF" key="selection"/>
+		<item value="Frist_on_flag" key="selection"/>
 		<list key="findhistory">
+			<item value="Frist_on_flag"/>
+			<item value="App_Rls_Error"/>
 			<item value="PD_Meas_Comp_Ref_Pre"/>
 			<item value="DC_WIN_BUFF"/>
 			<item value="u8_PD_State"/>
 			<item value="PD_Meas_Comp_Ref"/>
 			<item value="PD_WIN_AVG"/>
 			<item value="Mnrval.IR_A"/>
-			<item value="IR_A"/>
-			<item value="u16_PDA_Wmax"/>
 		</list>
 		<list key="replacehistory">
 		</list>

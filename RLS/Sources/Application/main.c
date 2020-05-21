@@ -11,6 +11,7 @@
 #include "gpio.h"
 #include "RTC.h"
 #include "watchdog.h"
+#include "iic.h"
 #include "spi.h"
 #include "lin_app.h"
 #include "mlx75308.h"
@@ -33,6 +34,7 @@ uint8  Timer_10ms_flag;
 uint8  Timer_50ms_flag;
 uint8  Timer_100ms_flag;
 uint8  Timer_500ms_flag;
+bool_t Frist_on_flag;
 
 extern bool_t bool_auto_roof_rain_measure_sleep_flg;
 
@@ -51,6 +53,7 @@ void Gloable_Var_Init(void)
     Timer_50ms_flag = 0;
     Timer_100ms_flag = 0;
     Timer_500ms_flag = 0;
+	Frist_on_flag = FALSE ;
     
     RLS_RunMode = MAIN_SLEFADAPT;
     
@@ -69,7 +72,7 @@ void Gloable_Var_Init(void)
 * @param    none
 * @return   none
 *
-************************************************************************************************/  
+************************************************************************************************/ 
 void main(void)
 {	
 	Clk_Init();	
@@ -127,17 +130,18 @@ void main(void)
 #ifdef ENABLE_SOLAR
 			  RLS_Auto_Solar_Task();	
 #endif
-                        }
-                         if(Timer_500ms_flag == 1)
-                        {
-                          Timer_500ms_flag = 0;
-                          Timer_4s ++;
+			  Frist_on_flag = TRUE;	
+              }
+			 if(Timer_500ms_flag == 1)
+			{
+			  Timer_500ms_flag = 0;
+			  Timer_4s ++;
 #ifdef FOUR_TO_ONE 
-                          FUNC_READ_HUMDATA(SHT30_MEASU_CMD);
-                          Humid_Avg_Function(); 
-                          Temp_Avg_Function() ; 
+			  FUNC_READ_HUMDATA(SHT30_MEASU_CMD);
+			  Humid_Avg_Function(); 
+			  Temp_Avg_Function() ; 
 #endif
-                        }
+			}
 		  }break;
 
 		  

@@ -54,13 +54,6 @@ typedef enum
 #define  ENABLE_INTERRUPT  asm("CPSIE i");
 #define  DISABLE_INTERRUPT asm("CPSID i");
 
-
- 
-#define MEAS_NUM 3
-
-#define   AVG_N  2
-
- 
  
 
 /************DC_COMP***********/

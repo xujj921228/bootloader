@@ -8,9 +8,10 @@
 #define  TEMP_NUM  3
 
 //extern  float f_Dew_Point,f_acture_temp,f_acture_hum;
+extern void Auto_Humid_Var_Init(void);
 extern void   Humid_Avg_Function(void);
 extern void   Temp_Avg_Function(void);
-extern void   FUNC_READ_HUMDATA(uint16 cmd);
+extern uint8   FUNC_READ_HUMDATA(uint16 cmd);
 extern uint8  FUNC_HUM_SETTING(uint16 cmd);
 extern float Dew_Point_Cal(float temp , float hum);
 #endif

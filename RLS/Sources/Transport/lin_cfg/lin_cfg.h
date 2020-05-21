@@ -79,8 +79,8 @@
 #define _TL_FRAME_SUPPORT_      _TL_MULTI_FRAME_
 
 /* frame buffer size */
-#define LIN_FRAME_BUF_SIZE			13
-#define LIN_FLAG_BUF_SIZE			7
+#define LIN_FRAME_BUF_SIZE			16
+#define LIN_FLAG_BUF_SIZE			5
 
 /**********************************************************************/
 /***************               Interfaces           *******************/
@@ -93,91 +93,61 @@ typedef enum {
 /***************               Signals              *******************/
 /**********************************************************************/
 /* Number of signals */
-#define LIN_NUM_OF_SIGS  40
+#define LIN_NUM_OF_SIGS  25
 /* List of signals */   
 typedef enum {
 
    /* Interface_name = LI0 */
 
-   LI0_BCM_WiperPosition
+   LI0_BCM_Status_IGN
 
-   , LI0_BCM_Washer
+   , LI0_BCM_CMD_AutoWiper
   
-   , LI0_BCM_Amb_LV
+   , LI0_BCM_RQ_FrontWash
+  
+   , LI0_BCM_ParkPosition
   
    , LI0_BCM_RainSensitivity
   
-   , LI0_BCM_VehicleSpeed
+   , LI0_BCM_CMD_AutoLight
   
-   , LI0_RLS_ContinuteReq
+   , LI0_BCM_BladesTurningPoint
   
-   , LI0_RLS_DiagnnosticReq
+   , LI0_BCM_RoofStatus
   
-   , LI0_RLS_AppResetStatus
+   , LI0_BCM_SPD_Vehicle
   
-   , LI0_RLS_AppConfigurationStatus
+   , LI0_BCM_OutsideTemp
   
-   , LI0_RLS_AppStatus
+   , LI0_RLS_MsgCounter
   
-   , LI0_RLS_LinComStatus
+   , LI0_RLS_RQ_WiperSPD
   
-   , LI0_RLS_WiperRequest
+   , LI0_RLS_RQ_LowBeam
   
-   , LI0_RLS_Amb_LV
+   , LI0_RLS_RQ_PositionLamp
   
-   , LI0_RLS_RainSensorError
+   , LI0_RLS_Fault_Rain
   
-   , LI0_RLS_LightSensorInstalled
+   , LI0_RLS_Fault_Light
   
-   , LI0_RLS_LightSensorError
+   , LI0_RLS_REP_Error
   
-   , LI0_RLS_HumiditySensorInstalled
+   , LI0_RLS_VOLT_Error
   
-   , LI0_RLS_Amb_Value
+   , LI0_RLS_Humid_Temp_Error
   
-   , LI0_RLS_FW_Value
+   , LI0_RLS_Brightness_IR_L
   
-   , LI0_RLHS_COM_Continue_req
+   , LI0_RLS_Brightness_FW
   
-   , LI0_RLHS_Diagnostic_Req
+   , LI0_RLS_Rain_Intensity
   
-   , LI0_RLHS_APP_Reset_Atatus
+   , LI0_RLS_Brightness_IR_R
   
-   , LI0_RLHS_APP_Configuration
+   , LI0_RLS_Temperature
   
-   , LI0_RLHS_APP_Status
-  
-   , LI0_RLHS_Comunicate_Status
-  
-   , LI0_RLHS_Humidity_Temp
-  
-   , LI0_RLHS_Humidity_Temp_Validity
-  
-   , LI0_RLHS_Sensor_Fault
-  
-   , LI0_RLHS_Unused_bit
-  
-   , LI0_RLHS_Sensor_Humidity_Validity
-  
-   , LI0_RLHS_Humindity_Value
-  
-   , LI0_RLHS01_Continue_Req
-  
-   , LI0_RLHS01_Diagnostic_Req
-  
-   , LI0_RLHS01_APP_Reset
-  
-   , LI0_RLHS01_APP_configuration
-  
-   , LI0_RLHS01_APP_Status
-  
-   , LI0_RLHS01_Comunication_Status
-  
-   , LI0_RLHS01_Temp01
-  
-   , LI0_RLHS01_Sensor_Vaility
-  
-   , LI0_RLHS01_Unused
+   , LI0_RLS_Humid
   
   
 } l_signal_handle; 
@@ -185,20 +155,16 @@ typedef enum {
 /*****************               Frame             ********************/
 /**********************************************************************/
 /* Number of frames */
-#define LIN_NUM_OF_FRMS  6 
+#define LIN_NUM_OF_FRMS  4 
 /* List of frames */
 typedef enum {
 /* All frames for master node */
 
    /* Interface_name = LI0 */
 
-   LI0_BCM_01
+   LI0_RLS_01
 
-   , LI0_RLS_01
-  
-   , LI0_RLHS
-  
-   , LI0_RLHS01
+   , LI0_BCM_01
   
    , LI0_MasterReq
   
@@ -211,8 +177,8 @@ typedef enum {
 /***************             Configuration          *******************/
 /**********************************************************************/
 /* Size of configuration in ROM and RAM used for interface: LI1 */
-#define LIN_SIZE_OF_CFG  8 
-#define LIN_CFG_FRAME_NUM  4 
+#define LIN_SIZE_OF_CFG  6 
+#define LIN_CFG_FRAME_NUM  2 
 /*********************************************************************
  * global macros
  *********************************************************************/
@@ -246,300 +212,189 @@ typedef enum {
  */
 
 
-#define LIN_BYTE_OFFSET_LI0_BCM_WiperPosition    0
-#define LIN_BIT_OFFSET_LI0_BCM_WiperPosition    0
-#define LIN_SIGNAL_SIZE_LI0_BCM_WiperPosition    1
-#define LIN_FLAG_BYTE_OFFSET_LI0_BCM_WiperPosition    0
-#define LIN_FLAG_BIT_OFFSET_LI0_BCM_WiperPosition    1
-#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_BCM_WiperPosition    0
+#define LIN_BYTE_OFFSET_LI0_BCM_Status_IGN    8
+#define LIN_BIT_OFFSET_LI0_BCM_Status_IGN    0
+#define LIN_SIGNAL_SIZE_LI0_BCM_Status_IGN    2
+#define LIN_FLAG_BYTE_OFFSET_LI0_BCM_Status_IGN    2
+#define LIN_FLAG_BIT_OFFSET_LI0_BCM_Status_IGN    1
+#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_BCM_Status_IGN    1
 
-#define LIN_BYTE_OFFSET_LI0_BCM_Washer    0
-#define LIN_BIT_OFFSET_LI0_BCM_Washer    1
-#define LIN_SIGNAL_SIZE_LI0_BCM_Washer    1
-#define LIN_FLAG_BYTE_OFFSET_LI0_BCM_Washer    0
-#define LIN_FLAG_BIT_OFFSET_LI0_BCM_Washer    2
-#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_BCM_Washer    0
+#define LIN_BYTE_OFFSET_LI0_BCM_CMD_AutoWiper    8
+#define LIN_BIT_OFFSET_LI0_BCM_CMD_AutoWiper    2
+#define LIN_SIGNAL_SIZE_LI0_BCM_CMD_AutoWiper    1
+#define LIN_FLAG_BYTE_OFFSET_LI0_BCM_CMD_AutoWiper    2
+#define LIN_FLAG_BIT_OFFSET_LI0_BCM_CMD_AutoWiper    2
+#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_BCM_CMD_AutoWiper    1
 
-#define LIN_BYTE_OFFSET_LI0_BCM_Amb_LV    0
-#define LIN_BIT_OFFSET_LI0_BCM_Amb_LV    2
-#define LIN_SIGNAL_SIZE_LI0_BCM_Amb_LV    2
-#define LIN_FLAG_BYTE_OFFSET_LI0_BCM_Amb_LV    0
-#define LIN_FLAG_BIT_OFFSET_LI0_BCM_Amb_LV    3
-#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_BCM_Amb_LV    0
+#define LIN_BYTE_OFFSET_LI0_BCM_RQ_FrontWash    8
+#define LIN_BIT_OFFSET_LI0_BCM_RQ_FrontWash    3
+#define LIN_SIGNAL_SIZE_LI0_BCM_RQ_FrontWash    1
+#define LIN_FLAG_BYTE_OFFSET_LI0_BCM_RQ_FrontWash    2
+#define LIN_FLAG_BIT_OFFSET_LI0_BCM_RQ_FrontWash    3
+#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_BCM_RQ_FrontWash    1
 
-#define LIN_BYTE_OFFSET_LI0_BCM_RainSensitivity    0
-#define LIN_BIT_OFFSET_LI0_BCM_RainSensitivity    4
+#define LIN_BYTE_OFFSET_LI0_BCM_ParkPosition    8
+#define LIN_BIT_OFFSET_LI0_BCM_ParkPosition    4
+#define LIN_SIGNAL_SIZE_LI0_BCM_ParkPosition    1
+#define LIN_FLAG_BYTE_OFFSET_LI0_BCM_ParkPosition    2
+#define LIN_FLAG_BIT_OFFSET_LI0_BCM_ParkPosition    4
+#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_BCM_ParkPosition    1
+
+#define LIN_BYTE_OFFSET_LI0_BCM_RainSensitivity    8
+#define LIN_BIT_OFFSET_LI0_BCM_RainSensitivity    5
 #define LIN_SIGNAL_SIZE_LI0_BCM_RainSensitivity    3
-#define LIN_FLAG_BYTE_OFFSET_LI0_BCM_RainSensitivity    0
-#define LIN_FLAG_BIT_OFFSET_LI0_BCM_RainSensitivity    4
-#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_BCM_RainSensitivity    0
+#define LIN_FLAG_BYTE_OFFSET_LI0_BCM_RainSensitivity    2
+#define LIN_FLAG_BIT_OFFSET_LI0_BCM_RainSensitivity    5
+#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_BCM_RainSensitivity    1
 
-#define LIN_BYTE_OFFSET_LI0_BCM_VehicleSpeed    1
-#define LIN_BIT_OFFSET_LI0_BCM_VehicleSpeed    0
-#define LIN_SIGNAL_SIZE_LI0_BCM_VehicleSpeed    8
-#define LIN_FLAG_BYTE_OFFSET_LI0_BCM_VehicleSpeed    0
-#define LIN_FLAG_BIT_OFFSET_LI0_BCM_VehicleSpeed    5
-#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_BCM_VehicleSpeed    0
+#define LIN_BYTE_OFFSET_LI0_BCM_CMD_AutoLight    9
+#define LIN_BIT_OFFSET_LI0_BCM_CMD_AutoLight    0
+#define LIN_SIGNAL_SIZE_LI0_BCM_CMD_AutoLight    1
+#define LIN_FLAG_BYTE_OFFSET_LI0_BCM_CMD_AutoLight    2
+#define LIN_FLAG_BIT_OFFSET_LI0_BCM_CMD_AutoLight    6
+#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_BCM_CMD_AutoLight    1
 
-#define LIN_BYTE_OFFSET_LI0_RLS_ContinuteReq    2
-#define LIN_BIT_OFFSET_LI0_RLS_ContinuteReq    0
-#define LIN_SIGNAL_SIZE_LI0_RLS_ContinuteReq    1
-#define LIN_FLAG_BYTE_OFFSET_LI0_RLS_ContinuteReq    1
-#define LIN_FLAG_BIT_OFFSET_LI0_RLS_ContinuteReq    1
-#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_ContinuteReq    1
+#define LIN_BYTE_OFFSET_LI0_BCM_BladesTurningPoint    9
+#define LIN_BIT_OFFSET_LI0_BCM_BladesTurningPoint    1
+#define LIN_SIGNAL_SIZE_LI0_BCM_BladesTurningPoint    1
+#define LIN_FLAG_BYTE_OFFSET_LI0_BCM_BladesTurningPoint    2
+#define LIN_FLAG_BIT_OFFSET_LI0_BCM_BladesTurningPoint    7
+#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_BCM_BladesTurningPoint    1
 
-#define LIN_BYTE_OFFSET_LI0_RLS_DiagnnosticReq    2
-#define LIN_BIT_OFFSET_LI0_RLS_DiagnnosticReq    2
-#define LIN_SIGNAL_SIZE_LI0_RLS_DiagnnosticReq    1
-#define LIN_FLAG_BYTE_OFFSET_LI0_RLS_DiagnnosticReq    1
-#define LIN_FLAG_BIT_OFFSET_LI0_RLS_DiagnnosticReq    3
-#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_DiagnnosticReq    1
+#define LIN_BYTE_OFFSET_LI0_BCM_RoofStatus    9
+#define LIN_BIT_OFFSET_LI0_BCM_RoofStatus    2
+#define LIN_SIGNAL_SIZE_LI0_BCM_RoofStatus    1
+#define LIN_FLAG_BYTE_OFFSET_LI0_BCM_RoofStatus    3
+#define LIN_FLAG_BIT_OFFSET_LI0_BCM_RoofStatus    0
+#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_BCM_RoofStatus    1
 
-#define LIN_BYTE_OFFSET_LI0_RLS_AppResetStatus    2
-#define LIN_BIT_OFFSET_LI0_RLS_AppResetStatus    1
-#define LIN_SIGNAL_SIZE_LI0_RLS_AppResetStatus    1
-#define LIN_FLAG_BYTE_OFFSET_LI0_RLS_AppResetStatus    1
-#define LIN_FLAG_BIT_OFFSET_LI0_RLS_AppResetStatus    2
-#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_AppResetStatus    1
+#define LIN_BYTE_OFFSET_LI0_BCM_SPD_Vehicle    10
+#define LIN_BIT_OFFSET_LI0_BCM_SPD_Vehicle    0
+#define LIN_SIGNAL_SIZE_LI0_BCM_SPD_Vehicle    13
+#define LIN_FLAG_BYTE_OFFSET_LI0_BCM_SPD_Vehicle    3
+#define LIN_FLAG_BIT_OFFSET_LI0_BCM_SPD_Vehicle    1
+#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_BCM_SPD_Vehicle    1
 
-#define LIN_BYTE_OFFSET_LI0_RLS_AppConfigurationStatus    2
-#define LIN_BIT_OFFSET_LI0_RLS_AppConfigurationStatus    3
-#define LIN_SIGNAL_SIZE_LI0_RLS_AppConfigurationStatus    1
-#define LIN_FLAG_BYTE_OFFSET_LI0_RLS_AppConfigurationStatus    1
-#define LIN_FLAG_BIT_OFFSET_LI0_RLS_AppConfigurationStatus    4
-#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_AppConfigurationStatus    1
+#define LIN_BYTE_OFFSET_LI0_BCM_OutsideTemp    12
+#define LIN_BIT_OFFSET_LI0_BCM_OutsideTemp    0
+#define LIN_SIGNAL_SIZE_LI0_BCM_OutsideTemp    8
+#define LIN_FLAG_BYTE_OFFSET_LI0_BCM_OutsideTemp    3
+#define LIN_FLAG_BIT_OFFSET_LI0_BCM_OutsideTemp    2
+#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_BCM_OutsideTemp    1
 
-#define LIN_BYTE_OFFSET_LI0_RLS_AppStatus    2
-#define LIN_BIT_OFFSET_LI0_RLS_AppStatus    4
-#define LIN_SIGNAL_SIZE_LI0_RLS_AppStatus    1
-#define LIN_FLAG_BYTE_OFFSET_LI0_RLS_AppStatus    1
-#define LIN_FLAG_BIT_OFFSET_LI0_RLS_AppStatus    5
-#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_AppStatus    1
+#define LIN_BYTE_OFFSET_LI0_RLS_MsgCounter    0
+#define LIN_BIT_OFFSET_LI0_RLS_MsgCounter    0
+#define LIN_SIGNAL_SIZE_LI0_RLS_MsgCounter    4
+#define LIN_FLAG_BYTE_OFFSET_LI0_RLS_MsgCounter    0
+#define LIN_FLAG_BIT_OFFSET_LI0_RLS_MsgCounter    1
+#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_MsgCounter    0
 
-#define LIN_BYTE_OFFSET_LI0_RLS_LinComStatus    2
-#define LIN_BIT_OFFSET_LI0_RLS_LinComStatus    5
-#define LIN_SIGNAL_SIZE_LI0_RLS_LinComStatus    3
-#define LIN_FLAG_BYTE_OFFSET_LI0_RLS_LinComStatus    1
-#define LIN_FLAG_BIT_OFFSET_LI0_RLS_LinComStatus    6
-#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_LinComStatus    1
+#define LIN_BYTE_OFFSET_LI0_RLS_RQ_WiperSPD    0
+#define LIN_BIT_OFFSET_LI0_RLS_RQ_WiperSPD    4
+#define LIN_SIGNAL_SIZE_LI0_RLS_RQ_WiperSPD    2
+#define LIN_FLAG_BYTE_OFFSET_LI0_RLS_RQ_WiperSPD    0
+#define LIN_FLAG_BIT_OFFSET_LI0_RLS_RQ_WiperSPD    2
+#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_RQ_WiperSPD    0
 
-#define LIN_BYTE_OFFSET_LI0_RLS_WiperRequest    3
-#define LIN_BIT_OFFSET_LI0_RLS_WiperRequest    0
-#define LIN_SIGNAL_SIZE_LI0_RLS_WiperRequest    2
-#define LIN_FLAG_BYTE_OFFSET_LI0_RLS_WiperRequest    1
-#define LIN_FLAG_BIT_OFFSET_LI0_RLS_WiperRequest    7
-#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_WiperRequest    1
+#define LIN_BYTE_OFFSET_LI0_RLS_RQ_LowBeam    0
+#define LIN_BIT_OFFSET_LI0_RLS_RQ_LowBeam    7
+#define LIN_SIGNAL_SIZE_LI0_RLS_RQ_LowBeam    1
+#define LIN_FLAG_BYTE_OFFSET_LI0_RLS_RQ_LowBeam    0
+#define LIN_FLAG_BIT_OFFSET_LI0_RLS_RQ_LowBeam    3
+#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_RQ_LowBeam    0
 
-#define LIN_BYTE_OFFSET_LI0_RLS_Amb_LV    3
-#define LIN_BIT_OFFSET_LI0_RLS_Amb_LV    2
-#define LIN_SIGNAL_SIZE_LI0_RLS_Amb_LV    2
-#define LIN_FLAG_BYTE_OFFSET_LI0_RLS_Amb_LV    2
-#define LIN_FLAG_BIT_OFFSET_LI0_RLS_Amb_LV    0
-#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_Amb_LV    1
+#define LIN_BYTE_OFFSET_LI0_RLS_RQ_PositionLamp    1
+#define LIN_BIT_OFFSET_LI0_RLS_RQ_PositionLamp    0
+#define LIN_SIGNAL_SIZE_LI0_RLS_RQ_PositionLamp    1
+#define LIN_FLAG_BYTE_OFFSET_LI0_RLS_RQ_PositionLamp    0
+#define LIN_FLAG_BIT_OFFSET_LI0_RLS_RQ_PositionLamp    4
+#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_RQ_PositionLamp    0
 
-#define LIN_BYTE_OFFSET_LI0_RLS_RainSensorError    3
-#define LIN_BIT_OFFSET_LI0_RLS_RainSensorError    4
-#define LIN_SIGNAL_SIZE_LI0_RLS_RainSensorError    1
-#define LIN_FLAG_BYTE_OFFSET_LI0_RLS_RainSensorError    2
-#define LIN_FLAG_BIT_OFFSET_LI0_RLS_RainSensorError    1
-#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_RainSensorError    1
+#define LIN_BYTE_OFFSET_LI0_RLS_Fault_Rain    1
+#define LIN_BIT_OFFSET_LI0_RLS_Fault_Rain    1
+#define LIN_SIGNAL_SIZE_LI0_RLS_Fault_Rain    1
+#define LIN_FLAG_BYTE_OFFSET_LI0_RLS_Fault_Rain    0
+#define LIN_FLAG_BIT_OFFSET_LI0_RLS_Fault_Rain    5
+#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_Fault_Rain    0
 
-#define LIN_BYTE_OFFSET_LI0_RLS_LightSensorInstalled    3
-#define LIN_BIT_OFFSET_LI0_RLS_LightSensorInstalled    5
-#define LIN_SIGNAL_SIZE_LI0_RLS_LightSensorInstalled    1
-#define LIN_FLAG_BYTE_OFFSET_LI0_RLS_LightSensorInstalled    2
-#define LIN_FLAG_BIT_OFFSET_LI0_RLS_LightSensorInstalled    2
-#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_LightSensorInstalled    1
+#define LIN_BYTE_OFFSET_LI0_RLS_Fault_Light    1
+#define LIN_BIT_OFFSET_LI0_RLS_Fault_Light    2
+#define LIN_SIGNAL_SIZE_LI0_RLS_Fault_Light    1
+#define LIN_FLAG_BYTE_OFFSET_LI0_RLS_Fault_Light    0
+#define LIN_FLAG_BIT_OFFSET_LI0_RLS_Fault_Light    6
+#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_Fault_Light    0
 
-#define LIN_BYTE_OFFSET_LI0_RLS_LightSensorError    3
-#define LIN_BIT_OFFSET_LI0_RLS_LightSensorError    6
-#define LIN_SIGNAL_SIZE_LI0_RLS_LightSensorError    1
-#define LIN_FLAG_BYTE_OFFSET_LI0_RLS_LightSensorError    2
-#define LIN_FLAG_BIT_OFFSET_LI0_RLS_LightSensorError    3
-#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_LightSensorError    1
+#define LIN_BYTE_OFFSET_LI0_RLS_REP_Error    1
+#define LIN_BIT_OFFSET_LI0_RLS_REP_Error    3
+#define LIN_SIGNAL_SIZE_LI0_RLS_REP_Error    1
+#define LIN_FLAG_BYTE_OFFSET_LI0_RLS_REP_Error    0
+#define LIN_FLAG_BIT_OFFSET_LI0_RLS_REP_Error    7
+#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_REP_Error    0
 
-#define LIN_BYTE_OFFSET_LI0_RLS_HumiditySensorInstalled    3
-#define LIN_BIT_OFFSET_LI0_RLS_HumiditySensorInstalled    7
-#define LIN_SIGNAL_SIZE_LI0_RLS_HumiditySensorInstalled    1
-#define LIN_FLAG_BYTE_OFFSET_LI0_RLS_HumiditySensorInstalled    2
-#define LIN_FLAG_BIT_OFFSET_LI0_RLS_HumiditySensorInstalled    4
-#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_HumiditySensorInstalled    1
+#define LIN_BYTE_OFFSET_LI0_RLS_VOLT_Error    1
+#define LIN_BIT_OFFSET_LI0_RLS_VOLT_Error    4
+#define LIN_SIGNAL_SIZE_LI0_RLS_VOLT_Error    2
+#define LIN_FLAG_BYTE_OFFSET_LI0_RLS_VOLT_Error    1
+#define LIN_FLAG_BIT_OFFSET_LI0_RLS_VOLT_Error    0
+#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_VOLT_Error    0
 
-#define LIN_BYTE_OFFSET_LI0_RLS_Amb_Value    4
-#define LIN_BIT_OFFSET_LI0_RLS_Amb_Value    0
-#define LIN_SIGNAL_SIZE_LI0_RLS_Amb_Value    8
-#define LIN_FLAG_BYTE_OFFSET_LI0_RLS_Amb_Value    2
-#define LIN_FLAG_BIT_OFFSET_LI0_RLS_Amb_Value    5
-#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_Amb_Value    1
+#define LIN_BYTE_OFFSET_LI0_RLS_Humid_Temp_Error    1
+#define LIN_BIT_OFFSET_LI0_RLS_Humid_Temp_Error    6
+#define LIN_SIGNAL_SIZE_LI0_RLS_Humid_Temp_Error    1
+#define LIN_FLAG_BYTE_OFFSET_LI0_RLS_Humid_Temp_Error    1
+#define LIN_FLAG_BIT_OFFSET_LI0_RLS_Humid_Temp_Error    1
+#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_Humid_Temp_Error    0
 
-#define LIN_BYTE_OFFSET_LI0_RLS_FW_Value    5
-#define LIN_BIT_OFFSET_LI0_RLS_FW_Value    0
-#define LIN_SIGNAL_SIZE_LI0_RLS_FW_Value    8
-#define LIN_FLAG_BYTE_OFFSET_LI0_RLS_FW_Value    2
-#define LIN_FLAG_BIT_OFFSET_LI0_RLS_FW_Value    6
-#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_FW_Value    1
+#define LIN_BYTE_OFFSET_LI0_RLS_Brightness_IR_L    2
+#define LIN_BIT_OFFSET_LI0_RLS_Brightness_IR_L    0
+#define LIN_SIGNAL_SIZE_LI0_RLS_Brightness_IR_L    8
+#define LIN_FLAG_BYTE_OFFSET_LI0_RLS_Brightness_IR_L    1
+#define LIN_FLAG_BIT_OFFSET_LI0_RLS_Brightness_IR_L    2
+#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_Brightness_IR_L    0
 
-#define LIN_BYTE_OFFSET_LI0_RLHS_COM_Continue_req    6
-#define LIN_BIT_OFFSET_LI0_RLHS_COM_Continue_req    0
-#define LIN_SIGNAL_SIZE_LI0_RLHS_COM_Continue_req    1
-#define LIN_FLAG_BYTE_OFFSET_LI0_RLHS_COM_Continue_req    3
-#define LIN_FLAG_BIT_OFFSET_LI0_RLHS_COM_Continue_req    1
-#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLHS_COM_Continue_req    2
+#define LIN_BYTE_OFFSET_LI0_RLS_Brightness_FW    3
+#define LIN_BIT_OFFSET_LI0_RLS_Brightness_FW    0
+#define LIN_SIGNAL_SIZE_LI0_RLS_Brightness_FW    10
+#define LIN_FLAG_BYTE_OFFSET_LI0_RLS_Brightness_FW    1
+#define LIN_FLAG_BIT_OFFSET_LI0_RLS_Brightness_FW    3
+#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_Brightness_FW    0
 
-#define LIN_BYTE_OFFSET_LI0_RLHS_Diagnostic_Req    6
-#define LIN_BIT_OFFSET_LI0_RLHS_Diagnostic_Req    1
-#define LIN_SIGNAL_SIZE_LI0_RLHS_Diagnostic_Req    1
-#define LIN_FLAG_BYTE_OFFSET_LI0_RLHS_Diagnostic_Req    3
-#define LIN_FLAG_BIT_OFFSET_LI0_RLHS_Diagnostic_Req    2
-#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLHS_Diagnostic_Req    2
+#define LIN_BYTE_OFFSET_LI0_RLS_Rain_Intensity    4
+#define LIN_BIT_OFFSET_LI0_RLS_Rain_Intensity    2
+#define LIN_SIGNAL_SIZE_LI0_RLS_Rain_Intensity    4
+#define LIN_FLAG_BYTE_OFFSET_LI0_RLS_Rain_Intensity    1
+#define LIN_FLAG_BIT_OFFSET_LI0_RLS_Rain_Intensity    4
+#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_Rain_Intensity    0
 
-#define LIN_BYTE_OFFSET_LI0_RLHS_APP_Reset_Atatus    6
-#define LIN_BIT_OFFSET_LI0_RLHS_APP_Reset_Atatus    2
-#define LIN_SIGNAL_SIZE_LI0_RLHS_APP_Reset_Atatus    1
-#define LIN_FLAG_BYTE_OFFSET_LI0_RLHS_APP_Reset_Atatus    3
-#define LIN_FLAG_BIT_OFFSET_LI0_RLHS_APP_Reset_Atatus    3
-#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLHS_APP_Reset_Atatus    2
+#define LIN_BYTE_OFFSET_LI0_RLS_Brightness_IR_R    5
+#define LIN_BIT_OFFSET_LI0_RLS_Brightness_IR_R    0
+#define LIN_SIGNAL_SIZE_LI0_RLS_Brightness_IR_R    8
+#define LIN_FLAG_BYTE_OFFSET_LI0_RLS_Brightness_IR_R    1
+#define LIN_FLAG_BIT_OFFSET_LI0_RLS_Brightness_IR_R    5
+#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_Brightness_IR_R    0
 
-#define LIN_BYTE_OFFSET_LI0_RLHS_APP_Configuration    6
-#define LIN_BIT_OFFSET_LI0_RLHS_APP_Configuration    3
-#define LIN_SIGNAL_SIZE_LI0_RLHS_APP_Configuration    1
-#define LIN_FLAG_BYTE_OFFSET_LI0_RLHS_APP_Configuration    3
-#define LIN_FLAG_BIT_OFFSET_LI0_RLHS_APP_Configuration    4
-#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLHS_APP_Configuration    2
+#define LIN_BYTE_OFFSET_LI0_RLS_Temperature    6
+#define LIN_BIT_OFFSET_LI0_RLS_Temperature    0
+#define LIN_SIGNAL_SIZE_LI0_RLS_Temperature    8
+#define LIN_FLAG_BYTE_OFFSET_LI0_RLS_Temperature    1
+#define LIN_FLAG_BIT_OFFSET_LI0_RLS_Temperature    6
+#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_Temperature    0
 
-#define LIN_BYTE_OFFSET_LI0_RLHS_APP_Status    6
-#define LIN_BIT_OFFSET_LI0_RLHS_APP_Status    4
-#define LIN_SIGNAL_SIZE_LI0_RLHS_APP_Status    1
-#define LIN_FLAG_BYTE_OFFSET_LI0_RLHS_APP_Status    3
-#define LIN_FLAG_BIT_OFFSET_LI0_RLHS_APP_Status    5
-#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLHS_APP_Status    2
-
-#define LIN_BYTE_OFFSET_LI0_RLHS_Comunicate_Status    6
-#define LIN_BIT_OFFSET_LI0_RLHS_Comunicate_Status    5
-#define LIN_SIGNAL_SIZE_LI0_RLHS_Comunicate_Status    3
-#define LIN_FLAG_BYTE_OFFSET_LI0_RLHS_Comunicate_Status    3
-#define LIN_FLAG_BIT_OFFSET_LI0_RLHS_Comunicate_Status    6
-#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLHS_Comunicate_Status    2
-
-#define LIN_BYTE_OFFSET_LI0_RLHS_Humidity_Temp    7
-#define LIN_BIT_OFFSET_LI0_RLHS_Humidity_Temp    0
-#define LIN_SIGNAL_SIZE_LI0_RLHS_Humidity_Temp    10
-#define LIN_FLAG_BYTE_OFFSET_LI0_RLHS_Humidity_Temp    3
-#define LIN_FLAG_BIT_OFFSET_LI0_RLHS_Humidity_Temp    7
-#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLHS_Humidity_Temp    2
-
-#define LIN_BYTE_OFFSET_LI0_RLHS_Humidity_Temp_Validity    8
-#define LIN_BIT_OFFSET_LI0_RLHS_Humidity_Temp_Validity    2
-#define LIN_SIGNAL_SIZE_LI0_RLHS_Humidity_Temp_Validity    1
-#define LIN_FLAG_BYTE_OFFSET_LI0_RLHS_Humidity_Temp_Validity    4
-#define LIN_FLAG_BIT_OFFSET_LI0_RLHS_Humidity_Temp_Validity    0
-#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLHS_Humidity_Temp_Validity    2
-
-#define LIN_BYTE_OFFSET_LI0_RLHS_Sensor_Fault    8
-#define LIN_BIT_OFFSET_LI0_RLHS_Sensor_Fault    3
-#define LIN_SIGNAL_SIZE_LI0_RLHS_Sensor_Fault    1
-#define LIN_FLAG_BYTE_OFFSET_LI0_RLHS_Sensor_Fault    4
-#define LIN_FLAG_BIT_OFFSET_LI0_RLHS_Sensor_Fault    1
-#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLHS_Sensor_Fault    2
-
-#define LIN_BYTE_OFFSET_LI0_RLHS_Unused_bit    8
-#define LIN_BIT_OFFSET_LI0_RLHS_Unused_bit    4
-#define LIN_SIGNAL_SIZE_LI0_RLHS_Unused_bit    3
-#define LIN_FLAG_BYTE_OFFSET_LI0_RLHS_Unused_bit    4
-#define LIN_FLAG_BIT_OFFSET_LI0_RLHS_Unused_bit    2
-#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLHS_Unused_bit    2
-
-#define LIN_BYTE_OFFSET_LI0_RLHS_Sensor_Humidity_Validity    8
-#define LIN_BIT_OFFSET_LI0_RLHS_Sensor_Humidity_Validity    7
-#define LIN_SIGNAL_SIZE_LI0_RLHS_Sensor_Humidity_Validity    1
-#define LIN_FLAG_BYTE_OFFSET_LI0_RLHS_Sensor_Humidity_Validity    4
-#define LIN_FLAG_BIT_OFFSET_LI0_RLHS_Sensor_Humidity_Validity    3
-#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLHS_Sensor_Humidity_Validity    2
-
-#define LIN_BYTE_OFFSET_LI0_RLHS_Humindity_Value    9
-#define LIN_BIT_OFFSET_LI0_RLHS_Humindity_Value    0
-#define LIN_SIGNAL_SIZE_LI0_RLHS_Humindity_Value    8
-#define LIN_FLAG_BYTE_OFFSET_LI0_RLHS_Humindity_Value    4
-#define LIN_FLAG_BIT_OFFSET_LI0_RLHS_Humindity_Value    4
-#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLHS_Humindity_Value    2
-
-#define LIN_BYTE_OFFSET_LI0_RLHS01_Continue_Req    10
-#define LIN_BIT_OFFSET_LI0_RLHS01_Continue_Req    0
-#define LIN_SIGNAL_SIZE_LI0_RLHS01_Continue_Req    1
-#define LIN_FLAG_BYTE_OFFSET_LI0_RLHS01_Continue_Req    5
-#define LIN_FLAG_BIT_OFFSET_LI0_RLHS01_Continue_Req    1
-#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLHS01_Continue_Req    3
-
-#define LIN_BYTE_OFFSET_LI0_RLHS01_Diagnostic_Req    10
-#define LIN_BIT_OFFSET_LI0_RLHS01_Diagnostic_Req    1
-#define LIN_SIGNAL_SIZE_LI0_RLHS01_Diagnostic_Req    1
-#define LIN_FLAG_BYTE_OFFSET_LI0_RLHS01_Diagnostic_Req    5
-#define LIN_FLAG_BIT_OFFSET_LI0_RLHS01_Diagnostic_Req    2
-#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLHS01_Diagnostic_Req    3
-
-#define LIN_BYTE_OFFSET_LI0_RLHS01_APP_Reset    10
-#define LIN_BIT_OFFSET_LI0_RLHS01_APP_Reset    2
-#define LIN_SIGNAL_SIZE_LI0_RLHS01_APP_Reset    1
-#define LIN_FLAG_BYTE_OFFSET_LI0_RLHS01_APP_Reset    5
-#define LIN_FLAG_BIT_OFFSET_LI0_RLHS01_APP_Reset    3
-#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLHS01_APP_Reset    3
-
-#define LIN_BYTE_OFFSET_LI0_RLHS01_APP_configuration    10
-#define LIN_BIT_OFFSET_LI0_RLHS01_APP_configuration    3
-#define LIN_SIGNAL_SIZE_LI0_RLHS01_APP_configuration    1
-#define LIN_FLAG_BYTE_OFFSET_LI0_RLHS01_APP_configuration    5
-#define LIN_FLAG_BIT_OFFSET_LI0_RLHS01_APP_configuration    4
-#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLHS01_APP_configuration    3
-
-#define LIN_BYTE_OFFSET_LI0_RLHS01_APP_Status    10
-#define LIN_BIT_OFFSET_LI0_RLHS01_APP_Status    4
-#define LIN_SIGNAL_SIZE_LI0_RLHS01_APP_Status    1
-#define LIN_FLAG_BYTE_OFFSET_LI0_RLHS01_APP_Status    5
-#define LIN_FLAG_BIT_OFFSET_LI0_RLHS01_APP_Status    5
-#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLHS01_APP_Status    3
-
-#define LIN_BYTE_OFFSET_LI0_RLHS01_Comunication_Status    10
-#define LIN_BIT_OFFSET_LI0_RLHS01_Comunication_Status    5
-#define LIN_SIGNAL_SIZE_LI0_RLHS01_Comunication_Status    3
-#define LIN_FLAG_BYTE_OFFSET_LI0_RLHS01_Comunication_Status    5
-#define LIN_FLAG_BIT_OFFSET_LI0_RLHS01_Comunication_Status    6
-#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLHS01_Comunication_Status    3
-
-#define LIN_BYTE_OFFSET_LI0_RLHS01_Temp01    11
-#define LIN_BIT_OFFSET_LI0_RLHS01_Temp01    0
-#define LIN_SIGNAL_SIZE_LI0_RLHS01_Temp01    10
-#define LIN_FLAG_BYTE_OFFSET_LI0_RLHS01_Temp01    5
-#define LIN_FLAG_BIT_OFFSET_LI0_RLHS01_Temp01    7
-#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLHS01_Temp01    3
-
-#define LIN_BYTE_OFFSET_LI0_RLHS01_Sensor_Vaility    12
-#define LIN_BIT_OFFSET_LI0_RLHS01_Sensor_Vaility    2
-#define LIN_SIGNAL_SIZE_LI0_RLHS01_Sensor_Vaility    1
-#define LIN_FLAG_BYTE_OFFSET_LI0_RLHS01_Sensor_Vaility    6
-#define LIN_FLAG_BIT_OFFSET_LI0_RLHS01_Sensor_Vaility    0
-#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLHS01_Sensor_Vaility    3
-
-#define LIN_BYTE_OFFSET_LI0_RLHS01_Unused    12
-#define LIN_BIT_OFFSET_LI0_RLHS01_Unused    3
-#define LIN_SIGNAL_SIZE_LI0_RLHS01_Unused    5
-#define LIN_FLAG_BYTE_OFFSET_LI0_RLHS01_Unused    6
-#define LIN_FLAG_BIT_OFFSET_LI0_RLHS01_Unused    1
-#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLHS01_Unused    3
+#define LIN_BYTE_OFFSET_LI0_RLS_Humid    7
+#define LIN_BIT_OFFSET_LI0_RLS_Humid    0
+#define LIN_SIGNAL_SIZE_LI0_RLS_Humid    8
+#define LIN_FLAG_BYTE_OFFSET_LI0_RLS_Humid    1
+#define LIN_FLAG_BIT_OFFSET_LI0_RLS_Humid    7
+#define LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_Humid    0
 
 
 
 
-#define LIN_FLAG_BYTE_OFFSET_LI0_BCM_01             0
-#define LIN_FLAG_BIT_OFFSET_LI0_BCM_01              0
-
-#define LIN_FLAG_BYTE_OFFSET_LI0_RLS_01             1
+#define LIN_FLAG_BYTE_OFFSET_LI0_RLS_01             0
 #define LIN_FLAG_BIT_OFFSET_LI0_RLS_01              0
 
-#define LIN_FLAG_BYTE_OFFSET_LI0_RLHS             3
-#define LIN_FLAG_BIT_OFFSET_LI0_RLHS              0
-
-#define LIN_FLAG_BYTE_OFFSET_LI0_RLHS01             5
-#define LIN_FLAG_BIT_OFFSET_LI0_RLHS01              0
+#define LIN_FLAG_BYTE_OFFSET_LI0_BCM_01             2
+#define LIN_FLAG_BIT_OFFSET_LI0_BCM_01              0
 
 
 /**********************************************************************/
@@ -550,41 +405,53 @@ typedef enum {
  */
 
 
-/* static access macros for signal LI0_BCM_WiperPosition */
-#define l_bool_rd_LI0_BCM_WiperPosition() \
-   	(LIN_TEST_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_BCM_WiperPosition], \
-   	LIN_BIT_OFFSET_LI0_BCM_WiperPosition))
-#define l_bool_wr_LI0_BCM_WiperPosition(A) \
-	{(A) ? \
-  	(LIN_SET_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_BCM_WiperPosition], \
-  	LIN_BIT_OFFSET_LI0_BCM_WiperPosition)):\
-  	(LIN_CLEAR_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_BCM_WiperPosition], \
-  	LIN_BIT_OFFSET_LI0_BCM_WiperPosition));\
-  	lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_BCM_WiperPosition] = 1;}
+/* static access macros for signal LI0_BCM_Status_IGN */
+#define l_u8_rd_LI0_BCM_Status_IGN() \
+    ((l_u8) ((lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_BCM_Status_IGN] & \
+    (((1U << LIN_SIGNAL_SIZE_LI0_BCM_Status_IGN) - 1) \
+    << LIN_BIT_OFFSET_LI0_BCM_Status_IGN )) >> LIN_BIT_OFFSET_LI0_BCM_Status_IGN))
+#define l_u8_wr_LI0_BCM_Status_IGN(A) \
+    {lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_BCM_Status_IGN] = \
+    ((l_u8) (((l_u8) (lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_BCM_Status_IGN] & \
+    ((l_u8) (~(((1U << LIN_SIGNAL_SIZE_LI0_BCM_Status_IGN) - 1) << LIN_BIT_OFFSET_LI0_BCM_Status_IGN)))))  | \
+    ((l_u8) ((((1U << LIN_SIGNAL_SIZE_LI0_BCM_Status_IGN) - 1) & (A)) << LIN_BIT_OFFSET_LI0_BCM_Status_IGN))));\
+    lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_BCM_Status_IGN] = 1;}
 
-/* static access macros for signal LI0_BCM_Washer */
-#define l_bool_rd_LI0_BCM_Washer() \
-   	(LIN_TEST_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_BCM_Washer], \
-   	LIN_BIT_OFFSET_LI0_BCM_Washer))
-#define l_bool_wr_LI0_BCM_Washer(A) \
+/* static access macros for signal LI0_BCM_CMD_AutoWiper */
+#define l_bool_rd_LI0_BCM_CMD_AutoWiper() \
+   	(LIN_TEST_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_BCM_CMD_AutoWiper], \
+   	LIN_BIT_OFFSET_LI0_BCM_CMD_AutoWiper))
+#define l_bool_wr_LI0_BCM_CMD_AutoWiper(A) \
 	{(A) ? \
-  	(LIN_SET_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_BCM_Washer], \
-  	LIN_BIT_OFFSET_LI0_BCM_Washer)):\
-  	(LIN_CLEAR_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_BCM_Washer], \
-  	LIN_BIT_OFFSET_LI0_BCM_Washer));\
-  	lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_BCM_Washer] = 1;}
+  	(LIN_SET_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_BCM_CMD_AutoWiper], \
+  	LIN_BIT_OFFSET_LI0_BCM_CMD_AutoWiper)):\
+  	(LIN_CLEAR_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_BCM_CMD_AutoWiper], \
+  	LIN_BIT_OFFSET_LI0_BCM_CMD_AutoWiper));\
+  	lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_BCM_CMD_AutoWiper] = 1;}
 
-/* static access macros for signal LI0_BCM_Amb_LV */
-#define l_u8_rd_LI0_BCM_Amb_LV() \
-    ((l_u8) ((lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_BCM_Amb_LV] & \
-    (((1U << LIN_SIGNAL_SIZE_LI0_BCM_Amb_LV) - 1) \
-    << LIN_BIT_OFFSET_LI0_BCM_Amb_LV )) >> LIN_BIT_OFFSET_LI0_BCM_Amb_LV))
-#define l_u8_wr_LI0_BCM_Amb_LV(A) \
-    {lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_BCM_Amb_LV] = \
-    ((l_u8) (((l_u8) (lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_BCM_Amb_LV] & \
-    ((l_u8) (~(((1U << LIN_SIGNAL_SIZE_LI0_BCM_Amb_LV) - 1) << LIN_BIT_OFFSET_LI0_BCM_Amb_LV)))))  | \
-    ((l_u8) ((((1U << LIN_SIGNAL_SIZE_LI0_BCM_Amb_LV) - 1) & (A)) << LIN_BIT_OFFSET_LI0_BCM_Amb_LV))));\
-    lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_BCM_Amb_LV] = 1;}
+/* static access macros for signal LI0_BCM_RQ_FrontWash */
+#define l_bool_rd_LI0_BCM_RQ_FrontWash() \
+   	(LIN_TEST_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_BCM_RQ_FrontWash], \
+   	LIN_BIT_OFFSET_LI0_BCM_RQ_FrontWash))
+#define l_bool_wr_LI0_BCM_RQ_FrontWash(A) \
+	{(A) ? \
+  	(LIN_SET_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_BCM_RQ_FrontWash], \
+  	LIN_BIT_OFFSET_LI0_BCM_RQ_FrontWash)):\
+  	(LIN_CLEAR_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_BCM_RQ_FrontWash], \
+  	LIN_BIT_OFFSET_LI0_BCM_RQ_FrontWash));\
+  	lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_BCM_RQ_FrontWash] = 1;}
+
+/* static access macros for signal LI0_BCM_ParkPosition */
+#define l_bool_rd_LI0_BCM_ParkPosition() \
+   	(LIN_TEST_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_BCM_ParkPosition], \
+   	LIN_BIT_OFFSET_LI0_BCM_ParkPosition))
+#define l_bool_wr_LI0_BCM_ParkPosition(A) \
+	{(A) ? \
+  	(LIN_SET_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_BCM_ParkPosition], \
+  	LIN_BIT_OFFSET_LI0_BCM_ParkPosition)):\
+  	(LIN_CLEAR_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_BCM_ParkPosition], \
+  	LIN_BIT_OFFSET_LI0_BCM_ParkPosition));\
+  	lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_BCM_ParkPosition] = 1;}
 
 /* static access macros for signal LI0_BCM_RainSensitivity */
 #define l_u8_rd_LI0_BCM_RainSensitivity() \
@@ -598,463 +465,278 @@ typedef enum {
     ((l_u8) ((((1U << LIN_SIGNAL_SIZE_LI0_BCM_RainSensitivity) - 1) & (A)) << LIN_BIT_OFFSET_LI0_BCM_RainSensitivity))));\
     lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_BCM_RainSensitivity] = 1;}
 
-/* static access macros for signal LI0_BCM_VehicleSpeed */
-#define l_u8_rd_LI0_BCM_VehicleSpeed() \
-    ((l_u8) ((lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_BCM_VehicleSpeed] & \
-    (((1U << LIN_SIGNAL_SIZE_LI0_BCM_VehicleSpeed) - 1) \
-    << LIN_BIT_OFFSET_LI0_BCM_VehicleSpeed )) >> LIN_BIT_OFFSET_LI0_BCM_VehicleSpeed))
-#define l_u8_wr_LI0_BCM_VehicleSpeed(A) \
-    {lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_BCM_VehicleSpeed] = \
-    ((l_u8) (((l_u8) (lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_BCM_VehicleSpeed] & \
-    ((l_u8) (~(((1U << LIN_SIGNAL_SIZE_LI0_BCM_VehicleSpeed) - 1) << LIN_BIT_OFFSET_LI0_BCM_VehicleSpeed)))))  | \
-    ((l_u8) ((((1U << LIN_SIGNAL_SIZE_LI0_BCM_VehicleSpeed) - 1) & (A)) << LIN_BIT_OFFSET_LI0_BCM_VehicleSpeed))));\
-    lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_BCM_VehicleSpeed] = 1;}
-
-/* static access macros for signal LI0_RLS_ContinuteReq */
-#define l_bool_rd_LI0_RLS_ContinuteReq() \
-   	(LIN_TEST_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_ContinuteReq], \
-   	LIN_BIT_OFFSET_LI0_RLS_ContinuteReq))
-#define l_bool_wr_LI0_RLS_ContinuteReq(A) \
+/* static access macros for signal LI0_BCM_CMD_AutoLight */
+#define l_bool_rd_LI0_BCM_CMD_AutoLight() \
+   	(LIN_TEST_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_BCM_CMD_AutoLight], \
+   	LIN_BIT_OFFSET_LI0_BCM_CMD_AutoLight))
+#define l_bool_wr_LI0_BCM_CMD_AutoLight(A) \
 	{(A) ? \
-  	(LIN_SET_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_ContinuteReq], \
-  	LIN_BIT_OFFSET_LI0_RLS_ContinuteReq)):\
-  	(LIN_CLEAR_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_ContinuteReq], \
-  	LIN_BIT_OFFSET_LI0_RLS_ContinuteReq));\
-  	lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_ContinuteReq] = 1;}
+  	(LIN_SET_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_BCM_CMD_AutoLight], \
+  	LIN_BIT_OFFSET_LI0_BCM_CMD_AutoLight)):\
+  	(LIN_CLEAR_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_BCM_CMD_AutoLight], \
+  	LIN_BIT_OFFSET_LI0_BCM_CMD_AutoLight));\
+  	lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_BCM_CMD_AutoLight] = 1;}
 
-/* static access macros for signal LI0_RLS_DiagnnosticReq */
-#define l_bool_rd_LI0_RLS_DiagnnosticReq() \
-   	(LIN_TEST_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_DiagnnosticReq], \
-   	LIN_BIT_OFFSET_LI0_RLS_DiagnnosticReq))
-#define l_bool_wr_LI0_RLS_DiagnnosticReq(A) \
+/* static access macros for signal LI0_BCM_BladesTurningPoint */
+#define l_bool_rd_LI0_BCM_BladesTurningPoint() \
+   	(LIN_TEST_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_BCM_BladesTurningPoint], \
+   	LIN_BIT_OFFSET_LI0_BCM_BladesTurningPoint))
+#define l_bool_wr_LI0_BCM_BladesTurningPoint(A) \
 	{(A) ? \
-  	(LIN_SET_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_DiagnnosticReq], \
-  	LIN_BIT_OFFSET_LI0_RLS_DiagnnosticReq)):\
-  	(LIN_CLEAR_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_DiagnnosticReq], \
-  	LIN_BIT_OFFSET_LI0_RLS_DiagnnosticReq));\
-  	lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_DiagnnosticReq] = 1;}
+  	(LIN_SET_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_BCM_BladesTurningPoint], \
+  	LIN_BIT_OFFSET_LI0_BCM_BladesTurningPoint)):\
+  	(LIN_CLEAR_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_BCM_BladesTurningPoint], \
+  	LIN_BIT_OFFSET_LI0_BCM_BladesTurningPoint));\
+  	lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_BCM_BladesTurningPoint] = 1;}
 
-/* static access macros for signal LI0_RLS_AppResetStatus */
-#define l_bool_rd_LI0_RLS_AppResetStatus() \
-   	(LIN_TEST_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_AppResetStatus], \
-   	LIN_BIT_OFFSET_LI0_RLS_AppResetStatus))
-#define l_bool_wr_LI0_RLS_AppResetStatus(A) \
+/* static access macros for signal LI0_BCM_RoofStatus */
+#define l_bool_rd_LI0_BCM_RoofStatus() \
+   	(LIN_TEST_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_BCM_RoofStatus], \
+   	LIN_BIT_OFFSET_LI0_BCM_RoofStatus))
+#define l_bool_wr_LI0_BCM_RoofStatus(A) \
 	{(A) ? \
-  	(LIN_SET_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_AppResetStatus], \
-  	LIN_BIT_OFFSET_LI0_RLS_AppResetStatus)):\
-  	(LIN_CLEAR_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_AppResetStatus], \
-  	LIN_BIT_OFFSET_LI0_RLS_AppResetStatus));\
-  	lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_AppResetStatus] = 1;}
+  	(LIN_SET_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_BCM_RoofStatus], \
+  	LIN_BIT_OFFSET_LI0_BCM_RoofStatus)):\
+  	(LIN_CLEAR_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_BCM_RoofStatus], \
+  	LIN_BIT_OFFSET_LI0_BCM_RoofStatus));\
+  	lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_BCM_RoofStatus] = 1;}
 
-/* static access macros for signal LI0_RLS_AppConfigurationStatus */
-#define l_bool_rd_LI0_RLS_AppConfigurationStatus() \
-   	(LIN_TEST_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_AppConfigurationStatus], \
-   	LIN_BIT_OFFSET_LI0_RLS_AppConfigurationStatus))
-#define l_bool_wr_LI0_RLS_AppConfigurationStatus(A) \
+/* static access macros for signal LI0_BCM_SPD_Vehicle */
+#define l_u16_rd_LI0_BCM_SPD_Vehicle() \
+    ((l_u16) ((lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_BCM_SPD_Vehicle + 1] & 0x1f) << 8) + ((l_u16) (lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_BCM_SPD_Vehicle]) >> 0x00))
+#define l_u16_wr_LI0_BCM_SPD_Vehicle(A) \
+    {lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_BCM_SPD_Vehicle + 1] = \
+	((l_u8) (((l_u8) (lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_BCM_SPD_Vehicle + 1] &  (0xe0))) | \
+	((l_u8) ((l_u8) ((A) >> 8)) & 0x1f))); \
+	lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_BCM_SPD_Vehicle] = \
+	((l_u8) (((l_u8) (lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_BCM_SPD_Vehicle] & (0x00))) | \
+	((l_u8) (A) << LIN_BIT_OFFSET_LI0_BCM_SPD_Vehicle))); \
+	lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_BCM_SPD_Vehicle] = 1;}
+
+/* static access macros for signal LI0_BCM_OutsideTemp */
+#define l_u8_rd_LI0_BCM_OutsideTemp() \
+    ((l_u8) ((lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_BCM_OutsideTemp] & \
+    (((1U << LIN_SIGNAL_SIZE_LI0_BCM_OutsideTemp) - 1) \
+    << LIN_BIT_OFFSET_LI0_BCM_OutsideTemp )) >> LIN_BIT_OFFSET_LI0_BCM_OutsideTemp))
+#define l_u8_wr_LI0_BCM_OutsideTemp(A) \
+    {lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_BCM_OutsideTemp] = \
+    ((l_u8) (((l_u8) (lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_BCM_OutsideTemp] & \
+    ((l_u8) (~(((1U << LIN_SIGNAL_SIZE_LI0_BCM_OutsideTemp) - 1) << LIN_BIT_OFFSET_LI0_BCM_OutsideTemp)))))  | \
+    ((l_u8) ((((1U << LIN_SIGNAL_SIZE_LI0_BCM_OutsideTemp) - 1) & (A)) << LIN_BIT_OFFSET_LI0_BCM_OutsideTemp))));\
+    lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_BCM_OutsideTemp] = 1;}
+
+/* static access macros for signal LI0_RLS_MsgCounter */
+#define l_u8_rd_LI0_RLS_MsgCounter() \
+    ((l_u8) ((lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_MsgCounter] & \
+    (((1U << LIN_SIGNAL_SIZE_LI0_RLS_MsgCounter) - 1) \
+    << LIN_BIT_OFFSET_LI0_RLS_MsgCounter )) >> LIN_BIT_OFFSET_LI0_RLS_MsgCounter))
+#define l_u8_wr_LI0_RLS_MsgCounter(A) \
+    {lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_MsgCounter] = \
+    ((l_u8) (((l_u8) (lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_MsgCounter] & \
+    ((l_u8) (~(((1U << LIN_SIGNAL_SIZE_LI0_RLS_MsgCounter) - 1) << LIN_BIT_OFFSET_LI0_RLS_MsgCounter)))))  | \
+    ((l_u8) ((((1U << LIN_SIGNAL_SIZE_LI0_RLS_MsgCounter) - 1) & (A)) << LIN_BIT_OFFSET_LI0_RLS_MsgCounter))));\
+    lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_MsgCounter] = 1;}
+
+/* static access macros for signal LI0_RLS_RQ_WiperSPD */
+#define l_u8_rd_LI0_RLS_RQ_WiperSPD() \
+    ((l_u8) ((lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_RQ_WiperSPD] & \
+    (((1U << LIN_SIGNAL_SIZE_LI0_RLS_RQ_WiperSPD) - 1) \
+    << LIN_BIT_OFFSET_LI0_RLS_RQ_WiperSPD )) >> LIN_BIT_OFFSET_LI0_RLS_RQ_WiperSPD))
+#define l_u8_wr_LI0_RLS_RQ_WiperSPD(A) \
+    {lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_RQ_WiperSPD] = \
+    ((l_u8) (((l_u8) (lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_RQ_WiperSPD] & \
+    ((l_u8) (~(((1U << LIN_SIGNAL_SIZE_LI0_RLS_RQ_WiperSPD) - 1) << LIN_BIT_OFFSET_LI0_RLS_RQ_WiperSPD)))))  | \
+    ((l_u8) ((((1U << LIN_SIGNAL_SIZE_LI0_RLS_RQ_WiperSPD) - 1) & (A)) << LIN_BIT_OFFSET_LI0_RLS_RQ_WiperSPD))));\
+    lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_RQ_WiperSPD] = 1;}
+
+/* static access macros for signal LI0_RLS_RQ_LowBeam */
+#define l_bool_rd_LI0_RLS_RQ_LowBeam() \
+   	(LIN_TEST_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_RQ_LowBeam], \
+   	LIN_BIT_OFFSET_LI0_RLS_RQ_LowBeam))
+#define l_bool_wr_LI0_RLS_RQ_LowBeam(A) \
 	{(A) ? \
-  	(LIN_SET_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_AppConfigurationStatus], \
-  	LIN_BIT_OFFSET_LI0_RLS_AppConfigurationStatus)):\
-  	(LIN_CLEAR_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_AppConfigurationStatus], \
-  	LIN_BIT_OFFSET_LI0_RLS_AppConfigurationStatus));\
-  	lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_AppConfigurationStatus] = 1;}
+  	(LIN_SET_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_RQ_LowBeam], \
+  	LIN_BIT_OFFSET_LI0_RLS_RQ_LowBeam)):\
+  	(LIN_CLEAR_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_RQ_LowBeam], \
+  	LIN_BIT_OFFSET_LI0_RLS_RQ_LowBeam));\
+  	lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_RQ_LowBeam] = 1;}
 
-/* static access macros for signal LI0_RLS_AppStatus */
-#define l_bool_rd_LI0_RLS_AppStatus() \
-   	(LIN_TEST_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_AppStatus], \
-   	LIN_BIT_OFFSET_LI0_RLS_AppStatus))
-#define l_bool_wr_LI0_RLS_AppStatus(A) \
+/* static access macros for signal LI0_RLS_RQ_PositionLamp */
+#define l_bool_rd_LI0_RLS_RQ_PositionLamp() \
+   	(LIN_TEST_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_RQ_PositionLamp], \
+   	LIN_BIT_OFFSET_LI0_RLS_RQ_PositionLamp))
+#define l_bool_wr_LI0_RLS_RQ_PositionLamp(A) \
 	{(A) ? \
-  	(LIN_SET_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_AppStatus], \
-  	LIN_BIT_OFFSET_LI0_RLS_AppStatus)):\
-  	(LIN_CLEAR_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_AppStatus], \
-  	LIN_BIT_OFFSET_LI0_RLS_AppStatus));\
-  	lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_AppStatus] = 1;}
+  	(LIN_SET_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_RQ_PositionLamp], \
+  	LIN_BIT_OFFSET_LI0_RLS_RQ_PositionLamp)):\
+  	(LIN_CLEAR_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_RQ_PositionLamp], \
+  	LIN_BIT_OFFSET_LI0_RLS_RQ_PositionLamp));\
+  	lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_RQ_PositionLamp] = 1;}
 
-/* static access macros for signal LI0_RLS_LinComStatus */
-#define l_u8_rd_LI0_RLS_LinComStatus() \
-    ((l_u8) ((lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_LinComStatus] & \
-    (((1U << LIN_SIGNAL_SIZE_LI0_RLS_LinComStatus) - 1) \
-    << LIN_BIT_OFFSET_LI0_RLS_LinComStatus )) >> LIN_BIT_OFFSET_LI0_RLS_LinComStatus))
-#define l_u8_wr_LI0_RLS_LinComStatus(A) \
-    {lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_LinComStatus] = \
-    ((l_u8) (((l_u8) (lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_LinComStatus] & \
-    ((l_u8) (~(((1U << LIN_SIGNAL_SIZE_LI0_RLS_LinComStatus) - 1) << LIN_BIT_OFFSET_LI0_RLS_LinComStatus)))))  | \
-    ((l_u8) ((((1U << LIN_SIGNAL_SIZE_LI0_RLS_LinComStatus) - 1) & (A)) << LIN_BIT_OFFSET_LI0_RLS_LinComStatus))));\
-    lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_LinComStatus] = 1;}
-
-/* static access macros for signal LI0_RLS_WiperRequest */
-#define l_u8_rd_LI0_RLS_WiperRequest() \
-    ((l_u8) ((lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_WiperRequest] & \
-    (((1U << LIN_SIGNAL_SIZE_LI0_RLS_WiperRequest) - 1) \
-    << LIN_BIT_OFFSET_LI0_RLS_WiperRequest )) >> LIN_BIT_OFFSET_LI0_RLS_WiperRequest))
-#define l_u8_wr_LI0_RLS_WiperRequest(A) \
-    {lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_WiperRequest] = \
-    ((l_u8) (((l_u8) (lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_WiperRequest] & \
-    ((l_u8) (~(((1U << LIN_SIGNAL_SIZE_LI0_RLS_WiperRequest) - 1) << LIN_BIT_OFFSET_LI0_RLS_WiperRequest)))))  | \
-    ((l_u8) ((((1U << LIN_SIGNAL_SIZE_LI0_RLS_WiperRequest) - 1) & (A)) << LIN_BIT_OFFSET_LI0_RLS_WiperRequest))));\
-    lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_WiperRequest] = 1;}
-
-/* static access macros for signal LI0_RLS_Amb_LV */
-#define l_u8_rd_LI0_RLS_Amb_LV() \
-    ((l_u8) ((lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_Amb_LV] & \
-    (((1U << LIN_SIGNAL_SIZE_LI0_RLS_Amb_LV) - 1) \
-    << LIN_BIT_OFFSET_LI0_RLS_Amb_LV )) >> LIN_BIT_OFFSET_LI0_RLS_Amb_LV))
-#define l_u8_wr_LI0_RLS_Amb_LV(A) \
-    {lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_Amb_LV] = \
-    ((l_u8) (((l_u8) (lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_Amb_LV] & \
-    ((l_u8) (~(((1U << LIN_SIGNAL_SIZE_LI0_RLS_Amb_LV) - 1) << LIN_BIT_OFFSET_LI0_RLS_Amb_LV)))))  | \
-    ((l_u8) ((((1U << LIN_SIGNAL_SIZE_LI0_RLS_Amb_LV) - 1) & (A)) << LIN_BIT_OFFSET_LI0_RLS_Amb_LV))));\
-    lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_Amb_LV] = 1;}
-
-/* static access macros for signal LI0_RLS_RainSensorError */
-#define l_bool_rd_LI0_RLS_RainSensorError() \
-   	(LIN_TEST_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_RainSensorError], \
-   	LIN_BIT_OFFSET_LI0_RLS_RainSensorError))
-#define l_bool_wr_LI0_RLS_RainSensorError(A) \
+/* static access macros for signal LI0_RLS_Fault_Rain */
+#define l_bool_rd_LI0_RLS_Fault_Rain() \
+   	(LIN_TEST_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_Fault_Rain], \
+   	LIN_BIT_OFFSET_LI0_RLS_Fault_Rain))
+#define l_bool_wr_LI0_RLS_Fault_Rain(A) \
 	{(A) ? \
-  	(LIN_SET_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_RainSensorError], \
-  	LIN_BIT_OFFSET_LI0_RLS_RainSensorError)):\
-  	(LIN_CLEAR_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_RainSensorError], \
-  	LIN_BIT_OFFSET_LI0_RLS_RainSensorError));\
-  	lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_RainSensorError] = 1;}
+  	(LIN_SET_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_Fault_Rain], \
+  	LIN_BIT_OFFSET_LI0_RLS_Fault_Rain)):\
+  	(LIN_CLEAR_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_Fault_Rain], \
+  	LIN_BIT_OFFSET_LI0_RLS_Fault_Rain));\
+  	lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_Fault_Rain] = 1;}
 
-/* static access macros for signal LI0_RLS_LightSensorInstalled */
-#define l_bool_rd_LI0_RLS_LightSensorInstalled() \
-   	(LIN_TEST_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_LightSensorInstalled], \
-   	LIN_BIT_OFFSET_LI0_RLS_LightSensorInstalled))
-#define l_bool_wr_LI0_RLS_LightSensorInstalled(A) \
+/* static access macros for signal LI0_RLS_Fault_Light */
+#define l_bool_rd_LI0_RLS_Fault_Light() \
+   	(LIN_TEST_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_Fault_Light], \
+   	LIN_BIT_OFFSET_LI0_RLS_Fault_Light))
+#define l_bool_wr_LI0_RLS_Fault_Light(A) \
 	{(A) ? \
-  	(LIN_SET_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_LightSensorInstalled], \
-  	LIN_BIT_OFFSET_LI0_RLS_LightSensorInstalled)):\
-  	(LIN_CLEAR_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_LightSensorInstalled], \
-  	LIN_BIT_OFFSET_LI0_RLS_LightSensorInstalled));\
-  	lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_LightSensorInstalled] = 1;}
+  	(LIN_SET_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_Fault_Light], \
+  	LIN_BIT_OFFSET_LI0_RLS_Fault_Light)):\
+  	(LIN_CLEAR_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_Fault_Light], \
+  	LIN_BIT_OFFSET_LI0_RLS_Fault_Light));\
+  	lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_Fault_Light] = 1;}
 
-/* static access macros for signal LI0_RLS_LightSensorError */
-#define l_bool_rd_LI0_RLS_LightSensorError() \
-   	(LIN_TEST_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_LightSensorError], \
-   	LIN_BIT_OFFSET_LI0_RLS_LightSensorError))
-#define l_bool_wr_LI0_RLS_LightSensorError(A) \
+/* static access macros for signal LI0_RLS_REP_Error */
+#define l_bool_rd_LI0_RLS_REP_Error() \
+   	(LIN_TEST_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_REP_Error], \
+   	LIN_BIT_OFFSET_LI0_RLS_REP_Error))
+#define l_bool_wr_LI0_RLS_REP_Error(A) \
 	{(A) ? \
-  	(LIN_SET_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_LightSensorError], \
-  	LIN_BIT_OFFSET_LI0_RLS_LightSensorError)):\
-  	(LIN_CLEAR_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_LightSensorError], \
-  	LIN_BIT_OFFSET_LI0_RLS_LightSensorError));\
-  	lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_LightSensorError] = 1;}
+  	(LIN_SET_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_REP_Error], \
+  	LIN_BIT_OFFSET_LI0_RLS_REP_Error)):\
+  	(LIN_CLEAR_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_REP_Error], \
+  	LIN_BIT_OFFSET_LI0_RLS_REP_Error));\
+  	lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_REP_Error] = 1;}
 
-/* static access macros for signal LI0_RLS_HumiditySensorInstalled */
-#define l_bool_rd_LI0_RLS_HumiditySensorInstalled() \
-   	(LIN_TEST_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_HumiditySensorInstalled], \
-   	LIN_BIT_OFFSET_LI0_RLS_HumiditySensorInstalled))
-#define l_bool_wr_LI0_RLS_HumiditySensorInstalled(A) \
+/* static access macros for signal LI0_RLS_VOLT_Error */
+#define l_u8_rd_LI0_RLS_VOLT_Error() \
+    ((l_u8) ((lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_VOLT_Error] & \
+    (((1U << LIN_SIGNAL_SIZE_LI0_RLS_VOLT_Error) - 1) \
+    << LIN_BIT_OFFSET_LI0_RLS_VOLT_Error )) >> LIN_BIT_OFFSET_LI0_RLS_VOLT_Error))
+#define l_u8_wr_LI0_RLS_VOLT_Error(A) \
+    {lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_VOLT_Error] = \
+    ((l_u8) (((l_u8) (lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_VOLT_Error] & \
+    ((l_u8) (~(((1U << LIN_SIGNAL_SIZE_LI0_RLS_VOLT_Error) - 1) << LIN_BIT_OFFSET_LI0_RLS_VOLT_Error)))))  | \
+    ((l_u8) ((((1U << LIN_SIGNAL_SIZE_LI0_RLS_VOLT_Error) - 1) & (A)) << LIN_BIT_OFFSET_LI0_RLS_VOLT_Error))));\
+    lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_VOLT_Error] = 1;}
+
+/* static access macros for signal LI0_RLS_Humid_Temp_Error */
+#define l_bool_rd_LI0_RLS_Humid_Temp_Error() \
+   	(LIN_TEST_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_Humid_Temp_Error], \
+   	LIN_BIT_OFFSET_LI0_RLS_Humid_Temp_Error))
+#define l_bool_wr_LI0_RLS_Humid_Temp_Error(A) \
 	{(A) ? \
-  	(LIN_SET_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_HumiditySensorInstalled], \
-  	LIN_BIT_OFFSET_LI0_RLS_HumiditySensorInstalled)):\
-  	(LIN_CLEAR_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_HumiditySensorInstalled], \
-  	LIN_BIT_OFFSET_LI0_RLS_HumiditySensorInstalled));\
-  	lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_HumiditySensorInstalled] = 1;}
+  	(LIN_SET_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_Humid_Temp_Error], \
+  	LIN_BIT_OFFSET_LI0_RLS_Humid_Temp_Error)):\
+  	(LIN_CLEAR_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_Humid_Temp_Error], \
+  	LIN_BIT_OFFSET_LI0_RLS_Humid_Temp_Error));\
+  	lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_Humid_Temp_Error] = 1;}
 
-/* static access macros for signal LI0_RLS_Amb_Value */
-#define l_u8_rd_LI0_RLS_Amb_Value() \
-    ((l_u8) ((lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_Amb_Value] & \
-    (((1U << LIN_SIGNAL_SIZE_LI0_RLS_Amb_Value) - 1) \
-    << LIN_BIT_OFFSET_LI0_RLS_Amb_Value )) >> LIN_BIT_OFFSET_LI0_RLS_Amb_Value))
-#define l_u8_wr_LI0_RLS_Amb_Value(A) \
-    {lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_Amb_Value] = \
-    ((l_u8) (((l_u8) (lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_Amb_Value] & \
-    ((l_u8) (~(((1U << LIN_SIGNAL_SIZE_LI0_RLS_Amb_Value) - 1) << LIN_BIT_OFFSET_LI0_RLS_Amb_Value)))))  | \
-    ((l_u8) ((((1U << LIN_SIGNAL_SIZE_LI0_RLS_Amb_Value) - 1) & (A)) << LIN_BIT_OFFSET_LI0_RLS_Amb_Value))));\
-    lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_Amb_Value] = 1;}
+/* static access macros for signal LI0_RLS_Brightness_IR_L */
+#define l_u8_rd_LI0_RLS_Brightness_IR_L() \
+    ((l_u8) ((lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_Brightness_IR_L] & \
+    (((1U << LIN_SIGNAL_SIZE_LI0_RLS_Brightness_IR_L) - 1) \
+    << LIN_BIT_OFFSET_LI0_RLS_Brightness_IR_L )) >> LIN_BIT_OFFSET_LI0_RLS_Brightness_IR_L))
+#define l_u8_wr_LI0_RLS_Brightness_IR_L(A) \
+    {lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_Brightness_IR_L] = \
+    ((l_u8) (((l_u8) (lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_Brightness_IR_L] & \
+    ((l_u8) (~(((1U << LIN_SIGNAL_SIZE_LI0_RLS_Brightness_IR_L) - 1) << LIN_BIT_OFFSET_LI0_RLS_Brightness_IR_L)))))  | \
+    ((l_u8) ((((1U << LIN_SIGNAL_SIZE_LI0_RLS_Brightness_IR_L) - 1) & (A)) << LIN_BIT_OFFSET_LI0_RLS_Brightness_IR_L))));\
+    lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_Brightness_IR_L] = 1;}
 
-/* static access macros for signal LI0_RLS_FW_Value */
-#define l_u8_rd_LI0_RLS_FW_Value() \
-    ((l_u8) ((lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_FW_Value] & \
-    (((1U << LIN_SIGNAL_SIZE_LI0_RLS_FW_Value) - 1) \
-    << LIN_BIT_OFFSET_LI0_RLS_FW_Value )) >> LIN_BIT_OFFSET_LI0_RLS_FW_Value))
-#define l_u8_wr_LI0_RLS_FW_Value(A) \
-    {lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_FW_Value] = \
-    ((l_u8) (((l_u8) (lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_FW_Value] & \
-    ((l_u8) (~(((1U << LIN_SIGNAL_SIZE_LI0_RLS_FW_Value) - 1) << LIN_BIT_OFFSET_LI0_RLS_FW_Value)))))  | \
-    ((l_u8) ((((1U << LIN_SIGNAL_SIZE_LI0_RLS_FW_Value) - 1) & (A)) << LIN_BIT_OFFSET_LI0_RLS_FW_Value))));\
-    lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_FW_Value] = 1;}
-
-/* static access macros for signal LI0_RLHS_COM_Continue_req */
-#define l_bool_rd_LI0_RLHS_COM_Continue_req() \
-   	(LIN_TEST_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLHS_COM_Continue_req], \
-   	LIN_BIT_OFFSET_LI0_RLHS_COM_Continue_req))
-#define l_bool_wr_LI0_RLHS_COM_Continue_req(A) \
-	{(A) ? \
-  	(LIN_SET_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLHS_COM_Continue_req], \
-  	LIN_BIT_OFFSET_LI0_RLHS_COM_Continue_req)):\
-  	(LIN_CLEAR_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLHS_COM_Continue_req], \
-  	LIN_BIT_OFFSET_LI0_RLHS_COM_Continue_req));\
-  	lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLHS_COM_Continue_req] = 1;}
-
-/* static access macros for signal LI0_RLHS_Diagnostic_Req */
-#define l_bool_rd_LI0_RLHS_Diagnostic_Req() \
-   	(LIN_TEST_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLHS_Diagnostic_Req], \
-   	LIN_BIT_OFFSET_LI0_RLHS_Diagnostic_Req))
-#define l_bool_wr_LI0_RLHS_Diagnostic_Req(A) \
-	{(A) ? \
-  	(LIN_SET_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLHS_Diagnostic_Req], \
-  	LIN_BIT_OFFSET_LI0_RLHS_Diagnostic_Req)):\
-  	(LIN_CLEAR_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLHS_Diagnostic_Req], \
-  	LIN_BIT_OFFSET_LI0_RLHS_Diagnostic_Req));\
-  	lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLHS_Diagnostic_Req] = 1;}
-
-/* static access macros for signal LI0_RLHS_APP_Reset_Atatus */
-#define l_bool_rd_LI0_RLHS_APP_Reset_Atatus() \
-   	(LIN_TEST_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLHS_APP_Reset_Atatus], \
-   	LIN_BIT_OFFSET_LI0_RLHS_APP_Reset_Atatus))
-#define l_bool_wr_LI0_RLHS_APP_Reset_Atatus(A) \
-	{(A) ? \
-  	(LIN_SET_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLHS_APP_Reset_Atatus], \
-  	LIN_BIT_OFFSET_LI0_RLHS_APP_Reset_Atatus)):\
-  	(LIN_CLEAR_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLHS_APP_Reset_Atatus], \
-  	LIN_BIT_OFFSET_LI0_RLHS_APP_Reset_Atatus));\
-  	lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLHS_APP_Reset_Atatus] = 1;}
-
-/* static access macros for signal LI0_RLHS_APP_Configuration */
-#define l_bool_rd_LI0_RLHS_APP_Configuration() \
-   	(LIN_TEST_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLHS_APP_Configuration], \
-   	LIN_BIT_OFFSET_LI0_RLHS_APP_Configuration))
-#define l_bool_wr_LI0_RLHS_APP_Configuration(A) \
-	{(A) ? \
-  	(LIN_SET_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLHS_APP_Configuration], \
-  	LIN_BIT_OFFSET_LI0_RLHS_APP_Configuration)):\
-  	(LIN_CLEAR_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLHS_APP_Configuration], \
-  	LIN_BIT_OFFSET_LI0_RLHS_APP_Configuration));\
-  	lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLHS_APP_Configuration] = 1;}
-
-/* static access macros for signal LI0_RLHS_APP_Status */
-#define l_bool_rd_LI0_RLHS_APP_Status() \
-   	(LIN_TEST_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLHS_APP_Status], \
-   	LIN_BIT_OFFSET_LI0_RLHS_APP_Status))
-#define l_bool_wr_LI0_RLHS_APP_Status(A) \
-	{(A) ? \
-  	(LIN_SET_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLHS_APP_Status], \
-  	LIN_BIT_OFFSET_LI0_RLHS_APP_Status)):\
-  	(LIN_CLEAR_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLHS_APP_Status], \
-  	LIN_BIT_OFFSET_LI0_RLHS_APP_Status));\
-  	lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLHS_APP_Status] = 1;}
-
-/* static access macros for signal LI0_RLHS_Comunicate_Status */
-#define l_u8_rd_LI0_RLHS_Comunicate_Status() \
-    ((l_u8) ((lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLHS_Comunicate_Status] & \
-    (((1U << LIN_SIGNAL_SIZE_LI0_RLHS_Comunicate_Status) - 1) \
-    << LIN_BIT_OFFSET_LI0_RLHS_Comunicate_Status )) >> LIN_BIT_OFFSET_LI0_RLHS_Comunicate_Status))
-#define l_u8_wr_LI0_RLHS_Comunicate_Status(A) \
-    {lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLHS_Comunicate_Status] = \
-    ((l_u8) (((l_u8) (lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLHS_Comunicate_Status] & \
-    ((l_u8) (~(((1U << LIN_SIGNAL_SIZE_LI0_RLHS_Comunicate_Status) - 1) << LIN_BIT_OFFSET_LI0_RLHS_Comunicate_Status)))))  | \
-    ((l_u8) ((((1U << LIN_SIGNAL_SIZE_LI0_RLHS_Comunicate_Status) - 1) & (A)) << LIN_BIT_OFFSET_LI0_RLHS_Comunicate_Status))));\
-    lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLHS_Comunicate_Status] = 1;}
-
-/* static access macros for signal LI0_RLHS_Humidity_Temp */
-#define l_u16_rd_LI0_RLHS_Humidity_Temp() \
-    ((l_u16) ((lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLHS_Humidity_Temp + 1] & 0x03) << 8) + ((l_u16) (lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLHS_Humidity_Temp]) >> 0x00))
-#define l_u16_wr_LI0_RLHS_Humidity_Temp(A) \
-    {lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLHS_Humidity_Temp + 1] = \
-	((l_u8) (((l_u8) (lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLHS_Humidity_Temp + 1] &  (0xfc))) | \
+/* static access macros for signal LI0_RLS_Brightness_FW */
+#define l_u16_rd_LI0_RLS_Brightness_FW() \
+    ((l_u16) ((lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_Brightness_FW + 1] & 0x03) << 8) + ((l_u16) (lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_Brightness_FW]) >> 0x00))
+#define l_u16_wr_LI0_RLS_Brightness_FW(A) \
+    {lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_Brightness_FW + 1] = \
+	((l_u8) (((l_u8) (lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_Brightness_FW + 1] &  (0xfc))) | \
 	((l_u8) ((l_u8) ((A) >> 8)) & 0x03))); \
-	lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLHS_Humidity_Temp] = \
-	((l_u8) (((l_u8) (lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLHS_Humidity_Temp] & (0x00))) | \
-	((l_u8) (A) << LIN_BIT_OFFSET_LI0_RLHS_Humidity_Temp))); \
-	lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLHS_Humidity_Temp] = 1;}
+	lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_Brightness_FW] = \
+	((l_u8) (((l_u8) (lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_Brightness_FW] & (0x00))) | \
+	((l_u8) (A) << LIN_BIT_OFFSET_LI0_RLS_Brightness_FW))); \
+	lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_Brightness_FW] = 1;}
 
-/* static access macros for signal LI0_RLHS_Humidity_Temp_Validity */
-#define l_bool_rd_LI0_RLHS_Humidity_Temp_Validity() \
-   	(LIN_TEST_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLHS_Humidity_Temp_Validity], \
-   	LIN_BIT_OFFSET_LI0_RLHS_Humidity_Temp_Validity))
-#define l_bool_wr_LI0_RLHS_Humidity_Temp_Validity(A) \
-	{(A) ? \
-  	(LIN_SET_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLHS_Humidity_Temp_Validity], \
-  	LIN_BIT_OFFSET_LI0_RLHS_Humidity_Temp_Validity)):\
-  	(LIN_CLEAR_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLHS_Humidity_Temp_Validity], \
-  	LIN_BIT_OFFSET_LI0_RLHS_Humidity_Temp_Validity));\
-  	lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLHS_Humidity_Temp_Validity] = 1;}
+/* static access macros for signal LI0_RLS_Rain_Intensity */
+#define l_u8_rd_LI0_RLS_Rain_Intensity() \
+    ((l_u8) ((lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_Rain_Intensity] & \
+    (((1U << LIN_SIGNAL_SIZE_LI0_RLS_Rain_Intensity) - 1) \
+    << LIN_BIT_OFFSET_LI0_RLS_Rain_Intensity )) >> LIN_BIT_OFFSET_LI0_RLS_Rain_Intensity))
+#define l_u8_wr_LI0_RLS_Rain_Intensity(A) \
+    {lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_Rain_Intensity] = \
+    ((l_u8) (((l_u8) (lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_Rain_Intensity] & \
+    ((l_u8) (~(((1U << LIN_SIGNAL_SIZE_LI0_RLS_Rain_Intensity) - 1) << LIN_BIT_OFFSET_LI0_RLS_Rain_Intensity)))))  | \
+    ((l_u8) ((((1U << LIN_SIGNAL_SIZE_LI0_RLS_Rain_Intensity) - 1) & (A)) << LIN_BIT_OFFSET_LI0_RLS_Rain_Intensity))));\
+    lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_Rain_Intensity] = 1;}
 
-/* static access macros for signal LI0_RLHS_Sensor_Fault */
-#define l_bool_rd_LI0_RLHS_Sensor_Fault() \
-   	(LIN_TEST_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLHS_Sensor_Fault], \
-   	LIN_BIT_OFFSET_LI0_RLHS_Sensor_Fault))
-#define l_bool_wr_LI0_RLHS_Sensor_Fault(A) \
-	{(A) ? \
-  	(LIN_SET_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLHS_Sensor_Fault], \
-  	LIN_BIT_OFFSET_LI0_RLHS_Sensor_Fault)):\
-  	(LIN_CLEAR_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLHS_Sensor_Fault], \
-  	LIN_BIT_OFFSET_LI0_RLHS_Sensor_Fault));\
-  	lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLHS_Sensor_Fault] = 1;}
+/* static access macros for signal LI0_RLS_Brightness_IR_R */
+#define l_u8_rd_LI0_RLS_Brightness_IR_R() \
+    ((l_u8) ((lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_Brightness_IR_R] & \
+    (((1U << LIN_SIGNAL_SIZE_LI0_RLS_Brightness_IR_R) - 1) \
+    << LIN_BIT_OFFSET_LI0_RLS_Brightness_IR_R )) >> LIN_BIT_OFFSET_LI0_RLS_Brightness_IR_R))
+#define l_u8_wr_LI0_RLS_Brightness_IR_R(A) \
+    {lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_Brightness_IR_R] = \
+    ((l_u8) (((l_u8) (lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_Brightness_IR_R] & \
+    ((l_u8) (~(((1U << LIN_SIGNAL_SIZE_LI0_RLS_Brightness_IR_R) - 1) << LIN_BIT_OFFSET_LI0_RLS_Brightness_IR_R)))))  | \
+    ((l_u8) ((((1U << LIN_SIGNAL_SIZE_LI0_RLS_Brightness_IR_R) - 1) & (A)) << LIN_BIT_OFFSET_LI0_RLS_Brightness_IR_R))));\
+    lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_Brightness_IR_R] = 1;}
 
-/* static access macros for signal LI0_RLHS_Unused_bit */
-#define l_u8_rd_LI0_RLHS_Unused_bit() \
-    ((l_u8) ((lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLHS_Unused_bit] & \
-    (((1U << LIN_SIGNAL_SIZE_LI0_RLHS_Unused_bit) - 1) \
-    << LIN_BIT_OFFSET_LI0_RLHS_Unused_bit )) >> LIN_BIT_OFFSET_LI0_RLHS_Unused_bit))
-#define l_u8_wr_LI0_RLHS_Unused_bit(A) \
-    {lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLHS_Unused_bit] = \
-    ((l_u8) (((l_u8) (lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLHS_Unused_bit] & \
-    ((l_u8) (~(((1U << LIN_SIGNAL_SIZE_LI0_RLHS_Unused_bit) - 1) << LIN_BIT_OFFSET_LI0_RLHS_Unused_bit)))))  | \
-    ((l_u8) ((((1U << LIN_SIGNAL_SIZE_LI0_RLHS_Unused_bit) - 1) & (A)) << LIN_BIT_OFFSET_LI0_RLHS_Unused_bit))));\
-    lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLHS_Unused_bit] = 1;}
+/* static access macros for signal LI0_RLS_Temperature */
+#define l_u8_rd_LI0_RLS_Temperature() \
+    ((l_u8) ((lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_Temperature] & \
+    (((1U << LIN_SIGNAL_SIZE_LI0_RLS_Temperature) - 1) \
+    << LIN_BIT_OFFSET_LI0_RLS_Temperature )) >> LIN_BIT_OFFSET_LI0_RLS_Temperature))
+#define l_u8_wr_LI0_RLS_Temperature(A) \
+    {lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_Temperature] = \
+    ((l_u8) (((l_u8) (lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_Temperature] & \
+    ((l_u8) (~(((1U << LIN_SIGNAL_SIZE_LI0_RLS_Temperature) - 1) << LIN_BIT_OFFSET_LI0_RLS_Temperature)))))  | \
+    ((l_u8) ((((1U << LIN_SIGNAL_SIZE_LI0_RLS_Temperature) - 1) & (A)) << LIN_BIT_OFFSET_LI0_RLS_Temperature))));\
+    lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_Temperature] = 1;}
 
-/* static access macros for signal LI0_RLHS_Sensor_Humidity_Validity */
-#define l_bool_rd_LI0_RLHS_Sensor_Humidity_Validity() \
-   	(LIN_TEST_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLHS_Sensor_Humidity_Validity], \
-   	LIN_BIT_OFFSET_LI0_RLHS_Sensor_Humidity_Validity))
-#define l_bool_wr_LI0_RLHS_Sensor_Humidity_Validity(A) \
-	{(A) ? \
-  	(LIN_SET_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLHS_Sensor_Humidity_Validity], \
-  	LIN_BIT_OFFSET_LI0_RLHS_Sensor_Humidity_Validity)):\
-  	(LIN_CLEAR_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLHS_Sensor_Humidity_Validity], \
-  	LIN_BIT_OFFSET_LI0_RLHS_Sensor_Humidity_Validity));\
-  	lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLHS_Sensor_Humidity_Validity] = 1;}
-
-/* static access macros for signal LI0_RLHS_Humindity_Value */
-#define l_u8_rd_LI0_RLHS_Humindity_Value() \
-    ((l_u8) ((lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLHS_Humindity_Value] & \
-    (((1U << LIN_SIGNAL_SIZE_LI0_RLHS_Humindity_Value) - 1) \
-    << LIN_BIT_OFFSET_LI0_RLHS_Humindity_Value )) >> LIN_BIT_OFFSET_LI0_RLHS_Humindity_Value))
-#define l_u8_wr_LI0_RLHS_Humindity_Value(A) \
-    {lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLHS_Humindity_Value] = \
-    ((l_u8) (((l_u8) (lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLHS_Humindity_Value] & \
-    ((l_u8) (~(((1U << LIN_SIGNAL_SIZE_LI0_RLHS_Humindity_Value) - 1) << LIN_BIT_OFFSET_LI0_RLHS_Humindity_Value)))))  | \
-    ((l_u8) ((((1U << LIN_SIGNAL_SIZE_LI0_RLHS_Humindity_Value) - 1) & (A)) << LIN_BIT_OFFSET_LI0_RLHS_Humindity_Value))));\
-    lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLHS_Humindity_Value] = 1;}
-
-/* static access macros for signal LI0_RLHS01_Continue_Req */
-#define l_bool_rd_LI0_RLHS01_Continue_Req() \
-   	(LIN_TEST_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLHS01_Continue_Req], \
-   	LIN_BIT_OFFSET_LI0_RLHS01_Continue_Req))
-#define l_bool_wr_LI0_RLHS01_Continue_Req(A) \
-	{(A) ? \
-  	(LIN_SET_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLHS01_Continue_Req], \
-  	LIN_BIT_OFFSET_LI0_RLHS01_Continue_Req)):\
-  	(LIN_CLEAR_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLHS01_Continue_Req], \
-  	LIN_BIT_OFFSET_LI0_RLHS01_Continue_Req));\
-  	lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLHS01_Continue_Req] = 1;}
-
-/* static access macros for signal LI0_RLHS01_Diagnostic_Req */
-#define l_bool_rd_LI0_RLHS01_Diagnostic_Req() \
-   	(LIN_TEST_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLHS01_Diagnostic_Req], \
-   	LIN_BIT_OFFSET_LI0_RLHS01_Diagnostic_Req))
-#define l_bool_wr_LI0_RLHS01_Diagnostic_Req(A) \
-	{(A) ? \
-  	(LIN_SET_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLHS01_Diagnostic_Req], \
-  	LIN_BIT_OFFSET_LI0_RLHS01_Diagnostic_Req)):\
-  	(LIN_CLEAR_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLHS01_Diagnostic_Req], \
-  	LIN_BIT_OFFSET_LI0_RLHS01_Diagnostic_Req));\
-  	lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLHS01_Diagnostic_Req] = 1;}
-
-/* static access macros for signal LI0_RLHS01_APP_Reset */
-#define l_bool_rd_LI0_RLHS01_APP_Reset() \
-   	(LIN_TEST_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLHS01_APP_Reset], \
-   	LIN_BIT_OFFSET_LI0_RLHS01_APP_Reset))
-#define l_bool_wr_LI0_RLHS01_APP_Reset(A) \
-	{(A) ? \
-  	(LIN_SET_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLHS01_APP_Reset], \
-  	LIN_BIT_OFFSET_LI0_RLHS01_APP_Reset)):\
-  	(LIN_CLEAR_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLHS01_APP_Reset], \
-  	LIN_BIT_OFFSET_LI0_RLHS01_APP_Reset));\
-  	lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLHS01_APP_Reset] = 1;}
-
-/* static access macros for signal LI0_RLHS01_APP_configuration */
-#define l_bool_rd_LI0_RLHS01_APP_configuration() \
-   	(LIN_TEST_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLHS01_APP_configuration], \
-   	LIN_BIT_OFFSET_LI0_RLHS01_APP_configuration))
-#define l_bool_wr_LI0_RLHS01_APP_configuration(A) \
-	{(A) ? \
-  	(LIN_SET_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLHS01_APP_configuration], \
-  	LIN_BIT_OFFSET_LI0_RLHS01_APP_configuration)):\
-  	(LIN_CLEAR_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLHS01_APP_configuration], \
-  	LIN_BIT_OFFSET_LI0_RLHS01_APP_configuration));\
-  	lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLHS01_APP_configuration] = 1;}
-
-/* static access macros for signal LI0_RLHS01_APP_Status */
-#define l_bool_rd_LI0_RLHS01_APP_Status() \
-   	(LIN_TEST_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLHS01_APP_Status], \
-   	LIN_BIT_OFFSET_LI0_RLHS01_APP_Status))
-#define l_bool_wr_LI0_RLHS01_APP_Status(A) \
-	{(A) ? \
-  	(LIN_SET_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLHS01_APP_Status], \
-  	LIN_BIT_OFFSET_LI0_RLHS01_APP_Status)):\
-  	(LIN_CLEAR_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLHS01_APP_Status], \
-  	LIN_BIT_OFFSET_LI0_RLHS01_APP_Status));\
-  	lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLHS01_APP_Status] = 1;}
-
-/* static access macros for signal LI0_RLHS01_Comunication_Status */
-#define l_u8_rd_LI0_RLHS01_Comunication_Status() \
-    ((l_u8) ((lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLHS01_Comunication_Status] & \
-    (((1U << LIN_SIGNAL_SIZE_LI0_RLHS01_Comunication_Status) - 1) \
-    << LIN_BIT_OFFSET_LI0_RLHS01_Comunication_Status )) >> LIN_BIT_OFFSET_LI0_RLHS01_Comunication_Status))
-#define l_u8_wr_LI0_RLHS01_Comunication_Status(A) \
-    {lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLHS01_Comunication_Status] = \
-    ((l_u8) (((l_u8) (lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLHS01_Comunication_Status] & \
-    ((l_u8) (~(((1U << LIN_SIGNAL_SIZE_LI0_RLHS01_Comunication_Status) - 1) << LIN_BIT_OFFSET_LI0_RLHS01_Comunication_Status)))))  | \
-    ((l_u8) ((((1U << LIN_SIGNAL_SIZE_LI0_RLHS01_Comunication_Status) - 1) & (A)) << LIN_BIT_OFFSET_LI0_RLHS01_Comunication_Status))));\
-    lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLHS01_Comunication_Status] = 1;}
-
-/* static access macros for signal LI0_RLHS01_Temp01 */
-#define l_u16_rd_LI0_RLHS01_Temp01() \
-    ((l_u16) ((lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLHS01_Temp01 + 1] & 0x03) << 8) + ((l_u16) (lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLHS01_Temp01]) >> 0x00))
-#define l_u16_wr_LI0_RLHS01_Temp01(A) \
-    {lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLHS01_Temp01 + 1] = \
-	((l_u8) (((l_u8) (lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLHS01_Temp01 + 1] &  (0xfc))) | \
-	((l_u8) ((l_u8) ((A) >> 8)) & 0x03))); \
-	lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLHS01_Temp01] = \
-	((l_u8) (((l_u8) (lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLHS01_Temp01] & (0x00))) | \
-	((l_u8) (A) << LIN_BIT_OFFSET_LI0_RLHS01_Temp01))); \
-	lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLHS01_Temp01] = 1;}
-
-/* static access macros for signal LI0_RLHS01_Sensor_Vaility */
-#define l_bool_rd_LI0_RLHS01_Sensor_Vaility() \
-   	(LIN_TEST_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLHS01_Sensor_Vaility], \
-   	LIN_BIT_OFFSET_LI0_RLHS01_Sensor_Vaility))
-#define l_bool_wr_LI0_RLHS01_Sensor_Vaility(A) \
-	{(A) ? \
-  	(LIN_SET_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLHS01_Sensor_Vaility], \
-  	LIN_BIT_OFFSET_LI0_RLHS01_Sensor_Vaility)):\
-  	(LIN_CLEAR_BIT(lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLHS01_Sensor_Vaility], \
-  	LIN_BIT_OFFSET_LI0_RLHS01_Sensor_Vaility));\
-  	lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLHS01_Sensor_Vaility] = 1;}
-
-/* static access macros for signal LI0_RLHS01_Unused */
-#define l_u8_rd_LI0_RLHS01_Unused() \
-    ((l_u8) ((lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLHS01_Unused] & \
-    (((1U << LIN_SIGNAL_SIZE_LI0_RLHS01_Unused) - 1) \
-    << LIN_BIT_OFFSET_LI0_RLHS01_Unused )) >> LIN_BIT_OFFSET_LI0_RLHS01_Unused))
-#define l_u8_wr_LI0_RLHS01_Unused(A) \
-    {lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLHS01_Unused] = \
-    ((l_u8) (((l_u8) (lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLHS01_Unused] & \
-    ((l_u8) (~(((1U << LIN_SIGNAL_SIZE_LI0_RLHS01_Unused) - 1) << LIN_BIT_OFFSET_LI0_RLHS01_Unused)))))  | \
-    ((l_u8) ((((1U << LIN_SIGNAL_SIZE_LI0_RLHS01_Unused) - 1) & (A)) << LIN_BIT_OFFSET_LI0_RLHS01_Unused))));\
-    lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLHS01_Unused] = 1;}
+/* static access macros for signal LI0_RLS_Humid */
+#define l_u8_rd_LI0_RLS_Humid() \
+    ((l_u8) ((lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_Humid] & \
+    (((1U << LIN_SIGNAL_SIZE_LI0_RLS_Humid) - 1) \
+    << LIN_BIT_OFFSET_LI0_RLS_Humid )) >> LIN_BIT_OFFSET_LI0_RLS_Humid))
+#define l_u8_wr_LI0_RLS_Humid(A) \
+    {lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_Humid] = \
+    ((l_u8) (((l_u8) (lin_pFrameBuf[LIN_BYTE_OFFSET_LI0_RLS_Humid] & \
+    ((l_u8) (~(((1U << LIN_SIGNAL_SIZE_LI0_RLS_Humid) - 1) << LIN_BIT_OFFSET_LI0_RLS_Humid)))))  | \
+    ((l_u8) ((((1U << LIN_SIGNAL_SIZE_LI0_RLS_Humid) - 1) & (A)) << LIN_BIT_OFFSET_LI0_RLS_Humid))));\
+    lin_frame_flag_tbl[LIN_FLAG_UPDATE_BYTE_OFFSET_LI0_RLS_Humid] = 1;}
 
 
 
 /* Signal flag APIs */
 
 
-#define l_flg_tst_LI0_BCM_WiperPosition_flag() \
-         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_BCM_WiperPosition],\
-         LIN_FLAG_BIT_OFFSET_LI0_BCM_WiperPosition)
-#define l_flg_clr_LI0_BCM_WiperPosition_flag() \
-         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_BCM_WiperPosition],\
-         LIN_FLAG_BIT_OFFSET_LI0_BCM_WiperPosition)
+#define l_flg_tst_LI0_BCM_Status_IGN_flag() \
+         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_BCM_Status_IGN],\
+         LIN_FLAG_BIT_OFFSET_LI0_BCM_Status_IGN)
+#define l_flg_clr_LI0_BCM_Status_IGN_flag() \
+         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_BCM_Status_IGN],\
+         LIN_FLAG_BIT_OFFSET_LI0_BCM_Status_IGN)
 
-#define l_flg_tst_LI0_BCM_Washer_flag() \
-         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_BCM_Washer],\
-         LIN_FLAG_BIT_OFFSET_LI0_BCM_Washer)
-#define l_flg_clr_LI0_BCM_Washer_flag() \
-         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_BCM_Washer],\
-         LIN_FLAG_BIT_OFFSET_LI0_BCM_Washer)
+#define l_flg_tst_LI0_BCM_CMD_AutoWiper_flag() \
+         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_BCM_CMD_AutoWiper],\
+         LIN_FLAG_BIT_OFFSET_LI0_BCM_CMD_AutoWiper)
+#define l_flg_clr_LI0_BCM_CMD_AutoWiper_flag() \
+         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_BCM_CMD_AutoWiper],\
+         LIN_FLAG_BIT_OFFSET_LI0_BCM_CMD_AutoWiper)
 
-#define l_flg_tst_LI0_BCM_Amb_LV_flag() \
-         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_BCM_Amb_LV],\
-         LIN_FLAG_BIT_OFFSET_LI0_BCM_Amb_LV)
-#define l_flg_clr_LI0_BCM_Amb_LV_flag() \
-         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_BCM_Amb_LV],\
-         LIN_FLAG_BIT_OFFSET_LI0_BCM_Amb_LV)
+#define l_flg_tst_LI0_BCM_RQ_FrontWash_flag() \
+         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_BCM_RQ_FrontWash],\
+         LIN_FLAG_BIT_OFFSET_LI0_BCM_RQ_FrontWash)
+#define l_flg_clr_LI0_BCM_RQ_FrontWash_flag() \
+         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_BCM_RQ_FrontWash],\
+         LIN_FLAG_BIT_OFFSET_LI0_BCM_RQ_FrontWash)
+
+#define l_flg_tst_LI0_BCM_ParkPosition_flag() \
+         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_BCM_ParkPosition],\
+         LIN_FLAG_BIT_OFFSET_LI0_BCM_ParkPosition)
+#define l_flg_clr_LI0_BCM_ParkPosition_flag() \
+         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_BCM_ParkPosition],\
+         LIN_FLAG_BIT_OFFSET_LI0_BCM_ParkPosition)
 
 #define l_flg_tst_LI0_BCM_RainSensitivity_flag() \
          LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_BCM_RainSensitivity],\
@@ -1063,268 +745,149 @@ typedef enum {
          LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_BCM_RainSensitivity],\
          LIN_FLAG_BIT_OFFSET_LI0_BCM_RainSensitivity)
 
-#define l_flg_tst_LI0_BCM_VehicleSpeed_flag() \
-         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_BCM_VehicleSpeed],\
-         LIN_FLAG_BIT_OFFSET_LI0_BCM_VehicleSpeed)
-#define l_flg_clr_LI0_BCM_VehicleSpeed_flag() \
-         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_BCM_VehicleSpeed],\
-         LIN_FLAG_BIT_OFFSET_LI0_BCM_VehicleSpeed)
+#define l_flg_tst_LI0_BCM_CMD_AutoLight_flag() \
+         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_BCM_CMD_AutoLight],\
+         LIN_FLAG_BIT_OFFSET_LI0_BCM_CMD_AutoLight)
+#define l_flg_clr_LI0_BCM_CMD_AutoLight_flag() \
+         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_BCM_CMD_AutoLight],\
+         LIN_FLAG_BIT_OFFSET_LI0_BCM_CMD_AutoLight)
 
-#define l_flg_tst_LI0_RLS_ContinuteReq_flag() \
-         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_ContinuteReq],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLS_ContinuteReq)
-#define l_flg_clr_LI0_RLS_ContinuteReq_flag() \
-         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_ContinuteReq],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLS_ContinuteReq)
+#define l_flg_tst_LI0_BCM_BladesTurningPoint_flag() \
+         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_BCM_BladesTurningPoint],\
+         LIN_FLAG_BIT_OFFSET_LI0_BCM_BladesTurningPoint)
+#define l_flg_clr_LI0_BCM_BladesTurningPoint_flag() \
+         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_BCM_BladesTurningPoint],\
+         LIN_FLAG_BIT_OFFSET_LI0_BCM_BladesTurningPoint)
 
-#define l_flg_tst_LI0_RLS_DiagnnosticReq_flag() \
-         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_DiagnnosticReq],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLS_DiagnnosticReq)
-#define l_flg_clr_LI0_RLS_DiagnnosticReq_flag() \
-         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_DiagnnosticReq],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLS_DiagnnosticReq)
+#define l_flg_tst_LI0_BCM_RoofStatus_flag() \
+         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_BCM_RoofStatus],\
+         LIN_FLAG_BIT_OFFSET_LI0_BCM_RoofStatus)
+#define l_flg_clr_LI0_BCM_RoofStatus_flag() \
+         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_BCM_RoofStatus],\
+         LIN_FLAG_BIT_OFFSET_LI0_BCM_RoofStatus)
 
-#define l_flg_tst_LI0_RLS_AppResetStatus_flag() \
-         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_AppResetStatus],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLS_AppResetStatus)
-#define l_flg_clr_LI0_RLS_AppResetStatus_flag() \
-         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_AppResetStatus],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLS_AppResetStatus)
+#define l_flg_tst_LI0_BCM_SPD_Vehicle_flag() \
+         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_BCM_SPD_Vehicle],\
+         LIN_FLAG_BIT_OFFSET_LI0_BCM_SPD_Vehicle)
+#define l_flg_clr_LI0_BCM_SPD_Vehicle_flag() \
+         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_BCM_SPD_Vehicle],\
+         LIN_FLAG_BIT_OFFSET_LI0_BCM_SPD_Vehicle)
 
-#define l_flg_tst_LI0_RLS_AppConfigurationStatus_flag() \
-         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_AppConfigurationStatus],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLS_AppConfigurationStatus)
-#define l_flg_clr_LI0_RLS_AppConfigurationStatus_flag() \
-         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_AppConfigurationStatus],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLS_AppConfigurationStatus)
+#define l_flg_tst_LI0_BCM_OutsideTemp_flag() \
+         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_BCM_OutsideTemp],\
+         LIN_FLAG_BIT_OFFSET_LI0_BCM_OutsideTemp)
+#define l_flg_clr_LI0_BCM_OutsideTemp_flag() \
+         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_BCM_OutsideTemp],\
+         LIN_FLAG_BIT_OFFSET_LI0_BCM_OutsideTemp)
 
-#define l_flg_tst_LI0_RLS_AppStatus_flag() \
-         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_AppStatus],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLS_AppStatus)
-#define l_flg_clr_LI0_RLS_AppStatus_flag() \
-         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_AppStatus],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLS_AppStatus)
+#define l_flg_tst_LI0_RLS_MsgCounter_flag() \
+         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_MsgCounter],\
+         LIN_FLAG_BIT_OFFSET_LI0_RLS_MsgCounter)
+#define l_flg_clr_LI0_RLS_MsgCounter_flag() \
+         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_MsgCounter],\
+         LIN_FLAG_BIT_OFFSET_LI0_RLS_MsgCounter)
 
-#define l_flg_tst_LI0_RLS_LinComStatus_flag() \
-         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_LinComStatus],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLS_LinComStatus)
-#define l_flg_clr_LI0_RLS_LinComStatus_flag() \
-         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_LinComStatus],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLS_LinComStatus)
+#define l_flg_tst_LI0_RLS_RQ_WiperSPD_flag() \
+         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_RQ_WiperSPD],\
+         LIN_FLAG_BIT_OFFSET_LI0_RLS_RQ_WiperSPD)
+#define l_flg_clr_LI0_RLS_RQ_WiperSPD_flag() \
+         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_RQ_WiperSPD],\
+         LIN_FLAG_BIT_OFFSET_LI0_RLS_RQ_WiperSPD)
 
-#define l_flg_tst_LI0_RLS_WiperRequest_flag() \
-         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_WiperRequest],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLS_WiperRequest)
-#define l_flg_clr_LI0_RLS_WiperRequest_flag() \
-         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_WiperRequest],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLS_WiperRequest)
+#define l_flg_tst_LI0_RLS_RQ_LowBeam_flag() \
+         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_RQ_LowBeam],\
+         LIN_FLAG_BIT_OFFSET_LI0_RLS_RQ_LowBeam)
+#define l_flg_clr_LI0_RLS_RQ_LowBeam_flag() \
+         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_RQ_LowBeam],\
+         LIN_FLAG_BIT_OFFSET_LI0_RLS_RQ_LowBeam)
 
-#define l_flg_tst_LI0_RLS_Amb_LV_flag() \
-         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_Amb_LV],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLS_Amb_LV)
-#define l_flg_clr_LI0_RLS_Amb_LV_flag() \
-         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_Amb_LV],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLS_Amb_LV)
+#define l_flg_tst_LI0_RLS_RQ_PositionLamp_flag() \
+         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_RQ_PositionLamp],\
+         LIN_FLAG_BIT_OFFSET_LI0_RLS_RQ_PositionLamp)
+#define l_flg_clr_LI0_RLS_RQ_PositionLamp_flag() \
+         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_RQ_PositionLamp],\
+         LIN_FLAG_BIT_OFFSET_LI0_RLS_RQ_PositionLamp)
 
-#define l_flg_tst_LI0_RLS_RainSensorError_flag() \
-         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_RainSensorError],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLS_RainSensorError)
-#define l_flg_clr_LI0_RLS_RainSensorError_flag() \
-         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_RainSensorError],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLS_RainSensorError)
+#define l_flg_tst_LI0_RLS_Fault_Rain_flag() \
+         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_Fault_Rain],\
+         LIN_FLAG_BIT_OFFSET_LI0_RLS_Fault_Rain)
+#define l_flg_clr_LI0_RLS_Fault_Rain_flag() \
+         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_Fault_Rain],\
+         LIN_FLAG_BIT_OFFSET_LI0_RLS_Fault_Rain)
 
-#define l_flg_tst_LI0_RLS_LightSensorInstalled_flag() \
-         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_LightSensorInstalled],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLS_LightSensorInstalled)
-#define l_flg_clr_LI0_RLS_LightSensorInstalled_flag() \
-         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_LightSensorInstalled],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLS_LightSensorInstalled)
+#define l_flg_tst_LI0_RLS_Fault_Light_flag() \
+         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_Fault_Light],\
+         LIN_FLAG_BIT_OFFSET_LI0_RLS_Fault_Light)
+#define l_flg_clr_LI0_RLS_Fault_Light_flag() \
+         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_Fault_Light],\
+         LIN_FLAG_BIT_OFFSET_LI0_RLS_Fault_Light)
 
-#define l_flg_tst_LI0_RLS_LightSensorError_flag() \
-         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_LightSensorError],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLS_LightSensorError)
-#define l_flg_clr_LI0_RLS_LightSensorError_flag() \
-         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_LightSensorError],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLS_LightSensorError)
+#define l_flg_tst_LI0_RLS_REP_Error_flag() \
+         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_REP_Error],\
+         LIN_FLAG_BIT_OFFSET_LI0_RLS_REP_Error)
+#define l_flg_clr_LI0_RLS_REP_Error_flag() \
+         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_REP_Error],\
+         LIN_FLAG_BIT_OFFSET_LI0_RLS_REP_Error)
 
-#define l_flg_tst_LI0_RLS_HumiditySensorInstalled_flag() \
-         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_HumiditySensorInstalled],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLS_HumiditySensorInstalled)
-#define l_flg_clr_LI0_RLS_HumiditySensorInstalled_flag() \
-         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_HumiditySensorInstalled],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLS_HumiditySensorInstalled)
+#define l_flg_tst_LI0_RLS_VOLT_Error_flag() \
+         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_VOLT_Error],\
+         LIN_FLAG_BIT_OFFSET_LI0_RLS_VOLT_Error)
+#define l_flg_clr_LI0_RLS_VOLT_Error_flag() \
+         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_VOLT_Error],\
+         LIN_FLAG_BIT_OFFSET_LI0_RLS_VOLT_Error)
 
-#define l_flg_tst_LI0_RLS_Amb_Value_flag() \
-         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_Amb_Value],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLS_Amb_Value)
-#define l_flg_clr_LI0_RLS_Amb_Value_flag() \
-         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_Amb_Value],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLS_Amb_Value)
+#define l_flg_tst_LI0_RLS_Humid_Temp_Error_flag() \
+         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_Humid_Temp_Error],\
+         LIN_FLAG_BIT_OFFSET_LI0_RLS_Humid_Temp_Error)
+#define l_flg_clr_LI0_RLS_Humid_Temp_Error_flag() \
+         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_Humid_Temp_Error],\
+         LIN_FLAG_BIT_OFFSET_LI0_RLS_Humid_Temp_Error)
 
-#define l_flg_tst_LI0_RLS_FW_Value_flag() \
-         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_FW_Value],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLS_FW_Value)
-#define l_flg_clr_LI0_RLS_FW_Value_flag() \
-         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_FW_Value],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLS_FW_Value)
+#define l_flg_tst_LI0_RLS_Brightness_IR_L_flag() \
+         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_Brightness_IR_L],\
+         LIN_FLAG_BIT_OFFSET_LI0_RLS_Brightness_IR_L)
+#define l_flg_clr_LI0_RLS_Brightness_IR_L_flag() \
+         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_Brightness_IR_L],\
+         LIN_FLAG_BIT_OFFSET_LI0_RLS_Brightness_IR_L)
 
-#define l_flg_tst_LI0_RLHS_COM_Continue_req_flag() \
-         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLHS_COM_Continue_req],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLHS_COM_Continue_req)
-#define l_flg_clr_LI0_RLHS_COM_Continue_req_flag() \
-         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLHS_COM_Continue_req],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLHS_COM_Continue_req)
+#define l_flg_tst_LI0_RLS_Brightness_FW_flag() \
+         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_Brightness_FW],\
+         LIN_FLAG_BIT_OFFSET_LI0_RLS_Brightness_FW)
+#define l_flg_clr_LI0_RLS_Brightness_FW_flag() \
+         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_Brightness_FW],\
+         LIN_FLAG_BIT_OFFSET_LI0_RLS_Brightness_FW)
 
-#define l_flg_tst_LI0_RLHS_Diagnostic_Req_flag() \
-         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLHS_Diagnostic_Req],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLHS_Diagnostic_Req)
-#define l_flg_clr_LI0_RLHS_Diagnostic_Req_flag() \
-         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLHS_Diagnostic_Req],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLHS_Diagnostic_Req)
+#define l_flg_tst_LI0_RLS_Rain_Intensity_flag() \
+         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_Rain_Intensity],\
+         LIN_FLAG_BIT_OFFSET_LI0_RLS_Rain_Intensity)
+#define l_flg_clr_LI0_RLS_Rain_Intensity_flag() \
+         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_Rain_Intensity],\
+         LIN_FLAG_BIT_OFFSET_LI0_RLS_Rain_Intensity)
 
-#define l_flg_tst_LI0_RLHS_APP_Reset_Atatus_flag() \
-         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLHS_APP_Reset_Atatus],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLHS_APP_Reset_Atatus)
-#define l_flg_clr_LI0_RLHS_APP_Reset_Atatus_flag() \
-         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLHS_APP_Reset_Atatus],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLHS_APP_Reset_Atatus)
+#define l_flg_tst_LI0_RLS_Brightness_IR_R_flag() \
+         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_Brightness_IR_R],\
+         LIN_FLAG_BIT_OFFSET_LI0_RLS_Brightness_IR_R)
+#define l_flg_clr_LI0_RLS_Brightness_IR_R_flag() \
+         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_Brightness_IR_R],\
+         LIN_FLAG_BIT_OFFSET_LI0_RLS_Brightness_IR_R)
 
-#define l_flg_tst_LI0_RLHS_APP_Configuration_flag() \
-         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLHS_APP_Configuration],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLHS_APP_Configuration)
-#define l_flg_clr_LI0_RLHS_APP_Configuration_flag() \
-         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLHS_APP_Configuration],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLHS_APP_Configuration)
+#define l_flg_tst_LI0_RLS_Temperature_flag() \
+         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_Temperature],\
+         LIN_FLAG_BIT_OFFSET_LI0_RLS_Temperature)
+#define l_flg_clr_LI0_RLS_Temperature_flag() \
+         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_Temperature],\
+         LIN_FLAG_BIT_OFFSET_LI0_RLS_Temperature)
 
-#define l_flg_tst_LI0_RLHS_APP_Status_flag() \
-         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLHS_APP_Status],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLHS_APP_Status)
-#define l_flg_clr_LI0_RLHS_APP_Status_flag() \
-         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLHS_APP_Status],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLHS_APP_Status)
-
-#define l_flg_tst_LI0_RLHS_Comunicate_Status_flag() \
-         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLHS_Comunicate_Status],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLHS_Comunicate_Status)
-#define l_flg_clr_LI0_RLHS_Comunicate_Status_flag() \
-         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLHS_Comunicate_Status],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLHS_Comunicate_Status)
-
-#define l_flg_tst_LI0_RLHS_Humidity_Temp_flag() \
-         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLHS_Humidity_Temp],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLHS_Humidity_Temp)
-#define l_flg_clr_LI0_RLHS_Humidity_Temp_flag() \
-         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLHS_Humidity_Temp],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLHS_Humidity_Temp)
-
-#define l_flg_tst_LI0_RLHS_Humidity_Temp_Validity_flag() \
-         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLHS_Humidity_Temp_Validity],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLHS_Humidity_Temp_Validity)
-#define l_flg_clr_LI0_RLHS_Humidity_Temp_Validity_flag() \
-         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLHS_Humidity_Temp_Validity],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLHS_Humidity_Temp_Validity)
-
-#define l_flg_tst_LI0_RLHS_Sensor_Fault_flag() \
-         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLHS_Sensor_Fault],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLHS_Sensor_Fault)
-#define l_flg_clr_LI0_RLHS_Sensor_Fault_flag() \
-         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLHS_Sensor_Fault],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLHS_Sensor_Fault)
-
-#define l_flg_tst_LI0_RLHS_Unused_bit_flag() \
-         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLHS_Unused_bit],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLHS_Unused_bit)
-#define l_flg_clr_LI0_RLHS_Unused_bit_flag() \
-         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLHS_Unused_bit],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLHS_Unused_bit)
-
-#define l_flg_tst_LI0_RLHS_Sensor_Humidity_Validity_flag() \
-         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLHS_Sensor_Humidity_Validity],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLHS_Sensor_Humidity_Validity)
-#define l_flg_clr_LI0_RLHS_Sensor_Humidity_Validity_flag() \
-         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLHS_Sensor_Humidity_Validity],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLHS_Sensor_Humidity_Validity)
-
-#define l_flg_tst_LI0_RLHS_Humindity_Value_flag() \
-         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLHS_Humindity_Value],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLHS_Humindity_Value)
-#define l_flg_clr_LI0_RLHS_Humindity_Value_flag() \
-         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLHS_Humindity_Value],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLHS_Humindity_Value)
-
-#define l_flg_tst_LI0_RLHS01_Continue_Req_flag() \
-         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLHS01_Continue_Req],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLHS01_Continue_Req)
-#define l_flg_clr_LI0_RLHS01_Continue_Req_flag() \
-         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLHS01_Continue_Req],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLHS01_Continue_Req)
-
-#define l_flg_tst_LI0_RLHS01_Diagnostic_Req_flag() \
-         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLHS01_Diagnostic_Req],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLHS01_Diagnostic_Req)
-#define l_flg_clr_LI0_RLHS01_Diagnostic_Req_flag() \
-         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLHS01_Diagnostic_Req],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLHS01_Diagnostic_Req)
-
-#define l_flg_tst_LI0_RLHS01_APP_Reset_flag() \
-         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLHS01_APP_Reset],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLHS01_APP_Reset)
-#define l_flg_clr_LI0_RLHS01_APP_Reset_flag() \
-         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLHS01_APP_Reset],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLHS01_APP_Reset)
-
-#define l_flg_tst_LI0_RLHS01_APP_configuration_flag() \
-         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLHS01_APP_configuration],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLHS01_APP_configuration)
-#define l_flg_clr_LI0_RLHS01_APP_configuration_flag() \
-         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLHS01_APP_configuration],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLHS01_APP_configuration)
-
-#define l_flg_tst_LI0_RLHS01_APP_Status_flag() \
-         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLHS01_APP_Status],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLHS01_APP_Status)
-#define l_flg_clr_LI0_RLHS01_APP_Status_flag() \
-         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLHS01_APP_Status],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLHS01_APP_Status)
-
-#define l_flg_tst_LI0_RLHS01_Comunication_Status_flag() \
-         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLHS01_Comunication_Status],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLHS01_Comunication_Status)
-#define l_flg_clr_LI0_RLHS01_Comunication_Status_flag() \
-         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLHS01_Comunication_Status],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLHS01_Comunication_Status)
-
-#define l_flg_tst_LI0_RLHS01_Temp01_flag() \
-         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLHS01_Temp01],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLHS01_Temp01)
-#define l_flg_clr_LI0_RLHS01_Temp01_flag() \
-         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLHS01_Temp01],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLHS01_Temp01)
-
-#define l_flg_tst_LI0_RLHS01_Sensor_Vaility_flag() \
-         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLHS01_Sensor_Vaility],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLHS01_Sensor_Vaility)
-#define l_flg_clr_LI0_RLHS01_Sensor_Vaility_flag() \
-         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLHS01_Sensor_Vaility],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLHS01_Sensor_Vaility)
-
-#define l_flg_tst_LI0_RLHS01_Unused_flag() \
-         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLHS01_Unused],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLHS01_Unused)
-#define l_flg_clr_LI0_RLHS01_Unused_flag() \
-         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLHS01_Unused],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLHS01_Unused)
+#define l_flg_tst_LI0_RLS_Humid_flag() \
+         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_Humid],\
+         LIN_FLAG_BIT_OFFSET_LI0_RLS_Humid)
+#define l_flg_clr_LI0_RLS_Humid_flag() \
+         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_Humid],\
+         LIN_FLAG_BIT_OFFSET_LI0_RLS_Humid)
 
 
 
 /* Frame flag APIs */
-
-#define l_flg_tst_LI0_BCM_01_flag() \
-         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_BCM_01],\
-         LIN_FLAG_BIT_OFFSET_LI0_BCM_01)
-#define l_flg_clr_LI0_BCM_01_flag() \
-         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_BCM_01],\
-         LIN_FLAG_BIT_OFFSET_LI0_BCM_01)
 
 #define l_flg_tst_LI0_RLS_01_flag() \
          LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_01],\
@@ -1333,19 +896,12 @@ typedef enum {
          LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLS_01],\
          LIN_FLAG_BIT_OFFSET_LI0_RLS_01)
 
-#define l_flg_tst_LI0_RLHS_flag() \
-         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLHS],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLHS)
-#define l_flg_clr_LI0_RLHS_flag() \
-         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLHS],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLHS)
-
-#define l_flg_tst_LI0_RLHS01_flag() \
-         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLHS01],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLHS01)
-#define l_flg_clr_LI0_RLHS01_flag() \
-         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_RLHS01],\
-         LIN_FLAG_BIT_OFFSET_LI0_RLHS01)
+#define l_flg_tst_LI0_BCM_01_flag() \
+         LIN_TEST_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_BCM_01],\
+         LIN_FLAG_BIT_OFFSET_LI0_BCM_01)
+#define l_flg_clr_LI0_BCM_01_flag() \
+         LIN_CLEAR_BIT(lin_flag_handle_tbl[LIN_FLAG_BYTE_OFFSET_LI0_BCM_01],\
+         LIN_FLAG_BIT_OFFSET_LI0_BCM_01)
 
 
 

@@ -102,6 +102,5 @@ void RLS_SelfAdaptTask(void)
         u8_RainIntensity_Win[i] = 0;
     }
     
-    RLS_RunMode = MAIN_NORMAL;
-    u8_IntSpeedEnterCnt = 0;      
+    RLS_RunMode = MAIN_NORMAL;     
 }
