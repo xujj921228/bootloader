@@ -228,7 +228,7 @@ typedef struct
   
   uint8  RS_Error_Cnt[2];
   uint8  LS_Error_Cnt ;
-  uint8  IR_Error_Cnt[2] ;
+  uint8  IR_Error_Cnt ;
 } Rls_Error_t;
 
 

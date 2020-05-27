@@ -43,7 +43,6 @@ uint16 PD_WIN_AVG[CHAN_NUM][PD_WINDOW];
 uint8 FSM_Timer_Cn; /**雨量状态机主计时器0**/
 uint8 FSM_Timer_Cn1; /**雨量状态机主计时器1**/
 uint8 FSM_Timer_Cn2; /**雨量状态机主计时器2**/
-uint8  u8_Splash_cnt;/********雨量状态机泼溅计数************/
 
 tRain_Stastegy_Config const  Rain_Stastegy_Parameter =
 {
@@ -134,6 +133,7 @@ uint8 Period_Mode_Timer[5]=
 		    120		
 		};
 
+RLS_PARK_MODE_FSM_t PARK_MODE_FSM;
 uint8  u8_MeasureSureTime;
 RLS_StopMsureFlg_t RLS_StopMsureFlg;
 Rls_Error_t       App_Rls_Error;
@@ -167,20 +167,13 @@ uint8 u8_WiperSpeed_Expert;
 
 void Auto_Wiper_Var_Init(void)
 {
+	PARK_MODE_FSM = PARK_MODE_No_Rain;
 	Wiper_State_Fsm =  PARK_MODE;
 	Wiper_State_FsmPre = PARK_MODE;
-	
 	u8_MeasureSureTime = 0;
 	RLS_StopMsureFlg = RLS_Continue_Msure;
-	
 	BCM_APP_Value.BCM_RainSensitivity = APP_RainSensitivityAPP_LV4;
-
-	BCM_APP_Value.Single_Wipe_flag = FALSE;
-
-	u8_IntSpeedEnterCnt = 0;	
-	
-
-	
+    u8_IntSpeedEnterCnt = 0;	
 	Lin_Diag_Enable = FALSE;
 	u8_Lin_Diag_Enable_Cnt = 0;
 	
@@ -357,10 +350,10 @@ void RLS_Get_Rain_RainIntensity(uint8 PD_chan)
  *        RETURN : NONE              
  *        OTHERS : NONE
  *******************************************************/
-void RLS_Get_Rain_ExpectStage(uint8 PD_chan)
+void RLS_Get_Rain_ExpectStage()
 {
-    if((PD_chan & PDB) == PDB) RLS_Get_Rain_RainIntensity(PDB);     
-    if((PD_chan & PDA) == PDA) RLS_Get_Rain_RainIntensity(PDA);  
+    RLS_Get_Rain_RainIntensity(PDB);     
+    RLS_Get_Rain_RainIntensity(PDA); 
 } 
 
 /*******************************************************
@@ -568,8 +561,7 @@ void RLS_Rain_State_Mchaine(void)
         	 * park_mode 变量
         	 * 1     bool_Wiper_StatePre_flag       在parkmode自己用的变量自己初始化，自己清理
         	 * 2     u8_WiperSpeed_Expert      输入全局变量，雨量等级，only read
-        	 * 5     FSM_Timer_Cn              主计时器，点刮连续计数器，有雨模式下清零，非有雨下开始计时
-        	 * 6     u8_Splash_cnt             泼溅模式，在park模式自己清理
+        	 * 3     FSM_Timer_Cn              主计时器，点刮连续计数器，有雨模式下清零，非有雨下开始计时
         	 * *****/
         	if(u8_IntSpeedEnterCnt < 2)/**连续两次进入有雨模式，延长park等待时间**/
         	{
@@ -577,67 +569,72 @@ void RLS_Rain_State_Mchaine(void)
         	}
         	else
         	{
-        		temp_timer = 800;
+        		temp_timer = 800;//有雨标志时间
         	}
-
-        	/***************点刮是否连续判断***********************************/
-        	if(FSM_Timer_Cn >= temp_timer) /******有雨连续时间到，清除标志位**********/
+        	
+        	if(Wiper_State_FsmPre != PARK_MODE)/*上次状态不为park*/
 			{
-        	   FSM_Timer_Cn = 0;
-			   u8_Splash_cnt = 0;
-			   u8_IntSpeedEnterCnt = 0;/*有雨连续时间到，清除进入点刮次数计数*/
-			}
-        	else/******************点刮连续时间未到**************************/
-        	{
-        		FSM_Timer_Cn++;/**点刮计时*/
-		 
-				 if(Wiper_State_FsmPre != PARK_MODE)/*上次状态不为park*/
-				 {
-					 u8_Splash_cnt = 0;
-					 for(i = 0;i < (PD_WINDOW - 1); i++) 
-					 {                   
-						 //将窗口中的历史数据全部刷成当前采集值
-						 PD_WIN_AVG[CHAN_A][i] = Mnrval.IR_[CHAN_A] ;//PD_WIN_AVG[CHAN_A][0];
-						 PD_WIN_AVG[CHAN_B][i] = Mnrval.IR_[CHAN_B] ;//PD_WIN_AVG[CHAN_B][0];
-					 } 
-				 }
-				 /**非park等待时间，开始检测雨量**/
-				 if((Wiper_State_FsmPre == PARK_MODE)&&(FSM_Timer_Cn > 20))
-				 {		
-					 if(u8_WiperSpeed_Expert != 0)/*检测到有雨*/
-					 {
-						 FSM_Timer_Cn = 0;/**检测到有雨，重新开始计数有雨模式*/
-						 Wiper_State_Fsm = INT_SPEED_MODE;/*检测到有雨就进入点刮*/
-					 }
-				   }
-
+				FSM_Timer_Cn = 0;
+				for(i = 0;i < (PD_WINDOW - 1); i++) 
+				{                   
+					 //将窗口中的历史数据全部刷成当前采集值
+					PD_WIN_AVG[CHAN_A][i] = Mnrval.IR_[CHAN_A] ;//PD_WIN_AVG[CHAN_A][0];
+					PD_WIN_AVG[CHAN_B][i] = Mnrval.IR_[CHAN_B] ;//PD_WIN_AVG[CHAN_B][0];
+				} 
+				PARK_MODE_FSM =  PARK_MODE_Rain_Wait;
 			}
         	
-			/***************
-			 * 泼溅模式
-			 * 不受Pre_Park_Mode等待时间影响，直接进入，
-			 * 但是第一次点刮会继续
-			 * 也就是从第一次点刮完成后开始计数，
-			 * 雨量不大就清除计数，或者推出有雨状态就停止计数
-			 * *********************/
-			 if((u8_RainIntensity[CHAN_A] >= Rain_Stastegy_Parameter.park_enter_high_th)
-			   &&(u8_RainIntensity[CHAN_B]>= Rain_Stastegy_Parameter.park_enter_high_th)) 
+        	/*
+        	 * 按照时间把parkmode分为三个状态机
+        	 * 1、正常无雨状态：  正常检测，没有任何计时
+        	 * 2、有雨点刮等待、等待1s
+        	 * 3、有雨状态是否连续计时
+        	 * */
+			switch(PARK_MODE_FSM)
 			{
-				u8_Splash_cnt++;
-				if(u8_Splash_cnt >= 20)
+			    default:
+				case PARK_MODE_No_Rain:/*无雨状态正常检测*/
 				{
-					u8_Splash_cnt = 0;
-		
-					Wiper_State_Fsm = HIGH_SPEED_MODE;
-				}										
+					if((u8_WiperSpeed_Expert != 0)||(BCM_APP_Value.Single_Wipe_flag == TRUE))/*检测到有雨*/
+					{
+						Wiper_State_Fsm = INT_SPEED_MODE;/*检测到有雨就进入点刮*/
+					}
+				}break;
+				case PARK_MODE_Rain_Wait:/*有雨点刮park等待1s*/
+				{
+					FSM_Timer_Cn++;
+					if(FSM_Timer_Cn >= 20) 
+					{
+						for(i = 0;i < Rain_WINDOW ;i++) 
+						{
+						  u8_RainIntensity_Win[i] = 0;
+						}
+						PARK_MODE_FSM = PARK_MODE_Raining;
+					}
+				}break;
+				case PARK_MODE_Raining:/*有雨模式*/
+				{
+					/***************点刮是否连续判断***********************************/
+					 FSM_Timer_Cn++;/**点刮计时*/
+					if(FSM_Timer_Cn >= temp_timer) /******有雨连续时间到，清除标志位**********/
+					{
+					   u8_IntSpeedEnterCnt = 0;/*有雨连续时间到，清除进入点刮次数计数*/
+					   PARK_MODE_FSM = PARK_MODE_No_Rain;/*退出有雨模式*/
+					}
+					else
+					{
+						if((u8_WiperSpeed_Expert != 0)||(BCM_APP_Value.Single_Wipe_flag == TRUE))/*检测到有雨*/
+						{
+						   Wiper_State_Fsm = INT_SPEED_MODE;/*检测到有雨就进入点刮*/
+						}	
+					}
+				}break;
 			}
-			else
-		    {
-				u8_Splash_cnt = 0;	 
-		    }
+			
 
-			 Wiper_State_FsmPre =  PARK_MODE;
+			Wiper_State_FsmPre =  PARK_MODE;
         } break;  
+        
         case INT_SPEED_MODE:
         {
         	/**
@@ -662,7 +659,6 @@ void RLS_Rain_State_Mchaine(void)
         	 FSM_Timer_Cn++;/**/
             if(FSM_Timer_Cn >= 10)
             {
-            	FSM_Timer_Cn = 0;/*再清理一下计数器，保险一些*/
             	Wiper_State_Fsm = PARK_MODE;
                 u8_IntSpeedEnterCnt++;
             } 
@@ -676,7 +672,7 @@ void RLS_Rain_State_Mchaine(void)
 			{			
 				if(u8_IntSpeedEnterCnt > 2)/**/
 				{
-					u8_IntSpeedEnterCnt = 0;
+					u8_IntSpeedEnterCnt = 2;
 					Wiper_State_Fsm = LOW_SPEED_MODE; 
 				}
 			}
@@ -686,7 +682,7 @@ void RLS_Rain_State_Mchaine(void)
 				if(u8_IntSpeedEnterCnt >= Rain_Stastegy_Parameter.int_enter_period_cnt[BCM_APP_Value.BCM_RainSensitivity])
 				{
 					Wiper_State_Fsm = PERIOD_SPEED_MODE;
-					u8_IntSpeedEnterCnt = 0;
+					u8_IntSpeedEnterCnt = Rain_Stastegy_Parameter.int_enter_period_cnt[BCM_APP_Value.BCM_RainSensitivity] - 1;
 				}
         	}
         	Wiper_State_FsmPre =  INT_SPEED_MODE;
@@ -709,7 +705,6 @@ void RLS_Rain_State_Mchaine(void)
 		    	FSM_Timer_Cn = 0;
 		    	FSM_Timer_Cn1 = 0;
 		    	FSM_Timer_Cn2 = 0;
-		    	u8_Splash_cnt = 0;
 		    	u8_cnt_choose_pre = u8_cnt_choose_now;
 		    }
 		    FSM_Timer_Cn++;/********主机计时器开始计数***********/
@@ -768,20 +763,6 @@ void RLS_Rain_State_Mchaine(void)
         		}
         	}
         	
-        	/*****************周期刮刷内的大雨模式****************************/
-        	if((u8_RainIntensity[CHAN_A] >= Rain_Stastegy_Parameter.park_enter_high_th)
-        			&&(u8_RainIntensity[CHAN_B]>= Rain_Stastegy_Parameter.park_enter_high_th)) 
-			{
-				if(u8_Splash_cnt >= 40)
-				{
-					u8_Splash_cnt = 0;
-					Wiper_State_Fsm = HIGH_SPEED_MODE;
-				}
-				else
-				{
-					u8_Splash_cnt++;
-				}								
-			} 
         	Wiper_State_FsmPre =  PERIOD_SPEED_MODE;
         } break;
         
@@ -961,7 +942,7 @@ void RLS_Wipe_Park_Process(void)
  *******************************************************/                      
 void RLS_Auto_Rain_Task(void)
 {
-    RLS_Get_Rain_ExpectStage(PDB|PDA);
+    RLS_Get_Rain_ExpectStage();
     RLS_Mask_False_Operation();
     RLS_Invalid_DataProcess(); 
     RLS_Rain_State_Mchaine();   
@@ -989,6 +970,7 @@ void RLS_Single_Wipe_Function(void)
 		
 		if(u8_Sigle_Wipe_Cnt > 10)
 		{
+			u8_Sigle_Wipe_Cnt = 0;
 			BCM_APP_Value.Single_Wipe_flag = FALSE;
 			RLS_APP_Value.RLS_APP_WiperSpeed = WiperSpeed_Off;
 		}

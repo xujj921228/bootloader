@@ -98,7 +98,7 @@ static uint8 FUNC_HUM_RESET(void)
  ****************************************************************************************************/
 uint8 FUNC_READ_HUMDATA(uint16 cmd)
 {
-	uint16 Temper[2],HumCrc;
+	uint8 Temper[2],HumCrc;
 	uint32 temp = 0;
 	uint8 i = 0 ;
        
@@ -130,7 +130,7 @@ uint8 FUNC_READ_HUMDATA(uint16 cmd)
 	if(DRV_IIC_READ_BYTE(ACK) == crc8(Temper,2))
 	{
 		Temp_error_cnt = 0;
-		Temp_measure_TP = Temper[0]<<8|Temper[1];
+		Temp_measure_TP = ((uint16)Temper[0])<<8|Temper[1];
 		temp         = (unsigned long)Temp_measure_TP*175;
 #if 0
 		f_acture_temp =  (float)(temp/65534 - 45); //f_acture_temp
@@ -153,7 +153,7 @@ uint8 FUNC_READ_HUMDATA(uint16 cmd)
 		if(HumCrc == crc8(Temper,2))                   
 		{
 			  Hum_error_cnt = 0;
-			  Hum_measure_TP =  Temper[0]<<8|Temper[1];
+			  Hum_measure_TP =  ((uint16)Temper[0])<<8|Temper[1];
 			  temp = (unsigned long)Hum_measure_TP*100;                    
 			  Hum_measure = temp/65534;
 #if 0
@@ -183,6 +183,7 @@ uint8 FUNC_READ_HUMDATA(uint16 cmd)
 	
 	DRV_IIC_STOP();
         
+	return 1;
 }
 
 /****************************************************************************************************

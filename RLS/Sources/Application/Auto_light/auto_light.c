@@ -18,10 +18,10 @@ extern BCM_APP_Value_t     BCM_APP_Value;
 tLight_Stastegy_Config const  Light_Stastegy_Parameter =
 {
         55,  //off_timer
-        350, //Lowbean_on_th
-        1000, //Lowbean_off_th
-        350, //PositionLamp_on_th
-        1000  //PositionLamp_off_th
+        100, //Lowbean_on_th
+        150, //Lowbean_off_th
+        100, //PositionLamp_on_th
+        150  //PositionLamp_off_th
 } ;
 
 uint8  u8_LightOnTimer;
@@ -33,7 +33,7 @@ uint8  Light_off_cnt[LIGHT_TYPE];
 
 void Auto_light_Var_Init(void)
 {
-	uint8 i;
+	App_Rls_Error.LS_Error_Cnt = 0;
 	
 	RLS_APP_Value.light_on_req = Light_Off;  
 	RLS_APP_Value.twilight_on_req = Light_Off;
@@ -75,18 +75,18 @@ void RLS_AutoLightControl(void)
 	}
 	else if (u16_Brightness_UP <= 150)
 	{
-        temp_light_on_th =  Light_Stastegy_Parameter.Lowbean_on_th + 25;
-	    temp_light_off_th =  Light_Stastegy_Parameter.Lowbean_off_th + 25;
+        temp_light_on_th =  Light_Stastegy_Parameter.Lowbean_on_th + 10;
+	    temp_light_off_th =  Light_Stastegy_Parameter.Lowbean_off_th + 10;
 	}
 	else 
 	{
-        temp_light_on_th =  Light_Stastegy_Parameter.Lowbean_on_th + 50;
-	    temp_light_off_th =  Light_Stastegy_Parameter.Lowbean_off_th + 50;
+        temp_light_on_th =  Light_Stastegy_Parameter.Lowbean_on_th + 20;
+	    temp_light_off_th =  Light_Stastegy_Parameter.Lowbean_off_th + 20;
 	}
 	
 	if(App_Rls_Error.IR_Error == 0)
     {
-		if((u16_Brightness_FW <= temp_light_on_th )&&(u16_Brightness_UP <= 150))
+		if((u16_Brightness_FW <= temp_light_on_th )&&(u16_Brightness_UP <= 50))
 		{
 			 Light_off_cnt[LIGHT] = 0;
 			 if(Light_on_cnt[LIGHT] >= u8_LightOnTimer)
@@ -98,7 +98,7 @@ void RLS_AutoLightControl(void)
 					Light_on_cnt[LIGHT]++ ;
 			 }
 		} 		
-		else if(((u16_Brightness_FW > temp_light_off_th )&&(u16_Brightness_UP > 250))||(u16_Brightness_FW > 1500))
+		else if(((u16_Brightness_FW > temp_light_off_th )&&(u16_Brightness_UP > 64))||(u16_Brightness_FW > 300))
 		{	
 			 Light_on_cnt[LIGHT] = 0;
 			 if(Light_off_cnt[LIGHT] >= Light_Stastegy_Parameter.off_timer)
@@ -168,8 +168,8 @@ void RLS_Light_Module_Fault_Process(void)
 				
 	if(Mnrval.Amb_[1] == 0)  //IR
 	{
-		App_Rls_Error.IR_Error_Cnt[0]++;
-		if(App_Rls_Error.IR_Error_Cnt[0] >= 50)
+		App_Rls_Error.IR_Error_Cnt++;
+		if(App_Rls_Error.IR_Error_Cnt >= 50)
 		{
 			App_Rls_Error.IR_Error = 1;
 		}
@@ -177,7 +177,7 @@ void RLS_Light_Module_Fault_Process(void)
 	else
 	{
 		App_Rls_Error.IR_Error = 0;
-		App_Rls_Error.IR_Error_Cnt[0] = 0;
+		App_Rls_Error.IR_Error_Cnt = 0;
 	}
 }
 

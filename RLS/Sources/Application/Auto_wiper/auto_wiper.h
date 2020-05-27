@@ -63,6 +63,12 @@ typedef struct
     uint8 high_hold_th[5][3];
 }tRain_Stastegy_Config;
 
+typedef enum
+{
+   PARK_MODE_No_Rain                 = 0,
+   PARK_MODE_Rain_Wait               = 1,
+   PARK_MODE_Raining                 = 2
+}RLS_PARK_MODE_FSM_t;
 
 typedef enum
 {
@@ -106,7 +112,7 @@ extern void Auto_Wiper_Var_Init(void);
 extern void RLS_Rain_Module_Fault_Process(uint8 chan);
 extern uint8 RLS_Get_Rain_State(uint8 PD_chan);
 extern void RLS_Get_Rain_RainIntensity(uint8 PD_chan);
-extern void RLS_Get_Rain_ExpectStage(uint8 PD_chan);
+extern void RLS_Get_Rain_ExpectStage();
 extern void RLS_Mask_False_Operation(void);
 extern void RLS_Invalid_DataProcess(void);
 extern uint8 RLS_Period_Time_Choose();

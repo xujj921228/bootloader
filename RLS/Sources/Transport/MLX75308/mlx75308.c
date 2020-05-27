@@ -122,25 +122,9 @@ uint16 RLS_Rain_Get_Measure(uint8 PD_chan,uint8 n,uint16 DC_cancel_th)
     sum = sum / mtime;
    
     //-----------DC SOFT compensation ---------------//
-   
-    if(RLS_RunMode == MAIN_SLEFADAPT)
-    {
-        PDavage = (uint16) (sum);
-    }
-    else 
-    {
-		if(Mnrval.DC_aft_[Chan_Temp]<= DC_COMP_TH0)
-		{   
-			PDavage = sum ; 
-		}
-		else
-		{
-		   // temp =  Mnrval.DC_aft_A - DC_COMP_TH0 ;
-		   // u16_DC_Comp_Value[0] = temp*10/ SOFT_DC_COMP_VALUE0;
-			//PDavage = sum - u16_DC_Comp_Value[0];
-		  PDavage = sum ;
-		}
-    }
+
+    PDavage = (uint16) (sum);
+
    
     return (PDavage); 
 }

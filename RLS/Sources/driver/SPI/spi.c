@@ -485,7 +485,7 @@ void MLX75308_Meansure(uint8 Mnsr_chan)
     SM_reg = 0xD000 | SM_reg;
     SPI_Wr_Cmd(SM_reg);
     WDOG_Feed();
-    Delay_Ms(3);        //Measure Delay, very important              
+    Delay_Ms(1);        //Measure Delay, very important              
     
     SPI_Rd_Mchan(Mnsr_chan);
     

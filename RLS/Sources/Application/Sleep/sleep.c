@@ -96,7 +96,7 @@ void Auto_Roof_Process(void)
 		case Roof_RAIN_CHECK:
 		{
             RLS_Auto_Rain_Task();
-			if(RLS_APP_Value.RLS_APP_WiperSpeed != WiperSpeed_High)
+			if(RLS_APP_Value.RLS_APP_WiperSpeed != WiperSpeed_Off)
 			{			
 				Auto_Roof_FSM = Roof_Wake_Up;	
 				u8_wakeup_bcm_1500ms_timer = 0;

@@ -171,6 +171,7 @@ void RLS_APP_Get_Data(void)
 		default:
          BCM_APP_Value.BCM_RainSensitivity = APP_RainSensitivityAPP_LV4;break;               
 	}
+	BCM_APP_Value.Single_Wipe_flag = FALSE;
 	if(Lin_BCM_Frame.BCM_RainSensitivity > BCM_APP_Value.Pre_BCM_RainSensitivity)
 	{
 		BCM_APP_Value.Single_Wipe_flag = TRUE;
@@ -194,7 +195,7 @@ void RLS_APP_Get_Data(void)
  *******************************************************/ 
 void Lin_RLS_data(void)
 {	
-	RLS_Single_Wipe_Function();
+	//RLS_Single_Wipe_Function();
 	RLS_APP_Send_data();	
 }
 
@@ -289,13 +290,13 @@ void RLS_APP_Send_data(void)
 	/************************
 	 * IR_L
 	 * ******************************************/
-	Lin_RLS1_frame.RLS_Brightness_IR_L = u16_Brightness_UP;
+	Lin_RLS1_frame.RLS_Brightness_IR_L = u16_Brightness_UP >>4;
 	
 	
 	/************************ 
 	 * FW
 	 * ******************************************/
-	Lin_RLS1_frame.RLS_Brightness_FW = u16_Brightness_FW;
+	Lin_RLS1_frame.RLS_Brightness_FW = u16_Brightness_FW>>2;
 	
 	
 	/************************ 

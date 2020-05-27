@@ -19,6 +19,7 @@
 #include "sleep.h"
 #include "auto_air.h"
 #include "auto_light.h"
+#include "auto_humid.h"
 #include "battery.h"
 #include "lin_diagnostic_service.h"
 #include "self_adapt.h"
@@ -34,7 +35,6 @@ uint8  Timer_10ms_flag;
 uint8  Timer_50ms_flag;
 uint8  Timer_100ms_flag;
 uint8  Timer_500ms_flag;
-bool_t Frist_on_flag;
 
 extern bool_t bool_auto_roof_rain_measure_sleep_flg;
 
@@ -53,7 +53,6 @@ void Gloable_Var_Init(void)
     Timer_50ms_flag = 0;
     Timer_100ms_flag = 0;
     Timer_500ms_flag = 0;
-	Frist_on_flag = FALSE ;
     
     RLS_RunMode = MAIN_SLEFADAPT;
     
@@ -64,8 +63,8 @@ void Gloable_Var_Init(void)
     Auto_Wiper_Var_Init();//var for rain
     Diagnostic_Var_init();//var for Diagnostic
     Lin_Var_Init();//var for lin
+    Auto_Humid_Var_Init();/*var for Humid*/
 }
-
 /***********************************************************************************************
 *
 * @brief    main - Initialize 
@@ -73,7 +72,7 @@ void Gloable_Var_Init(void)
 * @return   none
 *
 ************************************************************************************************/ 
-void main(void)
+int main(void)
 {	
 	Clk_Init();	
 	FTM0_Init();
@@ -94,13 +93,12 @@ void main(void)
 	for(;;) 
 	{			
 		WDOG_Feed();
-                
+		          
 		/***********here check for sleep*************************************************************************************************
 		 * ************************************************************************************************************************
 		 * ************************************************************************************************************************
 		 * ************************************************************************************************************************/
-		Sleep_check();
-				
+		Sleep_check();		
 		switch(RLS_RunMode)
 		{
 		/***********RLS NORMAL MODE*************************************************************************************************
@@ -113,7 +111,7 @@ void main(void)
 			if(Timer_10ms_flag == 1)
 			{
 			  Timer_10ms_flag = 0;
-			  lin_diagservice_session_state();   
+			  lin_diagservice_session_state();
 			}
 			 if(Timer_50ms_flag == 1)
 			{
@@ -130,7 +128,6 @@ void main(void)
 #ifdef ENABLE_SOLAR
 			  RLS_Auto_Solar_Task();	
 #endif
-			  Frist_on_flag = TRUE;	
               }
 			 if(Timer_500ms_flag == 1)
 			{
@@ -152,20 +149,20 @@ void main(void)
 		 * ************************************************************************************************************************/	  
 		  case MAIN_SLEEP_Mode:
 		  {        
-                         if(Timer_50ms_flag == 1)
-                        {
-                               Timer_50ms_flag = 0;
-                               Timer_600ms++;
+				 if(Timer_50ms_flag == 1)
+				{
+					   Timer_50ms_flag = 0;
+					   Timer_600ms++;
 #ifdef ENABLE_AUTO_ROOF
 			       Auto_Roof_Process();
 #endif
-                        }
+				}
 
-                       if(Timer_600ms >= 12) //   600ms Task
-                        {
-                                Timer_600ms = 0;
-                                bool_auto_roof_rain_measure_sleep_flg = TRUE;
-                        }
+			   if(Timer_600ms >= 12) //   600ms Task
+				{
+						Timer_600ms = 0;
+						bool_auto_roof_rain_measure_sleep_flg = TRUE;
+				}
 		  }break;
 		  
 		  
@@ -186,6 +183,7 @@ void main(void)
 		  default: 
 		 RLS_RunMode = MAIN_NORMAL; 
 		 break;
-		}				
+		}	
+
 	 }	
 }
