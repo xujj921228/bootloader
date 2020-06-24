@@ -68,12 +68,12 @@ void RLS_AutoLightControl(void)
     }
     
 	
-	if(u16_Brightness_UP <= 100)
+	if(u16_Brightness_UP <= 50)
 	{
 	    temp_light_on_th =  Light_Stastegy_Parameter.Lowbean_on_th;
 	    temp_light_off_th =  Light_Stastegy_Parameter.Lowbean_off_th; 
 	}
-	else if (u16_Brightness_UP <= 150)
+	else if (u16_Brightness_UP <= 80)
 	{
         temp_light_on_th =  Light_Stastegy_Parameter.Lowbean_on_th + 10;
 	    temp_light_off_th =  Light_Stastegy_Parameter.Lowbean_off_th + 10;

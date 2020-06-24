@@ -13,16 +13,16 @@
 		<item value="false" key="isRegEx"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wholeword"/>
-		<item value="Frist_on_flag" key="selection"/>
+		<item value="RLS_APP_Value" key="selection"/>
 		<list key="findhistory">
-			<item value="Frist_on_flag"/>
-			<item value="App_Rls_Error"/>
-			<item value="PD_Meas_Comp_Ref_Pre"/>
-			<item value="DC_WIN_BUFF"/>
-			<item value="u8_PD_State"/>
-			<item value="PD_Meas_Comp_Ref"/>
-			<item value="PD_WIN_AVG"/>
-			<item value="Mnrval.IR_A"/>
+			<item value="RLS_APP_Value"/>
+			<item value="u8_IntSpeedEnterCnt"/>
+			<item value="Lin_Busy_Flag"/>
+			<item value="Wiper_State_Fsm"/>
+			<item value="Mnsr_chan"/>
+			<item value="RLS_Mask_False_Operation"/>
+			<item value="RLS_RunMode"/>
+			<item value="RLS_Get_Rain_State"/>
 		</list>
 		<list key="replacehistory">
 		</list>

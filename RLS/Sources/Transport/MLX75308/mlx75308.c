@@ -8,6 +8,7 @@
 
 extern Main_Fsm_t  RLS_RunMode;
 extern local_info_t local_info;
+extern uint8  u8_IntSpeedEnterCnt;
 
 tMlx75308_Config const Mlx75308_Config_Parameter =
 {
@@ -35,7 +36,7 @@ MLX75308_Frame_t       MLX75308_RxFrame;
 MLX75308_Mnrval_t      Mnrval;
 
 uint8  MLX75308_A_Gain,MLX75308_B_Gain;
-uint16 u16_DC_checkValue,u16_DC_comp_value;
+uint16 u16_DC_comp_value;
 uint16 u16_Save_DC_bre_[2],u16_Save_DC_aft_[2];
 uint16 u16_Delta_DC_bre_[2],u16_Delta_DC_aft_[2];
 
@@ -50,9 +51,11 @@ uint16 u16_Delta_DC_bre_[2],u16_Delta_DC_aft_[2];
 uint16 RLS_Rain_Get_Measure(uint8 PD_chan,uint8 n,uint16 DC_cancel_th)
 {   
    uint32 sum,sum_DC[2];
-   uint16 PDavage,DC_chk;
+   uint16 DC_chk;
    uint8 i,mtime;
    uint8 Chan_Temp = CHAN_A;
+   uint16 temp_th1,temp_th2;
+   
    if(PD_chan == PDB) Chan_Temp = CHAN_B;
    
    mtime = 0;
@@ -70,9 +73,8 @@ uint16 RLS_Rain_Get_Measure(uint8 PD_chan,uint8 n,uint16 DC_cancel_th)
       else 
          DC_chk = MLX75308_RxFrame.data_field[2] - MLX75308_RxFrame.data_field[0];
      
-      u16_DC_checkValue =  DC_chk;
 
-      if(RLS_RunMode == MAIN_SLEFADAPT)
+      if((RLS_RunMode == MAIN_SLEFADAPT)||(DC_chk < DC_cancel_th))
 	  {
 		if(MLX75308_RxFrame.data_field[1] > 34000) 
 		{
@@ -87,46 +89,39 @@ uint16 RLS_Rain_Get_Measure(uint8 PD_chan,uint8 n,uint16 DC_cancel_th)
 		   return 0; 
 		}
 	  }
-      else
-      {
-          if((DC_chk < DC_cancel_th) && (MLX75308_RxFrame.data_field[1] > 34000)) 
-          {
-          
-            sum_DC[0] += MLX75308_RxFrame.data_field[0];
-            sum_DC[1] += MLX75308_RxFrame.data_field[2];  
-            sum += MLX75308_RxFrame.data_field[1];
-            mtime ++;
-            i ++;
-          }
-          else
-          {
-             return 0; 
-          }
-      }
+   }
+   
+   if(u8_IntSpeedEnterCnt > 2)
+   {
+	   temp_th1 =  DC_bef_dtTH_RAIN;
+	   temp_th2 =  DC_aft_dtTH_RAIN;
+   }
+   else
+   {
+	   temp_th1 =  DC_bef_dtTH;
+	   temp_th2 =  DC_aft_dtTH;
    }
    
 
-        sum_DC[0] = sum_DC[0] / mtime;
-        Mnrval.DC_bre_[Chan_Temp] = (uint16)(sum_DC[0]);
-        Mnrval.DC_aft_[Chan_Temp] = (uint16)(sum_DC[1] / mtime);
-        
-        u16_Delta_DC_bre_[Chan_Temp]=  (u16_Save_DC_bre_[Chan_Temp] >= Mnrval.DC_bre_[Chan_Temp])?(u16_Save_DC_bre_[Chan_Temp] - Mnrval.DC_bre_[Chan_Temp]):(Mnrval.DC_bre_[Chan_Temp] - u16_Save_DC_bre_[Chan_Temp]);
-        u16_Delta_DC_aft_[Chan_Temp] =  (u16_Save_DC_aft_[Chan_Temp] >= Mnrval.DC_aft_[Chan_Temp])?(u16_Save_DC_aft_[Chan_Temp] - Mnrval.DC_aft_[Chan_Temp]):(Mnrval.DC_aft_[Chan_Temp]- u16_Save_DC_aft_[Chan_Temp]);
-        
-        u16_Save_DC_bre_[Chan_Temp]  =  Mnrval.DC_bre_[Chan_Temp];
-        u16_Save_DC_aft_[Chan_Temp]  =  Mnrval.DC_aft_[Chan_Temp];
-        
-        if((u16_Delta_DC_bre_[Chan_Temp] > DC_bef_dtTH) || (u16_Delta_DC_aft_[Chan_Temp]> DC_aft_dtTH))    return 0; 
+	Mnrval.DC_bre_[Chan_Temp] = (uint16)(sum_DC[0]/mtime);
+	Mnrval.DC_aft_[Chan_Temp] = (uint16)(sum_DC[1] / mtime);
+	
+	u16_Delta_DC_bre_[Chan_Temp]=  (u16_Save_DC_bre_[Chan_Temp] >= Mnrval.DC_bre_[Chan_Temp])?(u16_Save_DC_bre_[Chan_Temp] - Mnrval.DC_bre_[Chan_Temp]):(Mnrval.DC_bre_[Chan_Temp] - u16_Save_DC_bre_[Chan_Temp]);
+	u16_Delta_DC_aft_[Chan_Temp] =  (u16_Save_DC_aft_[Chan_Temp] >= Mnrval.DC_aft_[Chan_Temp])?(u16_Save_DC_aft_[Chan_Temp] - Mnrval.DC_aft_[Chan_Temp]):(Mnrval.DC_aft_[Chan_Temp]- u16_Save_DC_aft_[Chan_Temp]);
+	
+	u16_Save_DC_bre_[Chan_Temp]  =  Mnrval.DC_bre_[Chan_Temp];
+	u16_Save_DC_aft_[Chan_Temp]  =  Mnrval.DC_aft_[Chan_Temp];
+	
+	if((u16_Delta_DC_bre_[Chan_Temp] > temp_th1) ||
+			(u16_Delta_DC_aft_[Chan_Temp]> temp_th2))    return 0; 
 
     
     sum = sum / mtime;
    
     //-----------DC SOFT compensation ---------------//
 
-    PDavage = (uint16) (sum);
 
-   
-    return (PDavage); 
+    return ((uint16) (sum)); 
 }
 
 

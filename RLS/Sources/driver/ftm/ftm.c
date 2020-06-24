@@ -73,7 +73,8 @@ void FTM0_IRQHandler()   //10ms
         Timer_50ms++;
         Timer_100ms++;
         Timer_500ms++;
-
+        RLS_Wipe_Park_Process();
+        
         if(Timer_50ms >= 5) //   50ms Task
         {
               Timer_50ms = 0;

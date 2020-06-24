@@ -26,6 +26,7 @@ __stack_size = 0x100; 				/* required amount of stack */
   m_text 		(rx) : ORIGIN = 0x00000800, LENGTH = 64K - 0x800
   m_data 	   (rwx) : ORIGIN = 0x1FFFFC00, LENGTH = 4K			
 }*/
+
 MEMORY
 {
   m_interrupts	(rx) : ORIGIN = 0x00005000, LENGTH = 0xC0

@@ -264,7 +264,7 @@ extern uint8 SPI_Rd_Reg(uint8 Addr);
 extern uint8 SPI_Wr_Reg(uint8 Data, uint8 Addr);
 
 extern uint8 SPI_Wr_Reg(uint8 Data, uint8 Addr);
-extern uint8 SPI_Wr_Cmd(uint16 Cmd);                        
+extern bool_t SPI_Wr_Cmd(uint16 Cmd);                        
 extern void MLX75308_Meansure(uint8 Mnsr_chan); 
 extern uint8 MLX75308_SetPara(uint8 Para_Name,uint8 Set_val);
 

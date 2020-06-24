@@ -114,7 +114,7 @@ void SPI_SetBaudRate(uint32_t u32BusClock,uint32_t u32Bps)
  * @discription : uint8 SPI_Wr_Cmd(uint16 Cmd) 
  ********************************************************************************/
 
-uint8 SPI_Wr_Cmd(uint16 Cmd) 
+bool_t SPI_Wr_Cmd(uint16 Cmd) 
 {
     uint8 i,rt_value;
     uint8 p, parity;
@@ -400,7 +400,7 @@ uint8 MLX75308_SetPara(uint8 Para_Name,uint8 Set_val)
  * @discription : uint8 SPI_Rd_Mchan(uint8 Mnsr_chan)
  ********************************************************************************/
  
-uint8 SPI_Rd_Mchan(uint8 Mnsr_chan) 
+bool_t SPI_Rd_Mchan(uint8 Mnsr_chan) 
 {
   uint8 i,j,ch;
   uint16 temp,RDBUF;
