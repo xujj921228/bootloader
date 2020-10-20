@@ -176,14 +176,6 @@ void lin_tl_make_slaveres_pdu
 				}
 				else if (error_code == (LIN_LS_FW_PARAM&0xFF))
 				{
-					if(local_info.Brightness_Light_Percentage == 0xFF)
-					{
-						local_info.Brightness_Light_Percentage = 100;
-					}
-					else
-					{
-						local_info.Brightness_Light_Percentage = temp_data[0];
-					}
 					/* PCI type */
 				        lin_tl_pdu[1] = PCI_READ_LS_FW_BY_IDENTIFY;
 					/* Get Identifier infor */
@@ -193,14 +185,6 @@ void lin_tl_make_slaveres_pdu
 				}
 				else if (error_code == (LIN_LS_IR_PARAM&0xFF))
 				{
-					if(local_info.Brightness_Infrared_Percentage == 0xFF)
-					{
-						local_info.Brightness_Infrared_Percentage = 100;
-					}
-					else
-					{
-						local_info.Brightness_Infrared_Percentage = temp_data[0];
-					}
 					/* PCI type */
 					lin_tl_pdu[1] = PCI_READ_LS_IR_BY_IDENTIFY;
 					/* Get Identifier infor */

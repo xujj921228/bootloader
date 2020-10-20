@@ -31,8 +31,6 @@ extern uint8  Timer_10ms_flag;
 extern uint8  Timer_50ms_flag;
 extern uint8  Timer_100ms_flag;
 extern uint8  Timer_500ms_flag;
-extern uint8  Timer_4s;
-extern uint8  Timer_600ms;
 
 void FTM0_Init(void)
 {

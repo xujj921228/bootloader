@@ -23,20 +23,22 @@
 #include "battery.h"
 #include "lin_diagnostic_service.h"
 #include "self_adapt.h"
+#include "app_data.h"
+
 
 /************gloable  var*****************/
 uint8  Timer_50ms;
 uint8  Timer_100ms;
 uint8  Timer_500ms;
-uint8  Timer_600ms;
+
 uint8  Timer_4s;
-uint32  Timer_6h;
 uint8  Timer_10ms_flag;
 uint8  Timer_50ms_flag;
 uint8  Timer_100ms_flag;
 uint8  Timer_500ms_flag;
 
-extern bool_t bool_auto_roof_rain_measure_sleep_flg;
+extern BCM_APP_Value_t     BCM_APP_Value;
+extern RLS_APP_Value_t     RLS_APP_Value;
 
 Main_Fsm_t  RLS_RunMode;
 /*****************************************
@@ -47,15 +49,16 @@ void Gloable_Var_Init(void)
     Timer_50ms = 0;
     Timer_100ms = 0;
     Timer_500ms = 0;
-    Timer_600ms = 0;
     Timer_4s = 0;
     Timer_10ms_flag = 0;
     Timer_50ms_flag = 0;
     Timer_100ms_flag = 0;
     Timer_500ms_flag = 0;
     
+
     RLS_RunMode = MAIN_SLEFADAPT;
     
+    Self_Adapt_Var_Init();
     Sleep_Var_Init();//var for sleep 
     Auto_Air_Var_Init();//var for Solar
     Auto_light_Var_Init();//var for light
@@ -84,8 +87,8 @@ int main(void)
 #ifdef FOUR_TO_ONE 
 	DRV_IIC_Init();
 #endif	
-	Gloable_Var_Init();  /*init all var for all task*/
 	Globle_Eep_parameter_Init();/*read all eep data for all task */
+	Gloable_Var_Init();  /*init all var for all task*/
 	Lin_Sys_Init();
 	MLX75308_Init();	
 	RTC_Init();
@@ -106,8 +109,7 @@ int main(void)
 		 * ************************************************************************************************************************
 		 * ************************************************************************************************************************/
 		  case MAIN_NORMAL:
-		  {    
-		    Timer_6h = 0;
+		  {  
 			if(Timer_10ms_flag == 1)
 			{
 			  Timer_10ms_flag = 0;
@@ -117,7 +119,6 @@ int main(void)
 			{
 			  Timer_50ms_flag = 0;
 			  RLS_Auto_Rain_Task();
-			  Lin_RLS_data();
 			}
 			 if(Timer_100ms_flag == 1)
 			{
@@ -148,21 +149,19 @@ int main(void)
 		 * ************************************************************************************************************************
 		 * ************************************************************************************************************************/	  
 		  case MAIN_SLEEP_Mode:
-		  {        
-				 if(Timer_50ms_flag == 1)
-				{
-					   Timer_50ms_flag = 0;
-					   Timer_600ms++;
-#ifdef ENABLE_AUTO_ROOF
-			       Auto_Roof_Process();
-#endif
-				}
-
-			   if(Timer_600ms >= 12) //   600ms Task
-				{
-						Timer_600ms = 0;
-						bool_auto_roof_rain_measure_sleep_flg = TRUE;
-				}
+		  {     
+			  if(BCM_APP_Value.BCM_APP_ModReq == APP_Polling_Mode)//BCM没有主动唤醒 
+			  {
+				  if(Timer_50ms_flag == 1)
+				  {
+					  Timer_50ms_flag = 0;
+					  Auto_Roof_Process();
+				  } 
+			  }
+			  else//BCM主动唤醒，就退出polling模式
+			  {
+				  boot_jump_to_APP((uint16 *)APP_start_address); 
+			  }
 		  }break;
 		  
 		  

@@ -35,8 +35,6 @@ tMlx75308_Config const Mlx75308_Config_Parameter =
 MLX75308_Frame_t       MLX75308_RxFrame;
 MLX75308_Mnrval_t      Mnrval;
 
-uint8  MLX75308_A_Gain,MLX75308_B_Gain;
-uint16 u16_DC_comp_value;
 uint16 u16_Save_DC_bre_[2],u16_Save_DC_aft_[2];
 uint16 u16_Delta_DC_bre_[2],u16_Delta_DC_aft_[2];
 

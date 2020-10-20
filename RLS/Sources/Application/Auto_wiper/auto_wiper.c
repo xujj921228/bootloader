@@ -13,7 +13,7 @@
 ******************************************************************************/
 #include "auto_wiper.h"
 #include "adc.h"
-#include "lin_app.h"
+#include "app_data.h"
 #include "lin.h"
 #include "lin_cfg.h"
 #include "spi.h"
@@ -32,8 +32,8 @@ extern Main_Fsm_t             RLS_RunMode;
 //this frame is for APP 
 extern RLS_APP_Value_t     RLS_APP_Value;
 extern BCM_APP_Value_t     BCM_APP_Value;
+extern Rls_Error_t       App_Rls_Error;
 
-extern RLS_APP_Value_t     RLS_APP_Value;
 extern MLX75308_Frame_t       MLX75308_RxFrame;
 extern MLX75308_Mnrval_t      Mnrval;
 
@@ -139,7 +139,6 @@ uint8 Period_Mode_Timer[5]=
 RLS_PARK_MODE_FSM_t PARK_MODE_FSM;
 uint8  u8_MeasureSureTime;
 RLS_StopMsureFlg_t RLS_StopMsureFlg;
-Rls_Error_t       App_Rls_Error;
 bool_t Lin_Diag_Enable;
 uint8  u8_Lin_Diag_Enable_Cnt;
 
@@ -155,7 +154,6 @@ RLS_Wiper_State_FSM_t  Wiper_State_FsmPre;
 
 uint16 DC_WIN_BUFF[CHAN_NUM][DC_WINDOW];
 uint8  u8_RainIntensity_Win[Rain_WINDOW];
-uint16 u16_DC_Comp_Value[CHAN_NUM];
 uint8  u8_RainIntensity[CHAN_NUM];
 uint8  u8_RainIntensity_Max;
 uint8  u8_IntSpeedEnterCnt;
@@ -189,7 +187,7 @@ void Auto_Wiper_Var_Init(void)
  *******************************************************/
 bool_t RLS_Rain_Module_Fault_Process(uint8 chan, uint8 PD_Temp)
 {	
-	App_Rls_Error.RS_Error = 0;	
+	App_Rls_Error.RS_Error = FALSE;	
 	
 	if (PD_Temp == 0) 
 	{
@@ -562,7 +560,7 @@ uint8 RLS_Period_Time_Choose()
 	}
 	else if(BCM_APP_Value.u16_SPD_Vehicle < 80)
 	{
-	   u8_cnt_choose_now = Rain_Stastegy_Parameter.u8_cnt_choose[BCM_APP_Value.BCM_RainSensitivity][20];
+	   u8_cnt_choose_now = Rain_Stastegy_Parameter.u8_cnt_choose[BCM_APP_Value.BCM_RainSensitivity][2];
 	   u8_Int_Time_now = Rain_Stastegy_Parameter.u8_Int_Time[BCM_APP_Value.BCM_RainSensitivity][2];
 	   Temp_Cn = Rain_Stastegy_Parameter.period_enter_low_cnt[BCM_APP_Value.BCM_RainSensitivity][2];
 	}
@@ -789,11 +787,15 @@ void RLS_Rain_State_Mchaine(void)
         	/***********清除低速计时，维持周期刮****************/
         	else
         	{
-        		FSM_Timer_Cn2++;
-        		if(FSM_Timer_Cn2 >= temp_timer)
+        		if(FSM_Timer_Cn1 > 0)
         		{
-        			FSM_Timer_Cn2 = 0;
-        			FSM_Timer_Cn1 = 0;
+						FSM_Timer_Cn2++;
+						if(FSM_Timer_Cn2 >= temp_timer)
+						{
+							FSM_Timer_Cn2 = 0;
+							FSM_Timer_Cn1 = 0;
+						}
+        			
         		}
         	}
         	
@@ -962,7 +964,7 @@ void RLS_Rain_State_Mchaine(void)
  *******************************************************/
 void RLS_Wipe_Park_Process(void)
 {
-    if(BCM_APP_Value.BCM_WiperPosition == APP_WiperPosition_Not_Parked)   //0为park点
+    if(BCM_APP_Value.BCM_WiperPosition == APP_WiperPosition_Not_Parked)
     {
         u8_MeasureSureTime++;
         if(Wiper_State_Fsm == HIGH_SPEED_MODE)

@@ -30,6 +30,7 @@
 #define _LIN_DIAGNOSTIC_SERVICE_H
 
 #include "lin.h"
+#include "config_parameter.h"
 #if LIN_MODE == _SLAVE_MODE_
 /* Unuse for GPIO */
 #if (_LIN_GPIO_ == 0) && !defined(_MC9S08SC4_H)&& !defined(MCU_SKEAZN84)
@@ -64,7 +65,10 @@
 * @see  #lin_process_parity
 *//*END*----------------------------------------------------------------------*/
 
+#define  APP_start_address 0x0004
+
 extern void Diagnostic_Var_init(void);
+extern void boot_jump_to_APP(uint16 *address);
 void lin_diagservice_assign_frame_id_range(void);
 
 extern void lin_diagservice_session_state(void);

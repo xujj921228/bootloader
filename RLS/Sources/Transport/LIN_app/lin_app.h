@@ -1,22 +1,3 @@
-/****************************************************************************** 
-* 
-* Freescale Semiconductor Inc. 
-* (c) Copyright 2013-2018 Freescale Semiconductor, Inc. 
-* ALL RIGHTS RESERVED. 
-* 
-****************************************************************************//*!  
-* 
-* @file      adc.h 
-* 
-* @author    xujun
-*  
-* @version   1.0 
-*  
-* @date      Sat Aug 04 10:53:51 CST 2018
-*  
-* @brief     Hardware configuration file
-* 
-******************************************************************************/
 #ifndef    _LIN_APP_H_  
 #define    _LIN_APP_H_  
 
@@ -49,6 +30,15 @@ typedef enum
    BCM_Amb_LV_NOT_Use       = 3  
 }BCM_Amb_LV_t;
 
+
+typedef enum
+{
+   BCM_Nomal_Mode           = 0,
+   BCM_Polling_Mode         = 1,
+   BCM_Sleep_Mode           = 2,
+   BCM_Reserved             = 3  
+}BCM_ModReq_t;
+
 typedef enum
 {
    RainSensitivity_Off       = 0,
@@ -69,21 +59,16 @@ typedef struct
   BCM_Washer_t                     BCM_Washer ;
     
   BCM_Amb_LV_t                     BCM_Amb_LV ;
+  
+  RainSensitivity_t                Pre_BCM_RainSensitivity  ;
    
   RainSensitivity_t                BCM_RainSensitivity  ;
     
   uint8                            BCM_VehicleSpeed     ;
+  
+  BCM_ModReq_t                     BCM_ModReq ;
       
 }BCM_Frame_t;
-
-
-
-
-
-
-
-
-
 
 
 
@@ -177,6 +162,26 @@ typedef enum
    HumiditySensor_Installed        = 1
 }HumiditySensorInstalled_t;
 
+
+typedef enum
+{
+   RLS_Nomal1_ModeReq              = 0,
+   RLS_Polling_ModeReq             = 1,
+   RLS_Sleep_ModeReq               = 2,
+   RLS_Reserved_ModeReq            = 3  
+}RLS_ModeReq_t;
+
+
+
+typedef enum
+{
+   RLS_No_Request           = 0,
+   RLS_Rain_Closed          = 1,
+   RLS_Time_Closed          = 2,
+   RLS_Closed_Reserved      = 3  
+}RLS_ClosedWind_t;
+
+
 typedef struct  
 {
  ContinuteReq_t	                   RLS_ContinuteReq ;
@@ -192,275 +197,16 @@ typedef struct
  LightSensorError_t	               RLS_LightSensorError ;
  HumiditySensorInstalled_t   	   RLS_HumiditySensorInstalled ;
  uint8	                           RLS_Amb_Value ;
- uint8	                           RLS_FW_Value ;	       
+ uint8	                           RLS_FW_Value ;	 
+ RLS_ModeReq_t                     RLS_ModReq;
+ RLS_ClosedWind_t                  RLS_ClosedWind;
 }RLS1_Frame_t;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*****************************
- * config of RLHS
- * * *******************************************************************************
- * *******************************************************************************
- * *******************************************************************************
- * *******************************************************************************
- * ***********************/
-
-typedef enum
-{
-   Validity    = 0,
-   Invalidity  = 1
-}Validity_t;
-
-
-typedef struct  
-{
-	ContinuteReq_t                 RLHS_COM_Continue_req;
-	DiagnnosticReq_t               RLHS_Diagnostic_Req;
-	AppResetStatus_t               RLHS_APP_Reset_Atatus;
-	AppConfigurationStatus_t       RLHS_APP_Configuration;
-	AppStatus_t                    RLHS_APP_Status;
-	LinComStatus_t                 RLHS_Comunicate_Status;
-	uint16                         RLHS_Humidity_Temp;
-	Validity_t                     RLHS_Humidity_Temp_Validity;
-	RainSensorError_t              RLHS_Sensor_Fault;
-	uint8                          RLHS_Unused_bit;
-	Validity_t                     RLHS_Sensor_Humidity_Validity;
-	uint8                          RLHS_Humindity_Value;
-}RLHS_Frame_t;
-
-
-
-
-
-
-
-
-
-/*****************************
- * config of RLHS01
- * * *******************************************************************************
- * *******************************************************************************
- * *******************************************************************************
- * *******************************************************************************
- * ***********************/
-
-typedef struct  
-{
-	ContinuteReq_t                 RLHS01_Continue_Req;
-	DiagnnosticReq_t               RLHS01_Diagnostic_Req;
-	AppResetStatus_t               RLHS01_APP_Reset;
-	AppConfigurationStatus_t       RLHS01_APP_configuration;
-	AppStatus_t                    RLHS01_APP_Status;
-	LinComStatus_t                 RLHS01_Comunication_Status;
-	uint16                         RLHS01_Temp01;
-	Validity_t                     RLHS01_Sensor_Vaility;
-	uint8                          RLHS01_Unused;
-}RLHS01_Frame_t;
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*****************************
- * config of lin_error
- * * *******************************************************************************
- * *******************************************************************************
- * *******************************************************************************
- * *******************************************************************************
- * ***********************/
-typedef struct
-{
-  uint8  RS_Error              :1;
-  uint8  LS_Error              :1;
-  uint8  IR_Error              :1;
-  uint8  rsv0                  :5;
-  
-  uint8  RS_Error_Cnt[2];
-  uint8  LS_Error_Cnt ;
-  uint8  IR_Error_Cnt ;
-} Rls_Error_t;
-
-
-
-
-
-
-
-
-
-
-/******************************RLS_APP_SET_DATA_TO_BCM
- * *******************************************************************************
- * *******************************************************************************
- * *******************************************************************************
- * *******************************************************************************
- * *******************************************************************************
- * *******************************************************************************
- * *******************************************************************************
- * *******************************************************************************
- * *******************************************************************************
- * *******************************************************************************
- * *******************************************************************************
- * *******************************************************************************
- * *************************************************************/
-
-typedef enum
-{
-    WiperSpeed_Off         = 0,
-    WiperSpeed_Low         = 1,
-    WiperSpeed_Single      = 2,
-    WiperSpeed_High        = 3
-}WiperSpeed_t;
-
-typedef enum
-{
-	VOLTAGE_NORMAL              = 0,
-	VOLTAGE_LOW                 = 1,
-	VOLTAGE_HIGH                = 2
-}Battery_status_t;
-
-typedef enum
-{
-	Light_Off              = 0,
-	Light_On                 = 1
-}APP_Light_t;
-
-typedef enum
-{
-  APP_NO_Diagnnostic_Req   = 0,
-  APP_Diagnnostic_Req      = 1
-}APP_DiagnnosticReq_t;
-
-typedef enum
-{
-  APP_LinComStatus_No_detected_Fault            = 0,
-  APP_LinComStatus_Reset                        = 1,
-  APP_LinComStatus_Reserved0                    = 2,
-  APP_LinComStatus_Reserved1                    = 3,
-  APP_LinComStatus_Data_Error                   = 4,
-  APP_LinComStatus_Checksum_error               = 5,
-  APP_LinComStatus_Byte_field_framing           = 6,
-  APP_LinComStatus_ID_parity_error              = 7
-}APP_LinComStatus_t;
-
-typedef enum
-{
-	APP_Rain_Invalid   = 0,
-    APP_Rain_Valid      = 1
-}APP_Rain_Valid_t;
-
-typedef struct  
-{
-  WiperSpeed_t	                         RLS_APP_WiperSpeed ;
-  Battery_status_t                       Battery_status;
-  APP_Light_t                            light_on_req;
-  APP_Light_t                            twilight_on_req;
-  uint8                                  u8_Solar_l_value;
-  uint8                                  u8_Solar_r_value;
-  APP_DiagnnosticReq_t                   APP_DiagnnosticReq;
-  bool_t                                 APP_Reset;
-  APP_Rain_Valid_t                       Rain_Valid;
-  bool_t                                 vehicle_start_Flag;
-}RLS_APP_Value_t;
-
-
-
-
-
-
-
-
-
-
-
-/******************************RLS_APP_GET_DATA_FROM_BCM
- * *******************************************************************************
- * *******************************************************************************
- * *******************************************************************************
- * *******************************************************************************
- * *******************************************************************************
- * *******************************************************************************
- * *******************************************************************************
- * *******************************************************************************
- * *******************************************************************************
- * *******************************************************************************
- * *******************************************************************************
- * *******************************************************************************
- * *************************************************************/
-
-
-typedef enum
-{
-   APP_RainSensitivityAPP__default       = 0,
-   APP_RainSensitivityAPP_LV1       = 1,   
-   APP_RainSensitivityAPP_LV2       = 2,
-   APP_RainSensitivityAPP_LV3       = 3,
-   APP_RainSensitivityAPP_LV4       = 4
-
-}APP_RainSensitivity_t;
-
-
-typedef enum
-{
-	BCM_Window_All_closed         = 0,
-	BCM_Window_Not_All_closed         = 1,
-	BCM_Window_All_On      = 2
-}APP_WindowStatus_t;
-
-
-typedef enum
-{
-   APP_WiperPosition_Not_Parked             = 0,
-   APP_WiperPosition_Parked                 = 1
-}APP_WiperPosition_t;
-
-typedef struct  
-{
-  APP_WindowStatus_t	                 BCM_WindowStatus ;
-  uint16                                 u16_SPD_Vehicle;
-  RainSensitivity_t                      Pre_BCM_RainSensitivity;
-  APP_RainSensitivity_t                  BCM_RainSensitivity  ;
-  APP_WiperPosition_t                    BCM_WiperPosition ; 
-  bool_t                                 Single_Wipe_flag;
-}BCM_APP_Value_t;
-
-
-
-
-
-
-
-
-
 
 extern void Lin_Var_Init(void);
 extern void Lin_Sys_Init(void);
 extern void Lin_Busy_Process(void);
 extern void RLS_Analysis_Master_Data(void);
-extern void message_cnt(void);
 extern void RLS_APP_Send_data(void);
-extern void RLHS_APP_Send_data(void);
-extern void RLHS01_APP_Send_data(void);
 extern void Lin_RLS_data(void);
 extern void RLS_APP_Get_Data(void);
 extern void MLX75308_Init(void);

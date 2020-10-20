@@ -22,11 +22,12 @@
 
 #include "derivative.h" /* include peripheral declarations */
 
+
 typedef enum
 {
 	MAIN_SLEFADAPT = 0,
 	MAIN_NORMAL = 1,
-	MAIN_SLEEP_Mode
+	MAIN_SLEEP_Mode = 2
 }Main_Fsm_t;
 
 
@@ -47,8 +48,6 @@ typedef enum
 
  
  
-//#define FOUR_TO_ONE
-#define ENABLE_AUTO_ROOF  //使能自动开天窗功能
 #define ENABLE_SOLAR
 
 #define  ENABLE_INTERRUPT  asm("CPSIE i");

@@ -22,5 +22,5 @@ typedef struct
 
 extern void Auto_light_Var_Init(void);
 extern void RLS_AutoLightControl(void);
-extern void RLS_Light_Module_Fault_Process(void);
+extern void RLS_Light_Module_Fault_Process(uint16 Fault_FW,uint16 Fault_UP);
 extern void RLS_Auto_Light_Task(void);

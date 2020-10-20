@@ -12,22 +12,28 @@
 #include "config_parameter.h"
 #include "eeprom.h"
 
-#define EEPromMark 0x5aa5
-#define LOCAL_SIZE 22
+#define EEPromMark 0x5AA5
+#define LOCAL_SIZE 33
 typedef union
 {   
  struct
  {
-        uint8 NUMBER0[3];                   //0.1.2
-        uint8 NUMBER1[3];                   //3.4.5
-        uint8 NUMBER2[3];                   //6.7.8
-        uint8 NUMBER3[3];                   //9.10.11
+        uint8 NUMBER0[3];                          //0.1.2
+        uint8 NUMBER1[3];                          //3.4.5
+        uint8 NUMBER2[3];                          //6.7.8
+        uint8 NUMBER3[3];                          //9.10.11
         uint8 Brightness_Light_Percentage;         //12
         uint8 Brightness_Infrared_Percentage;      //13
-        uint8 DAC_EEPdtata[2];                      //14.15
+        uint8 DAC_EEPdtata[2];                     //14.15
         uint16 A_RAIN_ADC_EEPdtata;                //16.17
         uint16 B_RAIN_ADC_EEPdtata;                //18.19
         uint16 EEPmark;                            //20.21
+        uint8 Vehicle_Speed_Gear0;                 //22.23
+        uint8 Vehicle_Speed_Gear1;                 //24.25
+        uint8 Vehicle_Speed_Gear2;                 //26.27
+        uint8 Vehicle_Speed_Gear3;                 //28.29
+        uint16 BooT_Mark;                           //30.31
+        uint8 APP_Self_Reset_Cn;                   //32
  };
   uint8 array[LOCAL_SIZE];
 }local_info_t;
@@ -64,6 +70,8 @@ typedef union
 #define EEPROM_B_RAIN_ADC_LENTH        2
 
 extern void Get_All_data_From_EEPROM(void);
+
+extern bool_t Set_All_Data_TO_EEPROM(void);
 
 extern bool_t Set_Data_To_EEPROM(uint32 startAddr,uint8 *p_data,uint16 len);
 

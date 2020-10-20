@@ -22,7 +22,7 @@ network {
    diagnostic_class              = 2;
    resynchronization_support     = no;
    autobaud_support              = no;
-   max_message_length            = 4;
+   max_message_length            = 5;
    LI0 {
       node                       = RLS;                      /* Name of node described in LDF (must check consistence with LDF) */
       file                       = "Demo_Cluster2.ldf";      /* Name of LDF file */

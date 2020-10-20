@@ -31,7 +31,7 @@
 #include "lin_diagnostic_service.h"
 #include "eeprom.h"
 #include "local_eep_data.h"
-#include "lin_app.h"
+#include "app_data.h"
 extern  local_info_t local_info;
 //this frame is for APP 
 extern RLS_APP_Value_t     RLS_APP_Value;
@@ -360,8 +360,11 @@ void lin_diagservice_write_data_by_identifier(void)
 				}
 				else
 				{
+					local_info.NUMBER0[0]= (*lin_tl_pdu)[5]; 
+					local_info.NUMBER0[1]= (*lin_tl_pdu)[6]; 
+					local_info.NUMBER0[2]= (*lin_tl_pdu)[7]; 
 					// important write_data_from_EEPROM need place before lin_tl_make_slaveres_pdu
-                                        Set_Data_To_EEPROM(EEPROM_SERIAL_NUMBER0_ADDR,&(*lin_tl_pdu)[5],EEPROM_SERIAL_NUMBER_LENTH);
+					while(Set_All_Data_TO_EEPROM() == FALSE);
 					lin_tl_make_slaveres_pdu(SERVICE_WRITE_DATA_BY_IDENTIFY, POSITIVE, (LIN_PRODUCT_SERIAL_NUMBER0&0xff));	
 				}
 						
@@ -374,8 +377,11 @@ void lin_diagservice_write_data_by_identifier(void)
 				}
 				else
 				{
+					local_info.NUMBER1[0]= (*lin_tl_pdu)[5]; 
+					local_info.NUMBER1[1]= (*lin_tl_pdu)[6]; 
+					local_info.NUMBER1[2]= (*lin_tl_pdu)[7]; 
 					// important write_data_from_EEPROM need place before lin_tl_make_slaveres_pdu
-                                        Set_Data_To_EEPROM(EEPROM_SERIAL_NUMBER1_ADDR,&(*lin_tl_pdu)[5],EEPROM_SERIAL_NUMBER_LENTH);
+					while(Set_All_Data_TO_EEPROM() == FALSE);
 					lin_tl_make_slaveres_pdu(SERVICE_WRITE_DATA_BY_IDENTIFY, POSITIVE,  (LIN_PRODUCT_SERIAL_NUMBER1&0xff));	
 				}
 				break;
@@ -387,8 +393,11 @@ void lin_diagservice_write_data_by_identifier(void)
 				}
 				else
 				{
+					local_info.NUMBER2[0]= (*lin_tl_pdu)[5]; 
+					local_info.NUMBER2[1]= (*lin_tl_pdu)[6]; 
+					local_info.NUMBER2[2]= (*lin_tl_pdu)[7]; 
 					// important write_data_from_EEPROM need place before lin_tl_make_slaveres_pdu
-                                        Set_Data_To_EEPROM(EEPROM_SERIAL_NUMBER2_ADDR,&(*lin_tl_pdu)[5],EEPROM_SERIAL_NUMBER_LENTH);
+					while(Set_All_Data_TO_EEPROM() == FALSE);
 					lin_tl_make_slaveres_pdu(SERVICE_WRITE_DATA_BY_IDENTIFY, POSITIVE,  (LIN_PRODUCT_SERIAL_NUMBER2&0xff));		
 				}	
 				break;
@@ -400,8 +409,11 @@ void lin_diagservice_write_data_by_identifier(void)
 				}
 				else
 				{
+					local_info.NUMBER3[0]= (*lin_tl_pdu)[5]; 
+					local_info.NUMBER3[1]= (*lin_tl_pdu)[6]; 
+					local_info.NUMBER3[2]= (*lin_tl_pdu)[7]; 
 					// important write_data_from_EEPROM need place before lin_tl_make_slaveres_pdu
-                                        Set_Data_To_EEPROM(EEPROM_SERIAL_NUMBER3_ADDR,&(*lin_tl_pdu)[5],EEPROM_SERIAL_NUMBER_LENTH);
+					while(Set_All_Data_TO_EEPROM() == FALSE);
 					lin_tl_make_slaveres_pdu(SERVICE_WRITE_DATA_BY_IDENTIFY, POSITIVE,  (LIN_PRODUCT_SERIAL_NUMBER3&0xff));
 				}
 				break;
@@ -415,15 +427,12 @@ void lin_diagservice_write_data_by_identifier(void)
 				}
 				else
 				{
-                                        Set_Data_To_EEPROM(EEPROM_BR_LIG_PER_ADDR,&(*lin_tl_pdu)[5],EEPROM_BR_LIG_PER_LENTH);
-					if((*lin_tl_pdu)[5] == 0xFF)
+					if((*lin_tl_pdu)[5] >= 100)
 					{
-						local_info.Brightness_Light_Percentage = 100;
+						(*lin_tl_pdu)[5] = 100;
 					}
-					else
-					{
-						local_info.Brightness_Light_Percentage = (*lin_tl_pdu)[5];
-					}
+					local_info.Brightness_Light_Percentage = (*lin_tl_pdu)[5];
+				    while(Set_All_Data_TO_EEPROM() == FALSE);
 					lin_tl_make_slaveres_pdu(SERVICE_WRITE_DATA_BY_IDENTIFY, POSITIVE, (LIN_LS_FW_PARAM&0xff));
 				}
 				break;
@@ -436,15 +445,12 @@ void lin_diagservice_write_data_by_identifier(void)
 				}
 				else
 				{
-                                        Set_Data_To_EEPROM(EEPROM_IR_PER_ADDR,&(*lin_tl_pdu)[5],EEPROM_IR_PER_LENTH);
-					if((*lin_tl_pdu)[5] == 0xFF)
+					if((*lin_tl_pdu)[5] >= 100)
 					{
-						local_info.Brightness_Infrared_Percentage = 100;
+						(*lin_tl_pdu)[5] = 100;
 					}
-					else
-					{
-						local_info.Brightness_Infrared_Percentage = (*lin_tl_pdu)[5];
-					}
+					local_info.Brightness_Infrared_Percentage = (*lin_tl_pdu)[5];
+					while(Set_All_Data_TO_EEPROM() == FALSE);
 					lin_tl_make_slaveres_pdu(SERVICE_WRITE_DATA_BY_IDENTIFY, POSITIVE, (LIN_LS_IR_PARAM&0xff));
 				}
 			    break;
@@ -457,7 +463,13 @@ void lin_diagservice_write_data_by_identifier(void)
 				}
 				else
 				{
-                                        Set_Data_To_EEPROM(EEPROM_A_RAIN_ADC_ADDR,&(*lin_tl_pdu)[5],EEPROM_A_RAIN_ADC_LENTH);				
+					if((*lin_tl_pdu)[5] >= 100)
+					{
+						(*lin_tl_pdu)[5] = 100;
+					}
+					local_info.A_RAIN_ADC_EEPdtata = (*lin_tl_pdu)[5];
+					while(Set_All_Data_TO_EEPROM() == FALSE);
+							
 					lin_tl_make_slaveres_pdu(SERVICE_WRITE_DATA_BY_IDENTIFY, POSITIVE, (LIN_RAIN_ADC_A_PARAM&0xff));
 				}
 				break;
@@ -470,7 +482,12 @@ void lin_diagservice_write_data_by_identifier(void)
 				}
 				else
 				{
-                    Set_Data_To_EEPROM(EEPROM_B_RAIN_ADC_ADDR,&(*lin_tl_pdu)[5],EEPROM_B_RAIN_ADC_LENTH);				
+					if((*lin_tl_pdu)[5] >= 100)
+					{
+						(*lin_tl_pdu)[5] = 100;
+					}
+					local_info.B_RAIN_ADC_EEPdtata = (*lin_tl_pdu)[5];
+					while(Set_All_Data_TO_EEPROM() == FALSE);				
 					lin_tl_make_slaveres_pdu(SERVICE_WRITE_DATA_BY_IDENTIFY, POSITIVE, (LIN_RAIN_ADC_B_PARAM&0xff));
 				}
 				break;

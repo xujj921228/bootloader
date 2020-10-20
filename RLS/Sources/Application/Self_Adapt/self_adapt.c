@@ -5,66 +5,76 @@
 #include "watchdog.h"
 #include "clock.h"
 #include "auto_wiper.h"
+#include "app_data.h"
 
 extern Main_Fsm_t  RLS_RunMode;
 extern local_info_t local_info;
+extern Rls_Error_t       App_Rls_Error;
 extern uint16 PD_WIN_AVG[CHAN_NUM][PD_WINDOW];
 extern uint8  u8_RainIntensity_Win[Rain_WINDOW];
-extern uint8  u8_IntSpeedEnterCnt;
+
+void Self_Adapt_Var_Init(void)
+{
+	App_Rls_Error.RS_Error = FALSE;	
+}
 /*****************************************************
  *      self_adpt
  * 
  * 
  */
-void RLS_Chan_Self_Adapt(uint8 PD_Chan)
+bool_t RLS_Chan_Self_Adapt(uint8 PD_Chan)
 {
-	uint8   i;
+	uint8   i = 0;
 	uint8 Chan_Temp = CHAN_A;
 	uint8 DAC_Temp = DACA;
 	uint16 Pd_Temp;
 	
-	if(PD_Chan == PDB)
+	if(PD_Chan == PDB)//通道选择
 	{
 	  Chan_Temp = CHAN_B;
 	  DAC_Temp = DACB;
 	}
+
+	/*do
+	{
+		i++;
+		WDOG_Feed();
+	    Pd_Temp = RLS_Rain_Get_Measure(PD_Chan, 1, 600);
+	    if(i >= 20)  return TRUE;
+	}while(0 != Pd_Temp);*/
 	
-	for(i = 0; i < 20; i++)
+	
+	do
 	{
 		WDOG_Feed();
-		Pd_Temp = RLS_Rain_Get_Measure(PD_Chan, 1, 600);
-		if(0 != Pd_Temp) 
-			break;
-	}
+		Pd_Temp = RLS_Rain_Get_Measure(PD_Chan,ADAPT_MEAS_CNT, 1000);
+		if(Pd_Temp < CALI_PARAM_LOW)
+		{
+			if(local_info.DAC_EEPdtata[Chan_Temp] >= ADAPT_VALUE_DAC_HIGH)
+			{
+				return TRUE;
+			}
+			else
+			{
+				local_info.DAC_EEPdtata[Chan_Temp]++;
+			}
+		}
+		else
+		{
+			if(local_info.DAC_EEPdtata[Chan_Temp] <= ADAPT_VALUE_DAC_LOW)
+			{
+				return TRUE;
+			}
+			else
+			{
+				local_info.DAC_EEPdtata[Chan_Temp]--;
+			}
+		}
+		MLX75308_SetPara(DAC_Temp, local_info.DAC_EEPdtata[Chan_Temp]);
+		Delay_Ms(5);
+	}while((Pd_Temp < CALI_PARAM_LOW)||(Pd_Temp > CALI_PARAM_HIGH));
 	
-	if(Pd_Temp < CALI_PARAM_LOW)
-	{
-		for(; local_info.DAC_EEPdtata[Chan_Temp] < ADAPT_VALUE_DAC_HIGH; local_info.DAC_EEPdtata[Chan_Temp]++)
-		{
-			WDOG_Feed();
-			MLX75308_SetPara(DAC_Temp, local_info.DAC_EEPdtata[Chan_Temp]);
-			Delay_Ms(5);
-			Pd_Temp = RLS_Rain_Get_Measure(PD_Chan,ADAPT_MEAS_CNT, 1000);
-			if((Pd_Temp >= CALI_PARAM_LOW) && (Pd_Temp <= CALI_PARAM_HIGH)) 
-							break;
-		}
-	} 
-	else if(Pd_Temp > CALI_PARAM_HIGH)
-	{
-		for(;ADAPT_VALUE_DAC_LOW < local_info.DAC_EEPdtata[Chan_Temp];local_info.DAC_EEPdtata[Chan_Temp]--)
-		{
-			WDOG_Feed();
-			MLX75308_SetPara(DAC_Temp, local_info.DAC_EEPdtata[Chan_Temp]);
-			Delay_Ms(5);
-			Pd_Temp = RLS_Rain_Get_Measure(PD_Chan,ADAPT_MEAS_CNT, 1000);
-			if((Pd_Temp >= CALI_PARAM_LOW) && (Pd_Temp <= CALI_PARAM_HIGH))  
-							break;
-		}
-	}
-	else
-	{
-		
-	}
+	
 	
 		for(i = 0;i < PD_WINDOW;i++) 
 	{                   
@@ -72,12 +82,7 @@ void RLS_Chan_Self_Adapt(uint8 PD_Chan)
 		PD_WIN_AVG[Chan_Temp][i] = Pd_Temp;            
 	}
 	
-	if(PD_Chan == PDB)
-	Set_Data_To_EEPROM(EEPROM_B_DAC_ADDR,&local_info.DAC_EEPdtata[1],EEPROM_B_DAC_ADDR_LENTH);
-	else
-    Set_Data_To_EEPROM(EEPROM_A_DAC_ADDR,&local_info.DAC_EEPdtata[0],EEPROM_A_DAC_ADDR_LENTH);
-	
-	
+	return FALSE;
 }
 
 /*******************************************************
@@ -92,15 +97,27 @@ void RLS_SelfAdaptTask(void)
 {
     uint8   i;
 
-   /* add intia*/
-    RLS_Chan_Self_Adapt(PDA);
-    RLS_Chan_Self_Adapt(PDB);
-  
-/*********MODE CHANGE TO NORMAL*******************/
-    for(i = 0;i < Rain_WINDOW ;i ++) 
+    if(local_info.APP_Self_Reset_Cn < 3)
     {
-        u8_RainIntensity_Win[i] = 0;
+    	/* add intia*/
+		if((RLS_Chan_Self_Adapt(PDA)== TRUE)||(RLS_Chan_Self_Adapt(PDB) == TRUE))/*自适应失败*/
+		{
+			App_Rls_Error.RS_Error = TRUE;
+			if(local_info.APP_Self_Reset_Cn >= 2)
+			{
+				local_info.APP_Self_Reset_Cn--;
+			}
+		}
+		else /*自适应成功*/
+		{
+			App_Rls_Error.RS_Error = FALSE; 
+			while(Set_All_Data_TO_EEPROM() == FALSE); 
+		}  
+		/*********MODE CHANGE TO NORMAL*******************/
+		for(i = 0;i < Rain_WINDOW ;i ++) 
+		{
+		    u8_RainIntensity_Win[i] = 0;
+		} 
     }
-    
-    RLS_RunMode = MAIN_NORMAL;     
+    RLS_RunMode = MAIN_NORMAL; 
 }

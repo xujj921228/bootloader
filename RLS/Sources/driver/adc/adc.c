@@ -55,8 +55,7 @@ uint16 get_adc(uint8 num)
 
 uint16 get_adc_times(uint8 chnl,uint8 convert_times)
 {
-   uint32 tmp;
-   uint16 result;
+   uint32 tmp = 0;
    uint8 i;
    
    tmp = 0;
@@ -64,10 +63,8 @@ uint16 get_adc_times(uint8 chnl,uint8 convert_times)
    for(i = 0; i < convert_times; i++)
       tmp += get_adc(chnl); 
       
-   tmp = tmp / convert_times;
-   
-   result = (uint16)(tmp);  
+   tmp = tmp / convert_times; 
       
-   return result;
+   return (uint16)(tmp);
    
 }

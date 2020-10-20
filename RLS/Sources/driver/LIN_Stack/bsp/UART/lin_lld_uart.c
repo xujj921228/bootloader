@@ -34,7 +34,7 @@
 #include "lin_lld_timesrv.h"
 #include "lin_diagnostic_service.h"
 #include "lin_cfg.h"
-#include "lin_app.h"
+#include "app_data.h"
 #include "ftm.h"
 
 
@@ -544,7 +544,6 @@ void lin_lld_uart_rx_isr
                     	diagnostic_Session_timer = 0;
                     	RLS_APP_Value.APP_DiagnnosticReq = APP_Diagnnostic_Req;
                     }
-                    
                     if (current_id != 0xFF)
                     {
                         /*****************************************/
@@ -658,7 +657,6 @@ void lin_lld_uart_rx_isr
                     else
                     {
                     	u8_Cmd_Execution = 0;
-                    	message_cnt(); //message cnt increase //xujun 20180826
                         /* TX transfer complete */
                         l_status.byte |= LIN_STA_SUCC_TRANSFER;
                         /* Disable RX interrupt */

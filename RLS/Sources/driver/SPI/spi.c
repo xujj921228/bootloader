@@ -411,7 +411,7 @@ bool_t SPI_Rd_Mchan(uint8 Mnsr_chan)
   
   MLX75308_RxFrame.data_field[2] = 0;
   
-  if((Mnsr_chan & Temp) != 0) Output_Nbr ++;
+  if((Mnsr_chan & Temperature_Adc) != 0) Output_Nbr ++;
   if((Mnsr_chan & PDA) != 0)  Output_Nbr = 3 + Output_Nbr;
   if((Mnsr_chan & PDB) != 0)  Output_Nbr = 3 + Output_Nbr;
   if((Mnsr_chan & PDC) != 0)  Output_Nbr ++;

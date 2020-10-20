@@ -192,6 +192,7 @@ void lin_process_pid
             break;
         case 2:
             /* Set response */
+        	Lin_RLS_data();
             lin_lld_set_response(lin_frame_ptr->frm_len);
             break;
         default:

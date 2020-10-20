@@ -1,5 +1,5 @@
 #include "battery.h"
-#include "lin_app.h"
+#include "app_data.h"
 
 
 //this frame is for APP 

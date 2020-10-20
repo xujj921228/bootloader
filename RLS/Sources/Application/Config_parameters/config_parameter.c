@@ -58,11 +58,41 @@ void Globle_Eep_parameter_Init(void)
  		local_info.Brightness_Infrared_Percentage = 100;/*13     */
  		local_info.DAC_EEPdtata[0] = Mlx75308_Config_Parameter.dac_a_default; /*14     */
  		local_info.DAC_EEPdtata[1] = Mlx75308_Config_Parameter.dac_b_default; /*15     */
- 		//local_info.A_RAIN_ADC_EEPdtata;  /*16.17    */
- 		//local_info.B_RAIN_ADC_EEPdtata; /*18.19    */
+ 		local_info.A_RAIN_ADC_EEPdtata = 0x130A;  /*16.17    */
+ 		local_info.B_RAIN_ADC_EEPdtata = 0x130B; /*18.19    */
  		local_info.EEPmark = EEPromMark;  /*20.21 */
+ 		local_info.Vehicle_Speed_Gear0 = 5;
+ 		local_info.Vehicle_Speed_Gear1 = 30;
+ 		local_info.Vehicle_Speed_Gear2 = 60;
+ 		local_info.Vehicle_Speed_Gear3 = 80;
+ 		local_info.BooT_Mark = 0xFFFF;
+ 		local_info.APP_Self_Reset_Cn = 0;
  		
- 		Set_Data_To_EEPROM(EEPROM_SERIAL_NUMBER0_ADDR,local_info.array,LOCAL_SIZE);
- 		Get_All_data_From_EEPROM();
+        while(Set_All_Data_TO_EEPROM() == FALSE);
  	}	
 }
+
+
+/*******»¬¶¯¿ò¼ÆËã********/
+
+uint32 Cyclic_average_cal(uint16 *array_temp ,uint8 array_length,uint16 Data_temp)
+{
+	uint8 i;
+	uint32 Temp_sum = 0;
+	
+    for(i = 0;i < array_length - 1;i++)
+	{
+		array_temp[i] = array_temp[i + 1];
+		Temp_sum += array_temp[i];
+	}
+	array_temp[array_length - 1] = Data_temp;
+	
+	Temp_sum += Data_temp;
+	
+	Temp_sum = Temp_sum/array_length;
+	
+	return  (uint16)Temp_sum;
+}
+
+
+

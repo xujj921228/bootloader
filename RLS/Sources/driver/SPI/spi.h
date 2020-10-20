@@ -216,7 +216,7 @@ typedef struct
 /*******************************************************************
 **********************Meanure Channel*************************
 ********************************************************************/
-#define Temp      	0x80	//1000_0000
+#define Temperature_Adc      	0x80	//1000_0000
 #define PDA       	0x10	//0001_0000
 #define PDB    	  	0x08	//0000_1000
 #define PDC    	  	0x04	//0000_0100
@@ -251,7 +251,6 @@ typedef struct
 typedef struct 
 {
   uint16 Temperature;
-  uint16 Amb_[3];         /*C.D.E    Brightness_FW    Brightness_IR*/
   uint16 DC_bre_[2];      /*A.B*/
   uint16 IR_[2];          /*A.B*/
   uint16 DC_aft_[2];      /*A.B*/
